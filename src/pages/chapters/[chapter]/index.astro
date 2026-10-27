@@ -1,0 +1,116 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import Sidebar from '../../../components/Sidebar.astro';
+import curriculum from '../../../data/curriculum.json';
+import { withBase } from '../../../lib/site.mjs';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('chapters');
+  return curriculum.chapters
+    .filter((chapter) => chapter.status === 'published')
+    .map((chapter) => ({
+      params: { chapter: chapter.id },
+      props: {
+        chapter,
+        pages: entries
+          .filter((entry) => entry.data.chapter === chapter.id)
+          .sort((a, b) => a.data.order - b.data.order)
+          .map((entry) => ({
+            slug: entry.id.split('/')[1],
+            title: entry.data.title,
+            description: entry.data.description,
+            order: entry.data.order,
+            readingMinutes: entry.data.readingMinutes,
+            level: entry.data.level,
+            updated: entry.data.updated,
+          })),
+      },
+    }));
+}
+
+const { chapter, pages } = Astro.props;
+const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展' } as Record<string, string>;
+const totalMinutes = pages.reduce((sum: number, page: any) => sum + page.readingMinutes, 0);
+const published = curriculum.chapters.filter((c) => c.status === 'published');
+const indexInPublished = published.findIndex((c) => c.id === chapter.id);
+const next = published[indexInPublished + 1];
+const part = curriculum.parts.find((p) => p.id === chapter.part);
+const updated = pages.map((p: any) => p.updated).sort().at(-1);
+---
+
+<BaseLayout title={`第${chapter.id}章 ${chapter.title}`} description={chapter.intro}>
+  <div class="page">
+    <div class="shell">
+      <Breadcrumb
+        items={[
+          { label: '章一覧', href: withBase('/chapters/') },
+          { label: `第${chapter.id}章 ${chapter.shortTitle}` },
+        ]}
+      />
+
+      <div class="article-wrap article-wrap--single">
+        <Sidebar chapterId={chapter.id} pages={pages} />
+
+        <div class="article-main article-main--wide">
+          <header class="chapter-hero">
+            <p class="article-head__chapter">
+              <a href={`${withBase('/chapters/')}#part-${chapter.part}`}>
+                第{part?.roman}部 {part?.title}
+              </a>
+            </p>
+            <div class="chapter-hero__no">第{chapter.id}章</div>
+            <h1>{chapter.title}</h1>
+            <p class="chapter-hero__q">{chapter.question}</p>
+
+            <dl class="article-head__meta">
+              <div><dt>レベル</dt><dd>{levelLabel[pages[0]?.level] ?? '入門'}</dd></div>
+              <div><dt>構成</dt><dd>{pages.length}ページ</dd></div>
+              <div><dt>読了目安</dt><dd>約{totalMinutes}分</dd></div>
+              {updated && (
+                <div><dt>最終更新</dt><dd>{updated}</dd></div>
+              )}
+            </dl>
+
+            <p class="chapter-hero__core">
+              <span>この章の中心</span>
+              {chapter.core}
+            </p>
+            {chapter.outcome && (
+              <p class="chapter-hero__outcome">
+                <strong>読み終えたら：</strong>{chapter.outcome}
+              </p>
+            )}
+          </header>
+
+          <div class="prose chapter-intro">
+            <p>{chapter.intro}</p>
+          </div>
+
+          <div class="page-list">
+            {pages.map((page: any) => (
+              <a href={withBase(`/chapters/${chapter.id}/${page.slug}/`)}>
+                <span class="no">{String(page.order).padStart(2, '0')}</span>
+                <span>
+                  <span class="title">{page.title}</span>
+                  <span class="desc">{page.description}</span>
+                </span>
+                <span class="time">{page.readingMinutes}分</span>
+              </a>
+            ))}
+          </div>
+
+          {next && (
+            <nav class="page-nav" aria-label="次の章">
+              <a href={withBase(`/chapters/${next.id}/`)}>
+                <span class="dir">次の章</span>
+                <span class="title">第{next.id}章 {next.title}</span>
+              </a>
+            </nav>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

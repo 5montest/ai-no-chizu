@@ -1,0 +1,97 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import curriculum from '../../data/curriculum.json';
+import { withBase } from '../../lib/site.mjs';
+
+const entries = await getCollection('chapters');
+const stats = new Map<string, { pages: number; minutes: number }>();
+for (const entry of entries) {
+  const current = stats.get(entry.data.chapter) ?? { pages: 0, minutes: 0 };
+  current.pages += 1;
+  current.minutes += entry.data.readingMinutes;
+  stats.set(entry.data.chapter, current);
+}
+const publishedCount = curriculum.chapters.filter((c) => c.status === 'published').length;
+---
+
+<BaseLayout title="章一覧" description="AIの地図の全22章を、6つの部で一覧。公開中の章から読み始められます。">
+  <div class="page">
+    <div class="shell">
+      <nav class="breadcrumbs" aria-label="パンくずリスト">
+        <a href={withBase('/')}>ホーム</a>
+        <span aria-hidden="true">/</span>
+        <span>章一覧</span>
+      </nav>
+
+      <div class="section-head section-head--left page-head">
+        <h1>章一覧</h1>
+        <p>
+          全体像から評価まで、6つの部で構成しています。各章は複数の短いページに分かれ、
+          図・例・誤解しやすい点・クイズを含みます。全22章のうち{publishedCount}章を公開中で、
+          準備中の章は公開時にここへ追加されます。
+        </p>
+      </div>
+
+      <div class="contents">
+        {curriculum.parts.map((part) => (
+          <section aria-labelledby={`part-${part.id}`}>
+            <div class="part__head">
+              <span class="part__roman" aria-hidden="true">{part.roman}</span>
+              <div>
+                <h2 id={`part-${part.id}`}>
+                  <span class="sr-only">第{part.roman}部</span>
+                  {part.title}
+                </h2>
+                <p class="part__lead">{part.lead}</p>
+              </div>
+            </div>
+            <ul class="chapter-list">
+              {curriculum.chapters
+                .filter((chapter) => chapter.part === part.id)
+                .map((chapter) => {
+                  const stat = stats.get(chapter.id);
+                  return (
+                    <li>
+                      {chapter.status === 'published' ? (
+                        <a class="chapter-row" href={withBase(`/chapters/${chapter.id}/`)}>
+                          <span class="chapter-row__no">{chapter.id}</span>
+                          <span>
+                            <span class="chapter-row__title">{chapter.title}</span>
+                            <span class="chapter-row__q">{chapter.question}</span>
+                          </span>
+                          <span class="chapter-row__meta">
+                            {stat?.pages ?? 0}ページ・約{stat?.minutes ?? 0}分
+                          </span>
+                        </a>
+                      ) : (
+                        <div class="chapter-row chapter-row--planned">
+                          <span class="chapter-row__no">{chapter.id}</span>
+                          <span>
+                            <span class="chapter-row__title">{chapter.title}</span>
+                            <span class="chapter-row__q">{chapter.question}</span>
+                          </span>
+                          <span class="chapter-row__meta">第{chapter.phase}フェーズ</span>
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
+            </ul>
+          </section>
+        ))}
+      </div>
+
+      <section class="section section--tight">
+        <div class="callout callout--note">
+          <p class="callout__label">公開の進め方</p>
+          <p>
+            第1フェーズでは、全体像（01）、LLMの内部（04〜06）、エージェント（12）、
+            モデル比較（18）を公開しました。第2フェーズ以降、機械学習の基礎、学習と推論、
+            プロンプト・RAG、コーディングエージェントを順に追加します。
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

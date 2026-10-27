@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import glossary from '../../data/glossary.json';
+import { withBase } from '../../lib/site.mjs';
+
+const categories = glossary.categories;
+const terms = [...glossary.terms].sort((a, b) => a.reading.localeCompare(b.reading, 'ja'));
+const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
+---
+
+<BaseLayout title="用語辞典" description={`AI・LLM・エージェント・評価に関する${terms.length}語を、「ひとこと」「厳密には」「よくある誤解」で整理した用語辞典。`}>
+  <div class="page">
+    <div class="shell">
+      <nav class="breadcrumbs" aria-label="パンくずリスト">
+        <a href={withBase('/')}>ホーム</a>
+        <span aria-hidden="true">/</span>
+        <span>用語辞典</span>
+      </nav>
+
+      <div class="section-head section-head--left page-head">
+        <h1>用語辞典</h1>
+        <p>
+          ひとことで言うと何か。厳密には何が違うのか。どこで誤解されやすいのか。
+          本文で出てきた{terms.length}語を、3つの層で定義しています。
+        </p>
+      </div>
+
+      <div class="glossary-tools">
+        <label class="search-field">
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <circle cx="8.5" cy="8.5" r="5.2"></circle>
+            <path d="m12.6 12.6 4 4"></path>
+          </svg>
+          <span class="sr-only">用語を検索</span>
+          <input type="search" placeholder="用語・読み・説明から検索" data-glossary-search autocomplete="off" />
+        </label>
+        <div class="filter-chips" role="group" aria-label="カテゴリで絞り込む">
+          <button class="filter-chip is-active" type="button" data-cat="all">すべて</button>
+          {categories.map((category) => (
+            <button class="filter-chip" type="button" data-cat={category.id}>{category.label}</button>
+          ))}
+        </div>
+      </div>
+
+      <p class="glossary-count" data-glossary-count aria-live="polite">{terms.length}語を表示中</p>
+
+      <div class="glossary-grid" data-glossary-grid>
+        {terms.map((term) => (
+          <a
+            class="term-card"
+            href={withBase(`/glossary/${term.slug}/`)}
+            data-term
+            data-cat={term.category}
+            data-search={`${term.term} ${term.reading} ${term.short} ${term.strict}`}
+          >
+            <span class="term-card__cat">{labelOf[term.category]}</span>
+            <span class="term-card__term">{term.term}</span>
+            <p class="term-card__short">{term.short}</p>
+          </a>
+        ))}
+        <p class="empty-state" data-glossary-empty hidden>
+          条件に一致する用語がありません。別の言葉で試してください。
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const input = document.querySelector<HTMLInputElement>('[data-glossary-search]');
+    const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-cat]')];
+    const cards = [...document.querySelectorAll<HTMLElement>('[data-term]')];
+    const count = document.querySelector<HTMLElement>('[data-glossary-count]');
+    const empty = document.querySelector<HTMLElement>('[data-glossary-empty]');
+    let category = 'all';
+
+    const normalize = (value: string) =>
+      value.normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim();
+
+    function apply() {
+      const q = normalize(input?.value ?? '');
+      let visible = 0;
+      for (const card of cards) {
+        const matchesCat = category === 'all' || card.dataset.cat === category;
+        const matchesText = !q || normalize(card.dataset.search ?? '').includes(q);
+        const show = matchesCat && matchesText;
+        card.hidden = !show;
+        if (show) visible += 1;
+      }
+      if (count) count.textContent = `${visible}語を表示中`;
+      if (empty) empty.hidden = visible !== 0;
+    }
+
+    input?.addEventListener('input', apply);
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        category = chip.dataset.cat ?? 'all';
+        chips.forEach((c) => c.classList.toggle('is-active', c === chip));
+        apply();
+      });
+    });
+  </script>
+</BaseLayout>

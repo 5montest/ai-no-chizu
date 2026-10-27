@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, withBase } from '../lib/site.mjs';
+---
+
+<BaseLayout title="このサイトについて" description="AIの地図の編集方針、構成、更新方法、主な参照元について。">
+  <div class="page">
+    <div class="shell">
+      <div class="page-narrow">
+        <nav class="breadcrumbs" aria-label="パンくずリスト">
+          <a href={withBase('/')}>ホーム</a>
+          <span aria-hidden="true">/</span>
+          <span>このサイトについて</span>
+        </nav>
+
+        <div class="section-head section-head--left page-head">
+          <h1>このサイトについて</h1>
+          <p>
+            AIの地図は、社会人がAIを「なんとなく」ではなく、仕組みと条件を踏まえて使えるようになるための
+            学習ガイドです。製品ニュースの追跡ではなく、長く使える地図を持つことを目的にしています。
+          </p>
+        </div>
+
+        <div class="prose">
+          <h2>編集方針</h2>
+          <p>
+            特定の製品やベンダーを推奨するのではなく、判断の基準を提示します。モデルの比較では
+            「総合的な最強」を一つに決めず、タスク・測定条件・予算・実行環境ごとに見方を変えます。
+            性能の話と、価格・速度・権限・安全性の話を混ぜないようにしています。
+          </p>
+          <p>
+            本文は、できるだけ一次情報と公的な技術文書に基づきます。数値やランキングは取得日を明記し、
+            変わらない原理と、変わりやすい比較データを分けて扱います。図は内容に応じて
+            Mermaid のフローチャートと、文章による構造化を使い分けます。
+          </p>
+
+          <div class="about-grid">
+            <div class="about-card">
+              <h3>読者として想定する人</h3>
+              <p>
+                生成AIを業務で使い始めた社会人、AI関連の提案を読む立場の人、社内導入の判断に関わる人。
+                プログラミングの前提知識は必要ありませんが、言葉を正確に使いたい人向けです。
+              </p>
+            </div>
+            <div class="about-card">
+              <h3>ページの構成</h3>
+              <p>
+                1章を複数の短いページに分割しています。各ページは「3行まとめ」から始まり、
+                図・例・深掘り・誤解しやすい点・クイズ・出典で構成されます。
+              </p>
+            </div>
+            <div class="about-card">
+              <h3>用語辞典</h3>
+              <p>
+                各用語を「ひとことで」「厳密には」「よくある誤解」の3層で定義し、関連する章と
+                用語へ相互参照します。本文中の下線付きの語からも開けます。
+              </p>
+            </div>
+            <div class="about-card">
+              <h3>クイズ</h3>
+              <p>
+                正解を表示するだけではなく、選んだ選択肢に応じて正誤と解説が展開します。
+                章末の確認と、ランダム5問の復習の2種類があります。
+              </p>
+            </div>
+          </div>
+
+          <h2 id="data">モデルデータの更新</h2>
+          <p>
+            モデル比較の表は、公開APIから取得した価格・コンテキスト長・重み公開状況を元にしています。
+            取得したデータはすぐには公開せず、次の流れで確認してから反映します。
+          </p>
+          <ol class="workflow">
+            <li>
+              <code>npm run fetch:models</code> で OpenRouter Models API から取得し、
+              <code>data/staging/model-comparison.json</code> にだけ書き出す。
+            </li>
+            <li>
+              取得日、モデルID、価格の単位（100万トークンあたり）、コンテキスト長を確認する。
+              為替やキャンペーン価格ではなく、APIの表示値をそのまま使う。
+            </li>
+            <li>
+              <code>npm run validate:data -- --staging</code> で必須項目と鮮度を検証する。
+            </li>
+            <li>
+              差分を確認し、説明文を更新してから <code>data/model-comparison.json</code> へ反映する。
+              反映後に <code>npm run build</code> で表示を確認する。
+            </li>
+          </ol>
+          <p>
+            現在の確認日は <strong>2026年10月27日</strong>、取得元は
+            <a href="https://openrouter.ai/api/v1/models" rel="noopener noreferrer" target="_blank">OpenRouter Models API</a>
+            です。価格は入力・出力とも100万トークンあたりの米ドル表示で、各社の公式価格や契約条件とは
+            異なる場合があります。モデルの追加・廃止・価格改定は速いため、表の数値は購入判断の前に
+            必ず提供元で再確認してください。
+          </p>
+
+          <h2 id="sources">主な参照元</h2>
+          <p>
+            本文の理解には、次のような一次資料・公開文書を参照しています。個別のページには、
+            そのページで直接使った資料を「出典・参考資料」として掲載しています。
+          </p>
+          <ul>
+            <li>各モデル提供元の公式ドキュメント、APIリファレンス、技術ブログ</li>
+            <li>Transformer に関する原論文と、Attention の解説資料</li>
+            <li>トークン化・埋め込み・推論に関する公開実装とドキュメント</li>
+            <li>エージェント、ツール利用、MCP に関する仕様と実装資料</li>
+            <li>モデル比較の公開データ（OpenRouter Models API など）</li>
+          </ul>
+
+          <h2>技術構成</h2>
+          <p>
+            本サイトは Astro による静的サイトです。本文は Markdown / MDX で管理し、
+            <code>[[用語]]</code> と <code>[[ch:04/slug]]</code> の記法をビルド時に解決しています。
+            存在しない用語・章・ページへの参照はビルドを止めるため、リンク切れのまま公開されません。
+            検索はビルド時に生成した <code>search.json</code> をブラウザで照合します。
+          </p>
+
+          <h2>更新と訂正</h2>
+          <p>
+            誤記や古くなった記述を見つけた場合は、該当ページの更新日を変更します。
+            比較データは取得日を明記し、四半期を目安に見直します。原理的な説明と、
+            一時的なランキングや価格を同じ粒度で扱わないことが、このサイトの基本方針です。
+          </p>
+          <p>
+            公開日は {SITE.published}、最終更新は {SITE.updated} です。編集は {SITE.author}。
+          </p>
+        </div>
+
+        <div class="page-nav">
+          <a href={withBase('/chapters/')}>
+            <span class="dir">学ぶ</span>
+            <span class="title">章一覧へ</span>
+          </a>
+          <a href={withBase('/glossary/')}>
+            <span class="dir">用語を引く</span>
+            <span class="title">用語辞典へ</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

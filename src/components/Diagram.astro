@@ -1,0 +1,27 @@
+---
+import { diagrams } from '../data/diagrams.ts';
+
+interface Props {
+  name: string;
+  caption?: string;
+}
+
+const { name, caption } = Astro.props;
+const diagram = diagrams[name];
+
+if (!diagram) {
+  throw new Error(`未登録の図「${name}」です。src/data/diagrams.ts を確認してください。`);
+}
+---
+
+<figure class="diagram-plate" id={`fig-${name}`}>
+  <div class="diagram-plate__head">
+    <span>図 {diagram.number}</span>
+    <strong>{diagram.title}</strong>
+    <span class="diagram-plate__hint">横にスクロール</span>
+  </div>
+  <div class="diagram-plate__body">
+    <pre class="mermaid">{diagram.code}</pre>
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

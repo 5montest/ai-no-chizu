@@ -1,0 +1,126 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import curriculum from '../data/curriculum.json';
+import { withBase } from '../lib/site.mjs';
+
+const entries = await getCollection('chapters');
+const chapters = curriculum.chapters
+  .filter((c) => c.status === 'published' && entries.some((e) => e.data.chapter === c.id))
+  .sort((a, b) => Number(a.id) - Number(b.id));
+
+const pool = entries.flatMap((entry) =>
+  entry.data.quiz.map((q) => ({
+    ...q,
+    chapter: entry.data.chapter,
+    chapterTitle: curriculum.chapters.find((c) => c.id === entry.data.chapter)?.shortTitle ?? '',
+    pageSlug: entry.id.split('/')[1],
+    pageTitle: entry.data.title,
+  })),
+);
+const payload = JSON.stringify(pool).replaceAll('<', '\\u003c');
+---
+
+<BaseLayout title="クイズ" description="公開中の章からランダムに5問。回答すると、その場で正誤と解説が展開します。">
+  <div class="page">
+    <div class="shell">
+      <nav class="breadcrumbs" aria-label="パンくずリスト">
+        <a href={withBase('/')}>ホーム</a>
+        <span aria-hidden="true">/</span>
+        <span>クイズ</span>
+      </nav>
+
+      <div class="quiz-stage">
+        <div class="section-head section-head--left page-head">
+          <h1>クイズ</h1>
+          <p>
+            公開中の章からランダムに5問を出題します。選択すると、正誤と解説がその場で開きます。
+            間違えた問題は、該当ページの図に戻って確認してください。全{pool.length}問を収録しています。
+          </p>
+        </div>
+
+        <div class="quiz-setup" data-quiz-setup>
+          <h2>出題範囲を選ぶ</h2>
+          <p>全範囲からランダムに5問。章を選ぶと、その章の問題だけが出ます。</p>
+          <div class="quiz-setup__row">
+            <label for="quiz-chapter">範囲</label>
+            <select id="quiz-chapter" data-quiz-chapter>
+              <option value="all">すべての公開章</option>
+              {chapters.map((chapter) => (
+                <option value={chapter.id}>第{chapter.id}章 {chapter.shortTitle}</option>
+              ))}
+            </select>
+            <button class="btn" type="button" data-quiz-start>
+              5問をはじめる
+            </button>
+          </div>
+        </div>
+
+        <div data-quiz-session hidden>
+          <div class="quiz" data-quiz-dynamic>
+            <div class="quiz__head">
+              <strong data-quiz-title>ランダム5問</strong>
+              <span data-quiz-counter></span>
+            </div>
+            <div class="quiz__body" data-quiz-body></div>
+          </div>
+          <div class="quiz-setup__row">
+            <button class="btn btn--ghost" type="button" data-quiz-again>範囲を選び直す</button>
+          </div>
+        </div>
+
+        <script type="application/json" id="quiz-pool" set:html={payload}></script>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    import { mountQuiz, type QuizQuestion } from '../lib/quiz-client';
+
+    type PoolQuestion = QuizQuestion & {
+      chapter: string;
+      chapterTitle: string;
+      pageSlug: string;
+      pageTitle: string;
+    };
+
+    const poolEl = document.getElementById('quiz-pool');
+    const pool: PoolQuestion[] = poolEl?.textContent ? JSON.parse(poolEl.textContent) : [];
+    const setup = document.querySelector<HTMLElement>('[data-quiz-setup]');
+    const session = document.querySelector<HTMLElement>('[data-quiz-session]');
+    const select = document.querySelector<HTMLSelectElement>('[data-quiz-chapter]');
+    const start = document.querySelector<HTMLButtonElement>('[data-quiz-start]');
+    const again = document.querySelector<HTMLButtonElement>('[data-quiz-again]');
+    const root = document.querySelector<HTMLElement>('[data-quiz-dynamic]');
+
+    function shuffle<T>(items: T[]): T[] {
+      const copy = [...items];
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function begin() {
+      if (!root) return;
+      const range = select?.value ?? 'all';
+      const candidates = range === 'all' ? pool : pool.filter((q) => q.chapter === range);
+      if (candidates.length === 0) {
+        window.alert('この範囲にはまだ問題がありません。');
+        return;
+      }
+      setup?.setAttribute('hidden', '');
+      session?.removeAttribute('hidden');
+      root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      mountQuiz(root, shuffle(candidates).slice(0, 5), {});
+    }
+
+    start?.addEventListener('click', begin);
+    again?.addEventListener('click', () => {
+      session?.setAttribute('hidden', '');
+      setup?.removeAttribute('hidden');
+      setup?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
+</BaseLayout>

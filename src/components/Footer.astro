@@ -1,0 +1,39 @@
+---
+import { SITE, withBase } from '../lib/site.mjs';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="shell">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-title">AIの地図</p>
+        <p class="footer-copy">
+          製品名やランキングを暗記するのではなく、仕組みと評価の方法を持ち帰るためのガイドです。
+          図と短いページで、AI・LLM・エージェント・モデル選びをつなげます。
+        </p>
+      </div>
+      <div>
+        <p class="footer-title">学ぶ</p>
+        <div class="footer-nav">
+          <a href={withBase('/chapters/')}>章一覧</a>
+          <a href={withBase('/chapters/01/')}>01 AIとは何か</a>
+          <a href={withBase('/glossary/')}>用語辞典</a>
+          <a href={withBase('/quiz/')}>クイズ</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-title">このサイト</p>
+        <div class="footer-nav">
+          <a href={withBase('/about/')}>編集方針と更新について</a>
+          <a href={withBase('/about/#sources')}>主な参照元</a>
+          <a href={withBase('/about/#data')}>モデルデータの更新</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© {year} {SITE.author}</span>
+      <span>公開 {SITE.published}、最終更新 {SITE.updated}</span>
+    </div>
+  </div>
+</footer>

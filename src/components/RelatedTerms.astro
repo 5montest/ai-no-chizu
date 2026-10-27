@@ -1,0 +1,26 @@
+---
+import glossary from '../data/glossary.json';
+import { withBase } from '../lib/site.mjs';
+
+interface Props {
+  slugs: string[];
+}
+
+const { slugs } = Astro.props;
+const terms = slugs
+  .map((slug) => glossary.terms.find((t) => t.slug === slug))
+  .filter(Boolean);
+---
+
+{terms.length > 0 && (
+  <aside class="related-terms" aria-label="関連用語">
+    <p class="related-terms__label">関連用語</p>
+    <ul>
+      {terms.map((term) => (
+        <li>
+          <a href={withBase(`/glossary/${term.slug}/`)}>{term.term}</a>
+        </li>
+      ))}
+    </ul>
+  </aside>
+)}

@@ -1,0 +1,122 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import Sidebar from '../../../components/Sidebar.astro';
+import Toc from '../../../components/Toc.astro';
+import Quiz from '../../../components/Quiz.astro';
+import SourceList from '../../../components/SourceList.astro';
+import RelatedTerms from '../../../components/RelatedTerms.astro';
+import PageNav from '../../../components/PageNav.astro';
+import curriculum from '../../../data/curriculum.json';
+import { withBase, SITE } from '../../../lib/site.mjs';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('chapters');
+  return entries.map((entry) => {
+    const [chapterId, slug] = entry.id.split('/');
+    return {
+      params: { chapter: chapterId, slug },
+      props: { entry },
+    };
+  });
+}
+
+const { entry } = Astro.props;
+const data = entry.data;
+const [chapterId, slug] = entry.id.split('/');
+const chapter = curriculum.chapters.find((c) => c.id === chapterId);
+const { Content, headings } = await render(entry);
+
+const siblings = (await getCollection('chapters'))
+  .filter((e) => e.data.chapter === chapterId)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const pages = siblings.map((e) => ({
+  slug: e.id.split('/')[1],
+  title: e.data.title,
+  order: e.data.order,
+}));
+
+const index = siblings.findIndex((e) => e.id === entry.id);
+const prevEntry = siblings[index - 1];
+const nextEntry = siblings[index + 1];
+const prev = prevEntry
+  ? { href: withBase(`/chapters/${chapterId}/${prevEntry.id.split('/')[1]}/`), title: prevEntry.data.title }
+  : undefined;
+const next = nextEntry
+  ? { href: withBase(`/chapters/${chapterId}/${nextEntry.id.split('/')[1]}/`), title: nextEntry.data.title }
+  : undefined;
+
+const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展' } as Record<string, string>;
+---
+
+<BaseLayout title={data.title} description={data.description} ogType="article">
+  <div class="page">
+    <div class="shell">
+      <Breadcrumb
+        items={[
+          { label: '章一覧', href: withBase('/chapters/') },
+          { label: `第${chapterId}章 ${chapter?.shortTitle ?? ''}`, href: withBase(`/chapters/${chapterId}/`) },
+          { label: data.title },
+        ]}
+      />
+
+      <div class="article-wrap">
+        <div class="article-rail">
+          <Sidebar chapterId={chapterId} currentPage={slug} pages={pages} />
+          <Toc headings={headings} />
+        </div>
+
+        <article class="article-main">
+          <header class="article-head">
+            <p class="article-head__chapter">
+              <a href={withBase(`/chapters/${chapterId}/`)}>
+                第{chapterId}章 {chapter?.shortTitle}
+              </a>
+            </p>
+            <h1>{data.title}</h1>
+            <p class="article-head__desc">{data.description}</p>
+            <dl class="article-head__meta">
+              <div>
+                <dt>レベル</dt>
+                <dd>{levelLabel[data.level] ?? data.level}</dd>
+              </div>
+              <div>
+                <dt>読了</dt>
+                <dd>約{data.readingMinutes}分</dd>
+              </div>
+              <div>
+                <dt>位置</dt>
+                <dd>{siblings.length}ページ中{data.order}</dd>
+              </div>
+              <div>
+                <dt>{data.updated === SITE.published ? '公開' : '更新'}</dt>
+                <dd>{data.updated}</dd>
+              </div>
+            </dl>
+          </header>
+
+          <section class="summary-box" aria-label="3行の要点">
+            <p class="summary-box__label">3行の要点</p>
+            <ul>
+              {data.summary.map((line) => <li>{line}</li>)}
+            </ul>
+          </section>
+
+          <div class="prose">
+            <Content />
+          </div>
+
+          <Quiz questions={data.quiz} />
+
+          <SourceList sources={data.sources} />
+
+          <RelatedTerms slugs={data.glossary} />
+
+          <PageNav prev={prev} next={next} />
+        </article>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

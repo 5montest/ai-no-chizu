@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="AIの地図">
+  <rect width="64" height="64" rx="14" fill="#1f1a16"/>
+  <circle cx="32" cy="20" r="5" fill="#f4ede1"/>
+  <circle cx="19" cy="42" r="5" fill="#f4ede1"/>
+  <circle cx="45" cy="42" r="5" fill="#f4ede1"/>
+  <path d="M32 20 19 42M32 20l13 22M19 42h26" stroke="#b7282e" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="32" cy="20" r="2" fill="#b7282e"/>
+</svg>

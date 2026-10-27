@@ -1,0 +1,317 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SearchModal from '../components/SearchModal.astro';
+import glossary from '../data/glossary.json';
+import { SITE, withBase } from '../lib/site.mjs';
+
+const {
+  title,
+  description = SITE.description,
+  noindex = false,
+  bodyClass = '',
+  ogType = 'website',
+} = Astro.props;
+
+const pageTitle = title ? `${title}｜${SITE.name}` : `${SITE.name}｜${SITE.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'http://192.168.8.10:8090').href;
+const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141619" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary" />
+    {noindex && <meta name="robots" content="noindex" />}
+    <script is:inline>
+      (() => {
+        try {
+          const saved = localStorage.getItem('ai-map-theme');
+          const theme =
+            saved === 'light' || saved === 'dark'
+              ? saved
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {
+          /* localStorage が使えない環境では CSS の prefers-color-scheme に任せる */
+        }
+      })();
+    </script>
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main">本文へスキップ</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <SearchModal />
+    <script type="application/json" id="glossary-data" set:html={JSON.stringify(tips)}></script>
+    <script>
+      // --- 用語ツールチップ -------------------------------------------------
+      const glossaryData = (() => {
+        try {
+          return JSON.parse(document.getElementById('glossary-data')?.textContent || '{}');
+        } catch {
+          return {};
+        }
+      })();
+
+      // 右端に近い用語では吹き出しが画面の外へはみ出し、ページごと横に広がる。
+      // はみ出すときだけ左向きに付け替える。
+      const placeTip = (link) => {
+        const tip = link.querySelector('.gloss-tip');
+        if (!tip) return;
+        link.classList.remove('gloss-tip-left');
+        const room = document.documentElement.clientWidth - tip.getBoundingClientRect().right;
+        if (room < 8) link.classList.add('gloss-tip-left');
+      };
+
+      for (const link of document.querySelectorAll('.gloss-link[data-gloss]')) {
+        const short = glossaryData[link.getAttribute('data-gloss')];
+        if (!short || link.querySelector('.gloss-tip')) continue;
+        const tip = document.createElement('span');
+        tip.className = 'gloss-tip';
+        tip.setAttribute('aria-hidden', 'true');
+        tip.textContent = short;
+        link.appendChild(tip);
+        link.addEventListener('pointerenter', () => placeTip(link));
+        link.addEventListener('focusin', () => placeTip(link));
+      }
+
+      // 出していない吹き出しも幅を持つので、初回と幅が変わったときに全部そろえる。
+      const placeAllTips = () => {
+        for (const tip of document.querySelectorAll('.gloss-link[data-gloss] > .gloss-tip')) {
+          if (tip.parentElement) placeTip(tip.parentElement);
+        }
+      };
+      placeAllTips();
+      let tipTicking = false;
+      window.addEventListener(
+        'resize',
+        () => {
+          if (tipTicking) return;
+          tipTicking = true;
+          requestAnimationFrame(() => {
+            tipTicking = false;
+            placeAllTips();
+          });
+        },
+        { passive: true },
+      );
+
+      // --- テーマ切り替え ---------------------------------------------------
+      const themeButton = document.querySelector('[data-theme-toggle]');
+      const paintThemeButton = () => {
+        if (!themeButton) return;
+        const dark = document.documentElement.dataset.theme === 'dark';
+        themeButton.textContent = dark ? '☀' : '☾';
+        themeButton.setAttribute(
+          'aria-label',
+          dark ? 'ライトテーマに切り替える' : 'ダークテーマに切り替える',
+        );
+        themeButton.setAttribute('title', dark ? 'ライトテーマ' : 'ダークテーマ');
+      };
+      paintThemeButton();
+      themeButton?.addEventListener('click', () => {
+        const next =
+          document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        try {
+          localStorage.setItem('ai-map-theme', next);
+        } catch {
+          /* 保存できなくても表示は切り替える */
+        }
+        paintThemeButton();
+        document.dispatchEvent(new CustomEvent('themechange', { detail: next }));
+      });
+
+      // --- モバイルナビ -----------------------------------------------------
+      const navToggle = document.querySelector('[data-nav-toggle]');
+      const siteNav = document.getElementById('site-nav');
+      const setNav = (open) => {
+        if (!siteNav || !navToggle) return;
+        siteNav.classList.toggle('is-open', open);
+        navToggle.setAttribute('aria-expanded', String(open));
+        navToggle.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
+      };
+      navToggle?.addEventListener('click', () => {
+        setNav(!siteNav?.classList.contains('is-open'));
+      });
+      siteNav?.addEventListener('click', (event) => {
+        if (event.target instanceof HTMLAnchorElement) setNav(false);
+      });
+      // 開いたまま閉じられないと行き止まりになる。外側のタップと Esc で閉じる。
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape' || !siteNav?.classList.contains('is-open')) return;
+        setNav(false);
+        if (navToggle instanceof HTMLElement) navToggle.focus();
+      });
+      document.addEventListener('click', (event) => {
+        if (!siteNav?.classList.contains('is-open')) return;
+        const target = event.target;
+        if (!(target instanceof Node)) return;
+        if (siteNav.contains(target) || navToggle?.contains(target)) return;
+        setNav(false);
+      });
+
+      // --- 目次の現在位置 ---------------------------------------------------
+      const tocLinks = [...document.querySelectorAll('.toc a[href^="#"]')];
+      if (tocLinks.length) {
+        const headings = tocLinks
+          .map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))))
+          .filter(Boolean);
+        let ticking = false;
+        const syncToc = () => {
+          ticking = false;
+          let current = headings[0];
+          for (const h of headings) {
+            if (h.getBoundingClientRect().top <= 140) current = h;
+          }
+          for (const a of tocLinks) {
+            // a.hash は日本語を見出し ID と違う形に符号化するので、ID 側にそろえる。
+            const active = current && decodeURIComponent(a.hash.slice(1)) === current.id;
+            a.classList.toggle('is-active', Boolean(active));
+            if (active) a.setAttribute('aria-current', 'location');
+            else a.removeAttribute('aria-current');
+          }
+        };
+        const onScroll = () => {
+          if (!ticking) {
+            ticking = true;
+            requestAnimationFrame(syncToc);
+          }
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        syncToc();
+      }
+
+      // --- Mermaid ----------------------------------------------------------
+      const mermaidNodes = [...document.querySelectorAll('.mermaid')];
+      if (mermaidNodes.length) {
+        const palettes = {
+          light: {
+            primaryColor: '#eef4fa',
+            primaryTextColor: '#16181c',
+            primaryBorderColor: '#a9c4de',
+            secondaryColor: '#f4f5f6',
+            tertiaryColor: '#ffffff',
+            lineColor: '#7b8794',
+            textColor: '#16181c',
+            clusterBkg: '#f4f5f6',
+            clusterBorder: '#d5d9de',
+            edgeLabelBackground: '#fbfbfa',
+          },
+          dark: {
+            primaryColor: '#1e2833',
+            primaryTextColor: '#e7e9ec',
+            primaryBorderColor: '#46586b',
+            secondaryColor: '#1a1d21',
+            tertiaryColor: '#171a1e',
+            lineColor: '#8b96a3',
+            textColor: '#e7e9ec',
+            clusterBkg: '#1a1d21',
+            clusterBorder: '#3a414a',
+            edgeLabelBackground: '#141619',
+          },
+        };
+
+        for (const node of mermaidNodes) {
+          node.dataset.src = node.textContent ?? '';
+        }
+
+        let mermaidApi = null;
+        const renderDiagrams = async () => {
+          if (!mermaidApi) {
+            mermaidApi = (await import('mermaid')).default;
+          }
+          const mode = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+          mermaidApi.initialize({
+            startOnLoad: false,
+            theme: 'base',
+            securityLevel: 'loose',
+            fontFamily:
+              '"Hiragino Sans", "Yu Gothic", "Noto Sans JP", system-ui, sans-serif',
+            themeVariables: { ...palettes[mode], fontSize: '14px' },
+            flowchart: { htmlLabels: true, curve: 'basis', padding: 14, nodeSpacing: 34, rankSpacing: 48 },
+          });
+          for (const node of mermaidNodes) {
+            node.removeAttribute('data-processed');
+            node.textContent = node.dataset.src;
+          }
+          await mermaidApi.run({ nodes: mermaidNodes });
+          fitDiagrams();
+        };
+
+        // 幅が足りない図を、文字が読めなくなるまで縮めない。
+        // 元の大きさのまま置いて、枠の中で横にスクロールさせる。
+        const fitDiagrams = () => {
+          for (const node of mermaidNodes) {
+            const svg = node.querySelector('svg');
+            if (!svg) continue;
+            const natural = svg.viewBox?.baseVal?.width ?? 0;
+            const available = node.parentElement?.clientWidth ?? node.clientWidth;
+            const plate = node.closest('.diagram-plate');
+            if (natural && available && natural > available * 1.15) {
+              svg.style.maxWidth = 'none';
+              svg.style.width = `${Math.round(natural)}px`;
+              node.style.textAlign = 'left';
+              plate?.classList.add('is-scrollable');
+            } else {
+              svg.style.maxWidth = '';
+              svg.style.width = '';
+              node.style.textAlign = '';
+              plate?.classList.remove('is-scrollable');
+            }
+          }
+        };
+
+        let fitTimer = 0;
+        window.addEventListener('resize', () => {
+          window.clearTimeout(fitTimer);
+          fitTimer = window.setTimeout(fitDiagrams, 200);
+        });
+
+        (async () => {
+          try {
+            await renderDiagrams();
+          } catch (error) {
+            console.error('Mermaid の描画に失敗しました', error);
+            for (const node of mermaidNodes) {
+              if (!node.hasAttribute('data-processed')) {
+                node.setAttribute('data-processed', 'error');
+              }
+            }
+          }
+        })();
+
+        document.addEventListener('themechange', () => {
+          const drawn = mermaidNodes.map((node) => node.innerHTML);
+          renderDiagrams().catch((error) => {
+            console.error('Mermaid の再描画に失敗しました', error);
+            mermaidNodes.forEach((node, index) => {
+              node.innerHTML = drawn[index];
+            });
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

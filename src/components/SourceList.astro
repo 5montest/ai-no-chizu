@@ -1,0 +1,34 @@
+---
+interface Source {
+  title: string;
+  url?: string;
+  publisher?: string;
+  note?: string;
+}
+
+interface Props {
+  sources: Source[];
+  heading?: string;
+}
+
+const { sources, heading = '出典・参考資料' } = Astro.props;
+---
+
+{sources.length > 0 && (
+  <section class="sources">
+    <h2>{heading}</h2>
+    <ol>
+      {sources.map((source) => (
+        <li>
+          {source.url ? (
+            <a href={source.url} rel="noopener noreferrer" target="_blank">{source.title}</a>
+          ) : (
+            <span>{source.title}</span>
+          )}
+          {source.publisher && <span class="source-note">{source.publisher}</span>}
+          {source.note && <span class="source-note">{source.note}</span>}
+        </li>
+      ))}
+    </ol>
+  </section>
+)}

@@ -1,0 +1,508 @@
+{
+  "parts": [
+    {
+      "id": 1,
+      "roman": "I",
+      "title": "全体像をつかむ",
+      "lead": "AIという言葉の輪郭をつかみ、機械学習・深層学習・生成AIの関係を地図にする。"
+    },
+    {
+      "id": 2,
+      "roman": "II",
+      "title": "LLMの内部",
+      "lead": "文章が返るまでの流れを、トークン・ベクトル・Attention・学習・推論の順にたどる。"
+    },
+    {
+      "id": 3,
+      "roman": "III",
+      "title": "LLMを使えるシステムにする",
+      "lead": "プロンプト、検索、ツール、エージェント。モデルの外側を設計する。"
+    },
+    {
+      "id": 4,
+      "roman": "IV",
+      "title": "言語以外のAI",
+      "lead": "画像・動画・音声・ロボットへ。モダリティごとの仕組みの違いを見る。"
+    },
+    {
+      "id": 5,
+      "roman": "V",
+      "title": "現代のAIを選び、動かす",
+      "lead": "モデル比較、ローカル実行、業務への実装。2026年の実用に接続する。"
+    },
+    {
+      "id": 6,
+      "roman": "VI",
+      "title": "正しく評価し、安全に運用する",
+      "lead": "品質・安全・法務・変化の読み方。長く使うための基準を持つ。"
+    }
+  ],
+  "chapters": [
+    {
+      "id": "01",
+      "part": 1,
+      "title": "そもそもAIとは何か",
+      "shortTitle": "AIとは何か",
+      "question": "「AI」と呼ばれるものは何が共通しているのか？ ChatGPTはAIの全部なのか？",
+      "core": "AIは単一のアルゴリズムではなく、目的と技術が異なる手法の集合である。",
+      "topics": [
+        "人工知能の定義の幅",
+        "特化型AIと汎用AI／AGI",
+        "ルールベースと学習ベース",
+        "機械学習・深層学習・生成AI・LLMの包含関係",
+        "AIの得意／不得意"
+      ],
+      "status": "published",
+      "phase": 1,
+      "prereq": [],
+      "keywords": ["ai", "machine-learning", "deep-learning", "generative-ai", "agi"],
+      "intro": "最初に身につけるのは、個々の製品名ではなく「地図」です。ChatGPT、画像生成、迷惑メール分類、自動運転。これらは同じ「AI」という箱に入っていても、解いている問題も仕組みも違います。まずは全体像を一枚の地図として持つことを目指します。",
+      "outcome": "AI・機械学習・深層学習・生成AI・LLMの違いを、自分の言葉で説明できる。"
+    },
+    {
+      "id": "02",
+      "part": 1,
+      "title": "AIはどのように発展したのか",
+      "shortTitle": "AIの歴史",
+      "question": "なぜ最近になって生成AIが急に実用化したのか？",
+      "core": "突然「知能」が生まれたのではなく、アルゴリズム・計算資源・データ・学習方法の進歩が重なった。",
+      "topics": [
+        "初期AIとエキスパートシステム",
+        "AIの冬",
+        "機械学習の普及と深層学習",
+        "GPUと大量データ",
+        "Transformer（2017）と基盤モデル",
+        "対話型生成AI、推論・エージェントの発展"
+      ],
+      "status": "planned",
+      "phase": 3,
+      "prereq": ["01"],
+      "keywords": ["transformer", "foundation-model", "pretraining", "parameter"]
+    },
+    {
+      "id": "03",
+      "part": 1,
+      "title": "機械学習とニューラルネットワークの基本",
+      "shortTitle": "機械学習の基本",
+      "question": "「AIが学習する」とは実際には何を更新しているのか？",
+      "core": "学習は主に大量の例からパラメータを調整する過程であり、通常のチャット入力で重みが即座に更新されることとは異なる。",
+      "topics": [
+        "データ・特徴量・ラベル",
+        "学習・検証・テスト",
+        "教師あり・自己教師あり・強化学習",
+        "損失関数とパラメータ",
+        "勾配降下と誤差逆伝播",
+        "汎化と過学習",
+        "ニューラルネットワークの層"
+      ],
+      "status": "planned",
+      "phase": 2,
+      "prereq": ["01"],
+      "keywords": ["machine-learning", "parameter", "overfitting", "generalization", "pretraining"]
+    },
+    {
+      "id": "04",
+      "part": 2,
+      "title": "LLMが文章を返すまで",
+      "shortTitle": "LLMとは何か",
+      "question": "入力した日本語は、モデルの中でどう処理されるのか？",
+      "core": "「次を予測する仕組み」から高度な言語的・問題解決的振る舞いが現れるが、正しさや真偽が直接保証されるわけではない。",
+      "topics": [
+        "大規模言語モデルと言語モデルの確率分布",
+        "次トークン予測",
+        "入力→推論→出力の流れ",
+        "モデルとサービスの違い",
+        "ベースモデル・指示追従モデル・推論モデル"
+      ],
+      "status": "published",
+      "phase": 1,
+      "prereq": ["01"],
+      "keywords": ["llm", "next-token-prediction", "token", "transformer", "inference"],
+      "intro": "ここからLLMの内部に入ります。最初に押さえるのは、魔法のような「理解」ではなく、入力が数値の列になり、次のトークンの確率を出し、それを繰り返すという工程です。この一本の流れが、後の章の土台になります。",
+      "outcome": "LLMが文章を返すまでの流れを、トークン化から逐次生成まで順に説明できる。"
+    },
+    {
+      "id": "05",
+      "part": 2,
+      "title": "トークン・埋め込み・ベクトルは何をしているのか",
+      "shortTitle": "トークンとベクトル",
+      "question": "AIは単語や意味をどのような形で扱っているのか？",
+      "core": "モデル内部で扱うのは文字列そのものではなく、数値表現に変換された系列である。",
+      "topics": [
+        "トークン分割と語彙",
+        "トークンID",
+        "Embeddingとベクトル",
+        "意味の近さと位置情報",
+        "コンテキストウィンドウ",
+        "入力／出力トークンと料金"
+      ],
+      "status": "published",
+      "phase": 1,
+      "prereq": ["04"],
+      "keywords": ["token", "tokenization", "embedding", "context-window", "llm"],
+      "intro": "LLMは文字をそのまま読んでいるわけではありません。文字列はトークンに分けられ、IDになり、意味を反映したベクトルに変換されます。この章では、AIの「見ている世界」の単位と座標系を覗きます。",
+      "outcome": "トークン数・埋め込み・コンテキスト長が、品質・料金・速度にどう効くかを説明できる。"
+    },
+    {
+      "id": "06",
+      "part": 2,
+      "title": "TransformerとAttentionの仕組み",
+      "shortTitle": "TransformerとAttention",
+      "question": "離れた単語や文脈の関係をなぜ扱えるのか？",
+      "core": "Attentionは文脈中の各位置から情報を集約する仕組みの一部であり、モデル全体の理解や判断をそれだけで説明するものではない。",
+      "topics": [
+        "Transformerの全体像",
+        "Self-AttentionとQ・K・V",
+        "スコアと重み付け",
+        "因果マスク",
+        "Multi-Head Attention",
+        "Feed Forward Network・残差接続・正規化",
+        "Decoder-only／Encoder-only／Encoder-Decoder"
+      ],
+      "status": "published",
+      "phase": 1,
+      "prereq": ["04", "05"],
+      "keywords": ["transformer", "attention", "qkv", "encoder", "decoder", "moe"],
+      "intro": "Transformerは、現在のLLMの骨格です。中心にあるのはAttentionという「どの位置の情報を、どれだけ見るか」を決める仕組みです。数式の前に、まずは情報の流れを図で追います。",
+      "outcome": "Attentionが何を計算し、Transformerのブロックがどう積み重なるかを、図を使って説明できる。"
+    },
+    {
+      "id": "07",
+      "part": 2,
+      "title": "LLMはどう作られるのか",
+      "shortTitle": "LLMの作り方",
+      "question": "大量のテキストを読み込むだけでChatGPTのようになるのか？",
+      "core": "「知識や表現を学ぶ段階」と「指示に従い役立つ応答を返すよう調整する段階」は異なる。",
+      "topics": [
+        "データ収集・品質管理",
+        "事前学習と自己教師あり学習",
+        "継続事前学習",
+        "SFTと選好データ",
+        "RLHF／RLAIF／DPO",
+        "蒸留・Fine-tuning",
+        "評価セット"
+      ],
+      "status": "planned",
+      "phase": 2,
+      "prereq": ["04", "06"],
+      "keywords": ["pretraining", "sft", "rlhf", "fine-tuning", "overfitting"]
+    },
+    {
+      "id": "08",
+      "part": 2,
+      "title": "LLMはどう回答を生成するのか",
+      "shortTitle": "推論処理",
+      "question": "モデルは回答を一気に考えるのか？「考える時間」とは何か？",
+      "core": "学習済みモデルでも、回答時の生成設定、計算予算、環境によって結果が変わる。",
+      "topics": [
+        "PrefillとDecode",
+        "逐次生成とLogits",
+        "Temperature・Top-p",
+        "停止条件",
+        "KVキャッシュ",
+        "推論時の計算量",
+        "推論型モデルと推論スケーリング"
+      ],
+      "status": "planned",
+      "phase": 2,
+      "prereq": ["04", "06"],
+      "keywords": ["inference", "prefill", "decode", "logits", "temperature", "top-p", "kv-cache", "ttft"]
+    },
+    {
+      "id": "09",
+      "part": 2,
+      "title": "LLMはなぜ間違うのか",
+      "shortTitle": "LLMの限界",
+      "question": "なぜ自信満々に間違う？「理解している」と言えるのか？",
+      "core": "「流暢さ」「推論性能」「事実への裏付け」「実行権限」はそれぞれ別の評価軸である。",
+      "topics": [
+        "ハルシネーション",
+        "確率的生成と事実性",
+        "学習時点と知識の更新",
+        "推論ミスと文脈依存",
+        "長文の取りこぼし",
+        "バイアスとプロンプトインジェクション",
+        "過信と過小評価"
+      ],
+      "status": "planned",
+      "phase": 2,
+      "prereq": ["04", "08"],
+      "keywords": ["hallucination", "benchmark", "context-window", "prompt"]
+    },
+    {
+      "id": "10",
+      "part": 3,
+      "title": "プロンプトとコンテキスト設計",
+      "shortTitle": "プロンプト設計",
+      "question": "なぜ指示を少し変えるだけで品質が違うのか？",
+      "core": "魔法の言い回しよりも、目的・必要情報・許される操作・完成条件を明確にすることが重要。",
+      "topics": [
+        "役割と指示",
+        "構造化入出力",
+        "Few-shot",
+        "制約条件",
+        "コンテキストエンジニアリング",
+        "システム指示と長文管理",
+        "評価しやすい指示"
+      ],
+      "status": "planned",
+      "phase": 2,
+      "prereq": ["04", "05"],
+      "keywords": ["prompt", "context-window", "rag"]
+    },
+    {
+      "id": "11",
+      "part": 3,
+      "title": "RAGと検索・ツール利用",
+      "shortTitle": "RAGと検索",
+      "question": "社内文書を参照させるには、AIを再学習させる必要があるのか？",
+      "core": "モデルに「覚えさせる」のと、利用時に「必要な情報を取りに行く」のは別の方法。",
+      "topics": [
+        "RAGの基本構成",
+        "検索インデックスとチャンク分割",
+        "Embeddingとベクトル検索",
+        "キーワード検索・ハイブリッド検索",
+        "Rerankingと根拠の引用",
+        "Function Calling・Web検索・API連携",
+        "RAGとFine-tuningの使い分け"
+      ],
+      "status": "planned",
+      "phase": 2,
+      "prereq": ["05", "10"],
+      "keywords": ["rag", "embedding", "function-calling", "fine-tuning", "vector-database"]
+    },
+    {
+      "id": "12",
+      "part": 3,
+      "title": "AIエージェントとは何か",
+      "shortTitle": "エージェントとハーネス",
+      "question": "会話AIと、ファイル操作や自動実行ができるAIは何が違うのか？",
+      "core": "高性能なモデルだけで自律的な作業は完成しない。ツール・環境・状態管理・権限・検証を組み合わせる外側の仕組みが必要。",
+      "topics": [
+        "チャット／ワークフロー／エージェント",
+        "Agent LoopとPlanning",
+        "ツール呼び出しと状態・履歴",
+        "メモリと承認",
+        "Sandboxと権限",
+        "MCP・Skills・サブエージェント",
+        "ハーネスという考え方"
+      ],
+      "status": "published",
+      "phase": 1,
+      "prereq": ["04", "10"],
+      "keywords": ["agent", "harness", "agent-loop", "mcp", "sandbox", "function-calling"],
+      "intro": "「AIが自分で仕事をする」と言うとき、実際に働いているのはモデルだけではありません。ツールを呼び、結果を読み、次の手を決め、権限を守る外側の仕組みが必要です。この章では、モデルとハーネスを分けて考える視点を渡します。",
+      "outcome": "チャット・ワークフロー・エージェントの違いと、ハーネスの役割を図で説明できる。"
+    },
+    {
+      "id": "13",
+      "part": 3,
+      "title": "コーディングエージェントの仕組み",
+      "shortTitle": "コーディングエージェント",
+      "question": "なぜ同じモデルでも、IDE・CLI・Codex系・Claude Code系で成果が変わるのか？",
+      "core": "コード生成能力と、プロジェクトを完遂する能力は異なる。後者はハーネス、検証環境、開発ルールの設計に大きく依存する。",
+      "topics": [
+        "リポジトリ把握とファイル編集",
+        "ターミナル・Git・依存関係",
+        "テストとレビュー",
+        "ブラウザ・Computer Use",
+        "実行計画と途中経過の圧縮",
+        "継続・再試行・並列エージェント",
+        "AGENTS.md等の作業指示"
+      ],
+      "status": "planned",
+      "phase": 2,
+      "prereq": ["12"],
+      "keywords": ["harness", "agent", "computer-use", "sandbox"]
+    },
+    {
+      "id": "14",
+      "part": 4,
+      "title": "マルチモーダルAIとは何か",
+      "shortTitle": "マルチモーダルAI",
+      "question": "文章だけでなく、画像・音声・動画も扱えるのはなぜか？",
+      "core": "入力・出力の種類と、モデルの内部アーキテクチャは区別する。画像を理解できるLLMと、画像を生成するモデルは必ずしも同じではない。",
+      "topics": [
+        "モダリティの種類",
+        "Vision-Language Model（VLM）",
+        "音声認識・音声合成",
+        "画像理解・動画理解",
+        "融合方法",
+        "統合モデルと専門モデル"
+      ],
+      "status": "planned",
+      "phase": 3,
+      "prereq": ["04", "05"],
+      "keywords": ["vlm", "multimodal", "embedding", "diffusion"]
+    },
+    {
+      "id": "15",
+      "part": 4,
+      "title": "画像生成AIの仕組み",
+      "shortTitle": "画像生成",
+      "question": "画像は文字と同じように「次の単語」を予測しているのか？",
+      "core": "生成AIにも複数の方式があり、LLMの次トークン予測だけで画像生成全体を説明できない。",
+      "topics": [
+        "拡散モデルとノイズ除去",
+        "潜在空間とVAE",
+        "U-Net／DiT",
+        "テキスト条件付け",
+        "Classifier-Free Guidance",
+        "Flow Matchingなどの発展",
+        "編集・Inpaintingと評価"
+      ],
+      "status": "planned",
+      "phase": 3,
+      "prereq": ["05", "06"],
+      "keywords": ["diffusion", "dit", "embedding", "vlm"]
+    },
+    {
+      "id": "16",
+      "part": 4,
+      "title": "動画生成・音声AIの仕組み",
+      "shortTitle": "動画と音声",
+      "question": "画像が動く動画を作る場合、何が難しくなるのか？ 音声はどう扱うのか？",
+      "core": "動画と音声では、単に内容が正しいだけでなく、時間方向の整合性・速度・連続性が重要。",
+      "topics": [
+        "時間的一貫性",
+        "フレームと時空間表現",
+        "動画生成の主要方式",
+        "字幕・音声・効果音の同期",
+        "ASR／STT／TTS",
+        "遅延とリアルタイム会話"
+      ],
+      "status": "planned",
+      "phase": 3,
+      "prereq": ["14", "15"],
+      "keywords": ["diffusion", "multimodal", "latency", "ttft"]
+    },
+    {
+      "id": "17",
+      "part": 4,
+      "title": "ロボット・フィジカルAIへの接続",
+      "shortTitle": "ロボットとフィジカルAI",
+      "question": "画面内のAIは、実世界で行動するAIとどうつながるのか？",
+      "core": "身体を動かすAIは、正しい文章を生成するだけでは足りず、環境に対する継続的な制御・検証が必要。",
+      "topics": [
+        "知覚→判断→行動",
+        "ロボット制御との役割分担",
+        "VLA（Vision-Language-Action）",
+        "センサー・アクチュエータ",
+        "World Model",
+        "Sim-to-Realと安全性",
+        "リアルタイム性"
+      ],
+      "status": "planned",
+      "phase": 3,
+      "prereq": ["14"],
+      "keywords": ["vlm", "multimodal", "latency", "agent"]
+    },
+    {
+      "id": "18",
+      "part": 5,
+      "title": "モデルの比較と選び方",
+      "shortTitle": "モデル比較と選び方",
+      "question": "結局どのモデルが最強？ OpenAI、Anthropic、Google、オープンウェイトはどう違う？",
+      "core": "「最強」は単一ではない。タスク・測定方法・予算・実行環境で最適解が変わる。",
+      "topics": [
+        "主要モデル系列",
+        "フロンティアモデルと軽量モデル",
+        "オープンウェイトとAPI専用",
+        "用途別の強み",
+        "価格・速度・コンテキスト長",
+        "ベンチマークの読み方",
+        "定期的なデータ更新とレビュー"
+      ],
+      "status": "published",
+      "phase": 1,
+      "prereq": ["04", "08"],
+      "keywords": ["benchmark", "elo", "contamination", "latency", "context-window", "tokens-per-second"],
+      "intro": "この章は「更新型」です。モデル名や価格は変わりますが、選び方の枠組みは長く使えます。単一のランキングを暗記するのではなく、自分の要件から候補を絞り、小さく試して決める手順を持ち帰ってください。",
+      "outcome": "用途・費用・速度・統制の条件から、モデル候補を比較し、自分の評価セットで選べる。"
+    },
+    {
+      "id": "19",
+      "part": 5,
+      "title": "ローカルLLMを動かす",
+      "shortTitle": "ローカルLLM",
+      "question": "どのくらいのメモリやGPUが必要？ 自宅PCでも実用的？",
+      "core": "ローカル運用の性能は、モデルの重みサイズだけでなく、メモリ帯域、推論方式、KVキャッシュ、量子化精度に左右される。",
+      "topics": [
+        "モデル重みとライセンス",
+        "GGUF・safetensors",
+        "量子化（FP16／INT8／4bit）",
+        "VRAM／RAM／CPU／GPU／NPU",
+        "推論エンジン（llama.cpp、Ollama、vLLM）",
+        "KVキャッシュとバッチング",
+        "LoRAとコンテキスト"
+      ],
+      "status": "planned",
+      "phase": 3,
+      "prereq": ["04", "05", "06"],
+      "keywords": ["quantization", "vram", "gguf", "kv-cache", "tokens-per-second", "ttft"]
+    },
+    {
+      "id": "20",
+      "part": 5,
+      "title": "仕事でAIを使うには",
+      "shortTitle": "業務でのAI活用",
+      "question": "チャットで少し楽になるだけでなく、業務を改善するには？",
+      "core": "「人の作業にAIを足す」だけではなく、AIを前提とした業務フローと例外処理を設計する。",
+      "topics": [
+        "課題定義とAI適合性の判断",
+        "業務の構造化",
+        "入力・出力・責任範囲",
+        "Human-in-the-loop",
+        "RAG／ワークフロー／エージェントの選定",
+        "PoC・評価・監視",
+        "継続改善"
+      ],
+      "status": "planned",
+      "phase": 3,
+      "prereq": ["11", "12"],
+      "keywords": ["rag", "agent", "harness", "benchmark"]
+    },
+    {
+      "id": "21",
+      "part": 6,
+      "title": "AIの評価と安全な運用",
+      "shortTitle": "評価と安全運用",
+      "question": "どんな基準で信用してよいか？ 社内で使う際の注意は？",
+      "core": "AIは強力な部品だが、完成した業務システムの品質・安全・責任まで自動的に保証しない。",
+      "topics": [
+        "タスク別評価と再現性",
+        "人手評価とベンチマークの限界",
+        "データ漏えいとプロンプトインジェクション",
+        "権限制御とSandbox",
+        "著作権・ライセンス・個人情報",
+        "ログと監査",
+        "モデル更新リスク"
+      ],
+      "status": "planned",
+      "phase": 3,
+      "prereq": ["18", "20"],
+      "keywords": ["benchmark", "accuracy", "hallucination", "sandbox", "contamination"]
+    },
+    {
+      "id": "22",
+      "part": 6,
+      "title": "これからのAIと学び方",
+      "shortTitle": "これからのAI",
+      "question": "変化の速いAI分野で、何を追い続ければよいのか？",
+      "core": "製品名や一時的なランキングではなく、基本原理と評価方法を理解することが長期的な武器になる。",
+      "topics": [
+        "性能とコストの動向",
+        "推論時の追加計算",
+        "エージェントの信頼性",
+        "マルチモーダル統合",
+        "ローカル化",
+        "研究成果と製品発表の違い",
+        "誇大な主張の読み解き方"
+      ],
+      "status": "planned",
+      "phase": 3,
+      "prereq": ["18", "21"],
+      "keywords": ["benchmark", "agent", "quantization", "agi"]
+    }
+  ]
+}

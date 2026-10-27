@@ -1,0 +1,34 @@
+---
+import type { QuizQuestion } from '../lib/quiz-client';
+
+interface Props {
+  questions: QuizQuestion[];
+  title?: string;
+}
+
+const { questions, title = '理解チェック' } = Astro.props;
+const payload = JSON.stringify(questions).replaceAll('<', '\\u003c');
+---
+
+<section class="quiz" data-quiz>
+  <div class="quiz__head">
+    <strong>{title}</strong>
+    <span data-quiz-counter></span>
+  </div>
+  <div class="quiz__body" data-quiz-body></div>
+  <script type="application/json" class="quiz-data" set:html={payload}></script>
+</section>
+
+<script>
+  import { mountQuiz, type QuizQuestion } from '../lib/quiz-client';
+
+  for (const root of document.querySelectorAll<HTMLElement>('[data-quiz]')) {
+    const data = root.querySelector<HTMLScriptElement>('.quiz-data');
+    if (!data?.textContent) continue;
+    try {
+      mountQuiz(root, JSON.parse(data.textContent) as QuizQuestion[]);
+    } catch (error) {
+      console.error('クイズの初期化に失敗しました', error);
+    }
+  }
+</script>

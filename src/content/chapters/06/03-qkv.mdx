@@ -1,0 +1,118 @@
+---
+chapter: '06'
+title: 'Q・K・Vの役割'
+description: 'Query・Key・Valueを、検索の比喩とその限界から理解し、線形変換・複数ヘッド・Cross-Attentionの違いを整理する。'
+section: '第II部 LLMの内部'
+order: 3
+level: intermediate
+readingMinutes: 7
+updated: '2026-10-27'
+tags: ['Attention', 'QKV', 'Transformer']
+glossary: ['qkv', 'attention', 'transformer', 'embedding']
+summary:
+  - 'Qは探しているもの、Kは持っているもの、Vは実際に渡す情報、という役割分担で捉えられる。'
+  - 'Q・K・Vは入力から線形変換で作られ、その変換行列も学習される。'
+  - '検索の比喩は便利だが、実際は連続値の重み付き和であり、辞書引きとは異なる。'
+quiz:
+  - question: 'Q・K・Vの説明として最も適切なものはどれか。'
+    options:
+      - 'Qは問い合わせ、Kは照合の手がかり、Vは渡す内容を表すベクトル。'
+      - 'Qは画像、Kは音声、Vは文章を表す。'
+      - 'Qは学習率、Kはバッチサイズ、Vはエポック数。'
+      - 'Qは正解、Kは誤答、Vはスコア。'
+    answer: 0
+    explanation: 'Queryは各位置が探している情報、Keyは各位置が持つ照合の手がかり、Valueは実際に混ぜる内容です。QとKの相性で重みを計算し、Vを重み付き和します。'
+  - question: 'Q・K・Vはどのように作られるか。'
+    options:
+      - '入力の表現に、学習された線形変換をそれぞれ適用して作る。'
+      - '人間が文章を読んで、手作業で割り当てる。'
+      - 'ランダムに生成し、学習では変更しない。'
+      - 'トークンIDをそのままコピーする。'
+    answer: 0
+    explanation: '入力の隠れ表現に、Q用・K用・V用の重み行列を掛けて作ります。これらの重みは学習によって調整されます。'
+  - question: 'Cross-AttentionとSelf-Attentionの違いとして適切なものはどれか。'
+    options:
+      - 'Selfは同じ系列内でQ・K・Vを作る。Crossは別の系列からK・Vを取る。'
+      - 'Selfは画像専用で、Crossは文章専用である。'
+      - 'Crossは学習を必要としない。'
+      - '両者は同じ計算で、名前だけが違う。'
+    answer: 0
+    explanation: 'Self-Attentionは一つの系列内でQ・K・Vを作り、自分自身の文脈を混ぜます。Cross-Attentionは、出力側のQueryに対して、入力側の系列からKeyとValueを取り、異なる系列の情報を参照します。'
+sources:
+  - title: 'Attention Is All You Need'
+    url: 'https://arxiv.org/abs/1706.03762'
+    publisher: 'arXiv'
+    note: 'Q・K・Vの線形変換と、Multi-Head Attentionの定義。'
+  - title: 'The Annotated Transformer'
+    url: 'https://nlp.seas.harvard.edu/annotated-transformer/'
+    publisher: 'Harvard NLP'
+    note: '論文の実装をコードとともに解説。Q・K・Vのテンソル形状を確認できる。'
+  - title: 'The Illustrated Transformer'
+    url: 'https://jalammar.github.io/illustrated-transformer/'
+    publisher: 'Jay Alammar'
+    note: 'Q・K・Vを図で直感的に説明した入門。'
+---
+
+import Diagram from '../../../components/Diagram.astro';
+import Callout from '../../../components/Callout.astro';
+import DeepDive from '../../../components/DeepDive.astro';
+
+Attentionの説明で必ず出てくるQ・K・V。検索にたとえると分かりやすいのですが、たとえ話をそのまま信じると、実際の計算を見誤ります。このページでは、比喩の便利さと限界を押さえます。
+
+## 検索にたとえる
+
+図書館で本を探す場面を考えます。
+
+- Query。あなたが探しているテーマ。「機械学習の入門書が欲しい」。
+- Key。本の背表紙や見出し。「機械学習」「料理」「歴史」。
+- Value。本の中身。実際に読むと得られる情報。
+
+QueryとKeyを照合し、相性の高い本を選び、その中身（Value）を読む。Attentionもこれに似ています。各トークンがQueryを出し、全トークンのKeyと照合し、相性に応じてValueを混ぜます。
+
+| 要素 | 役割 | 図書館の比喩 |
+| --- | --- | --- |
+| Query | 何を探しているか | 利用者の検索語 |
+| Key | 何を持っているか | 本の見出し・索引 |
+| Value | 何を渡すか | 本の本文 |
+| 重み | どれだけ参照するか | 貸出の優先度 |
+
+## 比喩の限界
+
+実際のAttentionは、本を一冊選ぶのではありません。すべての本の内容を、重みに応じて混ぜ合わせる操作です。上位1件を選ぶのではなく、Softmaxで作った連続値の重みで、Valueを足し合わせます。この点が、データベースの検索とは大きく違います。
+
+また、Q・K・Vは人間が意味を割り当てたベクトルではありません。入力の表現に、学習された線形変換を適用して作られます。モデルは学習を通じて、「何をQueryとして出し、何をKeyとして提示し、何をValueとして渡すか」を自分で調整します。
+
+## 複数ヘッドで分担する
+
+一つのAttentionだけでは、一つの見方しかできません。Multi-Head Attentionでは、Q・K・Vを複数の低次元の表現に投射し、それぞれでAttentionを計算します。
+
+- あるヘッドは、隣り合うトークンの関係を見る。
+- 別のヘッドは、離れた主語と述語の関係を見る。
+- さらに別のヘッドは、句読点や文の区切りを見る。
+
+すべてのヘッドが人間に解釈できる役割を持つわけではありません。しかし、複数の視点を並列に持つことで、単一のAttentionより豊かな関係を表現できます。
+
+## Self-AttentionとCross-Attention
+
+同じAttentionの計算でも、Q・K・Vをどこから取るかで呼び方が変わります。
+
+- Self-Attention。同じ系列からQ・K・Vを作る。文章内の関係を混ぜる。
+- Cross-Attention。出力側の系列からQを、入力側の系列からK・Vを取る。翻訳やマルチモーダルで、異なる系列を参照する。
+
+Decoder-onlyのLLMは、主にSelf-Attentionを使います。入力の文章も、生成途中の文章も、同じ系列として扱われるためです。
+
+<Callout type="myth">
+「Qは人間が設計した質問で、Kは人間が付けたラベル」という理解は誤りです。Q・K・Vはすべて、学習された重み行列による変換で作られます。人間が「この単語はこの単語を参照せよ」と規則を書くわけではありません。比喩は入口として使い、実装では連続値の計算だと押さえてください。
+</Callout>
+
+<DeepDive title="ヘッドは本当に役割分担しているのか">
+  Multi-Headの説明では「ヘッドごとに異なる関係を見る」と言われます。実際に、特定のヘッドが特定の統語現象に対応するように見える研究もあります。しかし、多くのヘッドは冗長で、一部を削っても性能が大きく落ちないことがあります。
+
+  ヘッドの役割は、固定的に人間が設計したものではなく、学習の結果として創発するものです。モデル全体の情報処理を、ヘッド単位の物語に還元しすぎないほうが安全です。
+</DeepDive>
+
+## 部品の名前より、情報の流れ
+
+Q・K・Vという名前を覚えること自体が目的ではありません。各位置が、どの位置から、どれだけ情報を集めるかを学習する、という流れが大切です。この流れが分かれば、Attentionの図を初めて見ても、何をしているのかを追えます。
+
+次は、Attentionだけでは説明できない部分を見ます。[[ch:06/04-limits|Attentionだけでは説明できない]]へ進みましょう。

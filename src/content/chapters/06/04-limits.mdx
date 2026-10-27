@@ -1,0 +1,109 @@
+---
+chapter: '06'
+title: 'Attentionだけでは説明できない'
+description: 'FFN・残差接続・学習データ・推論設計など、Transformerの振る舞いを決める他の要素と、Attentionの可視化の限界を整理する。'
+section: '第II部 LLMの内部'
+order: 4
+level: intermediate
+readingMinutes: 8
+updated: '2026-10-27'
+tags: ['Transformer', '解釈', '限界']
+glossary: ['attention', 'transformer', 'parameter', 'hallucination', 'context-window', 'rag']
+summary:
+  - 'Transformerの振る舞いはAttentionだけでなく、FFN・残差接続・正規化・学習データで決まる。'
+  - 'Attentionの重みは判断の手がかりだが、そのまま理由の説明にはならない。'
+  - '文脈の混ぜ方と知識の保持は別問題で、検索や検証を外側に足す必要がある。'
+quiz:
+  - question: 'Transformerにおいて、知識の保持に関与するとされる部品はどれか。'
+    options:
+      - 'Feed Forward Network（FFN）'
+      - '因果マスク'
+      - 'トークナイザー'
+      - 'APIの認証層'
+    answer: 0
+    explanation: 'Attentionは位置間の情報の混ぜ方を担い、FFNは各位置の表現を変換します。モデルの知識の多くは、AttentionとFFNの重みに分散して保持されていると考えられています。'
+  - question: 'Attentionの重みを可視化することで分かることとして、最も適切なものはどれか。'
+    options:
+      - 'その層・ヘッドで、どの位置の情報をどれだけ混ぜたかの手がかり。'
+      - 'モデルが最終的に正しい答えを出したかどうかの保証。'
+      - '学習データに含まれるすべての事実。'
+      - 'モデルの料金体系。'
+    answer: 0
+    explanation: 'Attentionの重みは、その層・ヘッドにおける情報の混ぜ方を示します。最終的な判断は多層のFFNや残差接続、学習データなどにも依存するため、重みだけで正しさや理由を保証することはできません。'
+  - question: '長い文書を扱うとき、Attentionの計算だけでは不十分な理由として適切なものはどれか。'
+    options:
+      - '文脈に入れた情報を確実に取り出せるとは限らず、検索や検証の設計が必要だから。'
+      - 'Attentionは日本語を処理できないから。'
+      - '長い文書は必ずトークン化できないから。'
+      - 'Attentionは画像にしか使えないから。'
+    answer: 0
+    explanation: '長い文脈を入れても、必要な情報が必ず取り出されるとは限りません。位置による見落としや、無関係な情報の混入があります。検索で絞る、出典を確認する、重要な判断に人を挟むといった外側の設計が必要です。'
+sources:
+  - title: 'Attention is not Explanation'
+    url: 'https://arxiv.org/abs/1902.10186'
+    publisher: 'arXiv'
+    note: 'Attentionの重みを説明と見なすことの問題を、実験的に示した研究。'
+  - title: 'A Mathematical Framework for Transformer Circuits'
+    url: 'https://transformer-circuits.pub/2021/framework/index.html'
+    publisher: 'Anthropic'
+    note: 'Transformerの内部を回路として理解しようとする研究の出発点。'
+  - title: 'In-context Learning and Induction Heads'
+    url: 'https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html'
+    publisher: 'Anthropic'
+    note: '特定のヘッドが文脈内学習で果たす役割を調べた研究。'
+---
+
+import Diagram from '../../../components/Diagram.astro';
+import Callout from '../../../components/Callout.astro';
+import DeepDive from '../../../components/DeepDive.astro';
+
+AttentionはTransformerの中心ですが、モデルの振る舞いのすべてを説明するわけではありません。Attentionの外側にある要素と、可視化を過信しないための注意点を整理します。
+
+## FFNは何をしているのか
+
+Transformerブロックの後半には、Feed Forward Network（FFN）があります。各位置のベクトルを、より高次元の空間に写し、非線形変換を経て戻します。Attentionが「位置間の情報の混ぜ方」を担うのに対し、FFNは「各位置の表現の変換」を担います。
+
+モデルの知識の多くは、Attentionの重みだけでなく、FFNの重みに分散して保持されていると考えられています。事実的な連想や、パターンの記憶には、FFNが関与するという研究があります。したがって、Attentionのパターンだけを見て「モデルが何を知っているか」を判断することはできません。
+
+## 残差接続と正規化
+
+残差接続は、層の入力を出力に足すことで、情報と勾配の通り道を確保します。正規化は表現のスケールを整え、学習を安定させます。これらは主役に見えませんが、深いTransformerを成立させるための前提です。
+
+層の数、隠れ次元、ヘッド数、正規化の位置といった設計の違いは、同じAttentionの計算でも、学習のしやすさや最終的な性能を変えます。アーキテクチャの比較では、Attentionの有無だけでなく、こうした構成全体を見る必要があります。
+
+## 重みの可視化は説明ではない
+
+Attentionの重みをヒートマップにすると、どのトークンがどのトークンを見たかが分かります。これはデバッグの手がかりになります。しかし、次の理由から、そのまま「モデルの理由」と見なすことはできません。
+
+1. 多層・多ヘッドの合成。最終的な判断は、多数の層とヘッドの相互作用で決まる。
+2. FFNの関与。知識の変換はFFNにも分散している。
+3. 重みの非一意性。異なるAttentionのパターンでも、同じ出力になることがある。
+4. 事後的な物語。人間は、見えたパターンに意味を読み込みやすい。
+
+「Attention is not Explanation」という論文は、Attentionの重みが説明として信頼できるかを検証し、単純に理由として扱えないことを示しました。可視化は仮説を立てる道具であり、結論ではないのです。
+
+<Callout type="myth">
+「Attentionがこの単語を見ているから、モデルはこう判断した」という説明は、しばしば単純化しすぎです。Attentionの重みは、その層・ヘッドの情報の混ぜ方を示すだけで、最終的な出力の原因を一意に示すものではありません。説明が必要なら、介入実験や複数の証拠を組み合わせる必要があります。
+</Callout>
+
+## 文脈と知識は別の問題
+
+Attentionは、コンテキスト内の情報を混ぜる仕組みです。しかし、モデルが学習時に持っていない知識を、コンテキストに入れるだけで必ず使えるようになるわけではありません。また、コンテキストに矛盾する情報が入れば、どちらを優先するかは安定しません。
+
+- 知識の更新。学習時点の知識は古くなる。検索で補う必要がある。
+- 根拠の確認。コンテキストの内容が正しいとは限らない。出典が必要。
+- 指示の優先。システム指示とユーザー入力が衝突する場合がある。
+
+これらは、Attentionの計算を改良するだけでは解決しません。[[rag|RAG]]、ツール、検証、権限設計といった外側の仕組みが必要です。
+
+<DeepDive title="回路としての理解">
+  「mechanistic interpretability」と呼ばれる研究領域では、Transformerの中に、特定の機能を果たす「回路」を見つけようとします。たとえば、直前のトークンをコピーするinduction headや、特定のパターンを検出するヘッドが報告されています。
+
+  ただし、モデル全体の判断をすべて回路に還元できるわけではありません。特徴が重なり合う「重畳」や、複数の回路の相互作用など、未解決の課題があります。内部の理解は進んでいますが、「モデルが人間と同じように考えている」という結論には直結しません。
+</DeepDive>
+
+## 部品から系へ
+
+Transformerの理解は、Attentionの計算から始まりますが、そこで終わりません。FFN、残差接続、学習データ、推論設定、外側の検索や検証まで含めて、一つの系として見る必要があります。
+
+ここまでで、LLMの内部の基礎を一通り見ました。次は、モデルの外側に仕組みを組み、自律的な作業を行わせるエージェントの世界へ進みます。[[ch:12|AIエージェントとは何か]]へ進みましょう。

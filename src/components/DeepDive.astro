@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  tag?: string;
+}
+
+const { title, tag = '深掘り' } = Astro.props;
+---
+
+<details class="deep-dive">
+  <summary>
+    <span class="deep-dive__tag">{tag}</span>
+    <span>{title}</span>
+  </summary>
+  <div class="deep-dive__body">
+    <slot />
+  </div>
+</details>

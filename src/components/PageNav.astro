@@ -1,0 +1,30 @@
+---
+interface NavItem {
+  href: string;
+  title: string;
+}
+
+interface Props {
+  prev?: NavItem;
+  next?: NavItem;
+}
+
+const { prev, next } = Astro.props;
+---
+
+{(prev || next) && (
+  <nav class="page-nav" aria-label="前後のページ">
+    {prev && (
+      <a href={prev.href}>
+        <span class="dir">前のページ</span>
+        <span class="title">{prev.title}</span>
+      </a>
+    )}
+    {next && (
+      <a href={next.href}>
+        <span class="dir">次のページ</span>
+        <span class="title">{next.title}</span>
+      </a>
+    )}
+  </nav>
+)}

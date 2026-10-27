@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/site.mjs';
+---
+
+<BaseLayout title="ページが見つかりません" description="指定されたページは見つかりませんでした。" noindex>
+  <div class="page">
+    <div class="shell">
+      <div class="not-found">
+        <p class="not-found__code">404</p>
+        <h1>ページが見つかりません</h1>
+        <p>
+          URLが変わったか、まだ公開されていないページの可能性があります。
+          章一覧か用語辞典から探してください。
+        </p>
+        <div class="hero__actions">
+          <a class="btn" href={withBase('/chapters/')}>章一覧を見る</a>
+          <a class="btn btn--ghost" href={withBase('/glossary/')}>用語辞典を見る</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

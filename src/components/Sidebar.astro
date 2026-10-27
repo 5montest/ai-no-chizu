@@ -1,0 +1,69 @@
+---
+import curriculum from '../data/curriculum.json';
+import { withBase } from '../lib/site.mjs';
+
+interface PageLink {
+  slug: string;
+  title: string;
+  order: number;
+}
+
+interface Props {
+  chapterId?: string;
+  currentPage?: string;
+  pages?: PageLink[];
+}
+
+const { chapterId = '', currentPage = '', pages = [] } = Astro.props;
+
+const chapter = curriculum.chapters.find((c) => c.id === chapterId);
+const part = chapter ? curriculum.parts.find((p) => p.id === chapter.part) : undefined;
+const ordered = [...pages].sort((a, b) => a.order - b.order);
+const published = curriculum.chapters.filter((c) => c.status === 'published');
+---
+
+<aside class="chapter-rail" aria-label="章のナビゲーション">
+  {chapter ? (
+    <>
+      <p class="chapter-rail__part">
+        第{part?.roman}部 {part?.title}
+      </p>
+      <a
+        class="chapter-rail__chapter"
+        href={withBase(`/chapters/${chapter.id}/`)}
+        aria-current={currentPage ? undefined : 'page'}
+      >
+        <span class="no">{chapter.id}</span>
+        <span>{chapter.shortTitle}</span>
+      </a>
+      <ul class="chapter-rail__pages">
+        {ordered.map((page, index) => (
+          <li>
+            <a
+              href={withBase(`/chapters/${chapter.id}/${page.slug}/`)}
+              aria-current={page.slug === currentPage ? 'page' : undefined}
+            >
+              <span class="no">{index + 1}</span>
+              <span>{page.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </>
+  ) : (
+    <ul class="chapter-rail__pages">
+      {published.map((item) => (
+        <li>
+          <a href={withBase(`/chapters/${item.id}/`)}>
+            <span class="no">{item.id}</span>
+            <span>{item.shortTitle}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  <a class="chapter-rail__all" href={withBase('/chapters/')}>
+    全{curriculum.chapters.length}章の一覧
+  </a>
+</aside>

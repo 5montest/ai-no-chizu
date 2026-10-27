@@ -1,0 +1,121 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import glossary from '../../data/glossary.json';
+import curriculum from '../../data/curriculum.json';
+import { withBase } from '../../lib/site.mjs';
+
+export async function getStaticPaths() {
+  return glossary.terms.map((term) => ({
+    params: { slug: term.slug },
+    props: { term },
+  }));
+}
+
+const { term } = Astro.props;
+const category = glossary.categories.find((c) => c.id === term.category);
+const related = term.related
+  .map((slug: string) => glossary.terms.find((t) => t.slug === slug))
+  .filter(Boolean);
+const chapters = term.chapters
+  .map((id: string) => curriculum.chapters.find((c) => c.id === id))
+  .filter(Boolean);
+
+const entries = await getCollection('chapters');
+const backlinks = entries
+  .filter((entry) => entry.data.glossary.includes(term.slug))
+  .sort((a, b) => Number(a.data.chapter) - Number(b.data.chapter) || a.data.order - b.data.order);
+---
+
+<BaseLayout title={`${term.term}｜用語辞典`} description={term.short}>
+  <div class="page">
+    <div class="shell">
+      <div class="term-page">
+        <Breadcrumb
+          items={[
+            { label: '用語辞典', href: withBase('/glossary/') },
+            { label: term.term },
+          ]}
+        />
+
+        <header class="term-hero">
+          <p class="term-hero__category">{category?.label ?? '用語'}</p>
+          <h1>{term.term}</h1>
+          <p class="term-hero__reading">{term.reading}</p>
+          <p class="term-hero__short">{term.short}</p>
+        </header>
+
+        <section class="term-section">
+          <h2>厳密には</h2>
+          <p>{term.strict}</p>
+        </section>
+
+        <section class="term-section">
+          <h2>よくある誤解</h2>
+          <p>{term.myth}</p>
+        </section>
+
+        {chapters.length > 0 && (
+          <section class="term-section">
+            <h2>関連する章</h2>
+            <div class="chapter-chips">
+              {chapters.map((chapter: any) =>
+                chapter.status === 'published' ? (
+                  <a class="chip" href={withBase(`/chapters/${chapter.id}/`)}>
+                    <span class="chip__no">{chapter.id}</span>
+                    {chapter.shortTitle}
+                  </a>
+                ) : (
+                  <span class="chip chip--planned">
+                    <span class="chip__no">{chapter.id}</span>
+                    {chapter.shortTitle}（準備中）
+                  </span>
+                ),
+              )}
+            </div>
+          </section>
+        )}
+
+        {backlinks.length > 0 && (
+          <section class="term-section">
+            <h2>この用語が出てくるページ</h2>
+            <ul class="backlink-list">
+              {backlinks.map((entry) => {
+                const [chapterId, slug] = entry.id.split('/');
+                const chapterTitle =
+                  curriculum.chapters.find((c) => c.id === chapterId)?.shortTitle ?? '';
+                return (
+                  <li>
+                    <a href={withBase(`/chapters/${chapterId}/${slug}/`)}>{entry.data.title}</a>
+                    <span class="meta">第{chapterId}章 {chapterTitle}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </section>
+        )}
+
+        {related.length > 0 && (
+          <section class="term-section">
+            <h2>関連用語</h2>
+            <div class="chapter-chips">
+              {related.map((item: any) => (
+                <a class="chip" href={withBase(`/glossary/${item.slug}/`)}>
+                  {item.term}
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div class="page-nav">
+          <a href={withBase('/glossary/')}>
+            <span class="dir">用語辞典</span>
+            <span class="title">用語一覧に戻る</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

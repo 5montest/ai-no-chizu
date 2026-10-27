@@ -1,0 +1,116 @@
+---
+chapter: '06'
+title: 'Attentionはどこを見ているのか'
+description: 'Query・Key・Valueから重み付き和を計算するSelf-Attentionの流れと、因果マスク・Multi-Headの役割を理解する。'
+section: '第II部 LLMの内部'
+order: 2
+level: intermediate
+readingMinutes: 9
+updated: '2026-10-27'
+tags: ['Attention', 'Transformer', '仕組み']
+glossary: ['attention', 'qkv', 'transformer', 'token', 'embedding']
+summary:
+  - 'Attentionは、各位置のQueryと全位置のKeyの相性を計算し、その重みでValueを混ぜる。'
+  - '因果マスクは、生成時に未来のトークンを見ないようにするための制約である。'
+  - 'Multi-Headは、異なる関係を並列に見るための仕組みで、重みの可視化は説明そのものではない。'
+quiz:
+  - question: 'Self-Attentionの計算の順序として正しいものはどれか。'
+    options:
+      - 'QueryとKeyの相性をスコア化し、Softmaxで重みに変え、Valueの重み付き和を取る。'
+      - 'ValueをSoftmaxし、QueryとKeyを足し算する。'
+      - '入力を並べ替えてから、辞書の意味を引く。'
+      - 'Keyを削除してから、Queryだけで出力を作る。'
+    answer: 0
+    explanation: '各位置のQueryと各位置のKeyの内積で相性を計算し、スケーリングとSoftmaxで重みに変換します。その重みを使ってValueを足し合わせ、その位置の出力を作ります。'
+  - question: 'Decoder-onlyモデルで因果マスクが必要な理由はどれか。'
+    options:
+      - '次のトークンを予測するとき、未来のトークンを見てしまうとカンニングになるから。'
+      - '計算を速くするために、すべての値をゼロにするため。'
+      - '画像のピクセルを隠すため。'
+      - 'モデルのパラメータ数を減らすため。'
+    answer: 0
+    explanation: '生成モデルは、ある位置より前のトークンだけから次を予測する必要があります。未来のトークンに注意できると、答えを見ながら予測することになり、学習が成立しません。因果マスクは未来への注意スコアを無効にします。'
+  - question: 'Multi-Head Attentionの説明として適切なものはどれか。'
+    options:
+      - '異なる投射で複数のAttentionを並列に計算し、多様な関係を捉える。'
+      - '同じAttentionを何度も繰り返し、必ず同じ結果を出す。'
+      - 'ヘッドの数だけモデルを複製し、別々に学習する。'
+      - 'Attentionを無効にしてFFNだけを使う。'
+    answer: 0
+    explanation: 'Multi-Headは、Q・K・Vを異なる線形変換で複数のヘッドに分け、それぞれでAttentionを計算します。異なる位置関係や意味的特徴を捉えやすくし、結果を結合して出力します。'
+sources:
+  - title: 'Attention Is All You Need'
+    url: 'https://arxiv.org/abs/1706.03762'
+    publisher: 'arXiv'
+    note: 'Scaled Dot-Product AttentionとMulti-Head Attentionの定義。'
+  - title: 'The Illustrated Transformer'
+    url: 'https://jalammar.github.io/illustrated-transformer/'
+    publisher: 'Jay Alammar'
+    note: 'Q・K・Vの計算を図で追える入門解説。'
+  - title: 'Attention is not Explanation'
+    url: 'https://arxiv.org/abs/1902.10186'
+    publisher: 'arXiv'
+    note: 'Attentionの重みを、そのままモデルの説明と見なすことへの批判。'
+---
+
+import Diagram from '../../../components/Diagram.astro';
+import Callout from '../../../components/Callout.astro';
+import DeepDive from '../../../components/DeepDive.astro';
+
+Attentionは、Transformerの中心にある計算です。名前から「モデルがどこに注目しているか」をイメージしやすいですが、実際には**情報の混ぜ方**を決める数学的な操作です。このページでは、Q・K・Vの流れを、図と簡単な例で追います。
+
+## 三つの役割分担
+
+各トークンの表現から、三つのベクトルを作ります。
+
+- Query（Q）。この位置が「何を探しているか」を表す。
+- Key（K）。各位置が「何を持っているか」を表す。
+- Value（V）。各位置が「実際に渡す情報」を表す。
+
+QとKの内積を取ると、探している内容と持っている内容の相性がスコアになります。スコアをSoftmaxで重みに変え、その重みでVを足し合わせます。結果として、各位置は「自分にとって関連の強い位置の情報」を混ぜた表現を得ます。
+
+<Diagram name="attention" />
+
+## 式で確認する
+
+Scaled Dot-Product Attentionは、次のように書けます。
+
+> Attention(Q, K, V) = softmax(QKᵀ / √d) V
+
+`QKᵀ` は、各Queryと各Keyの内積を並べた行列です。`√d` で割るのは、次元が大きくなると内積の値が大きくなり、Softmaxが極端に尖るのを防ぐためです。Softmaxで各行を確率に変え、Vの重み付き和を取ります。
+
+行列の形で見ると、トークン数 × トークン数の**注意力行列**が作られ、その重みでValueが混ぜられます。この行列が、どの位置がどの位置を参照したかのパターンを表します。
+
+## 因果マスク
+
+文章生成では、各位置は自分より前のトークンだけを見る必要があります。未来のトークンを見てしまうと、次のトークンを当てる問題で答えを見ていることになり、学習が成立しません。
+
+そこで、未来の位置へのスコアを `-∞` に近い値にして、Softmax後に重みがゼロになるようにします。これが**因果マスク**です。Decoder-onlyのLLMは、このマスクされたSelf-Attentionを積み重ねて、次のトークンを予測します。
+
+## Multi-Headで複数の関係を見る
+
+一つのAttentionだけでは、一つの関係の見方しかできません。そこで、Q・K・Vを異なる線形変換で複数のヘッドに分け、それぞれでAttentionを計算します。あるヘッドは隣接する語の関係を、別のヘッドは離れた主語と述語の関係を、といったように、異なるパターンを捉えると考えられています。
+
+各ヘッドの出力は結合され、もう一度線形変換されて次の層へ渡されます。ヘッドの数や次元はモデル設計の一部です。
+
+<Callout type="myth">
+「Attentionの重みを見れば、モデルがなぜその答えを出したか分かる」とは限りません。Attentionの重みは、あくまで一つの層・一つのヘッドにおける情報の混ぜ方です。FFN、残差接続、多層の相互作用、学習データの影響など、判断に関わる要素は他にも多くあります。重みの可視化は手がかりにはなりますが、説明そのものではありません。
+</Callout>
+
+## 例で考える
+
+「太郎は花子に本を貸した。彼女はそれを読んだ。」という文を考えます。「彼女」が誰を指すかを処理するとき、Queryは「女性の人物を探している」に近い表現になり、Key「花子」との相性が高くなると考えられます。ただし、実際のモデル内部の計算は多次元で、人間の言葉に置き換えると単純化しすぎになります。
+
+どの位置からどれだけ情報を集めるかを、データから学習します。人間が「この語はこの語を参照する」と規則を書いているわけではありません。
+
+<DeepDive title="Softmaxと温度の関係">
+  AttentionのSoftmaxにも、温度に相当するスケーリングが入っています。`√d` で割るのは、次元 `d` が大きいときに内積の分散が大きくなり、Softmaxがほぼ0か1に張り付くのを避けるためです。
+
+  スコアが極端になると、一部の位置だけに注目が集中し、学習が不安定になります。スケーリングは地味な調整ですが、深いTransformerを安定して学習させるための重要な部品です。
+</DeepDive>
+
+## Attentionは部品である
+
+Attentionは、文脈を混ぜるための強力な仕組みです。しかし、モデルの知識の多くはFFNの重みに蓄えられ、層の深さ、残差接続、正規化、学習データが組み合わさって振る舞いが決まります。Attentionだけを取り出して「モデルの思考」と見なすと、全体像を見失います。
+
+次は、Q・K・Vをもう少し直感的に捉え直します。[[ch:06/03-qkv|Q・K・Vの役割]]へ進みましょう。

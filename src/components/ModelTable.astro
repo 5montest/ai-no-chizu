@@ -1,0 +1,117 @@
+---
+import raw from '../../data/model-comparison.json';
+
+const data = raw as {
+  verified_at: string;
+  source: string;
+  source_url: string;
+  note?: string;
+  models: Array<{
+    id: string;
+    name: string;
+    vendor: string;
+    tier: 'frontier' | 'balanced' | 'light';
+    context: number;
+    input: number;
+    output: number;
+    open_weights: boolean;
+    note: string;
+  }>;
+};
+
+const tierLabel = { frontier: 'フロンティア', balanced: 'バランス', light: '軽量' };
+
+function formatContext(value: number) {
+  if (value >= 1_000_000) {
+    const millions = value / 1_000_000;
+    return `${Number(millions.toFixed(2))}M`;
+  }
+  if (value >= 1_000) return `${Math.round(value / 1_000)}K`;
+  return String(value);
+}
+
+function formatPrice(value: number) {
+  return Number.isInteger(value) ? String(value) : value.toFixed(2).replace(/0$/, '');
+}
+---
+
+<div class="table-tools">
+  <p>並び替え：価格は入力 $/100万トークンの安い順、コンテキストは大きい順。</p>
+  <div class="table-sort" role="group" aria-label="表の並び替え">
+    <button type="button" data-sort="price" class="is-active">価格</button>
+    <button type="button" data-sort="context">コンテキスト</button>
+    <button type="button" data-sort="name">名前</button>
+  </div>
+</div>
+
+<div class="model-table-wrap">
+  <table class="model-table" data-model-table>
+    <caption class="sr-only">2026年10月27日時点の代表的なモデルの価格とコンテキスト長</caption>
+    <thead>
+      <tr>
+        <th scope="col">モデル</th>
+        <th scope="col">提供元</th>
+        <th scope="col">位置づけ</th>
+        <th scope="col">コンテキスト</th>
+        <th scope="col">入力 $/1M</th>
+        <th scope="col">出力 $/1M</th>
+        <th scope="col">重み</th>
+        <th scope="col">ひとこと</th>
+      </tr>
+    </thead>
+    <tbody>
+      {data.models.map((model) => (
+        <tr
+          data-input={model.input}
+          data-context={model.context}
+          data-name={model.name}
+        >
+          <td>
+            <span class="name">{model.name}</span>
+            <span class="vendor">{model.id}</span>
+          </td>
+          <td>{model.vendor}</td>
+          <td><span class="badge">{tierLabel[model.tier]}</span></td>
+          <td class="num">{formatContext(model.context)}</td>
+          <td class="num">${formatPrice(model.input)}</td>
+          <td class="num price-out">${formatPrice(model.output)}</td>
+          <td>{model.open_weights ? <span class="badge badge--live">オープン</span> : <span class="badge badge--planned">非公開</span>}</td>
+          <td class="note">{model.note}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<div class="model-table__legend">
+  <span><i class="legend-dot legend-dot--frontier"></i>フロンティア：最高性能帯</span>
+  <span><i class="legend-dot"></i>バランス：日常利用の中心</span>
+  <span><i class="legend-dot legend-dot--open"></i>オープン：重みが公開</span>
+  <span>確認日 {data.verified_at}／{data.source}</span>
+</div>
+
+<script>
+  for (const table of document.querySelectorAll<HTMLElement>('[data-model-table]')) {
+    const tbody = table.querySelector('tbody');
+    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-sort]');
+    if (!tbody) continue;
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        buttons.forEach((b) => b.classList.toggle('is-active', b === button));
+        const key = button.dataset.sort;
+        const rows = [...tbody.querySelectorAll<HTMLTableRowElement>('tr')];
+        rows.sort((a, b) => {
+          if (key === 'name') {
+            return (a.dataset.name || '').localeCompare(b.dataset.name || '', 'ja');
+          }
+          if (key === 'context') {
+            return Number(b.dataset.context) - Number(a.dataset.context);
+          }
+          return Number(a.dataset.input) - Number(b.dataset.input);
+        });
+        tbody.replaceChildren(...rows);
+      });
+    });
+  }
+</script>

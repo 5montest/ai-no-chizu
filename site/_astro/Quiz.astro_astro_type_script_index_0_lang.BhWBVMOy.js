@@ -1,0 +1,1 @@
+import{t as e}from"./quiz-client.DM1EKBeS.js";for(let t of document.querySelectorAll(`[data-quiz]`)){let n=t.querySelector(`.quiz-data`);if(n?.textContent)try{e(t,JSON.parse(n.textContent))}catch(e){console.error(`クイズの初期化に失敗しました`,e)}}

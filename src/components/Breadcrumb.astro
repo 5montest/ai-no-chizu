@@ -1,0 +1,24 @@
+---
+import { withBase } from '../lib/site.mjs';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumbs" aria-label="パンくずリスト">
+  <a href={withBase('/')}>ホーム</a>
+  {items.map((item) => (
+    <Fragment>
+      <span aria-hidden="true">/</span>
+      {item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label}</span>}
+    </Fragment>
+  ))}
+</nav>
