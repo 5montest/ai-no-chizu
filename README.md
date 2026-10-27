@@ -1,15 +1,15 @@
 # AIの地図
 
-成人向けのAI解説サイトです。設計書 `ai-guide-outline.md` をもとに、章ごとに短いページを積み上げる構成で作っています。Astro + MDX の静的サイトで、検索・用語辞典・相互参照・インタラクティブなクイズを備えます。
+AIの仕組みや活用方法を基礎から学べる解説サイトです。設計書 `ai-guide-outline.md` をもとに、内容を章ごとの短いページに分けています。Astro と MDX で構築した静的サイトで、検索、用語辞典、ページ間の相互参照、クイズを利用できます。
 
-公開URL: <http://192.168.8.10:8090/20261027-website-design-implementation/>
+確認用URL（ローカルネットワーク内）: <http://192.168.8.10:8090/20261027-website-design-implementation/>
 
 ## 構成
 
 ```
 .
-├── index.html                 # /site/ へ転送するルートページ
-├── astro.config.mjs           # base パス、MDX、図の設定
+├── index.html                 # /site/ に転送するルートページ
+├── astro.config.mjs           # ベースパス、MDX、図の設定
 ├── public/favicon.svg
 ├── data/
 │   └── model-comparison.json  # 公開用のモデル比較データ（確認日つき）
@@ -18,13 +18,13 @@
 │   └── validate-data.mjs      # スキーマ・日付・単価を検証
 ├── src/
 │   ├── content.config.ts      # frontmatter のスキーマ
-│   ├── content/chapters/      # 章ごとの MDX（01/02-mmd...）
-│   ├── components/            # 図、クイズ、表、注釈など
+│   ├── content/chapters/      # 章ごとの MDX ファイル
+│   ├── components/            # 図、クイズ、表、補足など
 │   ├── layouts/
-│   ├── pages/                 # 動的ルート、検索JSON、辞典、クイズ
+│   ├── pages/                 # 動的ルート、検索用 JSON、用語辞典、クイズ
 │   ├── data/                  # カリキュラム、用語、図の定義
 │   └── plugins/               # [[用語]]・[[ch:...]] を解決する remark
-└── site/                      # ビルド成果物（公開対象）
+└── site/                      # ビルド成果物
 ```
 
 ## コマンド
@@ -88,7 +88,7 @@ import ModelTable from '../../../components/ModelTable.astro';
 - `<DeepDive title="…">…</DeepDive>` — 折りたたみの深掘り。
 - `<ModelTable />` — 比較データの表（並べ替え付き）。
 
-### 相互参照
+### 用語やページへのリンク
 
 本文中の記法はビルド時に解決されます。
 
@@ -98,20 +98,24 @@ import ModelTable from '../../../components/ModelTable.astro';
 - `[[ch:12/02-harness]]` — 特定ページへリンク。
 - `[[ch:12/02-harness|モデルの外側]]` — 表示名を指定。
 
-存在しない用語・章・ページを指すとビルドが失敗します。リンク切れを早期に見つけるための仕組みです。
+存在しない用語、章、ページを指定するとビルドが失敗します。リンク切れをビルド時に検出できます。
 
 ## モデル比較データの更新
 
-価格・コンテキスト長は変化が早いため、本文と切り離して管理します。
+価格やコンテキスト長は頻繁に変わるため、本文とは別に管理します。
 
-1. `npm run fetch:models` で `data/staging/` に取得結果を書く。
-2. 差分を確認し、出典・確認日・単価の単位を検証する。
-3. `npm run validate:data` を通す。
-4. 内容を確認して `data/model-comparison.json` に反映する。
-5. `npm run build` で再生成する。
+1. `npm run fetch:models` を実行し、取得結果を `data/staging/` に保存する。
+2. 差分を確認し、出典、確認日、単価の単位を確かめる。
+3. `npm run validate:data` でデータを検証する。
+4. 内容を確認したうえで、`data/model-comparison.json` に反映する。
+5. `npm run build` を実行してサイトを再生成する。
 
-**自動では公開データを書き換えません。** 取得と公開の間に人のレビューを挟みます。表は能力の順位ではなく、確認日時点の価格と文脈長の一覧です。単一の「最強モデル」は提示しません。
+取得したデータが公開用ファイルを自動で書き換えることはありません。内容を確認してから `data/model-comparison.json` に反映します。比較表には、確認日時点の価格とコンテキスト長を掲載します。モデルの能力を順位づけたり、単一の「最強モデル」を示したりするものではありません。
 
 ## 検証時の注意
 
-このリポジトリはメモリを共有するホスト上にあります。ブラウザ検証は同時に1インスタンスだけ起動し、`flock --wait 120 /immich/media/agent-hub-data/browser-work.lock <コマンド>` の下で順番に実行してください。検証用のプロセスは終了時に必ず回収します。
+このリポジトリをメモリを共有するホスト上で検証する場合は、ブラウザを同時に複数起動しないでください。次のコマンドでロックを取得し、ブラウザ検証を順番に実行します。検証が終わったら、起動したプロセスを終了してください。
+
+```bash
+flock --wait 120 /immich/media/agent-hub-data/browser-work.lock <コマンド>
+```
