@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import remarkGuideLinks from './src/plugins/remark-guide-links.mjs';
+import remarkBulletLabels from './src/plugins/remark-bullet-labels.mjs';
 import { DEFAULT_BASE, DEFAULT_ORIGIN, normalizeBase } from './src/lib/site.mjs';
 
 // 公開先はここだけで決める。既定は現在の配信先（ルートの index.html が ./site/ へ転送する）。
@@ -22,7 +23,11 @@ export default defineConfig({
   integrations: [mdx()],
   markdown: {
     // 本文中の [[用語]] と / 始まりのリンクにも、設定した base を付ける。
-    remarkPlugins: [[remarkGuideLinks, { base: SITE_BASE }]],
+    // 箇条書きのラベル強調は、リンク展開が済んだ後の文字列に対して行う。
+    remarkPlugins: [
+      [remarkGuideLinks, { base: SITE_BASE }],
+      remarkBulletLabels,
+    ],
     shikiConfig: {
       themes: {
         light: 'vitesse-light',

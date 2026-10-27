@@ -13,8 +13,8 @@ const terms = slugs
 ---
 
 {terms.length > 0 && (
-  <aside class="related-terms" aria-label="関連用語">
-    <p class="related-terms__label">関連用語</p>
+  <aside class="related-terms" aria-labelledby="related-terms-label">
+    <p class="related-terms__label" id="related-terms-label">関連用語</p>
     <ul>
       {terms.map((term) => (
         <li>

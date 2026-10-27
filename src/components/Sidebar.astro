@@ -22,7 +22,7 @@ const ordered = [...pages].sort((a, b) => a.order - b.order);
 const published = curriculum.chapters.filter((c) => c.status === 'published');
 ---
 
-<aside class="chapter-rail" aria-label="章のナビゲーション">
+<nav class="chapter-rail" aria-label="章のナビゲーション">
   {chapter ? (
     <>
       <p class="chapter-rail__part">
@@ -66,4 +66,4 @@ const published = curriculum.chapters.filter((c) => c.status === 'published');
   <a class="chapter-rail__all" href={withBase('/chapters/')}>
     全{curriculum.chapters.length}章の一覧
   </a>
-</aside>
+</nav>

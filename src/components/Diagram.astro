@@ -16,12 +16,16 @@ if (!diagram) {
 // 「概念図」「数値は例示」といった但し書きは diagrams.ts 側に持たせてある。
 // 記事から明示された場合だけ、そちらを優先する。
 const captionText = caption ?? diagram.caption;
+
+// 見出しの行は図のラベル（図番号・題・操作のヒント）で、本文の重要性を
+// 述べるものではない。強い重要性を表す strong は使わず、意味を持たない
+// span に class を付けて太字にする。図の説明は figcaption が担う。
 ---
 
 <figure class="diagram-plate" id={`fig-${name}`}>
   <div class="diagram-plate__head">
-    <span>図 {diagram.number}</span>
-    <strong>{diagram.title}</strong>
+    <span class="diagram-plate__no">図 {diagram.number}</span>
+    <span class="diagram-plate__title">{diagram.title}</span>
     <span class="diagram-plate__hint">横にスクロール</span>
   </div>
   <div class="diagram-plate__body">

@@ -87,12 +87,28 @@ import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
 import ModelTable from '../../../components/ModelTable.astro';
+import ProbabilityChart from '../../../components/ProbabilityChart.astro';
+import PriceCompareChart from '../../../components/PriceCompareChart.astro';
 ```
 
 - `<Diagram name="agent-loop" />` — `src/data/diagrams.ts` に登録済みの図を描画します。未登録の名前はビルド時にエラーになります。
 - `<Callout type="myth">…</Callout>` — 誤解しやすい点の注釈。
 - `<DeepDive title="…">…</DeepDive>` — 折りたたみの深掘り。
 - `<ModelTable />` — 比較データの表（並べ替え付き）。
+- `<ProbabilityChart />` — `src/data/next-token-example.ts` の確率分布の棒グラフ。
+- `<PriceCompareChart />` — `src/data/model-comparison.json` の料金とコンテキスト長の比較。
+
+### 箇条書きのラベル
+
+項目の頭に名詞のラベルを置くときは、全角コロンで説明と区切り、文末に句点を付けます。ラベルはビルド時に `<b>` で出力するため、本文に `**` は書きません（`src/plugins/remark-bullet-labels.mjs`）。
+
+```mdx
+- Greedy：毎回、最も確率の高いトークンを選ぶ。
+```
+
+`<b>` を使うのは、このラベルが「読み出しの目印」であって、強い重要性や深刻さを伝えるものではないためです。`<strong>` は重要性そのものを表す要素なので、ラベルの装飾には使いません。文中で本当に強調したい箇所に限り、MDX の `**` を書いてください。
+
+「名前は動詞で具体的に。…」のように句点で説明が続く文の項目は、ラベルではなく文として扱われ、太字になりません。書き分けはこの2つだけです。
 
 ### 用語やページへのリンク
 

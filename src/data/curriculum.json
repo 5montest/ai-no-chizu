@@ -74,7 +74,7 @@
         "Transformer（2017）と基盤モデル",
         "対話型生成AI、推論・エージェントの発展"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 3,
       "prereq": ["01"],
       "keywords": ["transformer", "foundation-model", "pretraining", "parameter"]
@@ -95,7 +95,7 @@
         "汎化と過学習",
         "ニューラルネットワークの層"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 2,
       "prereq": ["01"],
       "keywords": ["machine-learning", "parameter", "overfitting", "generalization", "pretraining"]
@@ -182,7 +182,7 @@
         "蒸留・Fine-tuning",
         "評価セット"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 2,
       "prereq": ["04", "06"],
       "keywords": ["pretraining", "sft", "rlhf", "fine-tuning", "overfitting"]
@@ -203,7 +203,7 @@
         "推論時の計算量",
         "推論型モデルと推論スケーリング"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 2,
       "prereq": ["04", "06"],
       "keywords": ["inference", "prefill", "decode", "logits", "temperature", "top-p", "kv-cache", "ttft"]
@@ -224,7 +224,7 @@
         "バイアスとプロンプトインジェクション",
         "過信と過小評価"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 2,
       "prereq": ["04", "08"],
       "keywords": ["hallucination", "benchmark", "context-window", "prompt"]
@@ -245,7 +245,7 @@
         "システム指示と長文管理",
         "評価しやすい指示"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 2,
       "prereq": ["04", "05"],
       "keywords": ["prompt", "context-window", "rag"]
@@ -266,7 +266,7 @@
         "Function Calling・Web検索・API連携",
         "RAGとFine-tuningの使い分け"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 2,
       "prereq": ["05", "10"],
       "keywords": ["rag", "embedding", "function-calling", "fine-tuning", "vector-database"]
@@ -310,7 +310,7 @@
         "継続・再試行・並列エージェント",
         "AGENTS.md等の作業指示"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 2,
       "prereq": ["12"],
       "keywords": ["harness", "agent", "computer-use", "sandbox"]
@@ -330,7 +330,7 @@
         "融合方法",
         "統合モデルと専門モデル"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 3,
       "prereq": ["04", "05"],
       "keywords": ["vlm", "multimodal", "embedding", "diffusion"]
@@ -351,7 +351,7 @@
         "Flow Matchingなどの発展",
         "編集・Inpaintingと評価"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 3,
       "prereq": ["05", "06"],
       "keywords": ["diffusion", "dit", "embedding", "vlm"]
@@ -371,7 +371,7 @@
         "ASR／STT／TTS",
         "遅延とリアルタイム会話"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 3,
       "prereq": ["14", "15"],
       "keywords": ["diffusion", "multimodal", "latency", "ttft"]
@@ -392,7 +392,7 @@
         "Sim-to-Realと安全性",
         "リアルタイム性"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 3,
       "prereq": ["14"],
       "keywords": ["vlm", "multimodal", "latency", "agent"]
@@ -436,7 +436,7 @@
         "KVキャッシュとバッチング",
         "LoRAとコンテキスト"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 3,
       "prereq": ["04", "05", "06"],
       "keywords": ["quantization", "vram", "gguf", "kv-cache", "tokens-per-second", "ttft"]
@@ -457,7 +457,7 @@
         "PoC・評価・監視",
         "継続改善"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 3,
       "prereq": ["11", "12"],
       "keywords": ["rag", "agent", "harness", "benchmark"]
@@ -478,7 +478,7 @@
         "ログと監査",
         "モデル更新リスク"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 3,
       "prereq": ["18", "20"],
       "keywords": ["benchmark", "accuracy", "hallucination", "sandbox", "contamination"]
@@ -499,7 +499,7 @@
         "研究成果と製品発表の違い",
         "誇大な主張の読み解き方"
       ],
-      "status": "planned",
+      "status": "published",
       "phase": 3,
       "prereq": ["18", "21"],
       "keywords": ["benchmark", "agent", "quantization", "agi"]

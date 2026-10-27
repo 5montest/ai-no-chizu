@@ -13,9 +13,13 @@ for (const entry of entries) {
   stats.set(entry.data.chapter, current);
 }
 const publishedCount = curriculum.chapters.filter((c) => c.status === 'published').length;
+const allPublished = publishedCount === curriculum.chapters.length;
 ---
 
-<BaseLayout title="章一覧" description="AIの地図の全22章を、6つの部で一覧。公開中の章から読み始められます。">
+<BaseLayout
+  title="章一覧"
+  description={`AIの地図の全${curriculum.chapters.length}章を、6つの部で一覧。第1章から順に読み進められます。`}
+>
   <div class="page">
     <div class="shell">
       <nav class="breadcrumbs" aria-label="パンくずリスト">
@@ -28,8 +32,10 @@ const publishedCount = curriculum.chapters.filter((c) => c.status === 'published
         <h1>章一覧</h1>
         <p>
           全体像から評価まで、6つの部で構成しています。各章は複数の短いページに分かれ、
-          図・例・誤解しやすい点・クイズを含みます。全22章のうち{publishedCount}章を公開中で、
-          準備中の章は公開時にここへ追加されます。
+          図・例・誤解しやすい点・クイズを含みます。
+          {allPublished
+            ? `全${curriculum.chapters.length}章を公開中です。`
+            : `全${curriculum.chapters.length}章のうち${publishedCount}章を公開中で、準備中の章は公開時にここへ追加されます。`}
         </p>
       </div>
 
@@ -84,12 +90,24 @@ const publishedCount = curriculum.chapters.filter((c) => c.status === 'published
 
       <section class="section section--tight">
         <div class="callout callout--note">
-          <p class="callout__label">公開の進め方</p>
-          <p>
-            第1フェーズでは、全体像（01）、LLMの内部（04〜06）、エージェント（12）、
-            モデル比較（18）を公開しました。第2フェーズ以降、機械学習の基礎、学習と推論、
-            プロンプト・RAG、コーディングエージェントを順に追加します。
-          </p>
+          {allPublished ? (
+            <>
+              <p class="callout__label">読み進め方</p>
+              <p>
+                章は第1章から順に並び、前の章で使った言葉を前提に次の章が進みます。
+                関心のある章から読む場合は、各ページ末尾のリンクから関連する章へ移れます。
+              </p>
+            </>
+          ) : (
+            <>
+              <p class="callout__label">公開の進め方</p>
+              <p>
+                第1フェーズでは、全体像（01）、LLMの内部（04〜06）、エージェント（12）、
+                モデル比較（18）を公開しました。第2フェーズ以降、機械学習の基礎、学習と推論、
+                プロンプト・RAG、コーディングエージェントを順に追加します。
+              </p>
+            </>
+          )}
         </div>
       </section>
     </div>

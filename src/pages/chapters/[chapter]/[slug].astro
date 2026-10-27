@@ -104,8 +104,8 @@ const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展'
               </dl>
             </header>
 
-            <section class="summary-box" aria-label="3行の要点">
-              <p class="summary-box__label">3行の要点</p>
+            <section class="summary-box" aria-labelledby="summary-box-title">
+              <h2 class="summary-box__label" id="summary-box-title">3行の要点</h2>
               <ul>
                 {data.summary.map((line) => <li>{line}</li>)}
               </ul>

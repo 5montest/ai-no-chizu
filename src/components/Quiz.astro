@@ -12,7 +12,7 @@ const payload = JSON.stringify(questions).replaceAll('<', '\\u003c');
 
 <section class="quiz" data-quiz>
   <div class="quiz__head">
-    <strong>{title}</strong>
+    <h2 class="quiz__title">{title}</h2>
     <span data-quiz-counter></span>
   </div>
   <div class="quiz__body" data-quiz-body></div>

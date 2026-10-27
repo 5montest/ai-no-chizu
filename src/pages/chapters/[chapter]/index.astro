@@ -79,7 +79,7 @@ const updated = pages.map((p: any) => p.updated).sort().at(-1);
             </p>
             {chapter.outcome && (
               <p class="chapter-hero__outcome">
-                <strong>読み終えたら：</strong>{chapter.outcome}
+                <span class="chapter-hero__outcome-label">読み終えたら：</span>{chapter.outcome}
               </p>
             )}
           </header>
@@ -88,18 +88,20 @@ const updated = pages.map((p: any) => p.updated).sort().at(-1);
             <p>{chapter.intro}</p>
           </div>
 
-          <div class="page-list">
+          <ul class="page-list">
             {pages.map((page: any) => (
-              <a href={withBase(`/chapters/${chapter.id}/${page.slug}/`)}>
-                <span class="no">{String(page.order).padStart(2, '0')}</span>
-                <span>
-                  <span class="title">{page.title}</span>
-                  <span class="desc">{page.description}</span>
-                </span>
-                <span class="time">{page.readingMinutes}分</span>
-              </a>
+              <li>
+                <a href={withBase(`/chapters/${chapter.id}/${page.slug}/`)}>
+                  <span class="no">{String(page.order).padStart(2, '0')}</span>
+                  <span>
+                    <span class="title">{page.title}</span>
+                    <span class="desc">{page.description}</span>
+                  </span>
+                  <span class="time">{page.readingMinutes}分</span>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
 
           {next && (
             <nav class="page-nav" aria-label="次の章">

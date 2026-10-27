@@ -60,8 +60,8 @@
     "Noto Sans Mono", monospace;
 
   --shell: 1180px;
-  /* 図表やコードは広く、地の文は読みやすい行長に保つ（下の .prose p で絞る）。
-     --shell から左の列と余白を引いた幅に収まる範囲で、記事の器を広めに取る。 */
+  /* 図表・表・コードも地の文も同じ幅まで使う。行長はこの --measure で決まり、
+     記事の器いっぱいに広がる。--shell から左の列と余白を引いた幅に収まる範囲で取る。 */
   --measure: 54em;
   --header-h: 56px;
   --radius: 4px;
@@ -1019,12 +1019,8 @@ kbd {
   color: var(--link);
 }
 
-/* 地の文だけは行長を絞る。図表・表・コードは .prose の幅まで使える。 */
-.prose p,
-.prose ul,
-.prose ol {
-  max-width: 44em;
-}
+/* 地の文も図表と同じ幅まで使う。以前は段落だけ 44em で絞っていたが、
+   図や表の右端と本文の右端がずれて読み進めにくいため、--measure にそろえた。 */
 
 .prose ul,
 .prose ol {
@@ -1039,7 +1035,12 @@ kbd {
   color: var(--ink-mute);
 }
 
-.prose strong {
+/* strong は強い重要性、b は重要性を伴わない注意喚起（箇条書きの見出し語）。
+   どちらも同じ太さで表示する。time は日付を目立たせるための太字で、
+   要素自体は日付という意味だけを持つ。 */
+.prose strong,
+.prose b,
+.prose time {
   font-weight: 700;
 }
 
@@ -1306,7 +1307,10 @@ kbd {
   font-size: 0.75rem;
 }
 
-.diagram-plate__head strong {
+.diagram-plate__head .diagram-plate__title {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
   font-weight: 700;
 }
 
@@ -1434,7 +1438,7 @@ kbd {
   line-height: 1.5;
 }
 
-.chart-plate__head strong {
+.chart-plate__head .chart-plate__title {
   font-weight: 600;
 }
 
@@ -1733,7 +1737,7 @@ kbd {
   font-size: 0.875rem;
 }
 
-.quiz__head strong {
+.quiz__head .quiz__title {
   font-size: 0.9375rem;
 }
 
@@ -2323,7 +2327,8 @@ a.chapter-row:hover {
   color: var(--ink-soft);
 }
 
-.chapter-hero__outcome strong {
+.chapter-hero__outcome-label {
+  font-weight: 700;
   color: var(--ink);
 }
 

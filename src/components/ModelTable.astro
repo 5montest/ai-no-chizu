@@ -139,9 +139,9 @@ const unverifiedWeights = data.models.filter((m) => m.open_weights === null).len
   </div>
 
   <div class="model-table__legend">
-    <span><i class="legend-dot legend-dot--frontier"></i>フロンティア：最高性能帯</span>
-    <span><i class="legend-dot"></i>バランス：日常利用の中心</span>
-    <span><i class="legend-dot legend-dot--open"></i>オープン：重みが公開</span>
+    <span><span class="legend-dot legend-dot--frontier" aria-hidden="true"></span>フロンティア：最高性能帯</span>
+    <span><span class="legend-dot" aria-hidden="true"></span>バランス：日常利用の中心</span>
+    <span><span class="legend-dot legend-dot--open" aria-hidden="true"></span>オープン：重みが公開</span>
     <span>単価は {data.pricing_source.name} の基本料金（再販価格）。{conditionsKnown ? '条件付き料金はモデルごとに注記。' : '長文入力・キャッシュなどの条件付き料金は未確認。'}</span>
     {unverifiedWeights > 0 && <span>重み・ライセンスは「未確認」{unverifiedWeights}件。</span>}
     <span>確認日 {verifiedLabel}</span>

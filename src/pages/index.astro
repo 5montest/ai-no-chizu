@@ -7,6 +7,7 @@ import { withBase } from '../lib/site.mjs';
 
 const entries = await getCollection('chapters');
 const publishedChapters = curriculum.chapters.filter((c) => c.status === 'published');
+const allPublished = publishedChapters.length === curriculum.chapters.length;
 
 const chapterInfo = new Map(
   publishedChapters.map((chapter) => {
@@ -66,8 +67,9 @@ const firstReadingMinutes = firstPages.reduce((sum, page) => sum + page.readingM
         <a class="btn btn--ghost" href={withBase('/chapters/')}>章一覧を見る</a>
       </div>
       <p class="intro__note">
-        全{curriculum.chapters.length}章のうち{publishedChapters.length}章・{totalPages}ページを公開中です。
-        公開中の章は第1章から順に読むとつながります。
+        {allPublished
+          ? `全${curriculum.chapters.length}章・${totalPages}ページを公開中です。第1章から順に読むとつながります。`
+          : `全${curriculum.chapters.length}章のうち${publishedChapters.length}章・${totalPages}ページを公開中です。公開中の章は第1章から順に読むとつながります。`}
       </p>
     </div>
   </section>
@@ -76,11 +78,11 @@ const firstReadingMinutes = firstPages.reduce((sum, page) => sum + page.readingM
     <div class="shell">
       <div class="section-head">
         <div>
-          <h2>公開中の章</h2>
+          <h2>{allPublished ? `全${curriculum.chapters.length}章` : '公開中の章'}</h2>
         </div>
         <p>
           ひとつの章は複数の短いページに分かれています。図とクイズを含み、1ページ8分前後が目安です。
-          準備中の章は、章一覧で公開予定の時期を確認できます。
+          {!allPublished && '準備中の章は、章一覧で公開予定の時期を確認できます。'}
         </p>
       </div>
 
@@ -124,7 +126,9 @@ const firstReadingMinutes = firstPages.reduce((sum, page) => sum + page.readingM
 
       <p class="chapter-foot">
         <a class="btn btn--ghost" href={withBase('/chapters/')}>
-          準備中の章も含めた全{curriculum.chapters.length}章を見る
+          {allPublished
+            ? `全${curriculum.chapters.length}章の一覧を見る`
+            : `準備中の章も含めた全${curriculum.chapters.length}章を見る`}
         </a>
       </p>
     </div>
