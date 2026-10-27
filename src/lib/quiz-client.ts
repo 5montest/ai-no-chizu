@@ -7,18 +7,39 @@ export type QuizQuestion = {
 
 type Options = {
   shuffleQuestions?: boolean;
+  /** 選択肢の並び替えに使う乱数。テストから固定できるようにしてある。 */
+  random?: () => number;
   onFinish?: (score: number, total: number) => void;
 };
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
-function shuffled<T>(items: T[]): T[] {
+export function shuffled<T>(items: T[], random: () => number = Math.random): T[] {
   const copy = [...items];
   for (let i = copy.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(random() * (i + 1));
     [copy[i], copy[j]] = [copy[j], copy[i]];
   }
   return copy;
+}
+
+/**
+ * 選択肢の表示順を決める。返り値は「表示位置 → 元の選択肢番号」。
+ *
+ * 正解の位置が固定されると、内容を読まずに A を選ぶだけで点が取れてしまう。
+ * 正解データ（MDX の answer）はそのままにし、表示のときだけ並べ替える。
+ */
+export function optionOrder(count: number, random: () => number = Math.random): number[] {
+  return shuffled(
+    Array.from({ length: count }, (_, i) => i),
+    random,
+  );
+}
+
+/** 元の選択肢番号から、画面上の記号（A, B, …）を引く。 */
+export function letterFor(order: number[], originalIndex: number): string {
+  const position = order.indexOf(originalIndex);
+  return LETTERS[position] || String(position + 1);
 }
 
 /**
@@ -26,15 +47,18 @@ function shuffled<T>(items: T[]): T[] {
  * 回答すると正誤と解説がその場で展開し、最後にスコアを表示する。
  */
 export function mountQuiz(root: HTMLElement, questions: QuizQuestion[], options: Options = {}) {
-  const body = root.querySelector<HTMLElement>('[data-quiz-body]');
+  // 有無は下の if で実行時に確かめる。型の上では「ある」と決めておく。
+  const body = root.querySelector<HTMLElement>('[data-quiz-body]')!;
   const counter = root.querySelector<HTMLElement>('[data-quiz-counter]');
   if (!body || questions.length === 0) return;
 
-  const list = options.shuffleQuestions ? shuffled(questions) : [...questions];
+  const random = options.random ?? Math.random;
+  const list = options.shuffleQuestions ? shuffled(questions, random) : [...questions];
   const total = list.length;
   let index = 0;
   let score = 0;
   let answered = false;
+  let order: number[] = [];
 
   function updateCounter() {
     if (!counter) return;
@@ -45,6 +69,8 @@ export function mountQuiz(root: HTMLElement, questions: QuizQuestion[], options:
     answered = false;
     updateCounter();
     const q = list[index];
+    // 出題のたびに（再挑戦でも）並べ直す。
+    order = optionOrder(q.options.length, random);
     body.replaceChildren();
 
     const progress = document.createElement('div');
@@ -66,18 +92,19 @@ export function mountQuiz(root: HTMLElement, questions: QuizQuestion[], options:
     optionList.className = 'quiz__options';
 
     const buttons: HTMLButtonElement[] = [];
-    q.options.forEach((label, i) => {
+    order.forEach((originalIndex, displayIndex) => {
       const li = document.createElement('li');
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'quiz__option';
+      button.dataset.choice = String(originalIndex);
       const letter = document.createElement('span');
       letter.className = 'opt-letter';
-      letter.textContent = LETTERS[i] || String(i + 1);
+      letter.textContent = LETTERS[displayIndex] || String(displayIndex + 1);
       const text = document.createElement('span');
-      text.textContent = label;
+      text.textContent = q.options[originalIndex];
       button.append(letter, text);
-      button.addEventListener('click', () => choose(i, buttons));
+      button.addEventListener('click', () => choose(originalIndex, buttons));
       buttons.push(button);
       li.append(button);
       optionList.append(li);
@@ -115,17 +142,19 @@ export function mountQuiz(root: HTMLElement, questions: QuizQuestion[], options:
     const correct = choice === q.answer;
     if (correct) score += 1;
 
-    buttons.forEach((button, i) => {
+    buttons.forEach((button) => {
       button.disabled = true;
-      if (i === q.answer) button.classList.add('is-correct');
-      if (i === choice && !correct) button.classList.add('is-wrong');
+      const original = Number(button.dataset.choice);
+      if (original === q.answer) button.classList.add('is-correct');
+      if (original === choice && !correct) button.classList.add('is-wrong');
     });
 
     const explain = body.querySelector<HTMLElement>('.quiz__explain');
     if (explain) {
       explain.hidden = false;
       const strong = document.createElement('strong');
-      strong.textContent = correct ? '正解。' : `不正解。正解は ${LETTERS[q.answer]}。`;
+      // 正解の記号は、並べ替えたあとの表示位置から引く。
+      strong.textContent = correct ? '正解。' : `不正解。正解は ${letterFor(order, q.answer)}。`;
       explain.append(strong, document.createTextNode(q.explanation));
     }
 

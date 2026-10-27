@@ -31,8 +31,12 @@ const partsWithContent = curriculum.parts.filter((part) =>
 const totalPages = entries.length;
 const totalTerms = glossary.terms.length;
 
-const firstChapter =
-  chapterInfo.get('01') ?? chapterInfo.values().next().value ?? publishedChapters[0];
+// 公開済みの章が一つもないときだけ curriculum の項目が返り、読了時間を持たない。
+type ChapterSummary = { id: string; shortTitle: string; readingMinutes?: number };
+const firstChapter: ChapterSummary =
+  chapterInfo.get('01') ??
+  chapterInfo.values().next().value ??
+  (publishedChapters[0] as ChapterSummary);
 const firstPages = entries
   .filter((entry) => entry.data.chapter === firstChapter.id)
   .sort((a, b) => a.data.order - b.data.order)
@@ -41,6 +45,9 @@ const firstPages = entries
     title: entry.data.title,
     readingMinutes: entry.data.readingMinutes,
   }));
+
+// 記事の側から数えれば、章の概要に読了時間がなくても同じ数字になる。
+const firstReadingMinutes = firstPages.reduce((sum, page) => sum + page.readingMinutes, 0);
 ---
 
 <BaseLayout description="AI・機械学習・LLM・Transformer・エージェント・モデル選びを、図と短いページで体系的に学ぶ社会人向けガイド。">
@@ -130,7 +137,7 @@ const firstPages = entries
           <h2>第1章から読み始める</h2>
         </div>
         <p>
-          {firstChapter.shortTitle}は{firstPages.length}ページ、合わせて約{firstChapter.readingMinutes}分です。
+          {firstChapter.shortTitle}は{firstPages.length}ページ、合わせて約{firstReadingMinutes}分です。
           上から順に読むと、地図ができた状態で次の章に入れます。
         </p>
       </div>

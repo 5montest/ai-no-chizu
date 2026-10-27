@@ -8,13 +8,21 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "test": "node --test \"test/**/*.test.ts\"",
     "fetch:models": "node scripts/fetch-model-data.mjs",
-    "validate:data": "node scripts/validate-data.mjs"
+    "validate:data": "node scripts/validate-data.mjs",
+    "validate:content": "node scripts/validate-content.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.4",
     "@astrojs/mdx": "^8.1.1",
     "astro": "^7.4.2",
     "mermaid": "^12.2.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@types/node": "^24.19.2",
+    "typescript": "^5.9.3",
+    "yaml": "^2.9.1"
   }
 }

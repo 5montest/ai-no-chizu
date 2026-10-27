@@ -1,0 +1,80 @@
+---
+import { nextTokenExample } from '../data/next-token-example';
+import { linearPercent } from '../lib/chart-scale';
+
+interface Props {
+  /** 図の下に出す但し書き。省略すると既定の注意書き。 */
+  caption?: string;
+}
+
+const { caption } = Astro.props;
+
+// 棒の長さは 0〜0.7 の固定スケールで描く。最大値に合わせて伸ばすと、
+// 別の図と並べたときに長さの意味が変わってしまう。
+const SCALE = nextTokenExample.axis;
+const TICKS = SCALE.ticks;
+
+const total = nextTokenExample.candidates.reduce((sum, item) => sum + item.probability, 0);
+if (Math.abs(total - 1) > 0.001) {
+  throw new Error(
+    `確率の合計が1になりません（${total}）。src/data/next-token-example.ts を確認してください。`,
+  );
+}
+
+const rows = nextTokenExample.candidates.map((item) => ({
+  label: item.label,
+  shortLabel: item.shortLabel,
+  percent: linearPercent(item.probability, SCALE.min, SCALE.max),
+  value: item.probability.toFixed(2),
+}));
+
+const tickMarks = TICKS.map((tick) => ({
+  percent: linearPercent(tick, SCALE.min, SCALE.max),
+  label: String(tick),
+}));
+
+const captionText =
+  caption ??
+  `${nextTokenExample.note}棒の長さは ${SCALE.min}〜${SCALE.max} の目盛りで、確率が同じなら同じ長さになります。「その他」は、残りの語彙すべてをまとめた行です。`;
+---
+
+<figure class="chart-plate" id="fig-next-token-probability">
+  <div class="chart-plate__head">
+    <span>グラフ</span>
+    <strong>「{nextTokenExample.prompt}」の次に来るトークンの確率（例）</strong>
+    <span class="chart-plate__note">例示・合計1</span>
+  </div>
+  <div class="chart-plate__body">
+    <div class="chart-bars">
+      <div class="chart-bars__plot">
+        <div class="chart-bars__grid" aria-hidden="true">
+          {tickMarks.map((tick) => <span style={`left:${tick.percent.toFixed(2)}%`}></span>)}
+        </div>
+        <ol class="chart-bars__rows">
+          {
+            rows.map((row) => (
+              <li class="chart-bar-row">
+                <span class="chart-bar-row__label">{row.shortLabel}</span>
+                <span class="chart-bar-row__track">
+                  <span
+                    class="chart-bar-row__fill"
+                    style={`width:${row.percent.toFixed(2)}%`}
+                  />
+                </span>
+                <span class="chart-bar-row__value">{row.value}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <div class="chart-bars__axis" aria-hidden="true">
+        <span></span>
+        <span class="chart-ticks">
+          {tickMarks.map((tick) => <span style={`left:${tick.percent.toFixed(2)}%`}>{tick.label}</span>)}
+        </span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  {captionText && <figcaption>{captionText}</figcaption>}
+</figure>

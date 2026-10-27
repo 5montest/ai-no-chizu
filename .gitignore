@@ -1,4 +1,5 @@
 node_modules/
 .astro/
 data/staging/
+.attachments/
 .DS_Store

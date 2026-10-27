@@ -1,23 +1,47 @@
 ---
 import raw from '../../data/model-comparison.json';
+import { sortModels, type SortKey } from '../lib/model-sort';
 
-const data = raw as {
-  verified_at: string;
-  source: string;
-  source_url: string;
-  note?: string;
-  models: Array<{
-    id: string;
-    name: string;
-    vendor: string;
-    tier: 'frontier' | 'balanced' | 'light';
-    context: number;
+type Model = {
+  id: string;
+  name: string;
+  vendor: string;
+  tier: 'frontier' | 'balanced' | 'light';
+  context: number;
+  pricing: {
     input: number;
     output: number;
-    open_weights: boolean;
-    note: string;
-  }>;
+    currency: string;
+    unit: string;
+    conditions: Record<string, unknown> | null;
+  };
+  open_weights: boolean | null;
+  open_weights_basis: 'curated' | 'hugging-face-id' | 'unverified';
+  licence: { name: string | null; verified: boolean };
+  note: string;
 };
+
+const data = raw as unknown as {
+  verified_at: string;
+  pricing_source: { name: string; kind: string; url: string; note: string };
+  note?: string;
+  models: Model[];
+};
+
+const INITIAL_SORT: SortKey = 'price';
+
+// 初期表示も並び替え後と同じ規則で並べる。ボタンの選択状態と実際の順番を
+// 一致させるため、並べ替えはブラウザ側だけに任せない。
+const byId = new Map(data.models.map((m) => [m.id, m]));
+const models = sortModels(
+  INITIAL_SORT,
+  data.models.map((m) => ({
+    id: m.id,
+    name: m.name,
+    context: m.context,
+    price: m.pricing.input,
+  })),
+).map((row) => byId.get(row.id) as Model);
 
 const tierLabel = { frontier: 'フロンティア', balanced: 'バランス', light: '軽量' };
 
@@ -33,85 +57,134 @@ function formatContext(value: number) {
 function formatPrice(value: number) {
   return Number.isInteger(value) ? String(value) : value.toFixed(2).replace(/0$/, '');
 }
+
+function formatDate(value: string) {
+  const [y, m, d] = value.split('-');
+  return `${Number(y)}年${Number(m)}月${Number(d)}日`;
+}
+
+const verifiedLabel = formatDate(data.verified_at);
+const conditionsKnown = data.models.some((m) => m.pricing.conditions !== null);
+const unverifiedWeights = data.models.filter((m) => m.open_weights === null).length;
 ---
 
-<div class="table-tools">
-  <p>並び替え：価格は入力 $/100万トークンの安い順、コンテキストは大きい順。</p>
-  <div class="table-sort" role="group" aria-label="表の並び替え">
-    <button type="button" data-sort="price" class="is-active">価格</button>
-    <button type="button" data-sort="context">コンテキスト</button>
-    <button type="button" data-sort="name">名前</button>
+<div class="model-table-scope" data-model-scope>
+  <div class="table-tools">
+    <p>並び替え：初期表示は入力単価の安い順。</p>
+    <div class="table-sort-group" role="group" aria-label="表の並び替え">
+      <button type="button" class="table-sort" data-sort="price" aria-pressed="true">
+        価格（安い順）
+      </button>
+      <button type="button" class="table-sort" data-sort="context" aria-pressed="false">
+        コンテキスト（大きい順）
+      </button>
+      <button type="button" class="table-sort" data-sort="name" aria-pressed="false">
+        名前（五十音順）
+      </button>
+    </div>
+    <p class="sr-only" role="status" aria-live="polite" data-table-status></p>
+  </div>
+
+  <div class="model-table-wrap">
+    <table class="model-table" data-model-table>
+      <caption class="sr-only">
+        {data.pricing_source.name}の公開単価（{verifiedLabel}確認）にもとづく代表的なモデルの価格とコンテキスト長。表は入力単価の安い順に並んでいる。
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">モデル</th>
+          <th scope="col">提供元</th>
+          <th scope="col">位置づけ</th>
+          <th scope="col">コンテキスト</th>
+          <th scope="col">入力 $/1M</th>
+          <th scope="col">出力 $/1M</th>
+          <th scope="col">重み</th>
+          <th scope="col">ひとこと</th>
+        </tr>
+      </thead>
+      <tbody>
+        {models.map((model) => (
+          <tr
+            data-id={model.id}
+            data-name={model.name}
+            data-context={model.context}
+            data-price={model.pricing.input}
+          >
+            <td>
+              <span class="name">{model.name}</span>
+              <span class="vendor">{model.id}</span>
+            </td>
+            <td>{model.vendor}</td>
+            <td><span class="badge">{tierLabel[model.tier]}</span></td>
+            <td class="num">{formatContext(model.context)}</td>
+            <td class="num">${formatPrice(model.pricing.input)}</td>
+            <td class="num price-out">${formatPrice(model.pricing.output)}</td>
+            <td>
+              {model.open_weights === true && <span class="badge badge--live">オープン</span>}
+              {model.open_weights === false && <span class="badge badge--planned">非公開</span>}
+              {model.open_weights === null && (
+                <span class="badge badge--planned" title="提供元の配布条件をまだ確認していません">
+                  未確認
+                </span>
+              )}
+              {model.licence.verified && model.licence.name && (
+                <span class="licence">{model.licence.name}</span>
+              )}
+            </td>
+            <td class="note">{model.note}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="model-table__legend">
+    <span><i class="legend-dot legend-dot--frontier"></i>フロンティア：最高性能帯</span>
+    <span><i class="legend-dot"></i>バランス：日常利用の中心</span>
+    <span><i class="legend-dot legend-dot--open"></i>オープン：重みが公開</span>
+    <span>単価は {data.pricing_source.name} の基本料金（再販価格）。{conditionsKnown ? '条件付き料金はモデルごとに注記。' : '長文入力・キャッシュなどの条件付き料金は未確認。'}</span>
+    {unverifiedWeights > 0 && <span>重み・ライセンスは「未確認」{unverifiedWeights}件。</span>}
+    <span>確認日 {verifiedLabel}</span>
   </div>
 </div>
 
-<div class="model-table-wrap">
-  <table class="model-table" data-model-table>
-    <caption class="sr-only">2026年10月27日時点の代表的なモデルの価格とコンテキスト長</caption>
-    <thead>
-      <tr>
-        <th scope="col">モデル</th>
-        <th scope="col">提供元</th>
-        <th scope="col">位置づけ</th>
-        <th scope="col">コンテキスト</th>
-        <th scope="col">入力 $/1M</th>
-        <th scope="col">出力 $/1M</th>
-        <th scope="col">重み</th>
-        <th scope="col">ひとこと</th>
-      </tr>
-    </thead>
-    <tbody>
-      {data.models.map((model) => (
-        <tr
-          data-input={model.input}
-          data-context={model.context}
-          data-name={model.name}
-        >
-          <td>
-            <span class="name">{model.name}</span>
-            <span class="vendor">{model.id}</span>
-          </td>
-          <td>{model.vendor}</td>
-          <td><span class="badge">{tierLabel[model.tier]}</span></td>
-          <td class="num">{formatContext(model.context)}</td>
-          <td class="num">${formatPrice(model.input)}</td>
-          <td class="num price-out">${formatPrice(model.output)}</td>
-          <td>{model.open_weights ? <span class="badge badge--live">オープン</span> : <span class="badge badge--planned">非公開</span>}</td>
-          <td class="note">{model.note}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-
-<div class="model-table__legend">
-  <span><i class="legend-dot legend-dot--frontier"></i>フロンティア：最高性能帯</span>
-  <span><i class="legend-dot"></i>バランス：日常利用の中心</span>
-  <span><i class="legend-dot legend-dot--open"></i>オープン：重みが公開</span>
-  <span>確認日 {data.verified_at}／{data.source}</span>
-</div>
-
 <script>
-  for (const table of document.querySelectorAll<HTMLElement>('[data-model-table]')) {
-    const tbody = table.querySelector('tbody');
-    const buttons = document.querySelectorAll<HTMLButtonElement>('[data-sort]');
+  import { sortModels, type SortKey } from '../lib/model-sort';
+
+  const LABELS: Record<SortKey, string> = {
+    price: '入力単価の安い順',
+    context: 'コンテキストの大きい順',
+    name: '名前の五十音順',
+  };
+
+  for (const scope of document.querySelectorAll<HTMLElement>('[data-model-scope]')) {
+    const table = scope.querySelector<HTMLElement>('[data-model-table]');
+    const tbody = table?.querySelector('tbody');
+    const buttons = [...scope.querySelectorAll<HTMLButtonElement>('[data-sort]')];
+    const status = scope.querySelector<HTMLElement>('[data-table-status]');
     if (!tbody) continue;
 
-    buttons.forEach((button) => {
-      button.addEventListener('click', () => {
-        buttons.forEach((b) => b.classList.toggle('is-active', b === button));
-        const key = button.dataset.sort;
-        const rows = [...tbody.querySelectorAll<HTMLTableRowElement>('tr')];
-        rows.sort((a, b) => {
-          if (key === 'name') {
-            return (a.dataset.name || '').localeCompare(b.dataset.name || '', 'ja');
-          }
-          if (key === 'context') {
-            return Number(b.dataset.context) - Number(a.dataset.context);
-          }
-          return Number(a.dataset.input) - Number(b.dataset.input);
-        });
-        tbody.replaceChildren(...rows);
-      });
-    });
+    const apply = (key: SortKey) => {
+      const rows = [...tbody.querySelectorAll<HTMLTableRowElement>('tr')].map((row) => ({
+        row,
+        id: row.dataset.id ?? '',
+        name: row.dataset.name ?? '',
+        context: Number(row.dataset.context),
+        price: Number(row.dataset.price),
+      }));
+      const sorted = sortModels(key, rows);
+      tbody.replaceChildren(...sorted.map((item) => item.row));
+
+      for (const button of buttons) {
+        const active = button.dataset.sort === key;
+        button.setAttribute('aria-pressed', String(active));
+      }
+      if (status) status.textContent = `${LABELS[key]}に並べ替えました（${rows.length}件）`;
+    };
+
+    // 初期表示はサーバー側で並べてある。aria-pressed もその状態で出力している。
+    for (const button of buttons) {
+      button.addEventListener('click', () => apply(button.dataset.sort as SortKey));
+    }
   }
 </script>

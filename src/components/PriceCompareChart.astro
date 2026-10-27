@@ -1,0 +1,124 @@
+---
+import raw from '../../data/model-comparison.json';
+import { sortModels } from '../lib/model-sort';
+import { PRICE_AXIS, logPercent } from '../lib/chart-scale';
+
+interface Props {
+  /** 図の下に出す但し書き。省略すると既定の注意書き。 */
+  caption?: string;
+}
+
+type Pricing = { input: number; output: number; currency: string; unit: string };
+
+const data = raw as unknown as {
+  verified_at: string;
+  models: { id: string; name: string; pricing: Pricing }[];
+};
+
+const { caption } = Astro.props;
+
+// 単価は 0.1〜50 の範囲に 500 倍の開きがある。線形の軸だと安いモデルが
+// 1本の線に潰れるので、対数軸にして「何倍か」がそのまま距離になるようにする。
+const DOMAIN = { min: PRICE_AXIS.min, max: PRICE_AXIS.max };
+const TICKS = PRICE_AXIS.ticks;
+
+// 表と同じ並び（入力単価の安い順）にそろえる。
+const rows = sortModels(
+  'price',
+  data.models.map((m) => ({
+    id: m.id,
+    name: m.name,
+    context: 0,
+    price: m.pricing.input,
+  })),
+).map((row) => {
+  const model = data.models.find((m) => m.id === row.id) as { name: string; pricing: Pricing };
+  return {
+    name: model.name,
+    input: model.pricing.input,
+    output: model.pricing.output,
+    inputPercent: logPercent(model.pricing.input, DOMAIN.min, DOMAIN.max),
+    outputPercent: logPercent(model.pricing.output, DOMAIN.min, DOMAIN.max),
+  };
+});
+
+if (rows.some((row) => row.output < row.input)) {
+  throw new Error(
+    '出力単価が入力単価を下回るモデルがあります。この図は出力が右に来る前提で描いています（data/model-comparison.json）。',
+  );
+}
+
+// 対数軸なので目盛りの間隔は等しくない。線の位置は値から計算し、
+// 目盛りの文字も同じ計算結果の位置に置く。
+const tickMarks = TICKS.map((tick) => ({
+  percent: logPercent(tick, DOMAIN.min, DOMAIN.max),
+  label: `$${tick}`,
+}));
+
+const formatPrice = (value: number) =>
+  Number.isInteger(value) ? `$${value}` : `$${value.toFixed(2).replace(/0$/, '')}`;
+
+const captionText =
+  caption ??
+  `OpenRouter の基本料金（${data.verified_at} 時点・$／100万トークン）。横軸は対数なので、同じ幅は同じ倍率を表します。長文入力・キャッシュ・バッチなどの条件付き料金は含みません。同じ値はこの章の比較表に載せています。`;
+---
+
+<figure class="chart-plate" id="fig-price-spread">
+  <div class="chart-plate__head">
+    <span>グラフ</span>
+    <strong>入力単価と出力単価の広がり（{rows.length}モデル）</strong>
+    <span class="chart-plate__note">入力単価の安い順・対数軸</span>
+  </div>
+  <div class="chart-plate__body">
+    <div class="chart-dumbbell">
+      <ul class="chart-dumbbell__legend">
+        <li>
+          <span class="chart-dumbbell__swatch chart-dumbbell__swatch--in"></span>入力
+        </li>
+        <li>
+          <span class="chart-dumbbell__swatch chart-dumbbell__swatch--out"></span>出力
+        </li>
+      </ul>
+      <div class="chart-dumbbell__plot">
+        <div class="chart-dumbbell__grid" aria-hidden="true">
+          {tickMarks.map((tick) => <span style={`left:${tick.percent.toFixed(2)}%`}></span>)}
+        </div>
+        <ul class="chart-dumbbell__rows">
+          {
+            rows.map((row) => (
+              <li class="chart-dumbbell__row">
+                <span class="chart-dumbbell__name">
+                  <span aria-hidden="true">{row.name}</span>
+                  <span class="visually-hidden">
+                    {row.name}、入力 {formatPrice(row.input)}、出力 {formatPrice(row.output)}
+                  </span>
+                </span>
+                <span class="chart-dumbbell__track" aria-hidden="true">
+                  <span
+                    class="chart-dumbbell__link"
+                    style={`left:${row.inputPercent.toFixed(2)}%;width:${(row.outputPercent - row.inputPercent).toFixed(2)}%`}
+                  />
+                  <span
+                    class="chart-dumbbell__dot chart-dumbbell__dot--in"
+                    style={`left:${row.inputPercent.toFixed(2)}%`}
+                  />
+                  <span
+                    class="chart-dumbbell__dot chart-dumbbell__dot--out"
+                    style={`left:${row.outputPercent.toFixed(2)}%`}
+                  />
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="chart-dumbbell__axis" aria-hidden="true">
+        <span></span>
+        <span class="chart-ticks">
+          {tickMarks.map((tick) => <span style={`left:${tick.percent.toFixed(2)}%`}>{tick.label}</span>)}
+        </span>
+      </div>
+    </div>
+  </div>
+  {captionText && <figcaption>{captionText}</figcaption>}
+</figure>

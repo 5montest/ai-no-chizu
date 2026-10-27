@@ -9,7 +9,7 @@ interface Props {
 const { slugs } = Astro.props;
 const terms = slugs
   .map((slug) => glossary.terms.find((t) => t.slug === slug))
-  .filter(Boolean);
+  .filter((term): term is NonNullable<typeof term> => Boolean(term));
 ---
 
 {terms.length > 0 && (

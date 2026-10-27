@@ -1,0 +1,37 @@
+name: CI
+
+# 記事・データ・コードのどれが壊れてもここで止める。
+# 型チェックとテストの対象は src だけでなく scripts / test も含む。
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: 依存をインストール
+        run: npm ci
+
+      - name: 型チェック
+        run: npm run check
+
+      - name: モデルデータの形式
+        run: npm run validate:data
+
+      - name: 記事・用語・図・リンクの整合性
+        run: npm run validate:content
+
+      - name: テスト
+        run: npm test
+
+      - name: ビルド
+        run: npm run build

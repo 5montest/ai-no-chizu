@@ -6,12 +6,21 @@
  * 公開データ（data/model-comparison.json）はこのスクリプトでは更新しない。
  * 差分を確認し、内容を承認した人が手動で昇格する。
  *
+ * API に無いモデルは「取得できなかった」として記録するだけで、公開データからは消さない。
+ * 料金は OpenRouter の基本単価であり、長文入力・キャッシュなどの条件付き料金や
+ * 重みの公開可否は API から分からないため、人が確認するまで未確認のままにする。
+ *
  * 使い方:
  *   npm run fetch:models
  *   npm run fetch:models -- --dry-run
  */
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import {
+  PRICING_SOURCE,
+  diffModels,
+  mergeModels,
+} from './lib/merge-model-data.mjs';
 
 const ROOT = process.cwd();
 const PUBLISHED = path.join(ROOT, 'data/model-comparison.json');
@@ -43,12 +52,6 @@ function todayJst() {
   return jst.toISOString().slice(0, 10);
 }
 
-function toPerMillion(value) {
-  const n = Number(value) * 1_000_000;
-  if (!Number.isFinite(n) || n < 0) return null;
-  return Math.round(n * 1000) / 1000;
-}
-
 async function readJson(file) {
   try {
     return JSON.parse(await fs.readFile(file, 'utf8'));
@@ -58,6 +61,7 @@ async function readJson(file) {
 }
 
 async function main() {
+  const today = todayJst();
   console.log(`OpenRouter からモデル一覧を取得: ${API}`);
   const res = await fetch(API, {
     headers: { accept: 'application/json' },
@@ -67,68 +71,33 @@ async function main() {
   const payload = await res.json();
   if (!Array.isArray(payload?.data)) throw new Error('API 応答に data 配列がありません');
 
-  const byId = new Map(payload.data.map((m) => [m.id, m]));
+  const apiModels = new Map(payload.data.map((m) => [m.id, m]));
   const published = await readJson(PUBLISHED);
-  const noteById = new Map(
-    (published?.models ?? []).map((m) => [m.source_id, m.note]),
-  );
 
-  const models = [];
-  const missing = [];
-  for (const sourceId of TARGETS) {
-    const raw = byId.get(sourceId);
-    if (!raw) {
-      missing.push(sourceId);
-      continue;
-    }
-    const input = toPerMillion(raw.pricing?.prompt);
-    const output = toPerMillion(raw.pricing?.completion);
-    if (input === null || output === null) {
-      missing.push(`${sourceId}（価格が不正）`);
-      continue;
-    }
-    const prev = published?.models?.find((m) => m.source_id === sourceId);
-    const id = prev?.id ?? sourceId.split('/').pop().replaceAll('.', '-');
-    models.push({
-      id,
-      name: raw.name.replace(/^[^:]+:\s*/, ''),
-      vendor: prev?.vendor ?? raw.name.split(':')[0],
-      tier: prev?.tier ?? 'balanced',
-      context: raw.context_length,
-      input,
-      output,
-      open_weights: Boolean(raw.hugging_face_id) || Boolean(prev?.open_weights),
-      note: noteById.get(sourceId) ?? '',
-      source_id: sourceId,
-    });
-  }
+  const { models, unavailable, carried } = mergeModels({
+    targets: TARGETS,
+    apiModels,
+    published,
+    today,
+    onHint: (line) => console.log(`  ※ ${line}`),
+  });
 
   const output = {
-    verified_at: todayJst(),
-    source: 'OpenRouter Models API',
-    source_url: API,
+    // verified_at は人が内容を承認した日。機械取得では進めない。
+    verified_at: published?.verified_at ?? today,
+    pricing_source: published?.pricing_source ?? PRICING_SOURCE,
     method:
-      '公開APIのモデル一覧から代表的なモデルを抜粋し、コンテキスト長とトークン単価を記録した。能力・品質の順位は含まない。',
-    note: published?.note ?? '',
+      published?.method ??
+      '公開APIのモデル一覧から代表的なモデルを抜粋し、コンテキスト長と基本のトークン単価を記録した。能力・品質の順位は含まない。',
+    note:
+      'price は基本料金のみ。長文入力・キャッシュ・バッチなどの条件付き料金は未確認（conditions: null）として扱う。重みの公開可否とライセンスは提供元の配布条件で決まるため、未確認の項目はそのまま未確認として残す。',
     models,
   };
 
-  console.log(`取得: ${models.length}件 / 未取得: ${missing.length}件`);
-  for (const id of missing) console.warn(`  - 未取得: ${id}`);
+  console.log(`取得: ${models.length}件 / 取得できず: ${unavailable.length}件`);
+  for (const line of unavailable) console.warn(`  - 未取得: ${line}`);
 
-  const changes = [];
-  for (const m of models) {
-    const prev = published?.models?.find((p) => p.source_id === m.source_id);
-    if (!prev) {
-      changes.push(`追加: ${m.name}`);
-      continue;
-    }
-    for (const key of ['context', 'input', 'output']) {
-      if (prev[key] !== m[key]) {
-        changes.push(`変更: ${m.name} ${key} ${prev[key]} → ${m[key]}`);
-      }
-    }
-  }
+  const changes = diffModels({ models, published, carried });
   console.log(changes.length ? '公開データとの差分:' : '公開データとの差分: なし');
   for (const line of changes) console.log(`  - ${line}`);
 
@@ -140,7 +109,9 @@ async function main() {
   await fs.mkdir(STAGING_DIR, { recursive: true });
   await fs.writeFile(STAGING, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
   console.log(`staging に書き出しました: ${path.relative(ROOT, STAGING)}`);
-  console.log('内容と差分を確認してから data/model-comparison.json へ昇格してください。');
+  console.log(
+    '差分と未確認項目を確認し、必要なら verified_at を今日の日付にしてから data/model-comparison.json へ昇格してください。',
+  );
 }
 
 main().catch((err) => {

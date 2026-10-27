@@ -56,6 +56,7 @@ sources:
 import ModelTable from '../../../components/ModelTable.astro';
 import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import PriceCompareChart from '../../../components/PriceCompareChart.astro';
 
 モデル選びでは、品質の話に注目が集まりがちです。しかし実際の運用では、**価格・文脈長・速度**が導入の可否を決めることが少なくありません。ここでは、この三つをどう読み、どう比べるかを整理します。
 
@@ -79,6 +80,8 @@ APIの料金は、通常、100万トークンあたりの単価で示されま�
 - 失敗と再試行。やり直しの分も課金される。
 
 見積もりには、余裕を持たせます。
+
+<PriceCompareChart />
 
 ## 文脈長は「入れられる量」
 

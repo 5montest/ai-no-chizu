@@ -9,7 +9,8 @@ import SourceList from '../../../components/SourceList.astro';
 import RelatedTerms from '../../../components/RelatedTerms.astro';
 import PageNav from '../../../components/PageNav.astro';
 import curriculum from '../../../data/curriculum.json';
-import { withBase, SITE } from '../../../lib/site.mjs';
+import { withBase, SITE, BASE } from '../../../lib/site.mjs';
+import { buildCourseOrder, neighbours, toNavItem } from '../../../lib/course-nav.mjs';
 
 export async function getStaticPaths() {
   const entries = await getCollection('chapters');
@@ -38,15 +39,16 @@ const pages = siblings.map((e) => ({
   order: e.data.order,
 }));
 
-const index = siblings.findIndex((e) => e.id === entry.id);
-const prevEntry = siblings[index - 1];
-const nextEntry = siblings[index + 1];
-const prev = prevEntry
-  ? { href: withBase(`/chapters/${chapterId}/${prevEntry.id.split('/')[1]}/`), title: prevEntry.data.title }
-  : undefined;
-const next = nextEntry
-  ? { href: withBase(`/chapters/${chapterId}/${nextEntry.id.split('/')[1]}/`), title: nextEntry.data.title }
-  : undefined;
+// 前後は章の中で閉じず、公開中の章をまたいで学習順につなぐ。
+// 未公開の章は course-nav 側で除外されるので、存在しないページへは進まない。
+const course = buildCourseOrder(await getCollection('chapters'), curriculum);
+const position = neighbours(course, entry.id);
+const prev = toNavItem(position?.prev, chapterId, BASE);
+const next = toNavItem(position?.next, chapterId, BASE);
+const indexInCourse = position?.current.indexInCourse ?? 0;
+const totalInCourse = position?.current.totalInCourse ?? 0;
+const indexInChapter = position?.current.indexInChapter ?? data.order;
+const pagesInChapter = position?.current.pagesInChapter ?? siblings.length;
 
 const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展' } as Record<string, string>;
 ---
@@ -69,52 +71,60 @@ const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展'
         </div>
 
         <article class="article-main">
-          <header class="article-head">
-            <p class="article-head__chapter">
-              <a href={withBase(`/chapters/${chapterId}/`)}>
-                第{chapterId}章 {chapter?.shortTitle}
-              </a>
-            </p>
-            <h1>{data.title}</h1>
-            <p class="article-head__desc">{data.description}</p>
-            <dl class="article-head__meta">
-              <div>
-                <dt>レベル</dt>
-                <dd>{levelLabel[data.level] ?? data.level}</dd>
-              </div>
-              <div>
-                <dt>読了</dt>
-                <dd>約{data.readingMinutes}分</dd>
-              </div>
-              <div>
-                <dt>位置</dt>
-                <dd>{siblings.length}ページ中{data.order}</dd>
-              </div>
-              <div>
-                <dt>{data.updated === SITE.published ? '公開' : '更新'}</dt>
-                <dd>{data.updated}</dd>
-              </div>
-            </dl>
-          </header>
+          <div class="article-lead">
+            <header class="article-head">
+              <p class="article-head__chapter">
+                <a href={withBase(`/chapters/${chapterId}/`)}>
+                  第{chapterId}章 {chapter?.shortTitle}
+                </a>
+              </p>
+              <h1>{data.title}</h1>
+              <p class="article-head__desc">{data.description}</p>
+              <dl class="article-head__meta">
+                <div>
+                  <dt>レベル</dt>
+                  <dd>{levelLabel[data.level] ?? data.level}</dd>
+                </div>
+                <div>
+                  <dt>読了</dt>
+                  <dd>約{data.readingMinutes}分</dd>
+                </div>
+                <div>
+                  <dt>この章</dt>
+                  <dd>{pagesInChapter}ページ中{indexInChapter}</dd>
+                </div>
+                <div>
+                  <dt>学習順</dt>
+                  <dd>{totalInCourse}ページ中{indexInCourse}</dd>
+                </div>
+                <div>
+                  <dt>{data.updated === SITE.published ? '公開' : '更新'}</dt>
+                  <dd>{data.updated}</dd>
+                </div>
+              </dl>
+            </header>
 
-          <section class="summary-box" aria-label="3行の要点">
-            <p class="summary-box__label">3行の要点</p>
-            <ul>
-              {data.summary.map((line) => <li>{line}</li>)}
-            </ul>
-          </section>
-
-          <div class="prose">
-            <Content />
+            <section class="summary-box" aria-label="3行の要点">
+              <p class="summary-box__label">3行の要点</p>
+              <ul>
+                {data.summary.map((line) => <li>{line}</li>)}
+              </ul>
+            </section>
           </div>
 
-          <Quiz questions={data.quiz} />
+          <div class="article-body">
+            <div class="prose">
+              <Content />
+            </div>
 
-          <SourceList sources={data.sources} />
+            <Quiz questions={data.quiz} />
 
-          <RelatedTerms slugs={data.glossary} />
+            <SourceList sources={data.sources} />
 
-          <PageNav prev={prev} next={next} />
+            <RelatedTerms slugs={data.glossary} />
+
+            <PageNav prev={prev} next={next} />
+          </div>
         </article>
       </div>
     </div>

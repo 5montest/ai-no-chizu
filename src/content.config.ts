@@ -2,12 +2,19 @@ import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-const quizSchema = z.object({
-  question: z.string(),
-  options: z.array(z.string()).min(2).max(4),
-  answer: z.number().int().min(0),
-  explanation: z.string(),
-});
+const quizSchema = z
+  .object({
+    question: z.string(),
+    options: z.array(z.string()).min(2).max(4),
+    answer: z.number().int().min(0),
+    explanation: z.string(),
+  })
+  // 表示時に選択肢を並べ替えるので、answer は「元の並びでの正解の位置」。
+  // 範囲外の番号は採点を黙って壊すため、スキーマの段階で止める。
+  .refine((quiz) => quiz.answer < quiz.options.length, {
+    message: 'answer が選択肢の数以上になっています',
+    path: ['answer'],
+  });
 
 const sourceSchema = z.object({
   title: z.string(),

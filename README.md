@@ -1,6 +1,6 @@
 # AIの地図
 
-AIの仕組みや活用方法を基礎から学べる解説サイトです。設計書 `ai-guide-outline.md` をもとに、内容を章ごとの短いページに分けています。Astro と MDX で構築した静的サイトで、検索、用語辞典、ページ間の相互参照、クイズを利用できます。
+AIの仕組みや活用方法を基礎から学べる解説サイトです。`docs/ai-guide-outline.md` の構成案をもとに、内容を章ごとの短いページに分けています。Astro と MDX で構築した静的サイトで、検索、用語辞典、ページ間の相互参照、クイズを利用できます。
 
 確認用URL（ローカルネットワーク内）: <http://192.168.8.10:8090/20261027-website-design-implementation/>
 
@@ -13,9 +13,11 @@ AIの仕組みや活用方法を基礎から学べる解説サイトです。設
 ├── public/favicon.svg
 ├── data/
 │   └── model-comparison.json  # 公開用のモデル比較データ（確認日つき）
+├── docs/                      # 章構成案、スライド化の設計
 ├── scripts/
-│   ├── fetch-model-data.mjs   # 取得して data/staging/ に書く
-│   └── validate-data.mjs      # スキーマ・日付・単価を検証
+│   ├── fetch-model-data.mjs   # 比較データを取得して staging に保存
+│   ├── validate-data.mjs      # 比較データを検証
+│   └── validate-content.mjs   # 記事・用語・図の参照関係を検証
 ├── src/
 │   ├── content.config.ts      # frontmatter のスキーマ
 │   ├── content/chapters/      # 章ごとの MDX ファイル
@@ -24,6 +26,8 @@ AIの仕組みや活用方法を基礎から学べる解説サイトです。設
 │   ├── pages/                 # 動的ルート、検索用 JSON、用語辞典、クイズ
 │   ├── data/                  # カリキュラム、用語、図の定義
 │   └── plugins/               # [[用語]]・[[ch:...]] を解決する remark
+├── test/                      # テスト
+├── .github/workflows/ci.yml   # GitHub Actions の検証
 └── site/                      # ビルド成果物
 ```
 
@@ -35,7 +39,9 @@ npm run dev          # 開発サーバー
 npm run build        # site/ へ静的生成
 npm run preview      # 生成物の確認
 npm run check        # 型・テンプレートの検査
+npm run test         # テスト
 npm run validate:data
+npm run validate:content
 npm run fetch:models # 比較データの取得（staging のみ更新）
 ```
 

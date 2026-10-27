@@ -1,9 +1,13 @@
 {
   "verified_at": "2026-10-27",
-  "source": "OpenRouter Models API",
-  "source_url": "https://openrouter.ai/api/v1/models",
-  "method": "公開APIのモデル一覧から代表的なモデルを抜粋し、コンテキスト長とトークン単価を記録した。能力・品質の順位は含まない。",
-  "note": "価格は1トークンあたりUSDを100万トークン換算したもの。実際の請求はプロバイダ、キャッシュ利用、バッチ割引、為替で変わる。オープンウェイトの可否は配布元のライセンス確認が必要。",
+  "pricing_source": {
+    "name": "OpenRouter Models API",
+    "kind": "reseller",
+    "url": "https://openrouter.ai/api/v1/models",
+    "note": "料金は OpenRouter 経由の単価で、各社が公式 API で公開している単価とは一致しない場合がある。公式価格は各社の料金ページで確認すること。"
+  },
+  "method": "公開APIのモデル一覧から代表的なモデルを抜粋し、コンテキスト長と基本のトークン単価を記録した。能力・品質の順位は含まない。",
+  "note": "price は基本料金のみ。長文入力・キャッシュ・バッチなどの条件付き料金は未確認（conditions: null）として扱う。重みの公開可否とライセンスは提供元の配布条件で決まるため、未確認の項目はそのまま未確認として残す。",
   "models": [
     {
       "id": "claude-fable-5-1",
@@ -11,11 +15,20 @@
       "vendor": "Anthropic",
       "tier": "frontier",
       "context": 1000000,
-      "input": 10,
-      "output": 50,
+      "pricing": {
+        "input": 10,
+        "output": 50,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
       "open_weights": false,
-      "note": "最高価格帯のフロンティア。費用対効果を測ってから限定採用したい。",
-      "source_id": "anthropic/claude-fable-5.1"
+      "open_weights_basis": "curated",
+      "licence": { "name": null, "verified": false },
+      "source_id": "anthropic/claude-fable-5.1",
+      "source_url": "https://openrouter.ai/anthropic/claude-fable-5.1",
+      "fetched_at": "2026-10-27",
+      "note": "最高価格帯のフロンティア。費用対効果を測ってから限定採用したい。"
     },
     {
       "id": "claude-opus-5-5",
@@ -23,11 +36,20 @@
       "vendor": "Anthropic",
       "tier": "frontier",
       "context": 1000000,
-      "input": 4,
-      "output": 20,
+      "pricing": {
+        "input": 4,
+        "output": 20,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
       "open_weights": false,
-      "note": "設計書が2026-10-27に確認したIntelligence上位の一例。条件により順位は変わる。",
-      "source_id": "anthropic/claude-opus-5.5"
+      "open_weights_basis": "curated",
+      "licence": { "name": null, "verified": false },
+      "source_id": "anthropic/claude-opus-5.5",
+      "source_url": "https://openrouter.ai/anthropic/claude-opus-5.5",
+      "fetched_at": "2026-10-27",
+      "note": "設計書が2026-10-27に確認したIntelligence上位の一例。条件により順位は変わる。"
     },
     {
       "id": "claude-sonnet-5-5",
@@ -35,11 +57,20 @@
       "vendor": "Anthropic",
       "tier": "balanced",
       "context": 1000000,
-      "input": 2,
-      "output": 10,
+      "pricing": {
+        "input": 2,
+        "output": 10,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
       "open_weights": false,
-      "note": "品質と価格のバランス型。同じ確認例で上位に表示される。",
-      "source_id": "anthropic/claude-sonnet-5.5"
+      "open_weights_basis": "curated",
+      "licence": { "name": null, "verified": false },
+      "source_id": "anthropic/claude-sonnet-5.5",
+      "source_url": "https://openrouter.ai/anthropic/claude-sonnet-5.5",
+      "fetched_at": "2026-10-27",
+      "note": "品質と価格のバランス型。同じ確認例で上位に表示される。"
     },
     {
       "id": "claude-haiku-5-5",
@@ -47,11 +78,20 @@
       "vendor": "Anthropic",
       "tier": "light",
       "context": 1000000,
-      "input": 0.1,
-      "output": 0.5,
+      "pricing": {
+        "input": 0.1,
+        "output": 0.5,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
       "open_weights": false,
-      "note": "分類・抽出・下書きなど、量をさばく用途の候補。",
-      "source_id": "anthropic/claude-haiku-5.5"
+      "open_weights_basis": "curated",
+      "licence": { "name": null, "verified": false },
+      "source_id": "anthropic/claude-haiku-5.5",
+      "source_url": "https://openrouter.ai/anthropic/claude-haiku-5.5",
+      "fetched_at": "2026-10-27",
+      "note": "分類・抽出・下書きなど、量をさばく用途の候補。"
     },
     {
       "id": "gpt-6-1-sol-pro",
@@ -59,11 +99,20 @@
       "vendor": "OpenAI",
       "tier": "frontier",
       "context": 1050000,
-      "input": 2,
-      "output": 10,
+      "pricing": {
+        "input": 2,
+        "output": 10,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
       "open_weights": false,
-      "note": "GPT-6.1系の上位モデル。API名とチャット製品名は別なので混同しない。",
-      "source_id": "openai/gpt-6.1-sol-pro"
+      "open_weights_basis": "curated",
+      "licence": { "name": null, "verified": false },
+      "source_id": "openai/gpt-6.1-sol-pro",
+      "source_url": "https://openrouter.ai/openai/gpt-6.1-sol-pro",
+      "fetched_at": "2026-10-27",
+      "note": "GPT-6.1系の上位モデル。API名とチャット製品名は別なので混同しない。"
     },
     {
       "id": "gpt-6-1-terra-pro",
@@ -71,11 +120,20 @@
       "vendor": "OpenAI",
       "tier": "balanced",
       "context": 1050000,
-      "input": 1,
-      "output": 5,
+      "pricing": {
+        "input": 1,
+        "output": 5,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
       "open_weights": false,
-      "note": "Sol Proより低単価な上位モデル。出力単価の差が大きい。",
-      "source_id": "openai/gpt-6.1-terra-pro"
+      "open_weights_basis": "curated",
+      "licence": { "name": null, "verified": false },
+      "source_id": "openai/gpt-6.1-terra-pro",
+      "source_url": "https://openrouter.ai/openai/gpt-6.1-terra-pro",
+      "fetched_at": "2026-10-27",
+      "note": "Sol Proより低単価な上位モデル。出力単価の差が大きい。"
     },
     {
       "id": "gemini-4-argon",
@@ -83,11 +141,20 @@
       "vendor": "Google",
       "tier": "frontier",
       "context": 1048576,
-      "input": 2,
-      "output": 10,
+      "pricing": {
+        "input": 2,
+        "output": 10,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
       "open_weights": false,
-      "note": "長いコンテキストを扱う比較候補。入力の大きさと出力の長さを分けて見積もる。",
-      "source_id": "google/gemini-4-argon"
+      "open_weights_basis": "curated",
+      "licence": { "name": null, "verified": false },
+      "source_id": "google/gemini-4-argon",
+      "source_url": "https://openrouter.ai/google/gemini-4-argon",
+      "fetched_at": "2026-10-27",
+      "note": "長いコンテキストを扱う比較候補。入力の大きさと出力の長さを分けて見積もる。"
     },
     {
       "id": "gemini-3-8-flash",
@@ -95,11 +162,20 @@
       "vendor": "Google",
       "tier": "light",
       "context": 1048576,
-      "input": 0.825,
-      "output": 4.125,
+      "pricing": {
+        "input": 0.825,
+        "output": 4.125,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
       "open_weights": false,
-      "note": "低遅延・大量処理の候補。単価は入力より出力が高い。",
-      "source_id": "google/gemini-3.8-flash"
+      "open_weights_basis": "curated",
+      "licence": { "name": null, "verified": false },
+      "source_id": "google/gemini-3.8-flash",
+      "source_url": "https://openrouter.ai/google/gemini-3.8-flash",
+      "fetched_at": "2026-10-27",
+      "note": "低遅延・大量処理の候補。単価は入力より出力が高い。"
     },
     {
       "id": "grok-4-7",
@@ -107,11 +183,20 @@
       "vendor": "xAI",
       "tier": "balanced",
       "context": 500000,
-      "input": 2,
-      "output": 6,
+      "pricing": {
+        "input": 2,
+        "output": 6,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
       "open_weights": false,
-      "note": "コンテキスト長は他社のフロンティアより短い。長文用途では注意。",
-      "source_id": "x-ai/grok-4.7"
+      "open_weights_basis": "curated",
+      "licence": { "name": null, "verified": false },
+      "source_id": "x-ai/grok-4.7",
+      "source_url": "https://openrouter.ai/x-ai/grok-4.7",
+      "fetched_at": "2026-10-27",
+      "note": "コンテキスト長は他社のフロンティアより短い。長文用途では注意。"
     },
     {
       "id": "deepseek-v4-1-flash",
@@ -119,11 +204,20 @@
       "vendor": "DeepSeek",
       "tier": "light",
       "context": 1048576,
-      "input": 0.14,
-      "output": 0.42,
-      "open_weights": true,
-      "note": "低価格帯。重みが公開されているため、条件を満たせばローカル実行も選択肢になる。",
-      "source_id": "deepseek/deepseek-v4.1-flash"
+      "pricing": {
+        "input": 0.14,
+        "output": 0.42,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
+      "open_weights": null,
+      "open_weights_basis": "unverified",
+      "licence": { "name": null, "verified": false },
+      "source_id": "deepseek/deepseek-v4.1-flash",
+      "source_url": "https://openrouter.ai/deepseek/deepseek-v4.1-flash",
+      "fetched_at": "2026-10-27",
+      "note": "低価格帯。重みが公開されているかは未確認のため、ここでは判定していない。ライセンスの条件も未確認。"
     },
     {
       "id": "qwen3-8-27b",
@@ -131,11 +225,20 @@
       "vendor": "Qwen",
       "tier": "light",
       "context": 1000000,
-      "input": 0.2,
-      "output": 2.5,
-      "open_weights": true,
-      "note": "27B級のオープンウェイト。自前環境では量子化とメモリ帯域が速度を左右する。",
-      "source_id": "qwen/qwen3.8-27b"
+      "pricing": {
+        "input": 0.2,
+        "output": 2.5,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
+      "open_weights": null,
+      "open_weights_basis": "unverified",
+      "licence": { "name": null, "verified": false },
+      "source_id": "qwen/qwen3.8-27b",
+      "source_url": "https://openrouter.ai/qwen/qwen3.8-27b",
+      "fetched_at": "2026-10-27",
+      "note": "27B級の小型モデル。重みの公開可否とライセンスの条件は未確認。自前環境で動かす場合は、量子化とメモリ帯域が速度を左右する。"
     },
     {
       "id": "qwen3-8-max-prime",
@@ -143,11 +246,20 @@
       "vendor": "Qwen",
       "tier": "frontier",
       "context": 1000000,
-      "input": 4,
-      "output": 12,
+      "pricing": {
+        "input": 4,
+        "output": 12,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
       "open_weights": false,
-      "note": "Qwenの上位APIモデル。オープンウェイトの27Bとは別の製品として扱う。",
-      "source_id": "qwen/qwen3.8-max-prime"
+      "open_weights_basis": "curated",
+      "licence": { "name": null, "verified": false },
+      "source_id": "qwen/qwen3.8-max-prime",
+      "source_url": "https://openrouter.ai/qwen/qwen3.8-max-prime",
+      "fetched_at": "2026-10-27",
+      "note": "Qwenの上位APIモデル。オープンウェイトの27Bとは別の製品として扱う。"
     },
     {
       "id": "mistral-large-4",
@@ -155,11 +267,20 @@
       "vendor": "Mistral",
       "tier": "balanced",
       "context": 1048576,
-      "input": 1.36,
-      "output": 4.18,
+      "pricing": {
+        "input": 1.36,
+        "output": 4.18,
+        "currency": "USD",
+        "unit": "per_1m_tokens",
+        "conditions": null
+      },
       "open_weights": false,
-      "note": "欧州系の選択肢。多言語・社内規程の条件と合わせて評価する。",
-      "source_id": "mistralai/mistral-large-4-0"
+      "open_weights_basis": "curated",
+      "licence": { "name": null, "verified": false },
+      "source_id": "mistralai/mistral-large-4-0",
+      "source_url": "https://openrouter.ai/mistralai/mistral-large-4-0",
+      "fetched_at": "2026-10-27",
+      "note": "欧州系の選択肢。多言語・社内規程の条件と合わせて評価する。"
     }
   ]
 }

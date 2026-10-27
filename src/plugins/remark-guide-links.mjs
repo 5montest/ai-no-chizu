@@ -1,9 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { normalizeBase } from '../lib/site.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-const BASE = '/20261027-website-design-implementation/site';
 
 let cache = null;
 
@@ -49,14 +49,6 @@ function loadGuide() {
 
 const WIKI_LINK = /\[\[([^\]\n]+)\]\]/g;
 
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;');
-}
-
 function parseInner(inner) {
   const [target, ...rest] = inner.split('|');
   return {
@@ -65,7 +57,7 @@ function parseInner(inner) {
   };
 }
 
-function makeGlossaryLink(target, label, terms, file) {
+function makeGlossaryLink(target, label, terms, file, base) {
   const term = terms.get(target);
   if (!term) {
     throw new Error(
@@ -74,7 +66,7 @@ function makeGlossaryLink(target, label, terms, file) {
   }
   return {
     type: 'link',
-    url: `${BASE}/glossary/${term.slug}/`,
+    url: `${base}/glossary/${term.slug}/`,
     title: term.term,
     data: {
       hProperties: {
@@ -86,7 +78,7 @@ function makeGlossaryLink(target, label, terms, file) {
   };
 }
 
-function makeChapterLink(target, label, chapters, pages, file) {
+function makeChapterLink(target, label, chapters, pages, file, base) {
   const raw = target.slice(3).replace(/^\/+|\/+$/g, '');
   const [chapterId, pageSlug] = raw.split('/');
   const chapter = chapters.get(chapterId);
@@ -99,7 +91,7 @@ function makeChapterLink(target, label, chapters, pages, file) {
   if (!pageSlug) {
     return {
       type: 'link',
-      url: `${BASE}/chapters/${chapterId}/`,
+      url: `${base}/chapters/${chapterId}/`,
       title: chapter.title,
       data: { hProperties: { className: ['xref-link'] } },
       children: [
@@ -120,14 +112,14 @@ function makeChapterLink(target, label, chapters, pages, file) {
   }
   return {
     type: 'link',
-    url: `${BASE}/chapters/${chapterId}/${pageSlug}/`,
+    url: `${base}/chapters/${chapterId}/${pageSlug}/`,
     title: pageTitle,
     data: { hProperties: { className: ['xref-link'] } },
     children: [{ type: 'text', value: label || pageTitle }],
   };
 }
 
-function splitTextNode(value, file) {
+function splitTextNode(value, file, base) {
   const { chapters, terms, pages } = loadGuide();
   const out = [];
   let last = 0;
@@ -140,9 +132,9 @@ function splitTextNode(value, file) {
     }
     const { target, label } = parseInner(match[1]);
     if (target.startsWith('ch:')) {
-      out.push(makeChapterLink(target, label, chapters, pages, file));
+      out.push(makeChapterLink(target, label, chapters, pages, file, base));
     } else {
-      out.push(makeGlossaryLink(target, label, terms, file));
+      out.push(makeGlossaryLink(target, label, terms, file, base));
     }
     last = match.index + match[0].length;
   }
@@ -168,7 +160,7 @@ const SKIP = new Set([
 ]);
 
 /** Markdown 内のサイト内絶対リンクに base を付ける（<base> タグを使わないため）。 */
-function prefixInternalLinks(node) {
+function prefixInternalLinks(node, base) {
   if (!Array.isArray(node.children)) return;
   for (const child of node.children) {
     if (
@@ -176,21 +168,21 @@ function prefixInternalLinks(node) {
       typeof child.url === 'string' &&
       child.url.startsWith('/') &&
       !child.url.startsWith('//') &&
-      !child.url.startsWith(`${BASE}/`)
+      !child.url.startsWith(`${base}/`)
     ) {
-      child.url = `${BASE}${child.url}`;
+      child.url = `${base}${child.url}`;
     }
-    prefixInternalLinks(child);
+    prefixInternalLinks(child, base);
   }
 }
 
-function transform(node, file) {
+function transform(node, file, base) {
   if (!Array.isArray(node.children)) return;
 
   const next = [];
   for (const child of node.children) {
     if (child.type === 'text') {
-      const replacement = splitTextNode(child.value, file);
+      const replacement = splitTextNode(child.value, file, base);
       if (replacement) next.push(...replacement);
       else next.push(child);
       continue;
@@ -201,7 +193,7 @@ function transform(node, file) {
       continue;
     }
 
-    transform(child, file);
+    transform(child, file, base);
     next.push(child);
   }
   node.children = next;
@@ -214,9 +206,12 @@ function transform(node, file) {
  * 用語・章・ページが存在しない場合はビルドを止める。リンク切れを
  * 公開前に見つけるための仕組み。
  */
-export default function remarkGuideLinks() {
+export default function remarkGuideLinks(options = {}) {
+  // base は astro.config.mjs から渡す。設定を一か所にまとめるため、
+  // ここでも手元の IP や日付入りパスは持たない。
+  const base = normalizeBase(options.base);
   return (tree, file) => {
-    prefixInternalLinks(tree);
-    transform(tree, file?.path);
+    prefixInternalLinks(tree, base);
+    transform(tree, file?.path, base);
   };
 }

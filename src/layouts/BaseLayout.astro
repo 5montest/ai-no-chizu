@@ -15,7 +15,8 @@ const {
 } = Astro.props;
 
 const pageTitle = title ? `${title}｜${SITE.name}` : `${SITE.name}｜${SITE.tagline}`;
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'http://192.168.8.10:8090').href;
+// 公開先は astro.config.mjs の site が決める。未設定の開発時だけ、いま開いている URL を使う。
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
 ---
 
@@ -76,7 +77,7 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
 
       // 右端に近い用語では吹き出しが画面の外へはみ出し、ページごと横に広がる。
       // はみ出すときだけ左向きに付け替える。
-      const placeTip = (link) => {
+      const placeTip = (link: HTMLElement) => {
         const tip = link.querySelector('.gloss-tip');
         if (!tip) return;
         link.classList.remove('gloss-tip-left');
@@ -84,8 +85,9 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
         if (room < 8) link.classList.add('gloss-tip-left');
       };
 
-      for (const link of document.querySelectorAll('.gloss-link[data-gloss]')) {
-        const short = glossaryData[link.getAttribute('data-gloss')];
+      for (const link of document.querySelectorAll<HTMLElement>('.gloss-link[data-gloss]')) {
+        const slug = link.dataset.gloss;
+        const short = slug ? glossaryData[slug] : '';
         if (!short || link.querySelector('.gloss-tip')) continue;
         const tip = document.createElement('span');
         tip.className = 'gloss-tip';
@@ -144,9 +146,9 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
       });
 
       // --- モバイルナビ -----------------------------------------------------
-      const navToggle = document.querySelector('[data-nav-toggle]');
+      const navToggle = document.querySelector<HTMLElement>('[data-nav-toggle]');
       const siteNav = document.getElementById('site-nav');
-      const setNav = (open) => {
+      const setNav = (open: boolean) => {
         if (!siteNav || !navToggle) return;
         siteNav.classList.toggle('is-open', open);
         navToggle.setAttribute('aria-expanded', String(open));
@@ -173,11 +175,11 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
       });
 
       // --- 目次の現在位置 ---------------------------------------------------
-      const tocLinks = [...document.querySelectorAll('.toc a[href^="#"]')];
+      const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('.toc a[href^="#"]')];
       if (tocLinks.length) {
         const headings = tocLinks
           .map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1))))
-          .filter(Boolean);
+          .filter((heading): heading is HTMLElement => Boolean(heading));
         let ticking = false;
         const syncToc = () => {
           ticking = false;
@@ -204,7 +206,7 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
       }
 
       // --- Mermaid ----------------------------------------------------------
-      const mermaidNodes = [...document.querySelectorAll('.mermaid')];
+      const mermaidNodes = [...document.querySelectorAll<HTMLElement>('.mermaid')];
       if (mermaidNodes.length) {
         const palettes = {
           light: {
@@ -237,7 +239,8 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
           node.dataset.src = node.textContent ?? '';
         }
 
-        let mermaidApi = null;
+        // 図のあるページでだけ読み込む（全ページのバンドルに載せない）。
+        let mermaidApi: (typeof import('mermaid'))['default'] | null = null;
         const renderDiagrams = async () => {
           if (!mermaidApi) {
             mermaidApi = (await import('mermaid')).default;
@@ -254,7 +257,7 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
           });
           for (const node of mermaidNodes) {
             node.removeAttribute('data-processed');
-            node.textContent = node.dataset.src;
+            node.textContent = node.dataset.src ?? '';
           }
           await mermaidApi.run({ nodes: mermaidNodes });
           fitDiagrams();
@@ -264,7 +267,7 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
         // 元の大きさのまま置いて、枠の中で横にスクロールさせる。
         const fitDiagrams = () => {
           for (const node of mermaidNodes) {
-            const svg = node.querySelector('svg');
+            const svg = node.querySelector<SVGSVGElement>('svg');
             if (!svg) continue;
             const natural = svg.viewBox?.baseVal?.width ?? 0;
             const available = node.parentElement?.clientWidth ?? node.clientWidth;

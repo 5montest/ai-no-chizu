@@ -2,6 +2,8 @@
 interface NavItem {
   href: string;
   title: string;
+  chapterLabel?: string;
+  crossesChapter?: boolean;
 }
 
 interface Props {
@@ -10,20 +12,28 @@ interface Props {
 }
 
 const { prev, next } = Astro.props;
+
+// 章をまたぐときだけ、行き先がどの章かを添える。
+// 同じ章の中の移動では、今いる章が分かっているので繰り返さない。
+function dirLabel(item: NavItem, dir: '前' | '次') {
+  return item.crossesChapter ? `${dir}の章` : `${dir}のページ`;
+}
 ---
 
 {(prev || next) && (
-  <nav class="page-nav" aria-label="前後のページ">
+  <nav class="page-nav" aria-label="学習順の前後のページ">
     {prev && (
-      <a href={prev.href}>
-        <span class="dir">前のページ</span>
+      <a href={prev.href} rel="prev">
+        <span class="dir">{dirLabel(prev, '前')}</span>
         <span class="title">{prev.title}</span>
+        {prev.crossesChapter && prev.chapterLabel && <span class="chapter">{prev.chapterLabel}</span>}
       </a>
     )}
     {next && (
-      <a href={next.href}>
-        <span class="dir">次のページ</span>
+      <a href={next.href} rel="next">
+        <span class="dir">{dirLabel(next, '次')}</span>
         <span class="title">{next.title}</span>
+        {next.crossesChapter && next.chapterLabel && <span class="chapter">{next.chapterLabel}</span>}
       </a>
     )}
   </nav>

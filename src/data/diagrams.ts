@@ -1,4 +1,14 @@
-export const diagrams = {
+export interface Diagram {
+  /** 章番号-連番。「図 1-1」として記事に出る。 */
+  number: string;
+  title: string;
+  /** 図の前提を誤らないよう添える但し書き。記事側で上書きできる。 */
+  caption: string;
+  /** Mermaid の定義。 */
+  code: string;
+}
+
+export const diagrams: Record<string, Diagram> = {
   'ai-map': {
     number: '1-1',
     title: 'AI・機械学習・深層学習の包含関係',
@@ -27,7 +37,7 @@ export const diagrams = {
     number: '4-1',
     title: '文章が返るまでの流れ',
     caption:
-      '入力は一度に答えになるのではなく、トークン単位の選択を繰り返して生成される。図の順序は概念的なもので、実装では並列化される。',
+      '入力は一度に答えになるのではなく、トークン単位の選択を繰り返して生成される。系列の末尾に足されるのは文字列ではなくトークンIDで、過去に処理した分はKVキャッシュとして再利用する。図の順序は概念的なもので、実装ではPrefillとDecodeで進み方が異なる。',
     code: `flowchart LR
   IN["入力テキスト"] --> TOK["トークナイザー<br/>文字列を分割"]
   TOK --> IDS["トークンID<br/>語彙の番号"]
@@ -35,9 +45,9 @@ export const diagrams = {
   EMB --> TR["Transformer<br/>文脈を混ぜる"]
   TR --> LOG["Logits<br/>次の候補と確率"]
   LOG --> SAMP["選択<br/>Temperature / Top-p"]
-  SAMP --> DETOK["トークンを文字に戻す"]
-  DETOK --> OUT["出力"]
-  OUT -.->|"生成した分を入力に追加"| TOK`,
+  SAMP --> DETOK["選んだトークンのID"]
+  DETOK --> OUT["文字に戻して表示"]
+  DETOK -.->|"同じIDを系列の末尾に足す<br/>過去の計算は再利用"| EMB`,
   },
 
   'model-service': {

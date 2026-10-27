@@ -12,6 +12,10 @@ const diagram = diagrams[name];
 if (!diagram) {
   throw new Error(`未登録の図「${name}」です。src/data/diagrams.ts を確認してください。`);
 }
+
+// 「概念図」「数値は例示」といった但し書きは diagrams.ts 側に持たせてある。
+// 記事から明示された場合だけ、そちらを優先する。
+const captionText = caption ?? diagram.caption;
 ---
 
 <figure class="diagram-plate" id={`fig-${name}`}>
@@ -23,5 +27,5 @@ if (!diagram) {
   <div class="diagram-plate__body">
     <pre class="mermaid">{diagram.code}</pre>
   </div>
-  {caption && <figcaption>{caption}</figcaption>}
+  {captionText && <figcaption>{captionText}</figcaption>}
 </figure>
