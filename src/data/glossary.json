@@ -564,8 +564,8 @@
       "term": "GGUF",
       "reading": "じーじーゆーえふ",
       "category": "local",
-      "short": "llama.cpp系のツールで使われるモデルファイル形式。",
-      "strict": "量子化された重みとメタデータをまとめて保持する。Ollamaなどでも利用される。形式名であり、モデル名ではない。",
+      "short": "モデルの重みと実行用メタデータをまとめたモデルファイル形式。",
+      "strict": "llama.cpp系のツールで使われる。量子化した重みだけでなく、F16やBF16など量子化していない重みも格納できる。保存形式と数値精度は別の軸であり、形式名でもモデル名でもない。Ollamaなどでも利用される。",
       "myth": "GGUFはモデルの種類や名前を指す。",
       "related": ["quantization", "vram", "tokens-per-second"],
       "chapters": ["19"]

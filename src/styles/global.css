@@ -1415,9 +1415,10 @@ kbd {
 }
 
 /* ---------- chart ----------
-   グラフはビルド時に HTML と CSS で組み立てる。ブラウザで何も計算しないので、
-   JavaScript を切っていても、図と同じ枠のまま読める。
-   棒と点の位置は要素の style に割合で書き、目盛りは同じ割合の縦線で置く。 */
+   グラフはビルド時に HTML と CSS で組み立てる。棒と点の位置は要素の style に
+   割合で書き、目盛りは同じ割合の縦線で置く。ブラウザ側の計算は、温度を動かす
+   図（.chart-controls）だけで、それも初期表示はビルド時の値のまま出す。操作
+   できないときは温度1の図がそのまま残るので、JavaScript を切っていても読める。 */
 
 .chart-plate {
   margin: 2em 0;
@@ -1557,6 +1558,51 @@ kbd {
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
+}
+
+/* 温度を動かす図の操作部。ビルド時は hidden で、操作できると分かったときだけ
+   スクリプトが外す。図そのものは常に温度1の状態で描いてある。 */
+.chart-controls {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 2.5rem;
+  column-gap: 0.75rem;
+  row-gap: 0.4375rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.8125rem;
+}
+
+/* display を指定すると hidden 属性の既定の非表示が効かなくなるため、明示する。 */
+.chart-controls[hidden] {
+  display: none;
+}
+
+.chart-controls label {
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.chart-controls input[type='range'] {
+  width: 100%;
+  min-width: 0;
+  accent-color: var(--chart-bar);
+  cursor: pointer;
+}
+
+.chart-controls output {
+  color: var(--ink);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.chart-controls__hint {
+  grid-column: 2 / -1;
+  margin: 0;
+  color: var(--ink-mute);
+  font-size: 0.75rem;
+  line-height: 1.6;
 }
 
 /* ダンベル（入力単価と出力単価の2点と、その間を結ぶ線）。 */
@@ -1713,6 +1759,15 @@ kbd {
   .chart-dumbbell__row,
   .chart-bar-row {
     font-size: 0.78125rem;
+  }
+
+  .chart-controls {
+    grid-template-columns: auto minmax(0, 1fr) 2rem;
+    column-gap: 0.5rem;
+  }
+
+  .chart-controls__hint {
+    grid-column: 1 / -1;
   }
 }
 
@@ -2698,8 +2753,10 @@ a.chip:hover {
   outline-offset: 2px;
 }
 
-.model-table {
+/* .prose table と同じ強さにして、字の大きさと余白をこちらの指定で決める。 */
+table.model-table {
   width: 100%;
+  margin: 0;
   border-collapse: collapse;
   font-size: 0.8125rem;
   line-height: 1.6;
@@ -2775,6 +2832,267 @@ a.chip:hover {
 
 .legend-dot--frontier {
   background: var(--warn);
+}
+
+/* ---------- axis comparison ----------
+   確認済みの仕様と、まだ数値を出していない軸を分けて示す。
+   軸ごとに見出し・出典・記録日を持つので、表は独立したまとまりとして扱う。 */
+.axis-comparison {
+  margin: 1.75rem 0;
+}
+
+.axis-comparison__intro,
+.axis-comparison__note {
+  max-width: 46em;
+  color: var(--ink-mute);
+  font-size: 0.8125rem;
+}
+
+.axis-comparison__note {
+  margin-top: 1.5rem;
+}
+
+.axis-block {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.axis-comparison__intro + .axis-block {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.axis-block__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.6rem;
+}
+
+.axis-block h3,
+.axis-block h4 {
+  margin: 0;
+}
+
+.axis-block h3 {
+  font-size: 1rem;
+}
+
+.axis-block h4 {
+  font-size: 0.9375rem;
+}
+
+/* 状態は文字で持つ。色だけに頼らず、確認済み／未確認の語を必ず添える。 */
+.axis-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 0.45rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.7;
+  white-space: nowrap;
+}
+
+.axis-status--verified {
+  color: var(--tip);
+  border-color: color-mix(in srgb, var(--tip) 40%, var(--line));
+  background: var(--tip-wash);
+}
+
+.axis-status--pending {
+  color: var(--warn);
+  border-color: color-mix(in srgb, var(--warn) 40%, var(--line));
+  background: var(--warn-wash);
+}
+
+.axis-block__question {
+  margin: 0.3rem 0 0.75rem;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+}
+
+.axis-meta {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 0.2rem 0.9rem;
+  margin: 0 0 0.9rem;
+  font-size: 0.8125rem;
+  color: var(--ink-soft);
+}
+
+.axis-meta > div {
+  display: contents;
+}
+
+.axis-meta dt {
+  color: var(--ink-mute);
+  font-size: 0.75rem;
+}
+
+.axis-meta dd {
+  margin: 0;
+}
+
+.axis-meta a {
+  color: var(--link);
+}
+
+.axis-table-wrap {
+  margin: 1rem 0 0.35rem;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--plate);
+}
+
+/* 横に動かせる領域はキーボードでも辿れる。その位置が分かるようにする。 */
+.axis-table-wrap:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* .prose table と同じ強さにして、字の大きさと余白をこちらの指定で決める。 */
+table.axis-table {
+  width: 100%;
+  margin: 0;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.axis-table th,
+.axis-table td {
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.axis-table thead th {
+  position: sticky;
+  top: 0;
+  background: var(--paper-2);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.axis-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.axis-table__name {
+  font-weight: 600;
+}
+
+.axis-table__vendor {
+  display: block;
+  margin-top: 0.1rem;
+  color: var(--ink-mute);
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+/* 正確なIDは折らずに一字で置く。列が狭いときは wrap 側を横に送って読む。 */
+.axis-table__id {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+/* 狭い画面で表が横に続くことを、読む前に一度だけ伝える。 */
+.axis-table-hint {
+  display: none;
+}
+
+.axis-table__efforts {
+  color: var(--ink-soft);
+  font-size: 0.75rem;
+}
+
+.axis-pending {
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line-strong);
+}
+
+.axis-pending__lead {
+  max-width: 46em;
+  margin: 0.4rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+}
+
+.axis-block--pending {
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+}
+
+.axis-block__note {
+  max-width: 46em;
+  margin: 0 0 0.5rem;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+}
+
+.axis-block__candidates {
+  margin: 0;
+  color: var(--ink-mute);
+  font-size: 0.8125rem;
+}
+
+.axis-block__needs-label {
+  margin: 0.7rem 0 0.2rem;
+  color: var(--ink-soft);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.axis-block__needs {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--ink-soft);
+  font-size: 0.8125rem;
+}
+
+.axis-block__needs li {
+  margin: 0.15rem 0;
+}
+
+@media (max-width: 560px) {
+  /* 狭い画面では項目名を上に置き、値と横並びにしない。 */
+  .axis-meta {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .axis-meta dt {
+    margin-top: 0.4rem;
+  }
+
+  .axis-meta dd {
+    margin-bottom: 0.2rem;
+  }
+
+  /* 狭い画面でも列をつぶさない。入りきらない分は wrap を横に送って読む。 */
+  table.axis-table {
+    font-size: 0.75rem;
+    min-width: 36rem;
+  }
+
+  table.axis-table--reasoning {
+    min-width: 40rem;
+  }
+
+  .axis-table-hint {
+    display: block;
+    margin: 0.35rem 0 0;
+    color: var(--ink-mute);
+    font-size: 0.75rem;
+  }
 }
 
 /* ---------- quiz page ---------- */

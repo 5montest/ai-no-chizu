@@ -1,0 +1,150 @@
+---
+import { nextTokenExample } from '../data/next-token-example';
+import { linearPercent } from '../lib/chart-scale';
+import { formatTemperature } from '../lib/softmax';
+
+interface Props {
+  /** 図の下に出す但し書き。省略すると既定の注意書き。 */
+  caption?: string;
+  /** ページ内で一意な id。入力要素の id もここから作る。 */
+  id?: string;
+}
+
+const { caption, id = 'fig-temperature-experiment' } = Astro.props;
+
+// 温度を動かすと確率が1に近づくため、0〜1 の目盛りで描く。
+// 記事の表（0〜0.7）とは別の図なので、キャプションで範囲を明示する。
+const SCALE = { min: 0, max: 1, ticks: [0, 0.25, 0.5, 0.75, 1] };
+const TEMPERATURE = { min: 0.5, max: 2, step: 0.1, initial: 1 };
+
+// JavaScript を切っている場合、この値がそのまま表示される。
+// 記事の表と同じく、温度1のときの確率を使う。
+const rows = nextTokenExample.candidates.map((item) => ({
+  label: item.label,
+  shortLabel: item.shortLabel,
+  percent: linearPercent(item.probability, SCALE.min, SCALE.max),
+  value: item.probability.toFixed(2),
+}));
+
+const tickMarks = SCALE.ticks.map((tick) => ({
+  percent: linearPercent(tick, SCALE.min, SCALE.max),
+  label: String(tick),
+}));
+
+const inputId = `${id}-temperature`;
+const hintId = `${id}-hint`;
+
+const captionText =
+  caption ??
+  `${nextTokenExample.note}温度を動かすと、同じロジットから確率が計算し直されます。棒の長さは 0〜1 の目盛りです。JavaScript を切っている場合は、温度 ${formatTemperature(TEMPERATURE.initial)} の状態で表示されます。`;
+---
+
+<figure
+  class="chart-plate chart-plate--interactive"
+  id={id}
+  data-temperature-experiment
+  data-scale-min={SCALE.min}
+  data-scale-max={SCALE.max}
+>
+  <div class="chart-plate__head">
+    <span>グラフ</span>
+    <span class="chart-plate__title">温度を変えると確率はどう変わるか（例）</span>
+    <span class="chart-plate__note">例示・合計1</span>
+  </div>
+  <div class="chart-plate__body">
+    <div class="chart-controls" data-temperature-controls hidden>
+      <label for={inputId}>温度</label>
+      <input
+        type="range"
+        id={inputId}
+        min={TEMPERATURE.min}
+        max={TEMPERATURE.max}
+        step={TEMPERATURE.step}
+        value={TEMPERATURE.initial}
+        aria-describedby={hintId}
+        data-temperature-input
+      />
+      <output for={inputId} data-temperature-output>{formatTemperature(TEMPERATURE.initial)}</output>
+      <p class="chart-controls__hint" id={hintId}>
+        0.5で尖り、2.0で平らになります。矢印キーでも動かせます。
+      </p>
+    </div>
+    <div class="chart-bars">
+      <div class="chart-bars__plot">
+        <div class="chart-bars__grid" aria-hidden="true">
+          {tickMarks.map((tick) => <span style={`left:${tick.percent.toFixed(2)}%`}></span>)}
+        </div>
+        <ol class="chart-bars__rows">
+          {
+            rows.map((row) => (
+              <li class="chart-bar-row">
+                <span class="chart-bar-row__label">{row.shortLabel}</span>
+                <span class="chart-bar-row__track">
+                  <span
+                    class="chart-bar-row__fill"
+                    style={`width:${row.percent.toFixed(2)}%`}
+                    data-bar-fill
+                  />
+                </span>
+                <span class="chart-bar-row__value" data-bar-value>{row.value}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <div class="chart-bars__axis" aria-hidden="true">
+        <span></span>
+        <span class="chart-ticks">
+          {tickMarks.map((tick) => <span style={`left:${tick.percent.toFixed(2)}%`}>{tick.label}</span>)}
+        </span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  {captionText && <figcaption>{captionText}</figcaption>}
+</figure>
+
+<script>
+  import { linearPercent } from '../lib/chart-scale';
+  import { formatProbability, formatTemperature, softmax } from '../lib/softmax';
+  import { softmaxLogits } from '../data/next-token-example';
+
+  const figures = document.querySelectorAll<HTMLElement>('[data-temperature-experiment]');
+
+  for (const figure of figures) {
+    const controls = figure.querySelector<HTMLElement>('[data-temperature-controls]');
+    const input = figure.querySelector<HTMLInputElement>('[data-temperature-input]');
+    const output = figure.querySelector<HTMLOutputElement>('[data-temperature-output]');
+    const fills = figure.querySelectorAll<HTMLElement>('[data-bar-fill]');
+    const values = figure.querySelectorAll<HTMLElement>('[data-bar-value]');
+
+    const min = Number(figure.dataset.scaleMin);
+    const max = Number(figure.dataset.scaleMax);
+    if (!controls || !input || !output || fills.length === 0 || fills.length !== values.length) {
+      continue;
+    }
+    if (!Number.isFinite(min) || !Number.isFinite(max)) {
+      continue;
+    }
+
+    const logits = softmaxLogits();
+
+    const render = (temperature: number) => {
+      const probabilities = softmax(logits, temperature);
+      probabilities.forEach((probability, index) => {
+        const fill = fills[index];
+        const value = values[index];
+        if (!fill || !value) return;
+        fill.style.width = `${linearPercent(probability, min, max).toFixed(2)}%`;
+        value.textContent = formatProbability(probability);
+      });
+      output.textContent = formatTemperature(temperature);
+    };
+
+    input.addEventListener('input', () => render(Number(input.value)));
+
+    // 操作できる場合だけコントロールを出す。JavaScript が動かないときは
+    // 温度1の静的な棒グラフだけが残る。
+    controls.hidden = false;
+  }
+</script>

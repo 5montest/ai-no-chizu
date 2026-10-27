@@ -11,13 +11,18 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 
 const ROOT = process.cwd();
-const FILE = process.argv.includes('--staging')
+const STAGING = process.argv.includes('--staging');
+const FILE = STAGING
   ? path.join(ROOT, 'data/staging/model-comparison.json')
   : path.join(ROOT, 'data/model-comparison.json');
+const SNAPSHOT_FILE = path.join(ROOT, 'data/capability-snapshots.json');
 
 const TIERS = new Set(['frontier', 'balanced', 'light']);
 const PRICING_KINDS = new Set(['official', 'reseller']);
 const BASES = new Set(['curated', 'hugging-face-id', 'unverified']);
+const AXIS_KINDS = new Set(['spec', 'benchmark']);
+const AXIS_STATUSES = new Set(['verified', 'unverified']);
+const AXIS_RENDERS = new Set(['modality', 'reasoning']);
 const errors = [];
 
 function check(condition, message) {
@@ -30,6 +35,152 @@ function isDate(value) {
 
 function isHttps(value) {
   return typeof value === 'string' && value.startsWith('https://');
+}
+
+/** 値の中に価格の欄が混ざっていないか。能力の比較に価格を読ませない。 */
+function findPriceKeys(node, trail = '') {
+  if (!node || typeof node !== 'object') return [];
+  const found = [];
+  for (const [key, value] of Object.entries(node)) {
+    const at = trail ? `${trail}.${key}` : key;
+    if (/price|pricing/i.test(key)) found.push(at);
+    found.push(...findPriceKeys(value, at));
+  }
+  return found;
+}
+
+/**
+ * 評価軸スナップショットを検証する。
+ * 確認済みの軸は出典と条件が揃っているか、未確認の軸は
+ * 数値を出していないかを見る。
+ */
+async function validateSnapshot(sourceIds) {
+  let data;
+  try {
+    data = JSON.parse(await fs.readFile(SNAPSHOT_FILE, 'utf8'));
+  } catch (err) {
+    check(false, `capability-snapshots.json を読み込めません (${err.message})`);
+    return null;
+  }
+
+  const rel = path.relative(ROOT, SNAPSHOT_FILE);
+  check(data.schema_version === 1, `${rel}: schema_version が 1 ではありません`);
+  check(isDate(data.captured_at), `${rel}: captured_at が YYYY-MM-DD ではありません`);
+  check(
+    typeof data.source?.name === 'string' && data.source.name.length > 0,
+    `${rel}: source.name が空です`,
+  );
+  check(isHttps(data.source?.url), `${rel}: source.url が https URL ではありません`);
+
+  const policy = data.policy ?? {};
+  check(typeof policy.publish_rule === 'string' && policy.publish_rule.length > 0,
+    `${rel}: policy.publish_rule がありません`);
+  check(policy.ordering === 'vendor-name', `${rel}: policy.ordering は vendor-name です`);
+  check(typeof policy.price_separation === 'string' && policy.price_separation.length > 0,
+    `${rel}: policy.price_separation がありません`);
+  check(
+    Number.isInteger(policy.freshness?.review_after_days) &&
+      policy.freshness.review_after_days > 0,
+    `${rel}: policy.freshness.review_after_days がありません`,
+  );
+  check(
+    typeof policy.freshness?.display_rule === 'string' &&
+      policy.freshness.display_rule.length > 0,
+    `${rel}: policy.freshness.display_rule がありません`,
+  );
+  check(
+    typeof policy.freshness?.stale_rule === 'string' && policy.freshness.stale_rule.length > 0,
+    `${rel}: policy.freshness.stale_rule がありません`,
+  );
+
+  const axes = Array.isArray(data.axes) ? data.axes : [];
+  check(axes.length > 0, `${rel}: axes が空です`);
+
+  const axisIds = new Set();
+  const axisLabels = new Set();
+  let verifiedCount = 0;
+  let pendingCount = 0;
+
+  for (const [i, axis] of axes.entries()) {
+    const at = `axes[${i}]${axis?.id ? `(${axis.id})` : ''}`;
+    check(typeof axis?.id === 'string' && /^[a-z0-9-]+$/.test(axis.id), `${at}: id が不正です`);
+    check(typeof axis?.label === 'string' && axis.label.length > 0, `${at}: label が空です`);
+    check(typeof axis?.question === 'string' && axis.question.length > 0, `${at}: question が空です`);
+    check(AXIS_KINDS.has(axis?.kind), `${at}: kind が不正です: ${axis?.kind}`);
+    check(AXIS_STATUSES.has(axis?.status), `${at}: status が不正です: ${axis?.status}`);
+    check(!axisIds.has(axis?.id), `${at}: 軸の id が重複しています`);
+    check(!axisLabels.has(axis?.label), `${at}: 軸の label が重複しています`);
+    axisIds.add(axis?.id);
+    axisLabels.add(axis?.label);
+    check(Array.isArray(axis?.values), `${at}: values が配列ではありません`);
+
+    if (axis?.status === 'verified') {
+      verifiedCount += 1;
+      check(AXIS_RENDERS.has(axis.render), `${at}: 確認済みの軸に render がありません`);
+      check(typeof axis.metric === 'string' && axis.metric.length > 0, `${at}: metric が空です`);
+      check(
+        typeof axis.conditions === 'string' && axis.conditions.length > 0,
+        `${at}: conditions が空です`,
+      );
+      check(isDate(axis.measured_at), `${at}: measured_at が YYYY-MM-DD ではありません`);
+      check(
+        typeof axis.source?.name === 'string' && axis.source.name.length > 0,
+        `${at}: source.name が空です`,
+      );
+      check(isHttps(axis.source?.url), `${at}: source.url が https URL ではありません`);
+      check(
+        typeof axis.source?.field === 'string' && axis.source.field.length > 0,
+        `${at}: source.field が空です（出典のどこを見たか）`,
+      );
+      // 仕様の軸にベンチマーク名を書くと、能力の測定値に見える。
+      check(axis.benchmark === null, `${at}: 仕様の軸に benchmark があります`);
+
+      const seen = new Set();
+      for (const [j, value] of (axis.values ?? []).entries()) {
+        const valueAt = `${at}.values[${j}]`;
+        check(
+          typeof value?.model_id === 'string' && sourceIds.has(value.model_id),
+          `${valueAt}: model_id がモデル一覧にありません: ${value?.model_id}`,
+        );
+        check(!seen.has(value?.model_id), `${valueAt}: 同じモデルの値が重複しています`);
+        seen.add(value?.model_id);
+        check(value?.value && typeof value.value === 'object', `${valueAt}: value がありません`);
+      }
+      check(
+        seen.size === sourceIds.size,
+        `${at}: ${seen.size}件の値がありますが、モデル一覧は${sourceIds.size}件です`,
+      );
+    } else if (axis?.status === 'unverified') {
+      pendingCount += 1;
+      check(axis.values?.length === 0, `${at}: 未確認の軸に値があります`);
+      check(axis.metric === null, `${at}: 未確認の軸に metric があります`);
+      check(axis.benchmark === null, `${at}: 未確認の軸に benchmark があります`);
+      check(axis.conditions === null, `${at}: 未確認の軸に conditions があります`);
+      check(axis.measured_at === null, `${at}: 未確認の軸に measured_at があります`);
+      check(axis.source === null, `${at}: 未確認の軸に source があります`);
+      check(typeof axis.note === 'string' && axis.note.length > 0, `${at}: note がありません`);
+      check(
+        Array.isArray(axis.needs) && axis.needs.length > 0,
+        `${at}: needs（公開に必要な項目）がありません`,
+      );
+      check(
+        Array.isArray(axis.candidate_benchmarks) && axis.candidate_benchmarks.length > 0,
+        `${at}: candidate_benchmarks がありません`,
+      );
+    }
+  }
+
+  check(verifiedCount > 0, `${rel}: 確認済みの軸がありません`);
+  check(pendingCount > 0, `${rel}: 未確認の軸がありません（未確認を明示してください）`);
+
+  // 能力と価格は別の表。ここへ価格の欄を持ち込まない。
+  // policy.price_separation は「分ける」方針を書く欄なので、値の側だけを見る。
+  const { policy: _policy, ...dataWithoutPolicy } = data;
+  for (const keyPath of findPriceKeys(dataWithoutPolicy)) {
+    check(false, `${rel}: 価格の欄 ${keyPath} を能力の比較に持ち込んでいます`);
+  }
+
+  return { rel, captured_at: data.captured_at, verifiedCount, pendingCount, axes: axes.length };
 }
 
 async function main() {
@@ -137,6 +288,10 @@ async function main() {
     sourceIds.add(m.source_id);
   }
 
+  // 評価軸の表はモデル一覧の source_id を参照するので、モデル側の検証と続けて見る。
+  // --staging は取得直後のモデル一覧だけを持つので、スナップショットは対象外。
+  const snapshot = STAGING ? null : await validateSnapshot(sourceIds);
+
   if (errors.length) {
     console.error(`検証に失敗しました: ${path.relative(ROOT, FILE)}`);
     for (const e of errors) console.error(`  - ${e}`);
@@ -154,6 +309,25 @@ async function main() {
   console.log(`  pricing_source: ${data.pricing_source.name}（${data.pricing_source.kind}）`);
   if (ageDays > 90) {
     console.warn('  警告: 確認日から90日を超えています。fetch:models で差分を確認してください。');
+  }
+
+  if (snapshot) {
+    const reviewAfter = 90;
+    const snapshotAge = Math.floor(
+      (Date.now() - new Date(`${snapshot.captured_at}T00:00:00+09:00`).getTime()) / 86_400_000,
+    );
+    console.log(`OK: ${snapshot.rel}`);
+    console.log(
+      `  axes: ${snapshot.axes}（確認済み: ${snapshot.verifiedCount}件、未確認: ${snapshot.pendingCount}件）`,
+    );
+    console.log(`  captured_at: ${snapshot.captured_at}（${snapshotAge}日前）`);
+    if (snapshotAge > reviewAfter) {
+      console.warn(
+        `  警告: 記録日から${reviewAfter}日を超えています。再取得し、人が承認してから公開してください。`,
+      );
+    }
+  } else if (STAGING) {
+    console.log('  capability-snapshots.json: --staging のため検証しません');
   }
 }
 

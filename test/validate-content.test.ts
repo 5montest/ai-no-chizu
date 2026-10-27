@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { execFileSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -16,11 +16,21 @@ import { fileURLToPath } from 'node:url';
 
 const SCRIPT = fileURLToPath(new URL('../scripts/validate-content.mjs', import.meta.url));
 
-type Fixture = { quiz: { answer: number }; glossary?: string[]; diagramTag?: string };
+type Fixture = {
+  quiz: { answer: number };
+  glossary?: string[];
+  diagramTag?: string;
+  sources?: string[];
+};
 
 function writeFixture(
   root: string,
-  { quiz, glossary = ['ai'], diagramTag = '<Diagram name="ai-map" />' }: Fixture,
+  {
+    quiz,
+    glossary = ['ai'],
+    diagramTag = '<Diagram name="ai-map" />',
+    sources = [],
+  }: Fixture,
 ) {
   fs.mkdirSync(path.join(root, 'src/data'), { recursive: true });
   fs.mkdirSync(path.join(root, 'src/content/chapters/01'), { recursive: true });
@@ -77,6 +87,7 @@ function writeFixture(
     '      - い',
     `    answer: ${quiz.answer}`,
     '    explanation: 解説',
+    ...(sources.length ? ['sources:', ...sources] : []),
     '---',
     '',
     `本文です。${diagramTag} [[${glossary[0]}]]`,
@@ -87,17 +98,15 @@ function writeFixture(
 }
 
 function runValidator(root: string) {
-  try {
-    const stdout = execFileSync(process.execPath, [SCRIPT, '--root', root], {
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'pipe'],
-    });
-    return { code: 0, stdout, stderr: '' };
-  } catch (error) {
-    // execFileSync の失敗（終了コード1）は例外で届く。中身は Node の決まった形。
-    const failure = error as { status?: number; stdout?: string; stderr?: string };
-    return { code: failure.status ?? 1, stdout: failure.stdout ?? '', stderr: failure.stderr ?? '' };
-  }
+  // 成功時にも警告が stderr に出るので、両方を必ず受け取る。
+  const result = spawnSync(process.execPath, [SCRIPT, '--root', root], {
+    encoding: 'utf8',
+  });
+  return {
+    code: result.status ?? 1,
+    stdout: result.stdout ?? '',
+    stderr: result.stderr ?? '',
+  };
 }
 
 function withFixture(options: Fixture, fn: (root: string) => void) {
@@ -156,4 +165,55 @@ test('図の但し書きが空なら止まる', () => {
     assert.equal(result.code, 1);
     assert.match(result.stderr, /caption が空です/);
   });
+});
+
+test('URL のない出典に説明がなければ止まる', () => {
+  withFixture(
+    {
+      quiz: { answer: 0 },
+      sources: ["  - title: '見本の本'", "    publisher: '出版社'"],
+    },
+    (root) => {
+      const result = runValidator(root);
+      assert.equal(result.code, 1);
+      assert.match(result.stderr, /URL がない場合は note に理由を書いてください/);
+    },
+  );
+});
+
+test('https でない出典は警告だけにして、検証は通す', () => {
+  withFixture(
+    {
+      quiz: { answer: 0 },
+      sources: [
+        "  - title: '見本の記事'",
+        "    url: 'http://example.com/page'",
+        "    note: 'https で開けないため http のまま示す。'",
+      ],
+    },
+    (root) => {
+      const result = runValidator(root);
+      assert.equal(result.code, 0, result.stderr);
+      assert.match(result.stderr, /http の URL です/);
+    },
+  );
+});
+
+test('同じ URL を使い回した出典は止まる', () => {
+  withFixture(
+    {
+      quiz: { answer: 0 },
+      sources: [
+        "  - title: '見本の記事'",
+        "    url: 'https://example.com/page'",
+        "  - title: '同じ記事'",
+        "    url: 'https://example.com/page'",
+      ],
+    },
+    (root) => {
+      const result = runValidator(root);
+      assert.equal(result.code, 1);
+      assert.match(result.stderr, /同じ URL が sources\[0\] と重複しています/);
+    },
+  );
 });

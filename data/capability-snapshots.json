@@ -1,0 +1,483 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-10-28",
+  "source": {
+    "name": "OpenRouter Models API",
+    "kind": "reseller",
+    "url": "https://openrouter.ai/api/v1/models",
+    "note": "モデル一覧の仕様欄を記録したもの。価格の再販条件は data/model-comparison.json 側で扱う。"
+  },
+  "policy": {
+    "publish_rule": "確認できた値だけを載せる。測定条件・記録日・出典が揃わない軸は status を unverified にし、数値を出さない。",
+    "ordering": "vendor-name",
+    "price_separation": "このファイルは能力・仕様の軸だけを持つ。価格は持たず、能力の順位と価格の順位を合成した指標も作らない。",
+    "freshness": {
+      "review_after_days": 90,
+      "display_rule": "各軸の記録日を表示し、その日時点の記録であることを明示する。",
+      "stale_rule": "記録日から90日を過ぎたら再取得を検討する。再取得できるまでは古い記録として残し、最新の値として扱わない。出典が消えた場合は記録日と出典名を残し、未再確認と書く。"
+    }
+  },
+  "axes": [
+    {
+      "id": "input-modalities",
+      "label": "入力モダリティ",
+      "question": "テキスト以外の入力をどこまで受け付けるか",
+      "kind": "spec",
+      "status": "verified",
+      "metric": "受け付ける入力の種類（text / image / video / audio / file）",
+      "benchmark": null,
+      "conditions": "OpenRouter のモデル一覧にある architecture 欄。モデル全体の掲載値であり、提供元ごとの実装差や入力サイズの上限は未確認。",
+      "measured_at": "2026-10-28",
+      "source": {
+        "name": "OpenRouter Models API",
+        "url": "https://openrouter.ai/api/v1/models",
+        "field": "architecture.input_modalities / output_modalities"
+      },
+      "values": [
+        {
+          "model_id": "anthropic/claude-fable-5.1",
+          "value": {
+            "input": [
+              "text",
+              "image",
+              "file"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "anthropic/claude-opus-5.5",
+          "value": {
+            "input": [
+              "text",
+              "image",
+              "file"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "anthropic/claude-sonnet-5.5",
+          "value": {
+            "input": [
+              "text",
+              "image",
+              "file"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "anthropic/claude-haiku-5.5",
+          "value": {
+            "input": [
+              "text",
+              "image",
+              "file"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "openai/gpt-6.1-sol-pro",
+          "value": {
+            "input": [
+              "text",
+              "image",
+              "file"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "openai/gpt-6.1-terra-pro",
+          "value": {
+            "input": [
+              "text",
+              "image",
+              "file"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "google/gemini-4-argon",
+          "value": {
+            "input": [
+              "text",
+              "image",
+              "video",
+              "audio",
+              "file"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "google/gemini-3.8-flash",
+          "value": {
+            "input": [
+              "text",
+              "image",
+              "video",
+              "audio",
+              "file"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "x-ai/grok-4.7",
+          "value": {
+            "input": [
+              "text",
+              "image",
+              "file"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "deepseek/deepseek-v4.1-flash",
+          "value": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "qwen/qwen3.8-27b",
+          "value": {
+            "input": [
+              "text",
+              "image",
+              "video"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "qwen/qwen3.8-max-prime",
+          "value": {
+            "input": [
+              "text",
+              "image",
+              "video"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        },
+        {
+          "model_id": "mistralai/mistral-large-4-0",
+          "value": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          }
+        }
+      ],
+      "render": "modality"
+    },
+    {
+      "id": "reasoning-control",
+      "label": "推論の切り替え",
+      "question": "推論を常に行うか、effort を選べるか",
+      "kind": "spec",
+      "status": "verified",
+      "metric": "推論の常時／任意、既定の effort、選べる effort の一覧",
+      "benchmark": null,
+      "conditions": "OpenRouter のモデル一覧にある reasoning 欄。一覧上の設定であり、実際の既定値はクライアントや提供元の設定で変わりうる。",
+      "measured_at": "2026-10-28",
+      "source": {
+        "name": "OpenRouter Models API",
+        "url": "https://openrouter.ai/api/v1/models",
+        "field": "reasoning.mandatory / default_effort / supported_efforts"
+      },
+      "values": [
+        {
+          "model_id": "anthropic/claude-fable-5.1",
+          "value": {
+            "mandatory": true,
+            "default_effort": "high",
+            "supported_efforts": [
+              "max",
+              "xhigh",
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        },
+        {
+          "model_id": "anthropic/claude-opus-5.5",
+          "value": {
+            "mandatory": true,
+            "default_effort": "high",
+            "supported_efforts": [
+              "max",
+              "xhigh",
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        },
+        {
+          "model_id": "anthropic/claude-sonnet-5.5",
+          "value": {
+            "mandatory": true,
+            "default_effort": "high",
+            "supported_efforts": [
+              "max",
+              "xhigh",
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        },
+        {
+          "model_id": "anthropic/claude-haiku-5.5",
+          "value": {
+            "mandatory": false,
+            "default_effort": "medium",
+            "supported_efforts": [
+              "max",
+              "xhigh",
+              "high",
+              "medium",
+              "low",
+              "none"
+            ]
+          }
+        },
+        {
+          "model_id": "openai/gpt-6.1-sol-pro",
+          "value": {
+            "mandatory": true,
+            "default_effort": "medium",
+            "supported_efforts": [
+              "max",
+              "xhigh",
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        },
+        {
+          "model_id": "openai/gpt-6.1-terra-pro",
+          "value": {
+            "mandatory": true,
+            "default_effort": "medium",
+            "supported_efforts": [
+              "max",
+              "xhigh",
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        },
+        {
+          "model_id": "google/gemini-4-argon",
+          "value": {
+            "mandatory": true,
+            "default_effort": "medium",
+            "supported_efforts": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        },
+        {
+          "model_id": "google/gemini-3.8-flash",
+          "value": {
+            "mandatory": true,
+            "default_effort": "medium",
+            "supported_efforts": [
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        },
+        {
+          "model_id": "x-ai/grok-4.7",
+          "value": {
+            "mandatory": true,
+            "default_effort": "high",
+            "supported_efforts": [
+              "xhigh",
+              "high",
+              "medium",
+              "low"
+            ]
+          }
+        },
+        {
+          "model_id": "deepseek/deepseek-v4.1-flash",
+          "value": {
+            "mandatory": false,
+            "default_effort": "high",
+            "supported_efforts": [
+              "max",
+              "high",
+              "low",
+              "none"
+            ]
+          }
+        },
+        {
+          "model_id": "qwen/qwen3.8-27b",
+          "value": {
+            "mandatory": false,
+            "default_effort": "xhigh",
+            "supported_efforts": [
+              "xhigh",
+              "medium",
+              "low",
+              "none"
+            ]
+          }
+        },
+        {
+          "model_id": "qwen/qwen3.8-max-prime",
+          "value": {
+            "mandatory": true,
+            "default_effort": "xhigh",
+            "supported_efforts": [
+              "xhigh",
+              "high",
+              "medium",
+              "low",
+              "minimal"
+            ]
+          }
+        },
+        {
+          "model_id": "mistralai/mistral-large-4-0",
+          "value": {
+            "mandatory": false,
+            "default_effort": "high",
+            "supported_efforts": [
+              "high",
+              "none"
+            ]
+          }
+        }
+      ],
+      "render": "reasoning"
+    },
+    {
+      "id": "reasoning-quality",
+      "label": "推論・知識の正しさ",
+      "question": "推論や知識の設問で、どれだけ正答するか",
+      "kind": "benchmark",
+      "status": "unverified",
+      "metric": null,
+      "benchmark": null,
+      "conditions": null,
+      "measured_at": null,
+      "source": null,
+      "values": [],
+      "note": "同じモデルID・同じベンチマーク版・同じ実行条件の測定値を、このサイトが参照できる出典で確認できていない。",
+      "candidate_benchmarks": [
+        "MMLU-Pro",
+        "GPQA Diamond",
+        "AIME"
+      ],
+      "needs": [
+        "ベンチマーク名と版",
+        "指標（正答率など）と集計方法",
+        "実行日と測定者",
+        "プロンプト・ツール使用・試行回数などの条件",
+        "モデルの正確なID（提供元を含む）",
+        "出典URL"
+      ]
+    },
+    {
+      "id": "coding",
+      "label": "コーディング",
+      "question": "実在するリポジトリの修正や、コード生成の課題をどれだけ解けるか",
+      "kind": "benchmark",
+      "status": "unverified",
+      "metric": null,
+      "benchmark": null,
+      "conditions": null,
+      "measured_at": null,
+      "source": null,
+      "values": [],
+      "note": "ベンチマークごとに課題の作り方と採点が違い、公開値の条件も揃わないため、数値を出していない。",
+      "candidate_benchmarks": [
+        "SWE-bench Verified",
+        "LiveCodeBench"
+      ],
+      "needs": [
+        "ベンチマーク名と版",
+        "指標（解決率など）と採点方法",
+        "実行日と測定者",
+        "エージェント構成・試行回数・ツール使用などの条件",
+        "モデルの正確なID（提供元を含む）",
+        "出典URL"
+      ]
+    },
+    {
+      "id": "speed",
+      "label": "速度",
+      "question": "最初の出力までの待ち時間と、1秒あたりに生成できる量はどれくらいか",
+      "kind": "benchmark",
+      "status": "unverified",
+      "metric": null,
+      "benchmark": null,
+      "conditions": null,
+      "measured_at": null,
+      "source": null,
+      "values": [],
+      "note": "速度はモデルだけでなく、提供元の設備・同時利用数・入力長で変わる。同じ条件での測定値を確認できていない。",
+      "candidate_benchmarks": [
+        "出力トークン/秒",
+        "TTFT"
+      ],
+      "needs": [
+        "測定した提供元とリージョン",
+        "入力トークン数と出力トークン数",
+        "同時実行数と測定時刻",
+        "指標（TTFT、出力トークン/秒）の集計方法",
+        "モデルの正確なID（提供元を含む）",
+        "出典URL"
+      ]
+    }
+  ]
+}

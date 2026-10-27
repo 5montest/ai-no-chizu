@@ -1,0 +1,222 @@
+---
+import raw from '../../data/capability-snapshots.json';
+import modelData from '../../data/model-comparison.json';
+import {
+  formatJapaneseDate,
+  formatModalities,
+  formatReasoning,
+  sortModelsByVendorName,
+  type ReasoningValue,
+} from '../lib/capability';
+
+interface Props {
+  /** ページ内で一意な id。 */
+  id?: string;
+}
+
+const { id = 'fig-axis-comparison' } = Astro.props;
+
+type ModalityValue = { input: string[]; output: string[] };
+type AxisValue = { model_id: string; value: ModalityValue | ReasoningValue };
+type AxisSource = { name: string; url: string; field: string };
+
+type Axis = {
+  id: string;
+  label: string;
+  question: string;
+  kind: 'spec' | 'benchmark';
+  render?: 'modality' | 'reasoning';
+  status: 'verified' | 'unverified';
+  metric: string | null;
+  benchmark: string | null;
+  conditions: string | null;
+  measured_at: string | null;
+  source: AxisSource | null;
+  values: AxisValue[];
+  note?: string;
+  candidate_benchmarks?: string[];
+  needs?: string[];
+};
+
+type Snapshot = {
+  captured_at: string;
+  axes: Axis[];
+};
+
+const data = raw as unknown as Snapshot;
+
+// 表の並びは提供元→名前。価格順でも能力の順位でもないことを、
+// 記事側とテストで同じ約束にしておく。
+const models = sortModelsByVendorName(
+  (
+    modelData as unknown as {
+      models: { id: string; name: string; vendor: string; source_id: string }[];
+    }
+  ).models,
+);
+
+const verifiedAxes = data.axes.filter((axis) => axis.status === 'verified');
+const pendingAxes = data.axes.filter((axis) => axis.status !== 'verified');
+
+/**
+ * 軸の値をモデルの並びに合わせて取り出す。
+ * 値が欠けているモデルがあれば、表を黙って空欄にせずビルドを止める。
+ */
+function rowsFor(axis: Axis) {
+  const byId = new Map(axis.values.map((entry) => [entry.model_id, entry.value]));
+  return models.map((model) => {
+    const value = byId.get(model.source_id);
+    if (!value) {
+      throw new Error(`評価軸「${axis.label}」に ${model.source_id} の値がありません`);
+    }
+    return { model, value };
+  });
+}
+
+const capturedLabel = formatJapaneseDate(data.captured_at);
+---
+
+<div class="axis-comparison" id={id} data-axis-comparison>
+  <p class="axis-comparison__intro">
+    {capturedLabel}に記録した仕様だけを並べています。ここに出すのは候補を絞るための条件で、性能の順位ではありません。
+  </p>
+
+  {
+    verifiedAxes.map((axis) => {
+      const rows = rowsFor(axis);
+      const headingId = `axis-${axis.id}`;
+      return (
+        <section class="axis-block" aria-labelledby={headingId}>
+          <div class="axis-block__head">
+            <h3 id={headingId}>{axis.label}</h3>
+            <span class="axis-status axis-status--verified">確認済み</span>
+          </div>
+          <p class="axis-block__question">{axis.question}</p>
+          <dl class="axis-meta">
+            <div>
+              <dt>指標</dt>
+              <dd>{axis.metric}</dd>
+            </div>
+            <div>
+              <dt>条件</dt>
+              <dd>{axis.conditions}</dd>
+            </div>
+            <div>
+              <dt>記録日</dt>
+              <dd>{axis.measured_at ? formatJapaneseDate(axis.measured_at) : null}</dd>
+            </div>
+            <div>
+              <dt>出典</dt>
+              <dd>
+                {axis.source ? (
+                  <>
+                    <a href={axis.source.url}>{axis.source.name}</a>（{axis.source.field}）
+                  </>
+                ) : null}
+              </dd>
+            </div>
+          </dl>
+          <div
+            class="axis-table-wrap"
+            role="region"
+            tabindex="0"
+            aria-label={`${axis.label}の表`}
+          >
+            <table class={`axis-table${axis.render === 'reasoning' ? ' axis-table--reasoning' : ''}`}>
+              <caption class="sr-only">
+                {axis.label}。{axis.metric}。{axis.conditions}記録日 {axis.measured_at
+                  ? formatJapaneseDate(axis.measured_at)
+                  : ''}。出典 {axis.source?.name}。並びは提供元と名前の順で、価格順ではない。
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">モデル</th>
+                  <th scope="col">正確なID</th>
+                  {axis.render === 'modality' ? (
+                    <>
+                      <th scope="col">入力</th>
+                      <th scope="col">出力</th>
+                    </>
+                  ) : (
+                    <>
+                      <th scope="col">推論</th>
+                      <th scope="col">既定のeffort</th>
+                      <th scope="col">選べるeffort</th>
+                    </>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map(({ model, value }) => (
+                  <tr>
+                    <td>
+                      <span class="axis-table__name">{model.name}</span>
+                      <span class="axis-table__vendor">{model.vendor}</span>
+                    </td>
+                    <td>
+                      <code class="axis-table__id">{model.source_id}</code>
+                    </td>
+                    {axis.render === 'modality' ? (
+                      <>
+                        <td>{formatModalities((value as ModalityValue).input)}</td>
+                        <td>{formatModalities((value as ModalityValue).output)}</td>
+                      </>
+                    ) : (
+                      (() => {
+                        const reasoning = formatReasoning(value as ReasoningValue);
+                        return (
+                          <>
+                            <td>{reasoning.mode}</td>
+                            <td><code>{reasoning.defaultEffort}</code></td>
+                            <td class="axis-table__efforts">{reasoning.efforts}</td>
+                          </>
+                        );
+                      })()
+                    )}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p class="axis-table-hint" aria-hidden="true">表は横にスクロールできます。</p>
+        </section>
+      );
+    })
+  }
+
+  <section class="axis-pending" aria-labelledby="axis-pending-heading">
+    <div class="axis-block__head">
+      <h3 id="axis-pending-heading">まだ数値を出していない軸</h3>
+      <span class="axis-status axis-status--pending">未確認</span>
+    </div>
+    <p class="axis-pending__lead">
+      次の軸は、同じモデルID・同じ条件の測定値を、このサイトが参照できる出典で確認できていません。空欄を推定値で埋めず、数値そのものを出していません。
+    </p>
+    {pendingAxes.map((axis) => (
+      <section class="axis-block axis-block--pending" aria-labelledby={`axis-${axis.id}`}>
+        <h4 id={`axis-${axis.id}`}>{axis.label}</h4>
+        <p class="axis-block__question">{axis.question}</p>
+        <p class="axis-block__note">{axis.note}</p>
+        {axis.candidate_benchmarks && axis.candidate_benchmarks.length > 0 ? (
+          <p class="axis-block__candidates">
+            候補となる指標：{axis.candidate_benchmarks.join(' / ')}（このサイトでは未測定）
+          </p>
+        ) : null}
+        {axis.needs && axis.needs.length > 0 ? (
+          <>
+            <p class="axis-block__needs-label">公開するために記録する項目</p>
+            <ul class="axis-block__needs">
+              {axis.needs.map((need) => (
+                <li>{need}</li>
+              ))}
+            </ul>
+          </>
+        ) : null}
+      </section>
+    ))}
+  </section>
+
+  <p class="axis-comparison__note">
+    表の並びは提供元と名前の順です。価格と文脈長はこの表に含めず、「価格・文脈長・速度で選ぶ」の表で別に扱います。両者を合わせた総合スコアは作りません。
+  </p>
+</div>

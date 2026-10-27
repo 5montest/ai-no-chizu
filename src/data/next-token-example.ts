@@ -12,6 +12,12 @@ export interface NextTokenCandidate {
   shortLabel: string;
   /** ロジット。残りの語彙をまとめた行は個別の値を持たない。 */
   logit: number | null;
+  /**
+   * まとめた行を1つの候補として Softmax にかけるときの実効ロジット。
+   * 温度を動かす図（TemperatureExperiment）だけで使う。個々のロジットの
+   * 代わりに合計を1行にまとめた値なので、記事の表には出さない。
+   */
+  aggregateLogit?: number;
   /** Softmax 後の確率。全候補の合計は1。 */
   probability: number;
 }
@@ -26,6 +32,9 @@ export const nextTokenExample = {
       label: 'その他（残りの語彙すべて）',
       shortLabel: 'その他',
       logit: null,
+      // 温度1で Softmax にかけたときに 0.07 になる実効値。
+      // 記事の表は個々のロジットを並べず「—」にしている。
+      aggregateLogit: 1.02,
       probability: 0.07,
     },
   ] satisfies NextTokenCandidate[],
@@ -36,3 +45,17 @@ export const nextTokenExample = {
    */
   axis: { min: 0, max: 0.7, ticks: [0, 0.2, 0.4, 0.6] },
 };
+
+/**
+ * 温度の実験で Softmax にかけるロジット。
+ *
+ * まとめた行は実効ロジットを使う。抜けがあると図と表で値がずれるため、
+ * ビルド時に止める（黙って0として扱わない）。
+ */
+export function softmaxLogits(): number[] {
+  return nextTokenExample.candidates.map((candidate: NextTokenCandidate) => {
+    if (candidate.logit !== null) return candidate.logit;
+    if (typeof candidate.aggregateLogit === 'number') return candidate.aggregateLogit;
+    throw new Error(`Softmax 用のロジットがありません: ${candidate.label}`);
+  });
+}

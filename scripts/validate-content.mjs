@@ -171,6 +171,39 @@ for (const file of files) {
     }
   }
 
+  // 出典: 読者が自分で確かめられる形になっているか。
+  // ネットワークには出ないので、URL の形と「URL がないときの説明」だけを見る。
+  const seenSourceUrls = new Map();
+  for (const [index, source] of (Array.isArray(data.sources) ? data.sources : []).entries()) {
+    const at = `sources[${index}]（${source?.title ?? 'title なし'}）`;
+    if (typeof source?.title !== 'string' || source.title.trim() === '') {
+      fail(rel, `sources[${index}]: title が空です`);
+      continue;
+    }
+
+    if (source.url === undefined) {
+      if (typeof source.note !== 'string' || source.note.trim() === '') {
+        fail(rel, `${at}: URL がない場合は note に理由を書いてください`);
+      }
+      continue;
+    }
+
+    if (typeof source.url !== 'string' || !/^https?:\/\/[^\s]+$/.test(source.url)) {
+      fail(rel, `${at}: url は http(s) の絶対URLにしてください: ${source.url}`);
+      continue;
+    }
+    if (seenSourceUrls.has(source.url)) {
+      fail(rel, `${at}: 同じ URL が sources[${seenSourceUrls.get(source.url)}] と重複しています`);
+      continue;
+    }
+    seenSourceUrls.set(source.url, index);
+
+    // http は読者の通信が平文になる。直せない事情がある場合だけ残す。
+    if (source.url.startsWith('http://')) {
+      warn(rel, `${at}: http の URL です（https で開けるか確認してください）: ${source.url}`);
+    }
+  }
+
   // 本文中の [[...]] リンク。
   for (const match of split.body.matchAll(/\[\[([^\]\n]+)\]\]/g)) {
     const target = match[1].split('|')[0].trim();

@@ -44,15 +44,18 @@ sources:
     publisher: 'arXiv'
     note: '単純に最頻の候補を選ぶ生成の問題点と、候補を絞る選択方法を調べた研究。'
   - title: 'CTRL: A Conditional Transformer Language Model for Controllable Generation'
+    url: 'https://arxiv.org/abs/1909.05858'
     publisher: 'arXiv'
     note: '生成の制御と、確率的な選択を組み合わせる考え方の一つ。'
   - title: 'How to generate text: using different decoding methods for language generation with Transformers'
+    url: 'https://huggingface.co/blog/how-to-generate'
     publisher: 'Hugging Face'
     note: '生成の選択方法と設定の違いを、実装の側から整理した解説。'
 ---
 
 import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import TemperatureExperiment from '../../../components/TemperatureExperiment.astro';
 
 「同じ質問なのに、毎回ちょっと違う答えが返るのはなぜか」。この揺れは事故ではなく、生成の最後に確率から選ぶ手順から来ています。選ばせ方を変えれば、出力の性格も変わります。このページでは、[[next-token-prediction|次トークン予測]]の最後の一手を分解します。
 
@@ -85,6 +88,10 @@ import DeepDive from '../../../components/DeepDive.astro';
 要点は、尖らせても正しさが増すわけではないことです。安定した形のまま、誤った内容を繰り返すこともあります。
 
 設定は0から2程度の数値で渡されることが多く、値の絶対そのものより、上げたときと下げたときの傾向を押さえておくと扱いやすいです。同じ質問を複数回試して答えのばらつきを見るのも、分布の尖り方を確かめる手軽な方法になります。
+
+4つの候補を使った例で、得点はそのままに温度だけを動かすと、確率がどう変わるかを図にしました。
+
+<TemperatureExperiment />
 
 値の体感はモデルごとに異なります。同じ0.7でも、分布の形が違えば残る候補の幅は変わるため、借りてきた目安の数値はまず小さく試して傾向を確かめてから広げます。
 
