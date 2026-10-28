@@ -1,0 +1,699 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import zukanJson from '../../../data/zukan.json';
+import pricingJson from '../../../data/zukan-pricing.json';
+import modelComparisonJson from '../../../data/model-comparison.json';
+import curriculum from '../../data/curriculum.json';
+import { withBase } from '../../lib/site.mjs';
+import {
+  PRICE_REVIEW_DAYS,
+  SPEC_REVIEW_DAYS,
+  VERIFICATION_LABELS,
+  buildPriceIndex,
+  entityBadges,
+  freshnessState,
+  formatUsd,
+  planPriceLines,
+  planSnapshotsFor,
+  priceEntriesFor,
+} from '../../lib/zukan.mjs';
+import type {
+  Capability,
+  ModelComparison,
+  PriceTier,
+  Zukan,
+  ZukanEntity,
+  ZukanPricing,
+  ZukanTerm,
+} from '../../lib/zukan-types';
+
+const zukan = zukanJson as unknown as Zukan;
+const pricing = pricingJson as unknown as ZukanPricing;
+const modelComparison = modelComparisonJson as unknown as ModelComparison;
+
+// getStaticPaths はページの外側で評価されるため、frontmatter の const ではなく import を直接読む。
+export async function getStaticPaths() {
+  return (zukanJson as unknown as Zukan).entities.map((entity) => ({
+    params: { slug: entity.slug },
+    props: { entity },
+  }));
+}
+
+const { entity } = Astro.props;
+
+const kind = zukan.kinds.find((item) => item.id === entity.kind);
+const labelMap = (items: ZukanTerm[]): Map<string, string> =>
+  new Map(items.map((item): [string, string] => [item.id, item.label]));
+const labels = {
+  useCase: labelMap(zukan.use_cases),
+  interface: labelMap(zukan.interfaces),
+  platform: labelMap(zukan.platforms),
+  accessRoute: labelMap(zukan.access_routes),
+};
+const labelsOf = (
+  ids: readonly string[] | null | undefined,
+  map: Map<string, string> | Record<string, string>,
+): string[] =>
+  (ids ?? []).map((id) => (map instanceof Map ? map.get(id) : map[id]) ?? id);
+
+const MODEL_ID_STATUS_LABELS: Record<string, string> = {
+  official: '公式確認',
+  'reseller-only': '再販のみ',
+  partial: '一部未確認',
+  unverified: '未確認',
+};
+// 記録は api-official / api-reseller という機械向けの値なので、表示だけ言い換える。
+const ENVIRONMENT_LABELS: Record<string, string> = {
+  'api-official': '提供元の公式API',
+  'api-reseller': '再販事業者のAPI',
+};
+const MODALITY_LABELS: Record<string, string> = {
+  text: 'テキスト',
+  image: '画像',
+  audio: '音声',
+  video: '動画',
+  file: 'ファイル',
+};
+const UNIT_LABELS: Record<string, string> = {
+  per_month: '月額',
+  per_1m_tokens: '100万トークンあたり',
+  per_request: '1リクエストあたり',
+};
+const TAX_LABELS: Record<string, string> = {
+  excluded: '税別',
+  included: '税込',
+  unknown: '税の扱い未確認',
+};
+const COST_MODEL_LABELS: Record<string, string> = {
+  free: '無料',
+  paid: '有料（月額・席単位など）',
+  'usage-based': '従量課金',
+  mixed: '無料枠と従量課金の併用',
+  unknown: '料金体系 未確認',
+};
+
+/** 能力の行に出すキー。値がすべて Capability なので、表示名の表を直接引ける。 */
+type CapabilityKey =
+  | 'tool_support'
+  | 'skills'
+  | 'plugins'
+  | 'mcp'
+  | 'subagents'
+  | 'plan_mode'
+  | 'permissions';
+
+const CAPABILITY_ROWS: Array<[CapabilityKey, string]> = [
+  ['tool_support', 'ツール（関数呼び出し）'],
+  ['skills', 'Skills'],
+  ['plugins', 'プラグイン'],
+  ['mcp', 'MCP'],
+  ['subagents', 'サブエージェント'],
+  ['plan_mode', 'プランモード'],
+  ['permissions', '権限の設定'],
+];
+const CAPABILITY_LABELS: Record<Capability, string> = {
+  yes: '対応',
+  no: '非対応',
+  unknown: '未確認',
+  'n/a': '該当なし',
+};
+const capabilityRows = CAPABILITY_ROWS.filter(([key]) => entity[key] !== undefined);
+
+// 章への案内は分類ごとに変える。準備中の章は「準備中」と書き、公開済みに見せない。
+const CHAPTER_HINTS: Record<string, string[]> = {
+  model: ['24', '23'],
+  'specialized-model': ['31', '23'],
+  harness: ['27', '28', '23'],
+  app: ['26', '23'],
+  plan: ['25', '23'],
+};
+const chapters = curriculum.chapters as Array<{
+  id: string;
+  shortTitle: string;
+  status: string;
+}>;
+const relatedChapters = (CHAPTER_HINTS[entity.kind] ?? []).flatMap((id) => {
+  const chapter = chapters.find((item) => item.id === id);
+  return chapter ? [chapter] : [];
+});
+
+const now = new Date();
+const specFreshness = freshnessState(entity.last_checked_at, now, SPEC_REVIEW_DAYS);
+
+const priceIndex = buildPriceIndex({ pricing, modelComparison });
+const priceEntries = priceEntriesFor(priceIndex, entity.id);
+const officialPrices = priceEntries.filter((entry) => entry.source_kind === 'official');
+const resellerPrices = priceEntries.filter((entry) => entry.source_kind !== 'official');
+const planSnapshots = planSnapshotsFor(pricing, entity.id);
+
+const freshnessText = (check: ReturnType<typeof freshnessState>): string => {
+  if (check.state === 'fresh') {
+    return `目安の${check.limitDays}日以内です（確認から${check.ageDays}日）。`;
+  }
+  if (check.state === 'stale') {
+    return `目安の${check.limitDays}日を過ぎています（確認から${check.ageDays}日）。内容が変わっている可能性があるため、引用する前に公式ページで再確認してください。`;
+  }
+  return '確認日を読み取れないため、新しさを判定できません。';
+};
+
+const money = (value: number | null | undefined): string =>
+  value === null || value === undefined ? '未確認' : formatUsd(value);
+const unitSuffix = (unit: string): string =>
+  unit === 'per_1m_tokens' ? '（100万トークンあたり）' : unit === 'per_request' ? '（1リクエストあたり）' : '';
+const hasCacheColumn = (tiers: readonly PriceTier[] | null | undefined): boolean =>
+  (tiers ?? []).some((tier) => tier.cache_read !== null || tier.cache_write !== null);
+
+const historyEntries = (zukan.history ?? []).filter((entry) => entry.entity_id === entity.id);
+const siblings = zukan.entities.filter((item) => item.kind === entity.kind && item.id !== entity.id);
+const comparedSiblings = siblings.slice(0, 6);
+const compareHref = (other: ZukanEntity): string =>
+  withBase(`/zukan/compare/?ids=${encodeURIComponent(entity.id)},${encodeURIComponent(other.id)}`);
+
+const badges = entityBadges(entity);
+const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? '';
+---
+
+<BaseLayout title={`${entity.display_name}｜AI図鑑`} description={summary}>
+  <div class="page">
+    <div class="shell">
+      <div class="zukan-page">
+        <Breadcrumb
+          items={[{ label: 'AI図鑑', href: withBase('/zukan/') }, { label: entity.display_name }]}
+        />
+
+        <header class="term-hero">
+          <p class="term-hero__category">
+            {kind?.label ?? entity.kind}／{entity.vendor}
+          </p>
+          <h1>{entity.display_name}</h1>
+          {entity.aliases.length > 0 && (
+            <p class="term-hero__reading">別名: {entity.aliases.join('、')}</p>
+          )}
+          {kind?.description && <p class="term-hero__short">{kind.description}</p>}
+          <p class="zukan-badges">
+            {badges.map((badge) => (
+              <span class:list={['badge', { 'badge--warn': badge.tone === 'warn' }]}>{badge.text}</span>
+            ))}
+            <span class="badge">確認 {entity.last_checked_at}</span>
+          </p>
+        </header>
+
+        <section class="term-section">
+          <h2>確認日と状態</h2>
+          <dl class="zukan-facts">
+            <div>
+              <dt>最終確認日</dt>
+              <dd><time datetime={entity.last_checked_at}>{entity.last_checked_at}</time></dd>
+            </div>
+            <div>
+              <dt>最終検証日</dt>
+              <dd><time datetime={entity.last_verified_at}>{entity.last_verified_at}</time></dd>
+            </div>
+            <div>
+              <dt>情報の状態</dt>
+              <dd>
+                {VERIFICATION_LABELS[entity.verification_status] ?? '公式情報で確認済み'}
+                {entity.verification_status === 'reseller-only'
+                  ? '（提供元の公式ページでは確認できず、再販事業者の掲載のみを根拠にしています）'
+                  : ''}
+              </dd>
+            </div>
+            <div>
+              <dt>仕様の再確認</dt>
+              <dd>{freshnessText(specFreshness)}</dd>
+            </div>
+          </dl>
+          <p>
+            価格は{zukan.policy.freshness.price_review_after_days}日、仕様は
+            {zukan.policy.freshness.spec_review_after_days}
+            日を過ぎたら「再確認が必要」と表示します。{zukan.policy.freshness.note}
+          </p>
+        </section>
+
+        <section class="term-section">
+          <h2>これは何か</h2>
+          {entity.notes ? <p>{entity.notes}</p> : <p>概要はまだ記録していません。</p>}
+          {entity.strengths.length > 0 && (
+            <>
+              <h3>向いていること</h3>
+              <ul class="zukan-list">
+                {entity.strengths.map((item) => <li>{item}</li>)}
+              </ul>
+            </>
+          )}
+          {entity.primary_use_cases.length > 0 && (
+            <>
+              <h3>主な用途</h3>
+              <p>{labelsOf(entity.primary_use_cases, labels.useCase).join('、')}</p>
+            </>
+          )}
+        </section>
+
+        {capabilityRows.length > 0 && (
+          <section class="term-section">
+            <h2>できること</h2>
+            <div class="model-table-wrap">
+              <table class="model-table zukan-cap-table">
+                <caption>機能ごとの対応状況。未確認は「使えない」ではなく「記載を確認できていない」の意味です。</caption>
+                <thead>
+                  <tr><th scope="col">機能</th><th scope="col">状態</th></tr>
+                </thead>
+                <tbody>
+                  {capabilityRows.map(([key, label]) => (
+                    <tr>
+                      <th scope="row">{label}</th>
+                      <td>{CAPABILITY_LABELS[entity[key]] ?? entity[key]}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {entity.capability_notes && <p class="zukan-note">{entity.capability_notes}</p>}
+          </section>
+        )}
+
+        <section class="term-section">
+          <h2>使うには</h2>
+          <dl class="zukan-facts">
+            <div>
+              <dt>利用できる経路</dt>
+              <dd>{labelsOf(entity.available_via, labels.accessRoute).join('、') || '未確認'}</dd>
+            </div>
+            <div>
+              <dt>使う場所</dt>
+              <dd>{labelsOf(entity.interfaces, labels.interface).join('、') || '未確認'}</dd>
+            </div>
+            <div>
+              <dt>対応OS・環境</dt>
+              <dd>{labelsOf(entity.platforms, labels.platform).join('、') || '未確認'}</dd>
+            </div>
+            <div>
+              <dt>必要なもの</dt>
+              <dd>
+                {entity.requires.length > 0 ? (
+                  <ul class="zukan-list">
+                    {entity.requires.map((item) => <li>{item}</li>)}
+                  </ul>
+                ) : (
+                  '未確認'
+                )}
+              </dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="term-section">
+          <h2>料金</h2>
+          <p>
+            課金の形は<strong>{COST_MODEL_LABELS[entity.cost_model] ?? entity.cost_model}</strong>です。
+            ここに載せるのは確認できた金額だけで、公式価格と再販価格は分けて表示します。
+          </p>
+
+          {officialPrices.length > 0 && (
+            <>
+              <h3>提供元の公式価格</h3>
+              {officialPrices.map((entry) => (
+                <figure class="zukan-price">
+                  <figcaption class="zukan-price__head">
+                    <span class="zukan-price__product">{entry.product}</span>
+                    <span class="zukan-price__meta">
+                      {entry.currency}／{TAX_LABELS[entry.tax] ?? entry.tax}／
+                      {UNIT_LABELS[entry.unit] ?? entry.unit}／取得 {entry.fetched_at}
+                      {freshnessState(entry.fetched_at, now, PRICE_REVIEW_DAYS).state === 'stale' && (
+                        <span class="badge badge--warn">再確認が必要</span>
+                      )}
+                    </span>
+                  </figcaption>
+
+                  {entry.model_name && (
+                    <p class="zukan-note">{entry.model_name}{entry.monthly_limit_usd !== null ? `／月額上限 ${money(entry.monthly_limit_usd)}` : ''}</p>
+                  )}
+
+                  {entry.tiers.length > 0 && (
+                    <div class="model-table-wrap">
+                      <table class="model-table">
+                        <caption>{entry.product}の単価（{UNIT_LABELS[entry.unit] ?? entry.unit}、{TAX_LABELS[entry.tax] ?? entry.tax}）</caption>
+                        <thead>
+                          <tr>
+                            <th scope="col">条件</th>
+                            <th scope="col" class="num">入力{unitSuffix(entry.unit)}</th>
+                            <th scope="col" class="num">出力{unitSuffix(entry.unit)}</th>
+                            {hasCacheColumn(entry.tiers) && (
+                              <>
+                                <th scope="col" class="num">キャッシュ読み込み</th>
+                                <th scope="col" class="num">キャッシュ書き込み</th>
+                              </>
+                            )}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {entry.tiers.map((tier) => (
+                            <tr>
+                              <th scope="row">{tier.condition}</th>
+                              <td class="num">{money(tier.input)}</td>
+                              <td class="num">{money(tier.output)}</td>
+                              {hasCacheColumn(entry.tiers) && (
+                                <>
+                                  <td class="num">{money(tier.cache_read)}</td>
+                                  <td class="num">{money(tier.cache_write)}</td>
+                                </>
+                              )}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+
+                  {entry.snapshot_notes && (
+                    <ul class="zukan-list">
+                      {entry.snapshot_notes.map((note) => <li>{note}</li>)}
+                    </ul>
+                  )}
+                  {entry.source && (
+                    <p class="zukan-price__source">
+                      出典:
+                      <a href={entry.source.url}>{entry.source.title}</a>（{entry.source.publisher}）
+                    </p>
+                  )}
+                </figure>
+              ))}
+            </>
+          )}
+
+          {planSnapshots.length > 0 && (
+            <>
+              <h3>プランと月額</h3>
+              {planSnapshots.map((snapshot) => (
+                <figure class="zukan-price">
+                  <figcaption class="zukan-price__head">
+                    <span class="zukan-price__product">{snapshot.product}</span>
+                    <span class="zukan-price__meta">
+                      {snapshot.currency}／{TAX_LABELS[snapshot.tax] ?? snapshot.tax}／取得 {snapshot.fetched_at}
+                      {freshnessState(snapshot.fetched_at, now, PRICE_REVIEW_DAYS).state === 'stale' && (
+                        <span class="badge badge--warn">再確認が必要</span>
+                      )}
+                    </span>
+                  </figcaption>
+                  <dl class="zukan-plans">
+                    {snapshot.plans.map((plan) => (
+                      <div>
+                        <dt>{plan.display_name}</dt>
+                        <dd>
+                          <ul class="zukan-list">
+                            {planPriceLines(plan).map((line) => <li>{line}</li>)}
+                          </ul>
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                  {snapshot.notes.length > 0 && (
+                    <ul class="zukan-list">
+                      {snapshot.notes.map((note) => <li>{note}</li>)}
+                    </ul>
+                  )}
+                  {snapshot.source && (
+                    <p class="zukan-price__source">
+                      出典:
+                      <a href={snapshot.source.url}>{snapshot.source.title}</a>（{snapshot.source.publisher}）
+                    </p>
+                  )}
+                </figure>
+              ))}
+            </>
+          )}
+
+          {resellerPrices.length > 0 && (
+            <>
+              <h3>再販事業者の価格</h3>
+              <p>
+                提供元の公式価格ではなく、再販事業者が提示している価格です。条件の記載がない場合は、その旨を書いています。
+              </p>
+              {resellerPrices.map((entry) => (
+                <figure class="zukan-price">
+                  <figcaption class="zukan-price__head">
+                    <span class="zukan-price__product">{entry.product}</span>
+                    <span class="zukan-price__meta">
+                      {entry.currency}／{UNIT_LABELS[entry.unit] ?? entry.unit}／取得 {entry.fetched_at}
+                      {freshnessState(entry.fetched_at, now, PRICE_REVIEW_DAYS).state === 'stale' && (
+                        <span class="badge badge--warn">再確認が必要</span>
+                      )}
+                    </span>
+                  </figcaption>
+                  <div class="model-table-wrap">
+                    <table class="model-table">
+                      <caption>{entry.product}の提示価格（{UNIT_LABELS[entry.unit] ?? entry.unit}）</caption>
+                      <thead>
+                        <tr>
+                          <th scope="col">条件</th>
+                          <th scope="col" class="num">入力{unitSuffix(entry.unit)}</th>
+                          <th scope="col" class="num">出力{unitSuffix(entry.unit)}</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {entry.tiers.map((tier) => (
+                          <tr>
+                            <th scope="row">{tier.condition}</th>
+                            <td class="num">{money(tier.input)}</td>
+                            <td class="num">{money(tier.output)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  {entry.derived_from && (
+                    <p class="zukan-note">
+                      この価格は <code>{entry.derived_from}</code> の値をそのまま参照しています。キャッシュ利用時の単価など、参照先に記載のない項目は「未確認」としています。
+                    </p>
+                  )}
+                  {entry.source && (
+                    <p class="zukan-price__source">
+                      出典:
+                      <a href={entry.source.url}>{entry.source.title}</a>（{entry.source.publisher}）
+                    </p>
+                  )}
+                </figure>
+              ))}
+            </>
+          )}
+
+          {priceEntries.length === 0 && planSnapshots.length === 0 && (
+            <p>
+              この項目の料金はまだ確認できていません。金額を0円として扱わず、未確認のままにしています。
+            </p>
+          )}
+
+          {entity.cost_model === 'unknown' && priceEntries.length === 0 && planSnapshots.length === 0 && (
+            <p>料金体系そのものが未確認のため、無料・有料のどちらにも分類していません。</p>
+          )}
+        </section>
+
+        {(entity.not_suitable_for.length > 0 || entity.limitations.length > 0 || entity.conditions?.length > 0) && (
+          <section class="term-section">
+            <h2>注意</h2>
+            {entity.not_suitable_for.length > 0 && (
+              <>
+                <h3>向かない用途</h3>
+                <ul class="zukan-list">
+                  {entity.not_suitable_for.map((item) => <li>{item}</li>)}
+                </ul>
+              </>
+            )}
+            {entity.limitations.length > 0 && (
+              <>
+                <h3>制約</h3>
+                <ul class="zukan-list">
+                  {entity.limitations.map((item) => <li>{item}</li>)}
+                </ul>
+              </>
+            )}
+            {entity.conditions?.length > 0 && (
+              <>
+                <h3>前提条件</h3>
+                <ul class="zukan-list">
+                  {entity.conditions.map((item) => <li>{item}</li>)}
+                </ul>
+              </>
+            )}
+          </section>
+        )}
+
+        {entity.model_ids.length > 0 && (
+          <section class="term-section">
+            <h2>モデルID</h2>
+            <p>
+              モデルIDは、提供元と利用する環境を添えて記録しています。同じモデルでも、提供元やAPIの環境が違えばIDも料金も別です。
+            </p>
+            <div class="model-table-wrap">
+              <table class="model-table">
+                <caption>提供元ごとのモデルID。確認できたIDだけを載せています。</caption>
+                <thead>
+                  <tr>
+                    <th scope="col">提供元</th>
+                    <th scope="col">モデルID</th>
+                    <th scope="col">環境</th>
+                    <th scope="col">状態</th>
+                    <th scope="col">確認日</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {entity.model_ids.map((modelId) => (
+                    <tr>
+                      <th scope="row">{modelId.provider}</th>
+                      <td><code>{modelId.id}</code></td>
+                      <td>{ENVIRONMENT_LABELS[modelId.environment] ?? modelId.environment}</td>
+                      <td>{MODEL_ID_STATUS_LABELS[modelId.verification_status] ?? modelId.verification_status}</td>
+                      <td>{modelId.verified_at}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {entity.model_ids.some((modelId) => modelId.note) && (
+              <ul class="zukan-list">
+                {entity.model_ids.map((modelId) => (
+                  <li>{modelId.provider} <code>{modelId.id}</code>: {modelId.note}</li>
+                ))}
+              </ul>
+            )}
+          </section>
+        )}
+
+        {(entity.context_window || entity.input_modalities || entity.output_modalities || entity.reasoning_efforts) && (
+          <section class="term-section">
+            <h2>仕様</h2>
+            <dl class="zukan-facts">
+              {entity.context_window && (
+                <div>
+                  <dt>文脈長</dt>
+                  <dd>
+                    {entity.context_window.tokens.toLocaleString('ja-JP')}トークン
+                    （根拠: {entity.context_window.basis === 'official' ? '公式' : entity.context_window.basis === 'reseller' ? '再販事業者の掲載' : '未確認'}）
+                    <span class="zukan-note">{entity.context_window.note}</span>
+                  </dd>
+                </div>
+              )}
+              {entity.input_modalities && (
+                <div>
+                  <dt>入力</dt>
+                  <dd>{labelsOf(entity.input_modalities, MODALITY_LABELS).join('、')}</dd>
+                </div>
+              )}
+              {entity.output_modalities && (
+                <div>
+                  <dt>出力</dt>
+                  <dd>{labelsOf(entity.output_modalities, MODALITY_LABELS).join('、')}</dd>
+                </div>
+              )}
+              {entity.reasoning_efforts && (
+                <div>
+                  <dt>推論の強さ</dt>
+                  <dd>
+                    {entity.reasoning_efforts.supported.join('、')}
+                    （既定: {entity.reasoning_efforts.default}／
+                    {entity.reasoning_efforts.mandatory ? '指定は必須' : '指定は任意'}）
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </section>
+        )}
+
+        {historyEntries.length > 0 && (
+          <section class="term-section">
+            <h2>履歴</h2>
+            <dl class="zukan-facts">
+              {historyEntries.map((entry) => (
+                <div>
+                  <dt>{entry.id}</dt>
+                  <dd>
+                    <span class="badge">
+                      {entry.status === 'retired' ? '提供終了' : entry.status === 'renamed' ? '改名' : '統合'}
+                    </span>
+                    {entry.note}
+                    {entry.source?.url ? (
+                      <a href={entry.source.url}>{entry.source.title}</a>
+                    ) : (
+                      <span>{entry.source?.title ?? '出典 未記録'}</span>
+                    )}
+                    （{entry.source?.publisher ?? '提供元 未記録'}、確認 {entry.checked_at}）
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+
+        <section class="term-section">
+          <h2>出典</h2>
+          <ul class="backlink-list">
+            {entity.sources.map((source) => (
+              <li>
+                <a href={source.url}>{source.title}</a>
+                <span class="meta">{source.publisher}／{source.note}</span>
+              </li>
+            ))}
+          </ul>
+          <p>
+            公式ページ: <a href={entity.official_url}>{entity.official_url}</a>
+          </p>
+        </section>
+
+        <section class="term-section">
+          <h2>関連する章</h2>
+          <div class="chapter-chips">
+            {relatedChapters.map((chapter) =>
+              chapter.status === 'published' ? (
+                <a class="chip" href={withBase(`/chapters/${chapter.id}/`)}>
+                  <span class="chip__no">{chapter.id}</span>
+                  {chapter.shortTitle}
+                </a>
+              ) : (
+                <span class="chip chip--planned">
+                  <span class="chip__no">{chapter.id}</span>
+                  {chapter.shortTitle}（準備中）
+                </span>
+              ),
+            )}
+          </div>
+        </section>
+
+        <section class="term-section">
+          <h2>同じ分類の項目</h2>
+          {comparedSiblings.length > 0 ? (
+            <>
+              <p>2件以上を選ぶと、同じ表で並べて見くらべられます。</p>
+              <ul class="backlink-list">
+                {comparedSiblings.map((other) => (
+                  <li>
+                    <a href={compareHref(other)}>{entity.display_name}と{other.display_name}を比べる</a>
+                    <span class="meta">{other.vendor}／確認 {other.last_checked_at}</span>
+                  </li>
+                ))}
+              </ul>
+              {siblings.length > comparedSiblings.length && (
+                <p>
+                  ほか{siblings.length - comparedSiblings.length}件は
+                  <a href={withBase(`/zukan/?kind=${entity.kind}`)}>一覧の{kind?.label ?? entity.kind}から</a>
+                  選べます。
+                </p>
+              )}
+            </>
+          ) : (
+            <p>同じ分類の項目はまだ登録されていません。</p>
+          )}
+          <p>
+            <a class="btn btn--ghost" href={withBase(`/zukan/compare/?ids=${encodeURIComponent(entity.id)}`)}>
+              比較の画面を開く
+            </a>
+          </p>
+        </section>
+
+        <nav class="page-nav" aria-label="ページ内の移動">
+          <a href={withBase('/zukan/')}>AI図鑑の一覧へ戻る</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

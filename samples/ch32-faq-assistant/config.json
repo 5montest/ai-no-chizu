@@ -1,0 +1,15 @@
+{
+  "product": "設備ヘルプデスク（サンプル）",
+  "version": "0.1.0",
+  "retrieval": {
+    "min_coverage": 0.5,
+    "min_margin": 0.15
+  },
+  "cost": {
+    "unit_price_input_per_1m": null,
+    "unit_price_output_per_1m": null,
+    "price_source": null,
+    "price_checked_at": null,
+    "chars_per_token": 1.5
+  }
+}

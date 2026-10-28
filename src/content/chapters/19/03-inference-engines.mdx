@@ -16,12 +16,12 @@ summary:
 quiz:
   - question: 'llama.cpp と Ollama の関係を説明したものとして、最も適切なものはどれか。'
     options:
-      - 'Ollama は llama.cpp の技術を土台に、モデルの入手や管理、APIをまとめた道具である。'
+      - 'Ollama は複数の実行エンジンを使い分け、その一つとして llama.cpp を用いる。モデルの入手や管理、APIまでをまとめた道具である。'
       - '両者はまったく独立なソフトで、共通する部分はない。'
       - 'llama.cpp は Ollama の一部であり、単独では動かせない。'
       - 'Ollama が llama.cpp を置き換え、llama.cpp は使えなくなる予定である。'
     answer: 0
-    explanation: 'Ollama は llama.cpp の技術を土台に、モデルの入手・管理・APIをまとめた道具です。土台の llama.cpp は、単独で使うこともできます。'
+    explanation: 'Ollama はモデルの入手・管理・APIをまとめた道具で、実行の土台には複数のエンジンを使い分けます。llama.cpp はその一つで、単独でも使えます。どのエンジンが使われるかは、計算装置やモデルの形式によって変わります。'
   - question: '複数の要求を一度に処理するとき、1件あたりの生成速度が落ちる場合があるのはなぜか。'
     options:
       - '複数件のトークン生成が交互に進むため、自分の件が次のトークンを出すまでの間隔が広がる。'
@@ -47,6 +47,10 @@ sources:
     url: 'https://github.com/ollama/ollama'
     publisher: 'GitHub'
     note: 'モデルの入手、管理、接続用APIをまとめた実行環境。'
+  - title: 'Ollama is now powered by MLX on Apple Silicon'
+    url: 'https://ollama.com/blog/mlx'
+    publisher: 'Ollama'
+    note: 'Apple Silicon向けにMLXを実行エンジンとして用いる構成を案内した公式ブログ。Ollamaがllama.cppだけを土台にしているわけではないことの根拠として挙げている。'
   - title: 'LoRA: Low-Rank Adaptation of Large Language Models'
     url: 'https://arxiv.org/abs/2106.09685'
     publisher: 'arXiv'
@@ -63,7 +67,7 @@ import DeepDive from '../../../components/DeepDive.astro';
 三つのソフトは、どれも同じ重みから文章を生成しますが、担う範囲が違います。
 
 - llama.cpp：[[gguf|GGUF]]形式を扱う代表的な推論実装。CPU・GPU・NPU を組み合わせた環境を含め、小さな環境でも動きます。他のソフトの土台になることも多い、基本の実装です。
-- Ollama：llama.cpp の技術を土台に、モデルの入手、管理、接続用のAPIまでを一つにまとめた道具です。初めてローカルLLMを試す人にとって、始めやすい環境になっています。
+- Ollama：モデルの入手、管理、接続用のAPIまでを一つにまとめた道具です。実行の土台としてllama.cppを用いる構成から始まり、いまはMLXなど複数の実行エンジンを使い分けられるようになっています。初めてローカルLLMを試す人にとって、始めやすい環境になっています。
 - vLLM：複数の要求を大量にさばくための提供基盤です。同時に届く要求を効率よく処理する工夫が組み込まれていて、サーバー上での定常運用に向いています。
 
 | ソフト | 役割 | 向いている場面 |

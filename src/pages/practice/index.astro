@@ -1,0 +1,157 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import curriculum from '../../data/curriculum.json';
+import { withBase } from '../../lib/site.mjs';
+
+/**
+ * 実践編の入口。
+ *
+ * 公開の有無は curriculum.json の status ではなく、本文（MDX）が存在するかで決める。
+ * status だけを先に published にすると、押しても 404 になるリンクが生まれる。
+ */
+const entries = await getCollection('chapters');
+const stats = new Map<string, { pages: number; minutes: number }>();
+for (const entry of entries) {
+  const current = stats.get(entry.data.chapter) ?? { pages: 0, minutes: 0 };
+  current.pages += 1;
+  current.minutes += entry.data.readingMinutes;
+  stats.set(entry.data.chapter, current);
+}
+
+const practiceParts = curriculum.parts.filter((part) => part.id >= 7);
+const practiceChapters = curriculum.chapters.filter((chapter) => chapter.part >= 7);
+const readyChapters = practiceChapters.filter((chapter) => (stats.get(chapter.id)?.pages ?? 0) > 0);
+const pendingChapters = practiceChapters.filter((chapter) => (stats.get(chapter.id)?.pages ?? 0) === 0);
+
+const PATHS = [
+  {
+    href: withBase('/chapters/01/'),
+    label: '学ぶ',
+    title: '基礎編（第1〜22章）',
+    body: '仕組みと考え方を先に押さえます。トークン、Attention、学習、検索、評価まで、製品の内側で何が起きているかを順に読みます。',
+    meta: '第1章から読む',
+  },
+  {
+    href: '#chapters',
+    label: '使う',
+    title: '実践編（第23〜32章）',
+    body: '製品を選び、動かし、比べます。各章には実習と、そのまま使える成果物（選択シート、選定表、試算表など）を置きます。',
+    meta: `${readyChapters.length}章を公開中`,
+  },
+  {
+    href: withBase('/zukan/'),
+    label: '探す・比べる',
+    title: 'AI図鑑',
+    body: '名前・用途・条件から製品を探し、2件以上を並べて見くらべます。確認日と一次情報へのリンクを各項目に付けています。',
+    meta: '名前から探す',
+  },
+];
+---
+
+<BaseLayout
+  title="実践編"
+  description="第23〜32章の実践編。製品の選び方、モデルの選び方、料金の比べ方から、CLI・ハーネス・拡張機構・専用モデルの組合せ、製品の完成までを扱います。"
+>
+  <div class="page">
+    <div class="shell">
+      <nav class="breadcrumbs" aria-label="パンくずリスト">
+        <a href={withBase('/')}>ホーム</a>
+        <span aria-hidden="true">/</span>
+        <span>実践編</span>
+      </nav>
+
+      <div class="section-head section-head--left page-head">
+        <h1>実践編</h1>
+        <p>
+          基礎編で仕組みを押さえたあと、実際に手を動かすための入口です。製品を選び、動かし、比べるまでの流れを
+          第23〜32章で扱います。各章には実習と成果物を置き、読んだあとに何かが手元に残る形にしています。
+          このサイトは3つの入口から使えます。
+        </p>
+      </div>
+
+      <ul class="practice-paths">
+        {PATHS.map((path) => (
+          <li class="practice-path">
+            <a href={path.href}>
+              <span class="practice-path__label">{path.label}</span>
+              <span class="practice-path__title">{path.title}</span>
+              <span class="practice-path__body">{path.body}</span>
+              <span class="practice-path__meta">{path.meta}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <div class="contents" id="chapters">
+        {practiceParts.map((part) => (
+          <section aria-labelledby={`practice-part-${part.id}`}>
+            <div class="part__head">
+              <span class="part__roman" aria-hidden="true">{part.roman}</span>
+              <div>
+                <h2 id={`practice-part-${part.id}`}>
+                  <span class="sr-only">第{part.roman}部</span>
+                  {part.title}
+                </h2>
+                <p class="part__lead">{part.lead}</p>
+              </div>
+            </div>
+            <ul class="chapter-list">
+              {curriculum.chapters
+                .filter((chapter) => chapter.part === part.id)
+                .map((chapter) => {
+                  const stat = stats.get(chapter.id);
+                  return (
+                    <li>
+                      {stat ? (
+                        <a class="chapter-row" href={withBase(`/chapters/${chapter.id}/`)}>
+                          <span class="chapter-row__no">{chapter.id}</span>
+                          <span>
+                            <span class="chapter-row__title">{chapter.title}</span>
+                            <span class="chapter-row__q">{chapter.question}</span>
+                          </span>
+                          <span class="chapter-row__meta">
+                            {stat.pages}ページ・約{stat.minutes}分
+                          </span>
+                        </a>
+                      ) : (
+                        <div class="chapter-row chapter-row--planned">
+                          <span class="chapter-row__no">{chapter.id}</span>
+                          <span>
+                            <span class="chapter-row__title">{chapter.title}</span>
+                            <span class="chapter-row__q">{chapter.question}</span>
+                          </span>
+                          <span class="chapter-row__meta">準備中</span>
+                        </div>
+                      )}
+                    </li>
+                  );
+                })}
+            </ul>
+          </section>
+        ))}
+      </div>
+
+      <section class="section section--tight">
+        <div class="callout callout--note">
+          <p class="callout__label">実践編の読み方</p>
+          {pendingChapters.length > 0 ? (
+            <p>
+              いま{practiceChapters.length}章のうち{readyChapters.length}章を公開しています。残りの
+              {pendingChapters.length}章（第
+              {pendingChapters.map((chapter) => chapter.id).join('・')}章）は準備中です。
+              準備中の章は一覧に残し、公式資料での確認と実習の検証が終わった順に本文を追加します。
+              公開前の章を「公開済み」として扱うことはしません。
+            </p>
+          ) : (
+            <p>{practiceChapters.length}章すべてを公開しています。</p>
+          )}
+          <p>
+            製品名から入りたいときは<a href={withBase('/zukan/')}>AI図鑑</a>が近道です。図鑑の各項目からは、
+            その製品を扱っている章へリンクしています。
+          </p>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>ハーネスを、測れる観点で比べる｜AIの地図</title><meta name="description" content="モデルが同じでも、ハーネスが違えば手順も失敗の仕方も変わります。比べる観点を八つに決め、公式ドキュメントで確認できた範囲だけを表にします。"><link rel="canonical" href="http://192.168.8.10:8090/20261027-website-design-implementation/site/chapters/28/01-harness-axes/"><link rel="icon" type="image/svg+xml" href="/20261027-website-design-implementation/site/favicon.svg"><meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#141619" media="(prefers-color-scheme: dark)"><meta property="og:type" content="article"><meta property="og:site_name" content="AIの地図"><meta property="og:title" content="ハーネスを、測れる観点で比べる｜AIの地図"><meta property="og:description" content="モデルが同じでも、ハーネスが違えば手順も失敗の仕方も変わります。比べる観点を八つに決め、公式ドキュメントで確認できた範囲だけを表にします。"><meta property="og:url" content="http://192.168.8.10:8090/20261027-website-design-implementation/site/chapters/28/01-harness-axes/"><meta property="og:locale" content="ja_JP"><meta name="twitter:card" content="summary"><script>
+      (() => {
+        try {
+          const saved = localStorage.getItem('ai-map-theme');
+          const theme =
+            saved === 'light' || saved === 'dark'
+              ? saved
+              : window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+          document.documentElement.dataset.theme = theme;
+        } catch (_) {
+          /* localStorage が使えない環境では CSS の prefers-color-scheme に任せる */
+        }
+      })();
+    </script><link rel="stylesheet" href="/20261027-website-design-implementation/site/_astro/BaseLayout.BW22qyAc.css"></head><body class><a class="skip-link" href="#main">本文へスキップ</a><header class="site-header"><div class="shell site-header__inner"><a class="brand" href="/20261027-website-design-implementation/site/" aria-label="AIの地図 トップページ"><span class="seal" aria-hidden="true"><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 3.5h10M2 7h7M2 10.5h4.5"></path></svg></span><span class="brand__text"><span class="brand__name">AIの地図</span><span class="brand__tag">仕組みから理解する、社会人のためのAIガイド</span></span></a><nav class="site-nav" id="site-nav" aria-label="主要ナビゲーション"><a href="/20261027-website-design-implementation/site/chapters/" aria-current="page">章一覧</a><a href="/20261027-website-design-implementation/site/practice/">実践編</a><a href="/20261027-website-design-implementation/site/zukan/">AI図鑑</a><a href="/20261027-website-design-implementation/site/glossary/">用語辞典</a><a href="/20261027-website-design-implementation/site/quiz/">クイズ</a><a href="/20261027-website-design-implementation/site/about/">このサイト</a><div class="site-nav__index"><p>公開中の章</p><a href="/20261027-website-design-implementation/site/chapters/01/"><span class="no">01</span><span>そもそもAIとは何か</span></a><a href="/20261027-website-design-implementation/site/chapters/02/"><span class="no">02</span><span>AIはどのように発展したのか</span></a><a href="/20261027-website-design-implementation/site/chapters/03/"><span class="no">03</span><span>機械学習とニューラルネットワークの基本</span></a><a href="/20261027-website-design-implementation/site/chapters/04/"><span class="no">04</span><span>LLMが文章を返すまで</span></a><a href="/20261027-website-design-implementation/site/chapters/05/"><span class="no">05</span><span>トークン・埋め込み・ベクトルは何をしているのか</span></a><a href="/20261027-website-design-implementation/site/chapters/06/"><span class="no">06</span><span>TransformerとAttentionの仕組み</span></a><a href="/20261027-website-design-implementation/site/chapters/07/"><span class="no">07</span><span>LLMはどう作られるのか</span></a><a href="/20261027-website-design-implementation/site/chapters/08/"><span class="no">08</span><span>LLMはどう回答を生成するのか</span></a><a href="/20261027-website-design-implementation/site/chapters/09/"><span class="no">09</span><span>LLMはなぜ間違うのか</span></a><a href="/20261027-website-design-implementation/site/chapters/10/"><span class="no">10</span><span>プロンプトとコンテキスト設計</span></a><a href="/20261027-website-design-implementation/site/chapters/11/"><span class="no">11</span><span>RAGと検索・ツール利用</span></a><a href="/20261027-website-design-implementation/site/chapters/12/"><span class="no">12</span><span>AIエージェントとは何か</span></a><a href="/20261027-website-design-implementation/site/chapters/13/"><span class="no">13</span><span>コーディングエージェントの仕組み</span></a><a href="/20261027-website-design-implementation/site/chapters/14/"><span class="no">14</span><span>マルチモーダルAIとは何か</span></a><a href="/20261027-website-design-implementation/site/chapters/15/"><span class="no">15</span><span>画像生成AIの仕組み</span></a><a href="/20261027-website-design-implementation/site/chapters/16/"><span class="no">16</span><span>動画生成・音声AIの仕組み</span></a><a href="/20261027-website-design-implementation/site/chapters/17/"><span class="no">17</span><span>ロボット・フィジカルAIへの接続</span></a><a href="/20261027-website-design-implementation/site/chapters/18/"><span class="no">18</span><span>モデルの比較と選び方</span></a><a href="/20261027-website-design-implementation/site/chapters/19/"><span class="no">19</span><span>ローカルLLMを動かす</span></a><a href="/20261027-website-design-implementation/site/chapters/20/"><span class="no">20</span><span>仕事でAIを使うには</span></a><a href="/20261027-website-design-implementation/site/chapters/21/"><span class="no">21</span><span>AIの評価と安全な運用</span></a><a href="/20261027-website-design-implementation/site/chapters/22/"><span class="no">22</span><span>これからのAIと学び方</span></a><a href="/20261027-website-design-implementation/site/chapters/23/"><span class="no">23</span><span>今すぐ使えるAI製品の全体像</span></a><a href="/20261027-website-design-implementation/site/chapters/24/"><span class="no">24</span><span>有名モデルと専用モデルを名前で選ぶ</span></a><a href="/20261027-website-design-implementation/site/chapters/25/"><span class="no">25</span><span>AI料金・サブスクリプション・コスパ</span></a><a href="/20261027-website-design-implementation/site/chapters/27/"><span class="no">27</span><span>CLIコーディングエージェント入門</span></a><a href="/20261027-website-design-implementation/site/chapters/28/" aria-current="page"><span class="no">28</span><span>ハーネス比較</span></a><a href="/20261027-website-design-implementation/site/chapters/29/"><span class="no">29</span><span>Skills・Plugins・MCP・Hooks・設定ファイル</span></a><a href="/20261027-website-design-implementation/site/chapters/30/"><span class="no">30</span><span>Plan Mode・Subagents・Agent Teams・並列実行</span></a><a href="/20261027-website-design-implementation/site/chapters/31/"><span class="no">31</span><span>STT・TTS・画像/VLM・判定モデルを組み合わせる</span></a><a href="/20261027-website-design-implementation/site/chapters/32/"><span class="no">32</span><span>AIで実際の製品を一つ完成させる</span></a></div></nav><div class="header-tools"><button class="icon-btn search-btn" type="button" data-search-open aria-label="サイト内検索を開く"><svg viewBox="0 0 20 20" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8.5" cy="8.5" r="5.2"></circle><path d="m12.6 12.6 4 4"></path></svg><span>検索</span><kbd data-search-key>⌘K</kbd></button><button class="icon-btn" type="button" data-theme-toggle aria-label="テーマを切り替える">☾</button><button class="icon-btn nav-toggle" type="button" data-nav-toggle aria-controls="site-nav" aria-expanded="false" aria-label="メニューを開く"><svg viewBox="0 0 20 20" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h14M3 10h14M3 14h14"></path></svg></button></div></div></header><main id="main"><div class="page"><div class="shell"><nav class="breadcrumbs" aria-label="パンくずリスト"><a href="/20261027-website-design-implementation/site/">ホーム</a><span aria-hidden="true">/</span><a href="/20261027-website-design-implementation/site/chapters/">章一覧</a><span aria-hidden="true">/</span><a href="/20261027-website-design-implementation/site/chapters/28/">第28章 ハーネス比較</a><span aria-hidden="true">/</span><span>ハーネスを、測れる観点で比べる</span></nav><div class="article-wrap"><div class="article-rail"><nav class="chapter-rail" aria-label="章のナビゲーション"><p class="chapter-rail__part">第VII部 実際に使うAI</p><a class="chapter-rail__chapter" href="/20261027-website-design-implementation/site/chapters/28/"><span class="no">28</span><span>ハーネス比較</span></a><ul class="chapter-rail__pages"><li><a href="/20261027-website-design-implementation/site/chapters/28/01-harness-axes/" aria-current="page"><span class="no">1</span><span>ハーネスを、測れる観点で比べる</span></a></li><li><a href="/20261027-website-design-implementation/site/chapters/28/02-experiment-log/"><span class="no">2</span><span>比較実験ログと評価表を作る</span></a></li></ul><a class="chapter-rail__all" href="/20261027-website-design-implementation/site/chapters/">全32章の一覧</a></nav><nav class="toc" aria-labelledby="toc-label"><p class="toc__label" id="toc-label">このページの目次</p><ol><li class="depth-2"><a href="#モデルとハーネスは別の欄に書く">モデルとハーネスは、別の欄に書く</a></li><li class="depth-2"><a href="#この記事で確認できた範囲">この記事で確認できた範囲</a></li><li class="depth-2"><a href="#比べる観点は八つ">比べる観点は、八つ</a></li><li class="depth-2"><a href="#八つの観点で三つを並べる">八つの観点で、三つを並べる</a></li><li class="depth-2"><a href="#未確認はできないという意味ではない">未確認は、できないという意味ではない</a></li><li class="depth-2"><a href="#同じモデルに固定できないなら性能比較と呼ばない">同じモデルに固定できないなら、性能比較と呼ばない</a></li><li class="depth-2"><a href="#数字より先に手間を数える">数字より先に、手間を数える</a></li><li class="depth-2"><a href="#演習一つ選んで八つの欄を埋める">演習：一つ選んで、八つの欄を埋める</a></li><li class="depth-2"><a href="#評価">評価</a></li><li class="depth-2"><a href="#できあがるもの">できあがるもの</a></li></ol></nav></div><article class="article-main"><div class="article-lead"><header class="article-head"><p class="article-head__chapter"><a href="/20261027-website-design-implementation/site/chapters/28/">第28章 ハーネス比較</a></p><h1>ハーネスを、測れる観点で比べる</h1><p class="article-head__desc">モデルが同じでも、ハーネスが違えば手順も失敗の仕方も変わります。比べる観点を八つに決め、公式ドキュメントで確認できた範囲だけを表にします。</p><dl class="article-head__meta"><div><dt>レベル</dt><dd>入門</dd></div><div><dt>読了</dt><dd>約15分</dd></div><div><dt>この章</dt><dd>2ページ中1</dd></div><div><dt>学習順</dt><dd>89ページ中77</dd></div><div><dt>更新</dt><dd>2026-10-28</dd></div></dl></header><section class="summary-box" aria-labelledby="summary-box-title"><h2 class="summary-box__label" id="summary-box-title">3行の要点</h2><ul><li>モデルの性能とハーネスの使い勝手は別の軸で、同じ表の同じ列に並べると差が読めなくなる。</li><li>比較の観点を八つに決め、公式ドキュメントで確認できた欄だけを埋め、残りは「未確認」と書く。</li><li>同じモデルに固定できない組み合わせは、性能の優劣ではなく、制約つきの観察記録として扱う。</li></ul></section></div><div class="article-body"><div class="prose"><p>第27章で三つの CLI を触り、変更の検収まで通しました。ここからは「どれを使うか」を決める段階です。ところが、比較の話はたいてい混ざります。モデルの賢さ、料金、画面の使いやすさが一枚の表に並び、どの差が結果に効いたのか分からなくなります。</p>
+<p>この記事の目的は、順位を付けることではありません。比べる前に観点を決め、確認できた事実だけを表に残す型を作ることです。順位は、その型で何度か記録したあとに、自分の条件の範囲でだけ言えるものです。</p>
+<h2 id="モデルとハーネスは別の欄に書く">モデルとハーネスは、別の欄に書く</h2>
+<p><a href="/20261027-website-design-implementation/site/glossary/harness/" title="ハーネス" class="gloss-link" data-gloss="harness">ハーネス</a> は、モデルを呼び出して作業を進める側の道具です。同じモデルを載せ替えても、道具が変われば、指示の組み立て、道具の実行、<a href="/20261027-website-design-implementation/site/glossary/context-window/" title="コンテキストウィンドウ" class="gloss-link" data-gloss="context-window">コンテキストウィンドウ</a> の扱い、許可の求め方、記録の残り方が変わります。<a href="/20261027-website-design-implementation/site/glossary/agent-loop/" title="エージェントループ" class="gloss-link" data-gloss="agent-loop">エージェントループ</a> の一回りをどこで切るかも違ってきます。</p>
+<p>だから「Claude Code と GPT はどちらが賢いか」は、問いとして成立しません。層が違うからです。Claude Code は Anthropic のハーネスで、動かすモデルは <code>--model</code> で選ぶ Claude のモデルです。Codex CLI は OpenAI のハーネスで、<code>/model</code> で OpenAI のモデルを選びます。<strong>Codex はハーネスの名前で、モデル名ではありません</strong>。同じように、Claude Code はハーネス、Claude はモデルの系列です。</p>
+<p>比較表の列は、ハーネス名にします。モデル名は、その隣の別の欄に書きます。</p>
+<h2 id="この記事で確認できた範囲">この記事で確認できた範囲</h2>
+<p>2026-10-28 に取得した公式ドキュメントは、Claude Code の概要と CLI リファレンス、Codex CLI のページ、OpenCode の入門ページです。この記事の表には、そこに書かれていることだけを入れます。</p>
+<p>三つとも、このサイトの作成環境では動かしていません。つまり<strong>未実機確認</strong>です。表の内容は各社の公式記述にもとづきますが、あなたの環境での表示や所要時間とは一致しないことがあります。</p>
+<p><strong>Pi、Hermes、DeepSeek Harness</strong> については、公式ページを特定・取得できませんでした。そのため、この記事では機能を書きません。名前だけを並べて「たぶんこうだろう」と補うと、表全体の信用が落ちます。確認できた時点で追加します。</p>
+<p>料金もこの記事では扱いません。料金は単位と通貨と確認日がそろわないと比べられないため、<a href="/20261027-website-design-implementation/site/chapters/25/">第25章</a>と<a href="/20261027-website-design-implementation/site/zukan/">AI図鑑</a>に分けて記録しています。</p>
+<h2 id="比べる観点は八つ">比べる観点は、八つ</h2>
+<p>観点は多いほどよいわけではありません。自分の環境で一回触れば埋まるかどうかで選びます。</p>
+<ul>
+<li><b>モデルの選び方</b>：どのモデルを、どこで切り替えるか。</li>
+<li><b>作業指示ファイル</b>：毎回読ませる指示を、どのファイルに書くか。</li>
+<li><b>権限と承認</b>：何を許すかを、どこで決めるか。</li>
+<li><b>コンテキストの圧縮</b>：会話が長くなったとき、何を残して何を捨てるか。</li>
+<li><b>拡張</b>：Skills、Hooks、プラグイン、<a href="/20261027-website-design-implementation/site/glossary/mcp/" title="MCP（Model Context Protocol）" class="gloss-link" data-gloss="mcp">MCP（Model Context Protocol）</a> サーバーのような追加の仕組み。</li>
+<li><b>セッションの再開</b>：前回の続きを、どう開くか。</li>
+<li><b>実行ログ</b>：何をしたかの記録が、どこに残り、どう読めるか。</li>
+<li><b>画面</b>：ターミナル以外に、どの入口があるか。</li>
+</ul>
+<p>ベンチマークの点数を先に見たくなりますが、点数は条件を揃えないと読めません。この八つは、条件を揃えにくい代わりに、一回の利用でも埋まるかどうかが分かります。まずここを埋め、点数は条件を揃えられたときにだけ足します。</p>
+<h2 id="八つの観点で三つを並べる">八つの観点で、三つを並べる</h2>
+<p>確認できた範囲で表にすると、次のようになります。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>観点</th><th>Claude Code</th><th>Codex CLI</th><th>OpenCode</th></tr></thead><tbody><tr><td>モデルの選び方</td><td><code>--model</code> に <code>sonnet</code>・<code>opus</code>・<code>haiku</code>・<code>fable</code> などのエイリアスか、モデルのフル名を渡す</td><td>セッション内の <code>/model</code> で、モデルと推論の強さを選ぶ</td><td><code>/connect</code> で提供元を選び、その提供元のモデルを使う</td></tr><tr><td>作業指示ファイル</td><td>プロジェクト直下の <code>CLAUDE.md</code> を毎セッション開始時に読む。既存の <code>AGENTS.md</code> を代わりに読ませられる</td><td><code>/init</code> で <code>AGENTS.md</code> を作る</td><td><code>/init</code> で <code>AGENTS.md</code> を作り、Git にコミットすることが勧められている</td></tr><tr><td>権限と承認</td><td><code>--permission-mode</code> で開始時のモードを選ぶ（<code>default</code>・<code>acceptEdits</code>・<code>plan</code>・<code>auto</code>・<code>dontAsk</code>・<code>bypassPermissions</code> など）</td><td><code>/permissions</code> で許可する範囲を選び、有効なサンドボックスと書き込み可能なディレクトリを確認する</td><td>画面に Permissions / Policies の項目があるが、入門ページに動作の説明は無い（未確認）</td></tr><tr><td>コンテキストの圧縮</td><td><code>--autocompact</code> に <code>auto</code> かトークン数を渡し、自動圧縮の窓を指定できる</td><td>このページに記載は無い（未確認）</td><td>このページに記載は無い（未確認）</td></tr><tr><td>拡張</td><td>Skills、Hooks、MCP サーバー、サブエージェントの各説明ページがある</td><td>このページに記載は無い（未確認）</td><td>サイドバーに Plugins と MCP servers の項目があるが、このページに説明は無い（未確認）</td></tr><tr><td>セッションの再開</td><td><code>claude -c</code> で直近、<code>claude -r &quot;&lt;session&gt;&quot;</code> で ID か名前を指定、または一覧から選ぶ</td><td><code>codex resume</code> で、現在のリポジトリの最近のチャットを開く。無ければローカルのチャットを検索する</td><td>このページに記載は無い（未確認）。<code>/undo</code> と <code>/redo</code> は変更の取り消しとやり直し</td></tr><tr><td>実行ログ</td><td>セッションの記録は <code>.jsonl</code> の transcript として残り、<code>--resume</code> にそのパスを渡せる</td><td>このページに記載は無い（未確認）</td><td>このページに記載は無い（未確認）</td></tr><tr><td>画面</td><td>ターミナル、IDE 拡張、デスクトップアプリ、ブラウザ</td><td>このページはターミナルの説明（他の入口は未確認）</td><td>ターミナル、デスクトップアプリ、IDE 拡張</td></tr></tbody></table>
+<p>空欄を作らなかったことに意味があります。同じ規模の表を、三つとも「たぶん」で埋めると、見た目は揃いますが、判断には使えません。</p>
+<h2 id="未確認はできないという意味ではない">未確認は、できないという意味ではない</h2>
+<p>表の「未確認」は、三つのどれでもありません。機能が無いという確認でも、使えないという評価でもなく、<strong>そのページを読んだ範囲では書かれていなかった</strong>という意味です。だから、あとで別のページを読めば変わる欄です。</p>
+<p>記録では、次の三つを区別します。</p>
+<ul>
+<li><b>確認して「ある」と書ける</b>：公式の記述を引用できる。</li>
+<li><b>確認して「無い」と書ける</b>：公式に、その機能を持たないと読める記述がある（多くはありません）。</li>
+<li><b>未確認</b>：記述が見つからない、またはページを取得できていない。</li>
+</ul>
+<p>図鑑でも同じ区別を使っています。確認できていない値を 0 として扱うと、料金の計算や絞り込みが静かに狂います。表でも同じで、空欄を 0 や「なし」で埋めた時点で、あとから誤りを見つけにくくなります。</p>
+<h2 id="同じモデルに固定できないなら性能比較と呼ばない">同じモデルに固定できないなら、性能比較と呼ばない</h2>
+<p>ハーネスを公平に比べる方法は、同じモデルを載せて同じ依頼を出すことです。ところが、今回の三つではそれができません。Claude Code は Claude のモデル、Codex CLI は OpenAI のモデルを前提にしています。OpenCode は提供元を選べますが、その提供元の一覧と対応モデルは入門ページでは確認できていません。</p>
+<p>つまり、三つを並べた表から言えるのは「機能の有無と入口の違い」までです。「こちらのほうが仕事が速い」「こちらのほうが正確だ」は、この表からは言えません。</p>
+<p>同じモデルに固定できない場合は、次のように書きます。<strong>同じモデルに固定できないため、これは性能比較ではなく、条件つきの観察である</strong>。そのうえで、条件（日時、ハーネスの版、モデル名、依頼文、許可した内容）を記録します。条件を書いてあれば、読む人は自分の環境との差を判断できます。</p>
+<h2 id="数字より先に手間を数える">数字より先に、手間を数える</h2>
+<p>成功率は一回では測れません。同じ依頼を何度も出さないと、ばらつきと実力の区別が付かないからです。個人が試す範囲では、回数を増やすより、手間を数えるほうが現実的です。数えられるものは四つあります。</p>
+<p><strong>開始までの手間</strong>：導入から最初の依頼までの手順数と、詰まった箇所。インストール、サインイン、作業ディレクトリの指定、最初の許可までを、手順の数として書きます。</p>
+<p><strong>確認回数</strong>：許可を求められた回数と、その中身。回数が多いほど悪いとは限りません。書き込みの許可を求める回数と、読み取りの許可を求める回数を分けて数えると、設計の違いが見えます。</p>
+<p><strong>テスト実行</strong>：依頼の中にテストを含めたか、自分で走らせたか、走らせたコマンドと結果。ここは「通りました」ではなく、コマンドと出力で記録します。</p>
+<p><strong>エラー回復</strong>：失敗したときに、何をすれば戻せたか。同じ失敗を二度繰り返したか、一度で立て直せたか。回数として書けるので、一回の実験でも記録が残ります。</p>
+<p><a href="/20261027-website-design-implementation/site/glossary/sandbox/" title="Sandbox" class="gloss-link" data-gloss="sandbox">Sandbox</a> の制約で通信が止められ、依存の取得に失敗する場合があります。これはハーネスの不出来ではなく、既定の設計です。失敗として数える前に、何が止められたのかを確かめます。</p>
+<h2 id="演習一つ選んで八つの欄を埋める">演習：一つ選んで、八つの欄を埋める</h2>
+<p>第27章の練習用リポジトリを使います。まだ作っていない場合は、<a href="/20261027-website-design-implementation/site/chapters/27/01-three-clis/">三つのCLIを、同じ手順で試す</a>の演習を先に済ませてください。</p>
+<ol>
+<li>すでに入っているハーネスを一つ選びます。三つ入れる必要はありません。</li>
+<li>八つの観点を、メモの表に書き出します。欄は空けないで、分からない欄には「未確認」と書きます。</li>
+<li>起動して、次の四つを実際に試します。<code>--model</code> か <code>/model</code> でモデルを表示する。作業指示ファイルの名前を確認する。権限の設定画面を開く。セッションを一度終了して、再開する。</li>
+<li>詰まった箇所を、手順の番号と一緒に書きます。「サインインで止まった」ではなく「手順3で、ブラウザが開かず、表示された URL を手で開いた」のように書きます。</li>
+<li>公式ページを開き、自分の表と食い違う欄を探します。食い違ったら、公式の記述と取得日を優先します。</li>
+</ol>
+<p>期待する結果は、八つの欄のうち五つ以上が確認済みで、残りが「未確認」と理由つきで埋まっている状態です。八つ全部が埋まる必要はありません。埋まらなかった欄と、その理由が残っていることが成果です。</p>
+<p>うまくいかないときの切り分けは、第27章と同じです。コマンドが見つからない場合は、新しいターミナルで PATH を反映させます。権限の画面が見つからない場合は、<code>/help</code> か公式のコマンド一覧で名前を確認します。名前が分からないまま勘で打つと、別の機能を触って記録が混ざります。</p>
+<h2 id="評価">評価</h2>
+<p>四つの観点で点検します。観点ごとに欄があり、確認済みと未確認が区別されているか。モデル名とハーネス名が別の欄に書かれているか。未確認の欄に、参照したページと取得日が添えられているか。そして、表から「どちらが優れているか」を結論していないか。</p>
+<p>書き直しが要るのは、次の状態です。確認していない欄を「なし」で埋めた。モデル名をハーネスの列に書いた。一回の結果から順位を付けた。どれも、あとで自分の記録を読み返したときに、何が事実だったのか分からなくなります。</p>
+<h2 id="できあがるもの">できあがるもの</h2>
+<p>手元に残るのは、八つの観点で埋めた一枚の表と、詰まった箇所の記録です。この表は、次の記事でそのまま使います。</p>
+<p>次の記事では、同じ依頼を二つのハーネスに出し、進み方を記録して評価表にまとめます。<a href="/20261027-website-design-implementation/site/chapters/28/02-experiment-log/">比較実験ログと評価表を作る</a>へ進んでください。製品ごとの記録は<a href="/20261027-website-design-implementation/site/zukan/">AI図鑑</a>の個別ページにもあり、<a href="/20261027-website-design-implementation/site/zukan/compare/?ids=claude-code&amp;ids=codex-cli&amp;ids=opencode">比較ページ</a>で三つを並べられます。図鑑の値と自分の表が食い違ったら、確認日を比べて新しいほうを採ります。</p></div><section class="quiz" data-quiz><div class="quiz__head"><h2 class="quiz__title">理解チェック</h2><span data-quiz-counter></span></div><div class="quiz__body" data-quiz-body></div><script type="application/json" class="quiz-data">[{"question":"ハーネスを比べるとき、モデル名を同じ表の列にしないほうがよい理由はどれですか。","options":["モデルとハーネスは層が違い、同じ列に並べると何の差なのか切り分けられなくなるから。","モデル名は毎月変わり、表を保てないから。","ハーネスはモデルを選べないから。","モデル名は製品名より長く、表に入らないから。"],"answer":0,"explanation":"モデルはハーネスが呼び出す側で、層が違います。同じ列に並べると、観察した差がモデルの差なのか道具の差なのか分からなくなります。"},{"question":"公式ドキュメントに記載が見つからなかった機能は、比較表でどう扱いますか。","options":["「未確認」と書き、確認した日と参照先を添える。","空欄にして、あとで埋める。","「なし」と書く。","使ったことがないので「たぶん無い」と書く。"],"answer":0,"explanation":"空欄は書き忘れと区別できず、「なし」は確認していない否定になります。未確認と明示すると、あとで確認したときに上書きできます。"},{"question":"Claude Code で、現在のディレクトリの直近の会話を続けるコマンドはどれですか。","options":["claude -c","codex resume","/connect","claude --undo"],"answer":0,"explanation":"CLI リファレンスでは claude -c が現在のディレクトリの直近の会話を続けるコマンドです。セッションを名前か ID で指定するときは -r を使います。"}]</script></section><script type="module" src="/20261027-website-design-implementation/site/_astro/Quiz.astro_astro_type_script_index_0_lang.Dn5SaHFq.js"></script><section class="sources"><h2>出典・参考資料</h2><ol><li><a href="https://code.claude.com/docs/en/overview" rel="noopener noreferrer" target="_blank">Overview</a><span class="source-note">Anthropic</span><span class="source-note">CLAUDE.md をセッション開始時に読むこと、AGENTS.md を代わりに読めること、自動メモリ、Skills、Hooks、サブエージェント、利用できる画面を確認（取得日 2026-10-28）。</span></li><li><a href="https://code.claude.com/docs/en/cli-reference" rel="noopener noreferrer" target="_blank">CLI reference</a><span class="source-note">Anthropic</span><span class="source-note">-c / -r / --model / --permission-mode / --autocompact / -p / --output-format の記載と、.jsonl の transcript を確認（取得日 2026-10-28）。</span></li><li><a href="https://learn.chatgpt.com/docs/codex/cli" rel="noopener noreferrer" target="_blank">Codex CLI</a><span class="source-note">OpenAI</span><span class="source-note">/init による AGENTS.md の作成、codex resume、/model、/permissions、/status を確認（取得日 2026-10-28）。</span></li><li><a href="https://learn.chatgpt.com/docs/agent-approvals-security" rel="noopener noreferrer" target="_blank">Agent approvals &amp; security</a><span class="source-note">OpenAI</span><span class="source-note">サンドボックスの種類と承認ポリシー、/permissions で有効なサンドボックスと書き込み可能なディレクトリを確認できることを確認（取得日 2026-10-28）。</span></li><li><a href="https://opencode.ai/docs/" rel="noopener noreferrer" target="_blank">Intro</a><span class="source-note">OpenCode</span><span class="source-note">/connect、/init と AGENTS.md、/undo と /redo、Plan mode と Build mode、提供形態を確認（取得日 2026-10-28）。</span></li></ol></section><aside class="related-terms" aria-labelledby="related-terms-label"><p class="related-terms__label" id="related-terms-label">関連用語</p><ul><li><a href="/20261027-website-design-implementation/site/glossary/harness/">ハーネス</a></li><li><a href="/20261027-website-design-implementation/site/glossary/agent-loop/">エージェントループ</a></li><li><a href="/20261027-website-design-implementation/site/glossary/context-window/">コンテキストウィンドウ</a></li><li><a href="/20261027-website-design-implementation/site/glossary/sandbox/">Sandbox</a></li><li><a href="/20261027-website-design-implementation/site/glossary/mcp/">MCP（Model Context Protocol）</a></li></ul></aside><nav class="page-nav" aria-label="学習順の前後のページ"><a href="/20261027-website-design-implementation/site/chapters/27/02-diff-review/" rel="prev"><span class="dir">前の章</span><span class="title">変更を自分で検収する</span><span class="chapter">第27章 CLIエージェント</span></a><a href="/20261027-website-design-implementation/site/chapters/28/02-experiment-log/" rel="next"><span class="dir">次のページ</span><span class="title">比較実験ログと評価表を作る</span></a></nav></div></article></div></div></div></main><footer class="site-footer"><div class="shell"><div class="footer-grid"><div><p class="footer-title">AIの地図</p><p class="footer-copy">製品名やランキングを暗記するのではなく、仕組みと評価の方法を持ち帰るためのガイドです。 図と短いページで、AI・LLM・エージェント・モデル選びをつなげます。</p></div><div><p class="footer-title">学ぶ</p><div class="footer-nav"><a href="/20261027-website-design-implementation/site/chapters/">章一覧</a><a href="/20261027-website-design-implementation/site/chapters/01/">01 AIとは何か</a><a href="/20261027-website-design-implementation/site/glossary/">用語辞典</a><a href="/20261027-website-design-implementation/site/quiz/">クイズ</a></div></div><div><p class="footer-title">このサイト</p><div class="footer-nav"><a href="/20261027-website-design-implementation/site/about/">編集方針と更新について</a><a href="/20261027-website-design-implementation/site/about/#sources">主な参照元</a><a href="/20261027-website-design-implementation/site/about/#data">モデルデータの更新</a></div></div></div><div class="footer-bottom"><span>© 2026 AIの地図 編集部</span><span>公開 2026-10-27、最終更新 2026-10-27</span></div></div></footer><div class="search-overlay" data-search-overlay data-search-url="/20261027-website-design-implementation/site/search.json" aria-hidden="true" inert><div class="search-dialog" id="site-search-dialog" role="dialog" aria-modal="true" aria-labelledby="search-title"><div class="search-dialog__head"><svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8.5" cy="8.5" r="5.2"></circle><path d="m12.6 12.6 4 4"></path></svg><h2 class="sr-only" id="search-title">サイト内検索</h2><input type="search" placeholder="用語、章、キーワードで探す…" aria-labelledby="search-title" aria-controls="search-results" aria-describedby="search-help" autocomplete="off" spellcheck="false" data-search-input><button class="search-close" type="button" data-search-close aria-label="検索を閉じる">ESC</button></div><p class="sr-only" id="search-help">上下キーで候補を選び、Enterで開きます。Escで閉じます。</p><ul class="search-results" id="search-results" data-search-results></ul><!-- 結果の件数や読み込み状態は、ここだけで読み上げる。
+         結果の一覧そのものを live region にすると、1文字打つたびに全件を読み上げてしまう。 --><p class="sr-only" role="status" aria-live="polite" data-search-status></p><div class="search-dialog__foot" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> 移動</span><span><kbd>Enter</kbd> 開く</span><span><kbd>Esc</kbd> 閉じる</span><span data-search-count></span></div></div></div><script type="module" src="/20261027-website-design-implementation/site/_astro/SearchModal.astro_astro_type_script_index_0_lang.ki-QW-XB.js"></script><script type="application/json" id="glossary-data">{"ai":"人間の知的な働きを、コンピュータで実現しようとする技術と研究の総称。","machine-learning":"データから規則やパターンを学び、未知の入力に対して予測や判断を行う手法。","deep-learning":"多層のニューラルネットワークを使う機械学習の一分野。","generative-ai":"文章・画像・音声などの新しいコンテンツを生成するAIの総称。","agi":"特定のタスクに限定されず、幅広い知的作業をこなすAIの構想。","foundation-model":"大量のデータで事前学習し、さまざまな用途に転用できる大規模モデル。","parameter":"モデルが学習によって調整する数値。","multimodal":"テキスト・画像・音声・動画など、複数の種類の入出力を扱うこと。","llm":"大量のテキストで学習した、言語を扱う大規模なモデル。","token":"モデルが文字列を分割して扱う単位。","tokenization":"文字列をトークン列に分割し、IDに変換する処理。","embedding":"単語や文などを、意味を反映した数値ベクトルに変換した表現。","context-window":"モデルが一度に参照できるトークン列の最大長。","transformer":"Attentionを中心に構成されたニューラルネットワークのアーキテクチャ。","attention":"各位置が、他のどの位置の情報をどれだけ参照するかを重み付けして集約する仕組み。","qkv":"Attentionで使う3種類のベクトル。","next-token-prediction":"直前までのトークン列から、次に来るトークンの確率分布を予測するタスク。","logits":"モデルが語彙の各トークンに対して出す、正規化前のスコア。","temperature":"出力の確率分布の鋭さを調整する生成パラメータ。","top-p":"累積確率がpになるまでのトークン集合からサンプリングする方法。","kv-cache":"生成時に計算済みのKey・Valueを保持して再利用する仕組み。","inference":"学習済みモデルを使って、入力から出力を得る処理。","prefill":"生成開始前に、入力トークン列をまとめて処理する段階。","decode":"出力トークンを1つずつ生成する段階。","pretraining":"大規模データで、モデルの基本的な知識や表現を学ぶ段階。","sft":"入力と望ましい出力の組で、指示追従の振る舞いを学ばせる段階。","rlhf":"人間の選好に基づく報酬モデルを使って、応答を調整する手法。","fine-tuning":"学習済みモデルを追加データで再訓練し、特定の振る舞いや形式に適応させること。","overfitting":"学習データに適合しすぎて、未知のデータへの性能が落ちる状態。","generalization":"学習で見ていない入力に対しても、適切に振る舞う能力。","encoder":"入力を、文脈を反映した表現に変換する側のネットワーク。","decoder":"出力を逐次生成する側のネットワーク。","moe":"複数の専門家ネットワークのうち、一部だけを入力ごとに使うアーキテクチャ。","dense":"すべての入力で、同じパラメータ構成を使う通常のモデル。","vlm":"画像と言語を組み合わせて扱うモデル。画像の理解を担うことが多く、生成の有無は別に確かめる。","diffusion":"ノイズを段階的に除去して、画像などのデータを生成するモデル。","dit":"拡散モデルのノイズ除去をTransformerで行うアーキテクチャ。","prompt":"モデルに与える指示・文脈・入力の総体。","context-engineering":"モデルに渡す情報の選択・構造化・圧縮を設計すること。","rag":"外部の文書を検索し、その内容を文脈に含めて回答を生成する方式。","vector-database":"埋め込みベクトルを保存し、類似検索を行うためのデータベース。","function-calling":"モデルが外部関数やAPIの呼び出しを、構造化された形で要求する機能。","agent":"目標に向けて、モデルがツール選択・実行・結果確認を繰り返すシステム。","agent-loop":"観察→計画→行動→結果確認を繰り返す制御ループ。","harness":"モデルを実際の作業に接続する、外側の実行基盤。","mcp":"LLMアプリと外部のツール・データを接続するためのプロトコル。","sandbox":"プログラムやツールを隔離された環境で実行する仕組み。","computer-use":"AIがGUIを操作して、コンピュータ上の作業を行う仕組み。","quantization":"モデルの重みや計算を、低いビット精度で表現すること。","vram":"GPUが搭載する専用メモリ。","gguf":"モデルの重みと実行用メタデータをまとめたモデルファイル形式。","tokens-per-second":"1秒あたりに生成できるトークン数。","ttft":"最初のトークンが出力されるまでの時間。","benchmark":"モデルの性能を比較するための、標準的な課題やデータセット。","elo":"対戦や比較の勝敗から、相対的な強さを推定するレーティング方式。","hallucination":"もっともらしいが、事実と異なる内容を生成すること。","latency":"入力から応答までの遅延。","accuracy":"予測が正解と一致した割合。","contamination":"評価用のデータが、学習データに含まれてしまうこと。"}</script><script type="module" src="/20261027-website-design-implementation/site/_astro/BaseLayout.astro_astro_type_script_index_0_lang.BB4cnzru.js"></script></body></html>

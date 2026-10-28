@@ -26,8 +26,19 @@ const CONTENT = path.join(ROOT, 'src/content/chapters');
 
 const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(ROOT, rel), 'utf8'));
 
+/**
+ * 図鑑は本文の参照先としてだけ使う。--root の小さな見本には置かないため、
+ * 無ければ空として扱う（図鑑そのものの検査は validate-zukan.mjs が受け持つ）。
+ */
+const readZukan = () => {
+  const file = path.join(ROOT, 'data/zukan.json');
+  if (!fs.existsSync(file)) return { entities: [] };
+  return JSON.parse(fs.readFileSync(file, 'utf8'));
+};
+
 const curriculum = readJson('src/data/curriculum.json');
 const glossary = readJson('src/data/glossary.json');
+const zukan = readZukan();
 const { diagrams } = await import(path.join(ROOT, 'src/data/diagrams.ts'));
 
 const errors = [];
@@ -84,11 +95,26 @@ for (const file of files) {
 
 /** サイト内の実在するパス（base を除いた形）。 */
 function buildRoutes() {
-  const routes = new Set(['/', '/404/', '/about/', '/chapters/', '/glossary/', '/quiz/', '/search.json']);
+  const routes = new Set([
+    '/',
+    '/404/',
+    '/about/',
+    '/chapters/',
+    '/glossary/',
+    '/practice/',
+    '/quiz/',
+    '/search.json',
+    '/zukan/',
+    '/zukan.json',
+    '/zukan/compare/',
+  ]);
 
   for (const chapter of curriculum.chapters) {
     routes.add(`/chapters/${chapter.id}/`);
     routes.add(`/glossary/#${chapter.id}`);
+  }
+  for (const entity of zukan.entities) {
+    routes.add(`/zukan/${entity.slug}/`);
   }
   for (const [id, page] of pages) {
     const [chapterId, slug] = id.split('/');

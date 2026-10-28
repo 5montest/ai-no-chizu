@@ -1,0 +1,90 @@
+{
+  "note": "第32章の演習用。期待する判定はこのファイルを書いた時点で実際に動かして確かめた値で、あとから調整したものではありません。",
+  "checkedAt": "2026-10-28",
+  "questions": [
+    {
+      "query": "会議室を予約したい",
+      "route": "answer",
+      "top": "room-booking",
+      "why": "会議室の予約は候補がほぼ一つに絞れる"
+    },
+    {
+      "query": "プロジェクターが映らない",
+      "route": "answer",
+      "top": "projector",
+      "why": "機材名がはっきり入っている"
+    },
+    {
+      "query": "鍵をなくしました",
+      "route": "answer",
+      "top": "key",
+      "why": "鍵の項目が一位、入退室カードの項目が二位で差が開く"
+    },
+    {
+      "query": "空調が寒い",
+      "route": "answer",
+      "top": "temperature",
+      "why": "当たりの下限ちょうどで、次点がゼロなので答える"
+    },
+    {
+      "query": "コピーの紙が詰まった",
+      "route": "answer",
+      "top": "copy",
+      "why": "紙詰まりの項目が一位"
+    },
+    {
+      "query": "トナーを交換したい",
+      "route": "answer",
+      "top": "supplies",
+      "why": "消耗品の項目が一位"
+    },
+    {
+      "query": "駐車場に来客の車を止めたい",
+      "route": "answer",
+      "top": "parking",
+      "why": "駐車場の項目が一位"
+    },
+    {
+      "query": "荷物が届いた",
+      "route": "answer",
+      "top": "delivery",
+      "why": "荷物の受け取りの項目が一位"
+    },
+    {
+      "query": "入退室カードを無くした",
+      "route": "answer",
+      "top": "access-card",
+      "why": "入退室カードの項目が一位"
+    },
+    {
+      "query": "経費の締め切りは？",
+      "route": "refuse",
+      "top": "projector",
+      "why": "FAQ に無い話題。当たりが下限に届かない"
+    },
+    {
+      "query": "何か壊れています",
+      "route": "refuse",
+      "top": "copy",
+      "why": "何が壊れたか分からず、複数の項目が同点で並ぶ"
+    },
+    {
+      "query": "給与明細が見たい",
+      "route": "escalate",
+      "top": "access-card",
+      "why": "機微な語（給与）を含むので、当たりの良し悪しに関係なく人に回す"
+    },
+    {
+      "query": "返金してほしい",
+      "route": "escalate",
+      "top": "cleaning",
+      "why": "機微な語（返金）を含む"
+    },
+    {
+      "query": "会議室の鍵",
+      "route": "escalate",
+      "top": "room-booking",
+      "why": "わかっている弱点。1文字の「鍵」が索引の語にならず、会議室の二項目が同点で並ぶため人に回す"
+    }
+  ]
+}

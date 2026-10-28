@@ -443,6 +443,14 @@ kbd {
   border-style: dashed;
 }
 
+/* 未確認・再確認待ちなど、読み手に注意してほしい状態。
+   提供終了のような「済んだ事実」には使わない（そちらは .badge のまま）。 */
+.badge--warn {
+  color: var(--warn);
+  border-color: color-mix(in srgb, var(--warn) 38%, var(--line));
+  background: var(--warn-wash);
+}
+
 /* ---------- header ---------- */
 .site-header {
   position: sticky;
@@ -1086,6 +1094,24 @@ kbd {
 .prose th.num {
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+/*
+ * 見出しセルの nowrap は、幅の広い画面では表を読みやすくする。
+ * しかし日本語の見出しは1語が長く、3〜4列あると表の最小幅が画面幅を超え、
+ * 本文ごと横スクロールしてしまう。狭い画面では折り返しを許し、
+ * モデルIDやURLのような途中で切れない語も列の中で折る。
+ */
+@media (max-width: 760px) {
+  .prose th {
+    white-space: normal;
+  }
+
+  .prose th,
+  .prose td {
+    padding: 0.45em 0.55em;
+    overflow-wrap: anywhere;
+  }
 }
 
 .prose img {
@@ -3586,6 +3612,450 @@ table.axis-table {
 
   .page-list .time {
     grid-column: 2;
+  }
+}
+
+/* ---------- AI図鑑・実践編 ---------- */
+
+/* 見出しの横に並ぶメニューが6つになると、幅900〜1120pxではブランド名やツールと
+   1行に収まらず折り返す。折り返すとヘッダーの高さが変わり、読み始めの位置がずれるので、
+   この範囲だけ間隔と文字を詰めて収める。 */
+@media (min-width: 900px) and (max-width: 1120px) {
+  .site-nav a {
+    padding-inline: 0.45rem;
+    font-size: 0.8125rem;
+  }
+
+  .brand__tag {
+    display: none;
+  }
+}
+
+.zukan-page {
+  max-width: 52rem;
+  margin-inline: auto;
+  padding-block: 0 2rem;
+}
+
+/* 比較表は列が増えるので、記事より広く取る。 */
+.zukan-page--wide {
+  max-width: 64rem;
+}
+
+.zukan-lede {
+  max-width: 46rem;
+  margin: 0 0 1.5rem;
+  color: var(--ink-soft);
+  line-height: 1.9;
+}
+
+.zukan-selects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 0.6rem;
+}
+
+.zukan-selects label {
+  display: grid;
+  gap: 0.25rem;
+  color: var(--ink-mute);
+  font-size: 0.8125rem;
+}
+
+.zukan-selects select {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--plate);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.zukan-group {
+  margin-bottom: 2rem;
+}
+
+.zukan-group h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 0.3rem;
+  font-size: 1.0625rem;
+}
+
+.zukan-group__count {
+  color: var(--ink-mute);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.zukan-group__note {
+  margin: 0 0 0.85rem;
+  color: var(--ink-mute);
+  font-size: 0.8125rem;
+  line-height: 1.8;
+}
+
+.zukan-card .term-card__cat {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem 0.4rem;
+}
+
+.zukan-card__meta {
+  display: block;
+  margin-top: 0.45rem;
+  color: var(--ink-mute);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.zukan-footnote {
+  margin-top: 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.zukan-footnote h2 {
+  margin: 0 0 0.6rem;
+  font-size: 0.875rem;
+  color: var(--ink-mute);
+}
+
+.zukan-footnote p {
+  margin: 0 0 0.6rem;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  line-height: 1.9;
+}
+
+/* ---- 図鑑の項目ページ ---- */
+.zukan-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.75rem 0 0;
+}
+
+.zukan-facts {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.zukan-facts > div {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.875rem;
+  line-height: 1.8;
+}
+
+.zukan-facts dt {
+  color: var(--ink-mute);
+}
+
+.zukan-facts dd {
+  margin: 0;
+}
+
+.zukan-list {
+  margin: 0.35rem 0 0;
+  padding-left: 1.15rem;
+  font-size: 0.9375rem;
+  line-height: 1.85;
+}
+
+.zukan-list:first-child {
+  margin-top: 0;
+}
+
+.zukan-list li + li {
+  margin-top: 0.25rem;
+}
+
+.zukan-note {
+  margin: 0.75rem 0;
+  padding: 0.55rem 0.75rem;
+  border-left: 3px solid var(--line-strong);
+  background: var(--paper-2);
+  color: var(--ink-soft);
+  font-size: 0.8125rem;
+  line-height: 1.85;
+}
+
+.zukan-note code {
+  font-size: 0.9em;
+  word-break: break-all;
+}
+
+.zukan-price {
+  margin: 1rem 0;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--plate);
+}
+
+.zukan-price__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 0.6rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.zukan-price__product {
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.zukan-price__meta {
+  color: var(--ink-mute);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.zukan-price__source {
+  margin: 0.6rem 0 0;
+  color: var(--ink-mute);
+  font-size: 0.75rem;
+  line-height: 1.7;
+  word-break: break-word;
+}
+
+.zukan-price .model-table-wrap {
+  margin: 0.5rem 0 0;
+}
+
+.zukan-plans {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+}
+
+.zukan-plans > div {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.8;
+}
+
+.zukan-plans dt {
+  font-weight: 600;
+}
+
+.zukan-plans dd {
+  margin: 0;
+}
+
+/* ---- 比較 ---- */
+.compare-form {
+  margin: 0 0 1.5rem;
+}
+
+.compare-fieldset {
+  margin: 0 0 1.25rem;
+  padding: 0;
+  border: 0;
+}
+
+.compare-fieldset legend {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0;
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+.compare-choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.4rem;
+}
+
+.compare-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--plate);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.compare-choice:hover {
+  border-color: var(--line-strong);
+}
+
+.compare-choice:has(input:checked) {
+  border-color: var(--link);
+  background: var(--accent-wash);
+}
+
+.compare-choice input {
+  flex: none;
+  margin: 0.2rem 0 0;
+  accent-color: var(--link);
+}
+
+.compare-choice__name {
+  display: block;
+  font-weight: 600;
+}
+
+.compare-choice__meta {
+  display: block;
+  color: var(--ink-mute);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.compare-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.compare-count {
+  color: var(--ink-mute);
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.compare-message {
+  margin: 0 0 1rem;
+  min-height: 1.7em;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  line-height: 1.8;
+}
+
+.compare-result {
+  margin-bottom: 1.5rem;
+}
+
+/* 列が増えても潰れないように、表そのものに最小幅を持たせる。はみ出した分は wrapper が横スクロールする。 */
+table.compare-table {
+  min-width: 40rem;
+}
+
+.compare-table thead th:first-child,
+.compare-table tbody th {
+  width: 9rem;
+  min-width: 8rem;
+}
+
+.compare-table thead th a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.compare-table thead th a:hover {
+  color: var(--link);
+  text-decoration: underline;
+}
+
+.compare-table tbody th {
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.compare-caption {
+  caption-side: top;
+  padding: 0.6rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  color: var(--ink-mute);
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+
+.compare-col-meta {
+  display: block;
+  margin-top: 0.15rem;
+  color: var(--ink-mute);
+  font-size: 0.7rem;
+  font-weight: 400;
+}
+
+/* ---- 実践編の入口 ---- */
+.practice-paths {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.75rem;
+  margin: 0 0 2.5rem;
+  padding: 0;
+  list-style: none;
+}
+
+.practice-path a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  height: 100%;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--plate);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.12s var(--ease);
+}
+
+.practice-path a:hover {
+  border-color: var(--line-strong);
+  background: var(--paper-2);
+}
+
+.practice-path__label {
+  color: var(--link);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.practice-path__title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.practice-path__body {
+  color: var(--ink-soft);
+  font-size: 0.8125rem;
+  line-height: 1.85;
+}
+
+.practice-path__meta {
+  margin-top: auto;
+  padding-top: 0.4rem;
+  color: var(--ink-mute);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 600px) {
+  .zukan-facts > div,
+  .zukan-plans > div {
+    grid-template-columns: 1fr;
+    gap: 0.15rem;
+  }
+
+  .compare-choices {
+    grid-template-columns: 1fr;
   }
 }
 

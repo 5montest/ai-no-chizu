@@ -1,0 +1,422 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-10-28",
+  "policy": {
+    "display_rule": "価格はスナップショット単位で表示し、取得日・通貨・税の扱い・課金単位・条件を必ず添える。",
+    "no_merge_rule": "同じ製品でも、提供元の公式価格と再販事業者の価格は同じ表に並べない。換算もしない。",
+    "estimate_rule": "確認できていない価格は null とし、0 として計算しない。試算できない場合は理由を返す。",
+    "derived_rule": "倍率が公式に明記されている場合（例：バッチは半額）でも、転記していない個別の数値は作らない。規則は notes に書く。"
+  },
+  "snapshots": [
+    {
+      "id": "anthropic-subscription-2026-10-28",
+      "kind": "subscription",
+      "vendor": "Anthropic",
+      "product": "Claude",
+      "currency": "USD",
+      "tax": "excluded",
+      "unit": "per_month",
+      "fetched_at": "2026-10-28",
+      "source": {
+        "title": "Pricing",
+        "url": "https://claude.com/pricing",
+        "publisher": "Anthropic",
+        "kind": "official",
+        "note": "2026-10-28 取得。個人向け・チーム向け・法人向けの料金と、プラン別の機能表を確認した。"
+      },
+      "notes": [
+        "ページに「Prices shown don't include applicable tax.」と記載されている。",
+        "「Usage limits apply. Prices and plans are subject to change at Anthropic's discretion.」と記載されている。",
+        "Max は「From $100」とだけ表示され、20倍の枠の実額は確認できなかった。"
+      ],
+      "plans": [
+        {
+          "plan_id": "claude-free",
+          "entity_id": "claude-free",
+          "display_name": "Free",
+          "audience": "individual",
+          "billing": {
+            "monthly_usd": 0,
+            "annual_monthly_usd": null,
+            "annual_upfront_usd": null,
+            "billing_period": "none"
+          },
+          "limits": {
+            "usage_credits": false,
+            "monthly_api_credits_usd": null,
+            "priority_access": false,
+            "projects": "5件まで",
+            "claude_code": false
+          },
+          "notes": "利用量の上限はあるが、具体的な回数の記載はない。"
+        },
+        {
+          "plan_id": "claude-pro",
+          "entity_id": "claude-pro",
+          "display_name": "Pro",
+          "audience": "individual",
+          "billing": {
+            "monthly_usd": 20,
+            "annual_monthly_usd": 17,
+            "annual_upfront_usd": 200,
+            "billing_period": "month or year"
+          },
+          "limits": {
+            "usage_credits": true,
+            "monthly_api_credits_usd": null,
+            "priority_access": false,
+            "projects": "無制限",
+            "claude_code": true
+          },
+          "notes": "年払いは200ドルを一括で支払う。月あたり17ドルはその換算値で、月払いの20ドルとは支払いの形が違う。"
+        },
+        {
+          "plan_id": "claude-max",
+          "entity_id": "claude-max",
+          "display_name": "Max",
+          "audience": "individual",
+          "billing": {
+            "monthly_usd": null,
+            "monthly_usd_from": 100,
+            "annual_monthly_usd": null,
+            "annual_upfront_usd": null,
+            "billing_period": "month"
+          },
+          "selection": [
+            { "label": "5x", "monthly_usd": null, "note": "利用量が Pro の5倍。実額は未確認。" },
+            { "label": "20x", "monthly_usd": null, "note": "利用量が Pro の20倍。実額は未確認。" }
+          ],
+          "limits": {
+            "usage_credits": true,
+            "monthly_api_credits_usd": null,
+            "monthly_api_credits_range_usd": [100, 200],
+            "priority_access": true,
+            "projects": "無制限",
+            "claude_code": true
+          },
+          "notes": "「From $100」は下限。5x が100ドル、20x が200ドルという内訳は、この確認では公式ページから読み取れなかったため、プラン別の実額は null としている。"
+        },
+        {
+          "plan_id": "claude-team",
+          "entity_id": "claude-team",
+          "display_name": "Team",
+          "audience": "team",
+          "billing": {
+            "monthly_usd": null,
+            "annual_monthly_usd": null,
+            "annual_upfront_usd": null,
+            "billing_period": "month or year",
+            "seat_based": true,
+            "minimum_seats": 2,
+            "maximum_seats": 150
+          },
+          "seats": [
+            {
+              "label": "Standard",
+              "annual_monthly_usd": 20,
+              "monthly_usd": 25,
+              "notes": "標準の利用量。"
+            },
+            {
+              "label": "Premium",
+              "annual_monthly_usd": 100,
+              "monthly_usd": 125,
+              "notes": "標準の5倍の利用量で、Claude Code と Claude Cowork が使える。"
+            }
+          ],
+          "limits": {
+            "pooled_api_credits_usd": 500,
+            "priority_access": null,
+            "claude_code": "premium seat"
+          },
+          "notes": "席の種類を混在させられる。Fable は「プレミアム席で週間上限の50%」と記載されている。標準席の値は表にない。"
+        },
+        {
+          "plan_id": "claude-enterprise",
+          "entity_id": "claude-enterprise",
+          "display_name": "Enterprise",
+          "audience": "enterprise",
+          "billing": {
+            "monthly_usd": null,
+            "annual_monthly_usd": 20,
+            "annual_upfront_usd": null,
+            "billing_period": "year",
+            "seat_based": true,
+            "minimum_seats": 20,
+            "maximum_seats": null
+          },
+          "limits": {
+            "pooled_api_credits_usd": null,
+            "usage_billed_at": "API rates",
+            "claude_code": true
+          },
+          "notes": "「Seat price + usage at API rates」と記載されている。席単価に加えて、利用量が API の単価で課金される。"
+        }
+      ]
+    },
+    {
+      "id": "anthropic-api-2026-10-28",
+      "kind": "token-price",
+      "vendor": "Anthropic",
+      "product": "Claude Platform",
+      "currency": "USD",
+      "tax": "excluded",
+      "unit": "per_1m_tokens",
+      "fetched_at": "2026-10-28",
+      "source": {
+        "title": "Pricing",
+        "url": "https://claude.com/pricing",
+        "publisher": "Anthropic",
+        "kind": "official",
+        "note": "2026-10-28 取得。モデル別の入力・出力単価と、プロンプトキャッシュの読み取り・書き込み単価を確認した。"
+      },
+      "notes": [
+        "単価は100万トークンあたりの米ドル。税別。",
+        "バッチ利用は50%の割引と記載されている。",
+        "高速モードは研究プレビューで、Opus 5.5 は100万トークンあたり入力8ドル・出力40ドルと記載されている。"
+      ],
+      "rates": [
+        {
+          "entity_id": "claude-fable-5-1",
+          "model_name": "Claude Fable 5.1",
+          "tiers": [
+            { "condition": "standard", "input": 10, "output": 50, "cache_read": 0.25, "cache_write": 12.5 }
+          ]
+        },
+        {
+          "entity_id": "claude-opus-5-5",
+          "model_name": "Claude Opus 5.5",
+          "tiers": [
+            { "condition": "standard", "input": 4, "output": 20, "cache_read": 0.2, "cache_write": 5 },
+            { "condition": "fast mode (research preview)", "input": 8, "output": 40, "cache_read": null, "cache_write": null }
+          ]
+        },
+        {
+          "entity_id": "claude-sonnet-5-5",
+          "model_name": "Claude Sonnet 5.5",
+          "tiers": [
+            { "condition": "standard", "input": 2, "output": 10, "cache_read": 0.1, "cache_write": 2.5 }
+          ]
+        },
+        {
+          "entity_id": "claude-haiku-5-5",
+          "model_name": "Claude Haiku 5.5",
+          "tiers": [
+            { "condition": "input up to 100K tokens", "input": 0.1, "output": 0.5, "cache_read": 0.01, "cache_write": 0.125 },
+            { "condition": "input over 100K tokens", "input": 0.5, "output": 2.5, "cache_read": 0.05, "cache_write": 0.625 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "openai-api-2026-10-28",
+      "kind": "token-price",
+      "vendor": "OpenAI",
+      "product": "OpenAI API",
+      "currency": "USD",
+      "tax": "excluded",
+      "unit": "per_1m_tokens",
+      "fetched_at": "2026-10-28",
+      "source": {
+        "title": "API Pricing",
+        "url": "https://developers.openai.com/api/docs/pricing",
+        "publisher": "OpenAI",
+        "kind": "official",
+        "note": "2026-10-28 取得。標準・バッチ・高速・超高速の区分と、モデル別の単価を確認した。"
+      },
+      "notes": [
+        "単価は100万トークンあたりの米ドル。",
+        "バッチは標準の半額、高速は2倍、超高速は6倍と記載されている。個別の数値を転記したのは gpt-6-astra のみ。",
+        "2026-03-05 以降に公開されたモデルは、地域・FedRAMP の利用で10%の加算があると記載されている。"
+      ],
+      "rates": [
+        {
+          "entity_id": "gpt-6-astra",
+          "model_name": "gpt-6-astra",
+          "tiers": [
+            { "condition": "standard", "input": 10, "output": 50, "cache_read": 1.0, "cache_write": null },
+            { "condition": "batch", "input": 5, "output": 25, "cache_read": null, "cache_write": null },
+            { "condition": "fast", "input": 20, "output": 100, "cache_read": null, "cache_write": null },
+            { "condition": "ultrafast", "input": 60, "output": 300, "cache_read": null, "cache_write": null }
+          ]
+        },
+        {
+          "entity_id": "gpt-6-1-sol",
+          "model_name": "gpt-6.1-sol",
+          "tiers": [
+            { "condition": "standard", "input": 2, "output": 10, "cache_read": null, "cache_write": null }
+          ]
+        },
+        {
+          "entity_id": "gpt-6-1-terra",
+          "model_name": "gpt-6.1-terra",
+          "tiers": [
+            { "condition": "standard", "input": 1, "output": 5, "cache_read": null, "cache_write": null }
+          ]
+        },
+        {
+          "entity_id": "gpt-6-luna",
+          "model_name": "gpt-6-luna",
+          "tiers": [
+            { "condition": "standard", "input": 0.1, "output": 0.5, "cache_read": null, "cache_write": null }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deepseek-api-2026-10-28",
+      "kind": "token-price",
+      "vendor": "DeepSeek",
+      "product": "DeepSeek API",
+      "currency": "USD",
+      "tax": "excluded",
+      "unit": "per_1m_tokens",
+      "fetched_at": "2026-10-28",
+      "source": {
+        "title": "Models & Pricing",
+        "url": "https://api-docs.deepseek.com/quick_start/pricing",
+        "publisher": "DeepSeek",
+        "kind": "official",
+        "note": "2026-10-28 取得。モデル名、文脈長、最大出力、ピーク・オフピークの単価、キャッシュヒット・ミスの区別を確認した。"
+      },
+      "notes": [
+        "単価は100万トークンあたりの米ドル。",
+        "オフピークの単価はピークの半額と記載されている。",
+        "ピーク時間帯は UTC 01:00–04:00 と 06:00–10:00 の月曜〜金曜（中国の祝日を除く）。",
+        "input はキャッシュミス時の単価、cache_read はキャッシュヒット時の単価。"
+      ],
+      "rates": [
+        {
+          "entity_id": "deepseek-v4-1-flash",
+          "model_name": "deepseek-flash",
+          "tiers": [
+            { "condition": "off-peak", "input": 0.15, "output": 0.6, "cache_read": 0.003, "cache_write": null },
+            { "condition": "peak", "input": 0.3, "output": 1.2, "cache_read": 0.006, "cache_write": null }
+          ]
+        },
+        {
+          "entity_id": "deepseek-v4-pro",
+          "model_name": "deepseek-v4-pro",
+          "tiers": [
+            { "condition": "off-peak", "input": 0.66, "output": 1.98, "cache_read": 0.022, "cache_write": null },
+            { "condition": "peak", "input": 1.32, "output": 3.96, "cache_read": 0.044, "cache_write": null }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "opencode-go-2026-10-28",
+      "kind": "subscription-quota",
+      "vendor": "OpenCode",
+      "product": "OpenCode Go",
+      "currency": "USD",
+      "tax": "excluded",
+      "fetched_at": "2026-10-28",
+      "source": {
+        "title": "Go",
+        "url": "https://opencode.ai/v2/docs/console/go/",
+        "publisher": "OpenCode",
+        "kind": "official",
+        "note": "2026-10-28 取得。月額、対象ワークスペース、モデル別の単価と月額上限、利用量の配分を確認した。"
+      },
+      "unit": "per_1m_tokens",
+      "notes": [
+        "Go と Go Plus で、モデルごとのトークン単価は同じと記載されている。",
+        "利用上限はモデルごとの月額ドル換算で決まり、5時間で月額の20%、週で50%、月で100%と明記されている。",
+        "1人のワークスペースが対象で、メンバーの招待はできない。",
+        "モデル別の上限額は Go の表の値。Go Plus は「より高い上限」とだけ記載され、モデル別の額は未確認。",
+        "モデル一覧には単価の記載がないモデルも含まれる（Grok 4.7、GLM-5.3、Kimi K3、MiniMax など）。単価が確認できていないため、この表には入れていない。"
+      ],
+      "plans": [
+        { "plan_id": "opencode-go", "entity_id": "opencode-go", "display_name": "Go", "monthly_usd": 10 },
+        { "plan_id": "opencode-go-plus", "entity_id": "opencode-go-plus", "display_name": "Go Plus", "monthly_usd": 40 }
+      ],
+      "quota_policy": {
+        "five_hour": "20% of monthly limit",
+        "weekly": "50% of monthly limit",
+        "monthly": "100% of monthly limit",
+        "notes": "上限に達すると、リセットまでの残り時間が応答に含まれる（`opencode.allowance`）。"
+      },
+      "model_limits": [
+        {
+          "model_name": "GLM-5.3-Flash",
+          "monthly_limit_usd": 60,
+          "tiers": [{ "condition": "standard", "input": 0.15, "output": 0.5, "cache_read": 0.03 }]
+        },
+        {
+          "model_name": "Kimi K3.1 Pro",
+          "monthly_limit_usd": 15,
+          "tiers": [{ "condition": "standard", "input": 2.0, "output": 10.0, "cache_read": 0.2 }]
+        },
+        {
+          "model_name": "Qwen3.8 Max",
+          "monthly_limit_usd": 15,
+          "tiers": [{ "condition": "standard", "input": 2.0, "output": 6.0, "cache_read": 0.25 }]
+        },
+        {
+          "model_name": "Qwen3.7 Plus",
+          "monthly_limit_usd": 60,
+          "tiers": [
+            { "condition": "input up to 256K tokens", "input": 0.4, "output": 1.6, "cache_read": 0.04 },
+            { "condition": "input over 256K tokens", "input": 1.2, "output": 4.8, "cache_read": 0.12 }
+          ]
+        },
+        {
+          "model_name": "DeepSeek V4.1 Flash",
+          "monthly_limit_usd": 80,
+          "tiers": [
+            { "condition": "off-peak", "input": 0.15, "output": 0.6, "cache_read": 0.003 },
+            { "condition": "peak", "input": 0.3, "output": 1.2, "cache_read": 0.006 }
+          ]
+        },
+        {
+          "model_name": "DeepSeek V4 Pro",
+          "monthly_limit_usd": 15,
+          "tiers": [
+            { "condition": "off-peak", "input": 0.66, "output": 1.98, "cache_read": 0.022 },
+            { "condition": "peak", "input": 1.32, "output": 3.96, "cache_read": 0.044 }
+          ]
+        },
+        {
+          "model_name": "Beam Free",
+          "monthly_limit_usd": null,
+          "tiers": [{ "condition": "free (limited time)", "input": 0, "output": 0, "cache_read": null }],
+          "notes": "表の単価欄が Free、上限欄が Unlimited と記載されている。期間限定の提供と書かれているため、恒久的な無料とは扱わない。"
+        },
+        {
+          "model_name": "Iceman Contributor Free",
+          "monthly_limit_usd": null,
+          "tiers": [{ "condition": "free (limited time)", "input": 0, "output": 0, "cache_read": null }],
+          "notes": "表の単価欄が Free、上限欄が Unlimited と記載されている。期間限定の提供。"
+        }
+      ]
+    },
+    {
+      "id": "openrouter-2026-10-27",
+      "kind": "token-price",
+      "vendor": "OpenRouter",
+      "product": "OpenRouter（再販）",
+      "currency": "USD",
+      "tax": "excluded",
+      "unit": "per_1m_tokens",
+      "fetched_at": "2026-10-27",
+      "source": {
+        "title": "OpenRouter Models API",
+        "url": "https://openrouter.ai/api/v1/models",
+        "publisher": "OpenRouter",
+        "kind": "reseller",
+        "note": "2026-10-27 取得。再販経路のモデル一覧と単価。"
+      },
+      "external_ref": {
+        "path": "data/model-comparison.json",
+        "id_field": "source_id",
+        "note": "再販価格は既存のモデル比較データを唯一の出所とし、この図鑑では複製しない。二重管理を避けるため、値は model-comparison.json から読み込む。"
+      },
+      "rates": [],
+      "notes": [
+        "再販価格は提供元の公式価格ではない。同じモデルでも公式単価と一致しない場合がある（DeepSeek V4.1 Flash は公式のオフピーク0.15ドルに対し、再販は0.14ドルと表示）。",
+        "表示は丸めを含む可能性があり、このサイトでは丸めの規則を確認できていない。"
+      ]
+    }
+  ]
+}

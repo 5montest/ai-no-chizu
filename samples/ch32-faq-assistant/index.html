@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>設備ヘルプデスク（第32章の演習）</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="page">
+      <header class="page__head">
+        <p class="page__kicker">第32章の演習</p>
+        <h1>設備ヘルプデスク</h1>
+        <p class="page__lead">
+          社内FAQ 12件から候補を探し、<strong>答える・人に回す・答えない</strong>のどれかに振り分けます。
+          データはこのフォルダの中だけにあり、外部へは送りません。モデルのAPIも使いません。
+        </p>
+      </header>
+
+      <form class="ask" id="ask-form" novalidate>
+        <label class="ask__label" for="query">質問</label>
+        <div class="ask__row">
+          <input
+            class="ask__input"
+            id="query"
+            name="query"
+            type="text"
+            autocomplete="off"
+            placeholder="例：会議室を予約したい"
+          />
+          <button class="ask__button" type="submit">聞く</button>
+        </div>
+        <p class="ask__hint">
+          うまくいかない例も試してください。「経費の締め切りは？」「給与明細が見たい」「会議室の鍵」
+        </p>
+      </form>
+
+      <section class="result" id="result" aria-live="polite">
+        <p class="result__empty">まだ質問していません。</p>
+      </section>
+
+      <footer class="page__foot">
+        <p>
+          このFAQは演習のために書いた架空の社内規程です。実在の組織のものではありません。
+          仕組みの説明は<a href="../../site/chapters/32/">第32章</a>にあります。
+        </p>
+      </footer>
+    </main>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

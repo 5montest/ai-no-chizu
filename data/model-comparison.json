@@ -4,7 +4,7 @@
     "name": "OpenRouter Models API",
     "kind": "reseller",
     "url": "https://openrouter.ai/api/v1/models",
-    "note": "料金は OpenRouter 経由の単価で、各社が公式 API で公開している単価とは一致しない場合がある。公式価格は各社の料金ページで確認すること。"
+    "note": "料金は OpenRouter 経由の単価で、各社が公式 API で公開している単価とは一致しない場合がある。価格は提供元の切り替え、ルーティング、キャッシュの有無などで日々変わるため、この表は verified_at の時点で取得したスナップショットとして扱う。公式価格は各社の料金ページで確認すること。"
   },
   "method": "公開APIのモデル一覧から代表的なモデルを抜粋し、コンテキスト長と基本のトークン単価を記録した。能力・品質の順位は含まない。",
   "note": "price は基本料金のみ。長文入力・キャッシュ・バッチなどの条件付き料金は未確認（conditions: null）として扱う。重みの公開可否とライセンスは提供元の配布条件で決まるため、未確認の項目はそのまま未確認として残す。",
@@ -24,7 +24,10 @@
       },
       "open_weights": false,
       "open_weights_basis": "curated",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "anthropic/claude-fable-5.1",
       "source_url": "https://openrouter.ai/anthropic/claude-fable-5.1",
       "fetched_at": "2026-10-27",
@@ -45,7 +48,10 @@
       },
       "open_weights": false,
       "open_weights_basis": "curated",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "anthropic/claude-opus-5.5",
       "source_url": "https://openrouter.ai/anthropic/claude-opus-5.5",
       "fetched_at": "2026-10-27",
@@ -66,7 +72,10 @@
       },
       "open_weights": false,
       "open_weights_basis": "curated",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "anthropic/claude-sonnet-5.5",
       "source_url": "https://openrouter.ai/anthropic/claude-sonnet-5.5",
       "fetched_at": "2026-10-27",
@@ -87,7 +96,10 @@
       },
       "open_weights": false,
       "open_weights_basis": "curated",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "anthropic/claude-haiku-5.5",
       "source_url": "https://openrouter.ai/anthropic/claude-haiku-5.5",
       "fetched_at": "2026-10-27",
@@ -108,7 +120,10 @@
       },
       "open_weights": false,
       "open_weights_basis": "curated",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "openai/gpt-6.1-sol-pro",
       "source_url": "https://openrouter.ai/openai/gpt-6.1-sol-pro",
       "fetched_at": "2026-10-27",
@@ -129,7 +144,10 @@
       },
       "open_weights": false,
       "open_weights_basis": "curated",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "openai/gpt-6.1-terra-pro",
       "source_url": "https://openrouter.ai/openai/gpt-6.1-terra-pro",
       "fetched_at": "2026-10-27",
@@ -150,7 +168,10 @@
       },
       "open_weights": false,
       "open_weights_basis": "curated",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "google/gemini-4-argon",
       "source_url": "https://openrouter.ai/google/gemini-4-argon",
       "fetched_at": "2026-10-27",
@@ -171,7 +192,10 @@
       },
       "open_weights": false,
       "open_weights_basis": "curated",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "google/gemini-3.8-flash",
       "source_url": "https://openrouter.ai/google/gemini-3.8-flash",
       "fetched_at": "2026-10-27",
@@ -192,7 +216,10 @@
       },
       "open_weights": false,
       "open_weights_basis": "curated",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "x-ai/grok-4.7",
       "source_url": "https://openrouter.ai/x-ai/grok-4.7",
       "fetched_at": "2026-10-27",
@@ -213,7 +240,10 @@
       },
       "open_weights": null,
       "open_weights_basis": "unverified",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "deepseek/deepseek-v4.1-flash",
       "source_url": "https://openrouter.ai/deepseek/deepseek-v4.1-flash",
       "fetched_at": "2026-10-27",
@@ -234,7 +264,10 @@
       },
       "open_weights": null,
       "open_weights_basis": "unverified",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "qwen/qwen3.8-27b",
       "source_url": "https://openrouter.ai/qwen/qwen3.8-27b",
       "fetched_at": "2026-10-27",
@@ -255,7 +288,10 @@
       },
       "open_weights": false,
       "open_weights_basis": "curated",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "qwen/qwen3.8-max-prime",
       "source_url": "https://openrouter.ai/qwen/qwen3.8-max-prime",
       "fetched_at": "2026-10-27",
@@ -276,7 +312,10 @@
       },
       "open_weights": false,
       "open_weights_basis": "curated",
-      "licence": { "name": null, "verified": false },
+      "licence": {
+        "name": null,
+        "verified": false
+      },
       "source_id": "mistralai/mistral-large-4-0",
       "source_url": "https://openrouter.ai/mistralai/mistral-large-4-0",
       "fetched_at": "2026-10-27",

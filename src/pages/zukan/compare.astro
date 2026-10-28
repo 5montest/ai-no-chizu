@@ -1,0 +1,391 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import zukanJson from '../../../data/zukan.json';
+import {
+  AVAILABILITY_LABELS,
+  VERIFICATION_LABELS,
+  compareEntities,
+  groupByKind,
+} from '../../lib/zukan.mjs';
+import { withBase } from '../../lib/site.mjs';
+import type { Zukan, ZukanEntity, ZukanTerm } from '../../lib/zukan-types';
+
+const zukan = zukanJson as unknown as Zukan;
+const groups = groupByKind(zukan.entities, zukan.kinds);
+
+const COST_MODEL_LABELS: Record<string, string> = {
+  free: '無料',
+  paid: '有料（月額・席単位など）',
+  'usage-based': '従量課金',
+  mixed: '無料枠と従量課金の併用',
+  unknown: '料金体系 未確認',
+};
+const MODALITY_LABELS: Record<string, string> = {
+  text: 'テキスト',
+  image: '画像',
+  audio: '音声',
+  video: '動画',
+  file: 'ファイル',
+};
+const CONTEXT_BASIS_LABELS: Record<string, string> = {
+  official: '提供元の公式情報',
+  reseller: '再販事業者の掲載',
+  unverified: '出所 未確認',
+};
+const ENVIRONMENT_LABELS: Record<string, string> = {
+  'api-official': '提供元の公式API',
+  'api-reseller': '再販事業者のAPI',
+};
+
+const labelMap = (items: ZukanTerm[]): Map<string, string> =>
+  new Map(items.map((item): [string, string] => [item.id, item.label]));
+const useCaseLabels = labelMap(zukan.use_cases);
+const interfaceLabels = labelMap(zukan.interfaces);
+const platformLabels = labelMap(zukan.platforms);
+const accessRouteLabels = labelMap(zukan.access_routes);
+
+/** 配列が空のときは「未確認」と書かない。試した結果なのか、そもそも記録が無いのかを分ける。 */
+const joinOrNone = (values: readonly string[] | null | undefined): string => {
+  const items = (values ?? []).filter(Boolean);
+  return items.length > 0 ? items.join('、') : '未記録';
+};
+
+const contextText = (entity: ZukanEntity): string => {
+  const window = entity.context_window;
+  if (!window || typeof window.tokens !== 'number') return '未確認';
+  return `${window.tokens.toLocaleString('ja-JP')} トークン（${CONTEXT_BASIS_LABELS[window.basis] ?? window.basis}）`;
+};
+
+const modelIdText = (entity: ZukanEntity): string => {
+  const ids = entity.model_ids ?? [];
+  if (ids.length === 0) return '未記録';
+  return ids
+    .map((modelId) => `${modelId.id}（${modelId.provider}／${ENVIRONMENT_LABELS[modelId.environment] ?? modelId.environment}）`)
+    .join('、');
+};
+
+const cautionText = (entity: ZukanEntity): string => {
+  const items = [...(entity.not_suitable_for ?? []), ...(entity.limitations ?? [])].filter(Boolean);
+  return items.length > 0 ? items.join('、') : '未記録';
+};
+
+const strengthText = (entity: ZukanEntity): string => {
+  const items = (entity.strengths ?? []).filter(Boolean);
+  return items.length > 0 ? items.slice(0, 3).join('、') : '未記録';
+};
+
+// 行は「どの分類にも共通して聞けること」だけにする。
+// 片方の分類にしか無い項目を並べると、空欄が「できない」と読めてしまう。
+const ROWS = [
+  { key: 'kindLabel', label: '分類' },
+  { key: 'vendor', label: '提供元' },
+  { key: 'availability', label: '提供状況' },
+  { key: 'verification', label: '情報の状態' },
+  { key: 'useCases', label: '主な用途' },
+  { key: 'interfaces', label: '使う場所' },
+  { key: 'platforms', label: '対応OS・環境' },
+  { key: 'access', label: '利用できる経路' },
+  { key: 'modalities', label: '入出力' },
+  { key: 'cost', label: '料金体系' },
+  { key: 'requires', label: '必要なもの' },
+  { key: 'strengths', label: '得意なこと' },
+  { key: 'cautions', label: '向かないこと・注意' },
+  { key: 'modelIds', label: 'モデルID' },
+  { key: 'context', label: '文脈長' },
+  { key: 'checked', label: '最終確認日' },
+];
+
+const kindOf = (entity: ZukanEntity): ZukanTerm | undefined =>
+  zukan.kinds.find((item) => item.id === entity.kind);
+
+const recordOf = (entity: ZukanEntity) => {
+  const kind = kindOf(entity);
+  return {
+    display_name: entity.display_name,
+    kind: entity.kind,
+    kindLabel: kind?.label ?? entity.kind,
+    href: withBase(`/zukan/${entity.slug}/`),
+    vendor: entity.vendor,
+    checked: entity.last_checked_at,
+    values: {
+      kindLabel: kind?.label ?? entity.kind,
+      vendor: entity.vendor,
+      availability: AVAILABILITY_LABELS[entity.availability_status] ?? '提供中',
+      verification: VERIFICATION_LABELS[entity.verification_status] ?? '提供元の公式情報で確認',
+      useCases: joinOrNone(
+        (entity.primary_use_cases ?? []).map((id) => useCaseLabels.get(id) ?? id),
+      ),
+      interfaces: joinOrNone(
+        (entity.interfaces ?? []).map((id) => interfaceLabels.get(id) ?? id),
+      ),
+      platforms: joinOrNone(
+        (entity.platforms ?? []).map((id) => platformLabels.get(id) ?? id),
+      ),
+      access: joinOrNone(
+        (entity.available_via ?? []).map((id) => accessRouteLabels.get(id) ?? id),
+      ),
+      modalities: joinOrNone([
+        ...(entity.input_modalities ?? []).map((id) => `入力 ${MODALITY_LABELS[id] ?? id}`),
+        ...(entity.output_modalities ?? []).map((id) => `出力 ${MODALITY_LABELS[id] ?? id}`),
+      ]),
+      cost: COST_MODEL_LABELS[entity.cost_model] ?? '料金体系 未確認',
+      requires: joinOrNone(entity.requires),
+      strengths: strengthText(entity),
+      cautions: cautionText(entity),
+      modelIds: modelIdText(entity),
+      context: contextText(entity),
+      checked: entity.last_checked_at,
+    },
+  };
+};
+
+// 分類の組み合わせごとの注記は、一覧・詳細と同じ compareEntities の規則から作る。
+// 文面を別に書くと、同じ状況でページごとに言うことが変わる。
+const presentKinds = zukan.kinds.map((kind) => kind.id).filter((id) => zukan.entities.some((entity) => entity.kind === id));
+const combinations = (items: string[], size: number): string[][] => {
+  if (size === 0) return [[]];
+  if (items.length < size) return [];
+  const [head, ...rest] = items;
+  return [...combinations(rest, size - 1).map((combo) => [head, ...combo]), ...combinations(rest, size)];
+};
+const layerNotes: Record<string, string> = {};
+for (let size = 2; size <= presentKinds.length; size += 1) {
+  for (const combo of combinations(presentKinds, size)) {
+    const synthetic = combo.map((id) => ({ id: `kind-${id}`, kind: id }));
+    const note = compareEntities(synthetic, synthetic.map((item) => item.id), zukan.kinds)
+      .layerNote;
+    if (note) layerNotes[[...combo].sort().join('|')] = note;
+  }
+}
+
+const payload = {
+  rows: ROWS,
+  entities: Object.fromEntries(zukan.entities.map((entity) => [entity.id, recordOf(entity)])),
+  layerNotes,
+  kindLabels: Object.fromEntries(zukan.kinds.map((kind) => [kind.id, kind.label])),
+  max: 6,
+};
+---
+
+<BaseLayout
+  title="AI図鑑の比較"
+  description="AI図鑑に登録した製品を2件以上選び、分類・用途・料金体系・確認日を横に並べて見くらべるページです。"
+>
+  <div class="page">
+    <div class="shell">
+      <div class="zukan-page zukan-page--wide">
+        <Breadcrumb
+          items={[{ label: 'AI図鑑', href: withBase('/zukan/') }, { label: '比較' }]}
+        />
+
+        <div class="section-head section-head--left page-head">
+          <h1>AI図鑑の比較</h1>
+          <p>
+            2件以上を選ぶと、共通する項目だけを横に並べます。モデルとハーネスのように層が違うものを選んだ場合は、
+            優劣ではなく役割の違いとして並べ、その旨を表の上に書きます。
+          </p>
+        </div>
+
+        <form class="compare-form" data-compare-form action={withBase('/zukan/compare/')} method="get">
+          {groups.map((group) => (
+            <fieldset class="compare-fieldset">
+              <legend>
+                {group.kind.label}
+                <span class="zukan-group__count">{group.entities.length}件</span>
+              </legend>
+              <div class="compare-choices">
+                {group.entities.map((entity) => (
+                  <label class="compare-choice">
+                    <input type="checkbox" name="ids" value={entity.id} />
+                    <span>
+                      <span class="compare-choice__name">{entity.display_name}</span>
+                      <span class="compare-choice__meta">
+                        {entity.vendor}／確認 {entity.last_checked_at}
+                      </span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          ))}
+
+          <div class="compare-actions">
+            <button class="btn" type="submit">選んだ項目を並べる</button>
+            <button class="btn btn--ghost" type="button" data-compare-reset>選択を解除する</button>
+            <span class="compare-count" data-compare-status aria-live="polite">0件を選んでいます</span>
+          </div>
+        </form>
+
+        <p class="compare-message" data-compare-message aria-live="polite">
+          項目を2つ以上選ぶと、ここに比較表を表示します。
+        </p>
+
+        <div class="compare-result" data-compare-root></div>
+
+        <noscript>
+          <p class="zukan-note">
+            比較表はブラウザ上で組み立てるため、JavaScript を有効にすると表示されます。
+            各項目の内容は<a href={withBase('/zukan/')}>AI図鑑の一覧</a>から個別のページで読めます。
+          </p>
+        </noscript>
+
+        <section class="zukan-footnote">
+          <h2>比較表の読み方</h2>
+          <p>
+            「未記録」は、その項目の記載がまだ無いことを表します。「未確認」は、確認を試みたものの公式の記載が
+            見つからなかったことを表します。どちらも「使えない」「0円」という意味ではありません。
+          </p>
+          <p>
+            料金体系は各項目の記録だけを示し、金額はここには出しません。金額・通貨・税の扱いは項目ごとに確認日が
+            違うため、<a href={withBase('/zukan/')}>一覧</a>から個別のページで確認してください。
+          </p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script define:vars={{ payload }}>
+    const form = document.querySelector('[data-compare-form]');
+    const checkboxes = [...document.querySelectorAll('input[name="ids"]')];
+    const statusEl = document.querySelector('[data-compare-status]');
+    const messageEl = document.querySelector('[data-compare-message]');
+    const root = document.querySelector('[data-compare-root]');
+    const resetButton = document.querySelector('[data-compare-reset]');
+
+    const known = new Set(Object.keys(payload.entities));
+
+    const readIds = () => {
+      const seen = [];
+      for (const id of new URLSearchParams(location.search).getAll('ids')) {
+        if (known.has(id) && !seen.includes(id)) seen.push(id);
+      }
+      return seen;
+    };
+
+    const cell = (text) => {
+      const td = document.createElement('td');
+      td.textContent = text;
+      return td;
+    };
+
+    function render(ids) {
+      root.replaceChildren();
+      if (statusEl) statusEl.textContent = `${ids.length}件を選んでいます`;
+
+      if (ids.length < 2) {
+        if (messageEl) {
+          messageEl.textContent =
+            ids.length === 0
+              ? '項目を2つ以上選ぶと、ここに比較表を表示します。'
+              : 'あと1つ選ぶと比較できます。同じ分類の中から選ぶと、役割が近いもの同士で比べられます。';
+        }
+        return;
+      }
+
+      const kinds = [...new Set(ids.map((id) => payload.entities[id].kind))];
+      const note =
+        kinds.length === 1
+          ? `同じ${payload.kindLabels[kinds[0]] ?? kinds[0]}の項目同士なので、役割が近く、並べて比べられます。`
+          : payload.layerNotes[[...kinds].sort().join('|')] ?? null;
+
+      if (messageEl) messageEl.textContent = note ?? '';
+
+      const wrap = document.createElement('div');
+      wrap.className = 'model-table-wrap';
+      const table = document.createElement('table');
+      table.className = 'model-table compare-table';
+
+      const caption = document.createElement('caption');
+      caption.className = 'compare-caption';
+      caption.textContent = `${ids.length}件を並べています。空欄は作らず、記録が無い項目は「未記録」と書いています。`;
+      table.append(caption);
+
+      const thead = document.createElement('thead');
+      const headRow = document.createElement('tr');
+      const corner = document.createElement('th');
+      corner.scope = 'col';
+      corner.textContent = '項目';
+      headRow.append(corner);
+      for (const id of ids) {
+        const entity = payload.entities[id];
+        const th = document.createElement('th');
+        th.scope = 'col';
+        const link = document.createElement('a');
+        link.href = entity.href;
+        link.textContent = entity.display_name;
+        th.append(link);
+        const meta = document.createElement('span');
+        meta.className = 'compare-col-meta';
+        meta.textContent = entity.vendor;
+        th.append(meta);
+        headRow.append(th);
+      }
+      thead.append(headRow);
+      table.append(thead);
+
+      const tbody = document.createElement('tbody');
+      for (const row of payload.rows) {
+        const tr = document.createElement('tr');
+        const th = document.createElement('th');
+        th.scope = 'row';
+        th.textContent = row.label;
+        tr.append(th);
+        for (const id of ids) {
+          tr.append(cell(payload.entities[id].values[row.key] ?? '未記録'));
+        }
+        tbody.append(tr);
+      }
+      table.append(tbody);
+      wrap.append(table);
+      root.append(wrap);
+    }
+
+    function syncCheckboxes(ids) {
+      for (const box of checkboxes) box.checked = ids.includes(box.value);
+    }
+
+    function currentIds() {
+      return checkboxes.filter((box) => box.checked).map((box) => box.value);
+    }
+
+    function updateUrl(ids) {
+      const params = new URLSearchParams();
+      for (const id of ids) params.append('ids', id);
+      const query = params.toString();
+      const url = `${location.pathname}${query ? `?${query}` : ''}`;
+      history.replaceState(null, '', url);
+    }
+
+    const initial = readIds();
+    syncCheckboxes(initial);
+    render(initial);
+
+    form?.addEventListener('change', () => {
+      const ids = currentIds();
+      if (ids.length > payload.max) {
+        const overflow = ids[payload.max];
+        const box = checkboxes.find((item) => item.value === overflow);
+        if (box) box.checked = false;
+        if (messageEl) {
+          messageEl.textContent = `一度に並べられるのは${payload.max}件までです。「${payload.entities[overflow].display_name}」の選択を外しました。`;
+        }
+      }
+      const selected = currentIds();
+      updateUrl(selected);
+      render(selected);
+    });
+
+    form?.addEventListener('submit', (event) => {
+      // 静的サイトなので送信しても表は変わらない。選択の反映はその場で行う。
+      event.preventDefault();
+      render(currentIds());
+    });
+
+    resetButton?.addEventListener('click', () => {
+      syncCheckboxes([]);
+      updateUrl([]);
+      render([]);
+    });
+  </script>
+</BaseLayout>

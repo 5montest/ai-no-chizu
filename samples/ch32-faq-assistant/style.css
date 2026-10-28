@@ -1,0 +1,225 @@
+/* style.css — 演習用の最小限の見た目。装飾より、判定が読み取れることを優先する。 */
+
+:root {
+  --ink: #1b1b1b;
+  --ink-soft: #565656;
+  --line: #d5d2ca;
+  --surface: #fbfaf7;
+  --answer: #1d6a3c;
+  --escalate: #8a5a00;
+  --refuse: #8c2b2b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", sans-serif;
+  line-height: 1.8;
+}
+
+.page {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+}
+
+.page__head {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+}
+
+.page__kicker {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+}
+
+h1 {
+  margin: 0 0 0.75rem;
+  font-size: 1.6rem;
+  line-height: 1.4;
+}
+
+.page__lead {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.page__lead strong {
+  color: var(--ink);
+}
+
+.ask {
+  margin-bottom: 1.5rem;
+}
+
+.ask__label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.35rem;
+}
+
+.ask__row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ask__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.6rem 0.7rem;
+  font: inherit;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  color: inherit;
+}
+
+.ask__input:focus-visible,
+.ask__button:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.ask__button {
+  flex: 0 0 auto;
+  padding: 0.6rem 1.1rem;
+  font: inherit;
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  background: var(--ink);
+  color: #fff;
+  cursor: pointer;
+}
+
+.ask__hint {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.result {
+  min-height: 6rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+  padding: 1rem 1.1rem;
+}
+
+.result__empty {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.result__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.55rem;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.badge--answer {
+  color: var(--answer);
+}
+
+.badge--escalate {
+  color: var(--escalate);
+}
+
+.badge--refuse {
+  color: var(--refuse);
+}
+
+.result__reason {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.result__text {
+  margin: 0 0 0.9rem;
+  white-space: pre-line;
+}
+
+.result__more {
+  border-top: 1px solid var(--line);
+  padding-top: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.result__more summary {
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.cands {
+  margin: 0.6rem 0 0;
+  padding-left: 1.2rem;
+  font-size: 0.85rem;
+}
+
+.cands__item {
+  display: flex;
+  gap: 0.6rem;
+  align-items: baseline;
+}
+
+.cands__id {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8rem;
+}
+
+.cands__title {
+  flex: 1 1 auto;
+  color: var(--ink-soft);
+}
+
+.cands__score {
+  font-variant-numeric: tabular-nums;
+}
+
+.result__cost {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.page__foot {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+.page__foot a {
+  color: inherit;
+}
+
+@media (max-width: 30rem) {
+  .ask__row {
+    flex-wrap: wrap;
+  }
+
+  .ask__button {
+    width: 100%;
+  }
+}

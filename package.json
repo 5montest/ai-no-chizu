@@ -11,7 +11,8 @@
     "test": "node --test \"test/**/*.test.ts\"",
     "fetch:models": "node scripts/fetch-model-data.mjs",
     "validate:data": "node scripts/validate-data.mjs",
-    "validate:content": "node scripts/validate-content.mjs"
+    "validate:content": "node scripts/validate-content.mjs",
+    "validate:zukan": "node scripts/validate-zukan.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-remark": "^7.3.4",

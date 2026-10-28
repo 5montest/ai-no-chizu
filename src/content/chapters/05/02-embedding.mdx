@@ -6,7 +6,7 @@ section: '第II部 LLMの内部'
 order: 2
 level: intro
 readingMinutes: 8
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['埋め込み', 'ベクトル', '検索']
 glossary: ['embedding', 'vector-database', 'rag', 'token', 'llm']
 summary:
@@ -51,6 +51,10 @@ sources:
     url: 'https://platform.openai.com/docs/guides/embeddings'
     publisher: 'OpenAI'
     note: '埋め込みの用途、類似検索、距離指標の実装上の注意。'
+  - title: 'Is Cosine-Similarity of Embeddings Really About Similarity?'
+    url: 'https://arxiv.org/abs/2403.05440'
+    publisher: 'arXiv'
+    note: 'コサイン類似度が埋め込みの正規化や学習の目的関数に左右され、意味の近さと一致しない場合があることを論じた研究。本文で幾何学的な関係と意味の解釈を分ける根拠として挙げている。'
 ---
 
 import Diagram from '../../../components/Diagram.astro';
@@ -75,7 +79,9 @@ import DeepDive from '../../../components/DeepDive.astro';
 
 ## 類似度で検索する
 
-ベクトル同士の近さは、コサイン類似度や内積で測ります。コサイン類似度は、ベクトルの長さではなく向きの近さを見ます。値が1に近いほど同じ向き、0に近いほど無関係、負なら逆方向です。
+ベクトル同士の近さは、コサイン類似度や内積で測ります。コサイン類似度は、ベクトルの長さではなく向きの近さを見ます。値が1に近いほど同じ向き、0なら直交、負ならなす角が90度を超えて向きが離れていることを表します。
+
+ここで押さえたいのは、この0や負の値が**幾何学的な関係**だという点です。直交は「意味が無関係」、負は「意味が反対」とそのまま読み替えられるものではありません。コサイン類似度を意味上の関連度としてどこまで解釈できるかは、埋め込みモデルの学習方法に依存します。
 
 この性質を使うのが**意味検索**です。文書をあらかじめ埋め込みに変換して保存し、質問も同じモデルで埋め込みにして、近い文書を探します。キーワードの一致ではなく、表現が違っても意味が近ければヒットしやすくなります。
 
