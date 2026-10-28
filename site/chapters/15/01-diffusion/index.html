@@ -63,7 +63,7 @@
 <p><a href="/20261027-website-design-implementation/site/glossary/llm/" title="LLM（大規模言語モデル）" class="gloss-link" data-gloss="llm">LLM</a>の生成は<a href="/20261027-website-design-implementation/site/glossary/next-token-prediction/" title="次トークン予測" class="gloss-link" data-gloss="next-token-prediction">次トークン予測</a>です。列の次の要素を決め、それを繰り返して文章を作ります。一方、拡散モデルは全体のノイズを少しずつ減らします。どちらも<a href="/20261027-website-design-implementation/site/glossary/generative-ai/" title="生成AI" class="gloss-link" data-gloss="generative-ai">生成AI</a>の仲間ですが、出力の作り方が違います。</p>
 <ul>
 <li><b>LLM</b>：一列の順に、次を一つずつ決めます。前の要素が決まってから次の要素へ進みます。</li>
-<li><b>拡散モデル</b>：画面全体を同時に見ながら、全体のノイズを一様に減らします。</li>
+<li><b>拡散モデル</b>：画像の表現全体をまとめて見ながら、少しずつ修正を重ねます。ノイズを一様に均すのではなく、全体を繰り返し更新します。</li>
 </ul>
 <p>「画像も文字と同じように次の単語を予測しているのか」という問いへの答えは、方式によって変わります。画像をトークンの列として扱い、次を予測する方式も研究されていますが、ここでの拡散モデルは別の手続きを取ります。生成AIという一語の中に、複数の方式が同居している点が要点です。</p>
 <details class="deep-dive"><summary><span class="deep-dive__tag">深掘り</span><span>前向きの過程が決めること</span></summary><div class="deep-dive__body"><p>前向き過程の設計は、逆過程の難しさを決めます。一気に全部壊すと、戻す課題が大きくなりすぎます。段階的に壊すことで、各段で「少しだけ戻す」という小さな課題に分解されます。この分解の粒度が、学習のしやすさと生成の質の土台になります。</p><p>また、どの段階でどれだけ壊すかの刻み方を決めると、同じ枠組みの中で、速い生成や細かい制御を組み立てやすくなります。土台にあるのは「壊し方の設計」であり、生成の工夫の多くはこの設計にさかのぼれます。</p></div></details>

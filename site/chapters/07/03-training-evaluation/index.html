@@ -22,7 +22,7 @@
 <li><b>検証用</b>：学習中の判断に使うデータ。どこで止めるか、どの設定かを決める。</li>
 <li><b>テスト用</b>：最後に一度だけ測る、手つかずの評価データ。</li>
 </ul>
-<p>検証用の成績が学習用と並んで落ち始めたら <a href="/20261027-website-design-implementation/site/glossary/overfitting/" title="過学習" class="gloss-link" data-gloss="overfitting">過学習</a>の兆候です。LLMの開発では、単一の正解率ではなく、複数の課題に分けた評価セットの組を見ます。<a href="/20261027-website-design-implementation/site/glossary/accuracy/" title="正解率（Accuracy）" class="gloss-link" data-gloss="accuracy">正解率</a>が一つの課題で上がっても、全体が良くなっているとは限らないからです。</p>
+<p>学習用データの損失が下がり続ける一方で、検証用データの損失が上がり始めたら、<a href="/20261027-website-design-implementation/site/glossary/overfitting/" title="過学習" class="gloss-link" data-gloss="overfitting">過学習</a>が疑われます。両方が同時に悪化する場合は、学習率の設定やデータの分布の変化など、別の原因も考えられます。LLMの開発では、単一の正解率ではなく、複数の課題に分けた評価セットの組を見ます。<a href="/20261027-website-design-implementation/site/glossary/accuracy/" title="正解率（Accuracy）" class="gloss-link" data-gloss="accuracy">正解率</a>が一つの課題で上がっても、全体が良くなっているとは限らないからです。</p>
 <p>評価セットの作り方も、結論を左右します。難易度が偏っていたり、様式が一つに決まっていたりすると、その条件に合うモデルだけが高得点を取ります。何を含め、何を含めないかの判断が、評価の設計そのものになります。</p>
 <p>評価は一度測って終わりではありません。学習を進めるたびに同じセットで測ることになるため、前回との差分を見ます。数値の上がった課題と下がった課題を並べて、改善と退行を同時に確認するのが日常の作業になります。</p>
 <h2 id="sftデータの品質">SFTデータの品質</h2>
