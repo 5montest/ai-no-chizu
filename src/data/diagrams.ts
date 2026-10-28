@@ -190,6 +190,24 @@ export const diagrams: Record<string, Diagram> = {
   P --> B`,
   },
 
+  'five-layers': {
+    number: '23-1',
+    title: '製品を分ける五つの層と、間の関係',
+    caption:
+      '概念図。この五分類はこのサイトの整理であり、業界の標準用語ではない。層が違えば比べるべき項目も変わる。矢印は「上から順に賢さが決まる」という意味ではなく、どこで作業が止まりうるかを示す。',
+    code: `flowchart TB
+  APP["利用アプリ<br/>人が指示を出し、結果を読む"]
+  H["ハーネス<br/>手順・道具・権限・検証"]
+  M["モデル<br/>入力から出力を計算する本体"]
+  EXT["拡張機構<br/>Skills・Plugins・MCP・Hooks"]
+  C["契約・プラン<br/>使える量・モデル・支払い方"]
+  APP --> H
+  EXT -.->|"後から足す"| H
+  H --> M
+  C -.->|"枠が尽きれば止まる"| H
+  C -.->|"使えるモデルを決める"| M`,
+  },
+
   'model-selection': {
     number: '18-1',
     title: 'モデル選びの手順',

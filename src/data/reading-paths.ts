@@ -1,4 +1,21 @@
-export const readingPaths = [
+/** ルートの1ページ。before は、ルートの順番には入れないが、先に読むと理解しやすい記事。 */
+export interface ReadingPathPage {
+  id: string;
+  reason: string;
+  before?: { id: string; note: string }[];
+}
+
+export interface ReadingPath {
+  id: string;
+  label: string;
+  title: string;
+  description: string;
+  outcome: string;
+  prerequisite: string;
+  pages: ReadingPathPage[];
+}
+
+export const readingPaths: ReadingPath[] = [
   {
     id: 'learn', label: 'AIの仕組みを学びたい方', title: 'AI・LLMの基本原理を順に学ぶ',
     description: 'AIという言葉が指す範囲から始め、入力が処理されて文章が返るまでの工程、TransformerのAttention、回答を作る2段階の計算を追います。',
@@ -6,9 +23,21 @@ export const readingPaths = [
     prerequisite: '前提知識は不要です。第1章から順に読めます。',
     pages: [
       { id: '01/01-what-is-ai', reason: 'AI・機械学習・LLMがそれぞれ何を指すかを分ける' },
-      { id: '04/01-pipeline', reason: '入力が処理され、文章が返るまでの工程を追う' },
-      { id: '06/02-attention', reason: 'Transformerが文中のどの語を参照しているかを読む' },
-      { id: '08/01-prefill-decode', reason: '回答を作る2段階の計算と、その費用の違いを押さえる' },
+      {
+        id: '04/01-pipeline', reason: '入力が処理され、文章が返るまでの工程を追う',
+        before: [
+          { id: '01/02-machine-learning', note: '機械学習が何を調整しているかが、この記事の前提になる' },
+          { id: '05/01-tokenization', note: '最初の工程に出てくるトークンの作り方' },
+        ],
+      },
+      {
+        id: '06/02-attention', reason: 'Transformerが文中のどの語を参照しているかを読む',
+        before: [{ id: '06/01-transformer', note: 'Attentionが組み込まれている全体像' }],
+      },
+      {
+        id: '08/01-prefill-decode', reason: '回答を作る2段階の計算と、その費用の違いを押さえる',
+        before: [{ id: '07/02-training-stages', note: '学習の段階と、学習を終えたモデルを使う計算の違い' }],
+      },
     ],
   },
   {
@@ -59,6 +88,6 @@ export const readingPaths = [
       { id: '29/02-inspection-skill', reason: '出力を検査するSkillを作り、確認を手順に組み込む' },
     ],
   },
-] as const;
+];
 
 export const optionalTechnicalChapters = new Set(['03', '06', '07', '08', '13', '15', '16', '17', '19', '27', '28', '29', '30', '31', '32']);

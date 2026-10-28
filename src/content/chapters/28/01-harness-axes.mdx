@@ -38,6 +38,14 @@ quiz:
       - 'claude --undo'
     answer: 0
     explanation: 'CLI リファレンスでは claude -c が現在のディレクトリの直近の会話を続けるコマンドです。セッションを名前か ID で指定するときは -r を使います。'
+  - question: '「DeepSeek」と「DeepSeek Harness」の関係について、適切な説明はどれですか。'
+    options:
+      - 'DeepSeek はモデルやAPIの提供元を指し、DeepSeek Harness はDeepSeekが公開しているエージェント実行環境を指す。'
+      - 'どちらも同じモデルの名前である。'
+      - 'DeepSeek Harness は比較実験の評価指標である。'
+      - 'DeepSeek はIDEの名前で、Harness はその中のモデルである。'
+    answer: 0
+    explanation: 'モデルと、それを呼び出してツールや作業状態を扱うハーネスは別の層です。DeepSeek Harness は公式サイトで公開プレビュー中のオープンソースの実行環境として紹介されています。'
 sources:
   - title: 'Overview'
     url: 'https://code.claude.com/docs/en/overview'
@@ -83,6 +91,38 @@ sources:
     url: 'https://opencode.ai/docs/plugins/'
     publisher: 'OpenCode'
     note: 'プラグインによる拡張を確認（確認日 2026-10-28）。'
+  - title: 'Pi Documentation'
+    url: 'https://pi.dev/docs/latest'
+    publisher: 'Pi'
+    note: 'ターミナル上の拡張可能なエージェント、モデル接続、セッション、拡張機構を確認（確認日 2026-10-28）。'
+  - title: 'Hermes Agent Documentation'
+    url: 'https://hermes-agent.nousresearch.com/docs'
+    publisher: 'Nous Research'
+    note: 'CLI・デスクトップ・メッセージング連携、ツール、メモリ、複数の実行環境を確認（確認日 2026-10-28）。'
+  - title: 'DeepSeek Harness'
+    url: 'https://www.deepseek.com/en/harness/'
+    publisher: 'DeepSeek'
+    note: '公開プレビュー、オープンソース、プラグイン型の構成を確認（確認日 2026-10-28）。'
+  - title: 'Google Antigravity overview'
+    url: 'https://antigravity.google/docs/overview?tab=ide'
+    publisher: 'Google'
+    note: 'デスクトップアプリ、CLI、IDE拡張、SDKを持つ開発エージェント環境として確認（確認日 2026-10-28）。'
+  - title: 'Gemini CLI'
+    url: 'https://github.com/google-gemini/gemini-cli'
+    publisher: 'Google'
+    note: 'Geminiをターミナルで使うオープンソースエージェントとして確認（確認日 2026-10-28）。'
+  - title: 'Aider'
+    url: 'https://aider.chat/'
+    publisher: 'Aider'
+    note: '複数のクラウド・ローカルLLMに接続できるターミナル型ペアプログラミングツールとして確認（確認日 2026-10-28）。'
+  - title: 'Cline Overview'
+    url: 'https://docs.cline.bot/cline-overview'
+    publisher: 'Cline'
+    note: 'エディタとターミナルで動作し、ファイル操作やコマンドを扱うエージェントとして確認（確認日 2026-10-28）。'
+  - title: 'Cursor Docs'
+    url: 'https://cursor.com/docs'
+    publisher: 'Cursor'
+    note: 'IDE内のAgent、Rules、Skills、Hooks、MCP、Cloud Agentsの説明を確認（確認日 2026-10-28）。'
 ---
 
 import DeepDive from '../../../components/DeepDive.astro';
@@ -102,13 +142,26 @@ import Diagram from '../../../components/Diagram.astro';
 
 比較表の列は、ハーネス名にします。モデル名は、その隣の別の欄に書きます。
 
-## この記事で確認できた範囲
+## 代表的なハーネスは、入口と用途で分ける
 
-2026-10-28 に取得した公式ドキュメントは、Claude Code の概要と CLI リファレンス、Codex CLI のページ、OpenCode の入門ページです。この記事の表には、そこに書かれていることだけを入れます。
+「ハーネス」は一種類の製品を指す言葉ではありません。モデルを呼び出してツールや状態を扱う共通部分はありますが、主な入口がCLIかIDEか、個人のコーディング用か汎用エージェント用かで、製品の範囲は違います。以下は**2026-10-28に公式資料で確認した代表例**です。分類は主な入口を示す目安で、製品の機能を完全に区分するものではありません。
 
-三つとも、このサイトの作成環境では動かしていません。つまり**未実機確認**です。表の内容は各社の公式記述にもとづきますが、あなたの環境での表示や所要時間とは一致しないことがあります。
+| 主な入口・用途 | 製品例 | 位置づけ |
+| --- | --- | --- |
+| コーディングCLI | [Claude Code](https://code.claude.com/docs/en/overview)、[Codex CLI](https://learn.chatgpt.com/docs/codex/cli)、[Gemini CLI](https://github.com/google-gemini/gemini-cli) | ターミナルからリポジトリを読み、編集・コマンド実行などを行う。提供元のモデル群と密接に連携する製品がある。 |
+| 複数モデルをつなぐCLI | [OpenCode](https://opencode.ai/docs/)、[Pi](https://pi.dev/docs/latest)、[Aider](https://aider.chat/) | CLIを中心に、複数の提供元や互換エンドポイントを選べるものがある。拡張方法や自動実行の範囲は製品ごとに異なる。 |
+| 汎用エージェント環境 | [Hermes Agent](https://hermes-agent.nousresearch.com/docs)、[DeepSeek Harness](https://www.deepseek.com/en/harness/) | コーディング専用CLIに限らず、ツール、メモリ、連携先やプラグインを含むエージェント環境。DeepSeek Harnessは公式サイトで公開プレビューと案内されている。 |
+| IDE・開発環境に統合 | [Antigravity](https://antigravity.google/docs/overview?tab=ide)、[Cursor](https://cursor.com/docs)、[Cline](https://docs.cline.bot/cline-overview) | エディタやデスクトップ画面とエージェントをまとめて提供する。Antigravityはアプリ・CLI・IDE拡張・SDKを案内しており、単なるIDE拡張より広い。 |
 
-**Pi、Hermes、DeepSeek Harness** については、公式ページを特定・取得できませんでした。そのため、この記事では機能を書きません。名前だけを並べて「たぶんこうだろう」と補うと、表全体の信用が落ちます。確認できた時点で追加します。
+**DeepSeek**という名前だけでは、モデル/APIとハーネスのどちらを指すか分かりません。DeepSeekのモデルをClaude CodeやOpenCodeなどから呼び出す場合と、DeepSeek Harnessを使う場合は、比較する層が違います。
+
+この表は製品の人気順・性能順ではありません。公式説明から分かる用途と入口を並べた地図です。モデルの対応範囲、利用できる機能、公開プレビューかどうかは更新されるため、導入前にはリンク先と利用中の版を確認してください。
+
+## 詳細比較で確認した範囲
+
+八つの観点による詳細表は、比較例として Claude Code・Codex CLI・OpenCodeを載せます。2026-10-28に取得した各公式ドキュメントで確認できた機能だけを記載し、上の代表例すべてを同じ粒度で網羅した一覧とは区別します。
+
+三つとも、このサイトの作成環境では動かしていません。つまり**未実機確認**です。表は公式記述に基づく機能の確認であり、あなたの環境での表示や所要時間、作業品質を示すものではありません。
 
 料金もこの記事では扱いません。料金は単位と通貨と確認日がそろわないと比べられないため、[第25章](/chapters/25/)と[AI図鑑](/zukan/)に分けて記録しています。
 

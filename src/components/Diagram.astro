@@ -4,9 +4,11 @@ import { diagrams } from '../data/diagrams.ts';
 interface Props {
   name: string;
   caption?: string;
+  /** 別の章で先に出した図を、この章にもう一度載せるとき true にする。 */
+  reprint?: boolean;
 }
 
-const { name, caption } = Astro.props;
+const { name, caption, reprint = false } = Astro.props;
 const diagram = diagrams[name];
 
 if (!diagram) {
@@ -24,7 +26,7 @@ const captionText = caption ?? diagram.caption;
 
 <figure class="diagram-plate" id={`fig-${name}`}>
   <div class="diagram-plate__head">
-    <span class="diagram-plate__no">図 {diagram.number}</span>
+    <span class="diagram-plate__no">図 {diagram.number}{reprint ? '（再掲）' : ''}</span>
     <span class="diagram-plate__title">{diagram.title}</span>
     <span class="diagram-plate__hint">横にスクロール</span>
   </div>

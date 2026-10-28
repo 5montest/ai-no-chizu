@@ -372,6 +372,18 @@ if (fs.existsSync(readingPathsFile)) {
     if (pageIds.size === 0) {
       fail(label, 'pages が空です');
     }
+
+    // before は、ルートの順番には含めない補助リンク。記事が消えると押し先が404になる。
+    for (const page of route.pages ?? []) {
+      for (const ref of page.before ?? []) {
+        if (!pages.has(ref.id)) {
+          fail(label, `補助リンクの参照先 src/content/chapters/${ref.id}.mdx がありません`);
+        }
+        if (typeof ref.note !== 'string' || ref.note.trim() === '') {
+          fail(label, `補助リンク「${ref.id}」の note が空です`);
+        }
+      }
+    }
   }
 }
 

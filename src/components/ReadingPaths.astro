@@ -18,7 +18,11 @@ const index = new Map(entries.map(entry => [entry.id, entry]));
           {path.pages.map(item => {
             const entry = index.get(item.id);
             if (!entry) throw new Error(`読書ルートの参照先がありません: ${item.id}`);
-            return <li><a href={withBase(`/chapters/${item.id}/`)}>{entry.data.title}<span>{entry.data.readingMinutes}分</span></a><p>{item.reason}</p></li>;
+            return <li><a href={withBase(`/chapters/${item.id}/`)}>{entry.data.title}<span>{entry.data.readingMinutes}分</span></a><p>{item.reason}</p>{item.before?.length ? <p class="reading-path__before">先に読むと分かりやすい：{item.before.map((ref, j) => {
+              const pre = index.get(ref.id);
+              if (!pre) throw new Error(`読書ルートの補助リンク先がありません: ${ref.id}`);
+              return <>{j > 0 ? '、' : ''}<a href={withBase(`/chapters/${ref.id}/`)}>{pre.data.title}</a>（{ref.note}）</>;
+            })}</p> : null}</li>;
           })}
         </ol>
         <p class="reading-path__outcome">読み終えたら：{path.outcome}</p>

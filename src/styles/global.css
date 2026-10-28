@@ -4097,6 +4097,8 @@ table.compare-table {
 .reading-path__pages a { display: flex; align-items: baseline; gap: .5rem; justify-content: space-between; font-size: .9375rem; }
 .reading-path__pages a span { flex: none; color: var(--ink-mute); font-size: .75rem; }
 .reading-path__pages p { margin: .3rem 0 0; color: var(--ink-soft); font-size: .8125rem; }
+.reading-path__pages .reading-path__before { margin-top: .4rem; color: var(--ink-mute); font-size: .75rem; line-height: 1.8; }
+.reading-path__pages .reading-path__before a { display: inline; justify-content: initial; font-size: inherit; }
 .reading-path__prereq { display: flex; align-items: baseline; gap: .45rem; }
 .reading-path__prereq span { flex: none; padding: .1rem .4rem; border: 1px solid var(--line-strong); border-radius: 2px; font-size: .6875rem; line-height: 1.6; color: var(--ink-mute); }
 .reading-path__outcome { padding-top: .8rem; border-top: 1px solid var(--line); }

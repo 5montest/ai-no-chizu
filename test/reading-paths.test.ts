@@ -66,6 +66,38 @@ test('各ルートの参照先は、実在する記事と1対1で対応する', 
   }
 });
 
+test('補助リンク（先に読むと分かりやすい記事）も、実在する記事を指す', () => {
+  const pageIds = listPageIds();
+
+  for (const route of readingPaths) {
+    // ルートの順番に入れた記事を補助リンクで繰り返すと、読む順が二重に見える。
+    const inRoute = new Set(route.pages.map((page) => page.id));
+    const seen = new Set<string>();
+
+    for (const page of route.pages) {
+      for (const ref of page.before ?? []) {
+        assert.ok(
+          pageIds.has(ref.id),
+          `${route.id} の「${page.id}」から補助リンクしている src/content/chapters/${ref.id}.mdx がありません`,
+        );
+        assert.ok(
+          ref.note.trim() !== '',
+          `${route.id} の補助リンク「${ref.id}」に、なぜ先に読むかの説明がありません`,
+        );
+        assert.ok(
+          !inRoute.has(ref.id),
+          `${route.id} の補助リンク「${ref.id}」は、同じルートの本文ページでもあります`,
+        );
+        assert.ok(
+          !seen.has(ref.id),
+          `${route.id} で補助リンク「${ref.id}」が2回出てきます`,
+        );
+        seen.add(ref.id);
+      }
+    }
+  }
+});
+
 test('5つの入口（仕組み・利用・比較・導入・実装）がそろっている', () => {
   // どれか1つが消えると、その目的の読者は入口を失う。
   const ids = new Set<string>(readingPaths.map((route) => route.id));
