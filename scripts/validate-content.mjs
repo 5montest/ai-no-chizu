@@ -148,8 +148,24 @@ function normalizePath(url) {
 
 for (const file of files) {
   const rel = `src/content/chapters/${file}`;
-  const split = splitFrontmatter(fs.readFileSync(path.join(CONTENT, file), 'utf8'));
+  const source = fs.readFileSync(path.join(CONTENT, file), 'utf8');
+  const split = splitFrontmatter(source);
   if (!split) continue;
+
+  // 表の行に [[用語|表示]] を素で書くと、| がセルの区切りとして先に解釈され、
+  // 「[[用語」と「表示]]」が別のセルに分かれて崩れる。表の行では \| と書く。
+  const lineOffset = source.split('\n').length - split.body.split('\n').length;
+  split.body.split('\n').forEach((line, index) => {
+    if (!line.startsWith('|')) return;
+    for (const wiki of line.match(/\[\[[^\]\n]*\]\]/g) ?? []) {
+      if (/(?<!\\)\|/.test(wiki)) {
+        fail(
+          rel,
+          `${lineOffset + index + 1}行目: 表の中の ${wiki} は、| がセルの区切りとして解釈されます。[[用語\\|表示]] と書いてください`,
+        );
+      }
+    }
+  });
 
   let data;
   try {
@@ -232,9 +248,10 @@ for (const file of files) {
     }
   }
 
-  // 本文中の [[...]] リンク。
+  // 本文中の [[...]] リンク。表の中では区切りの | を \| と書くため、
+  // 区切りの判定はエスケープされていない | だけを見る。
   for (const match of split.body.matchAll(/\[\[([^\]\n]+)\]\]/g)) {
-    const target = match[1].split('|')[0].trim();
+    const target = match[1].split('|')[0].replace(/\\$/, '').trim();
     if (!target) {
       fail(rel, '空の [[ ]] リンクがあります');
       continue;

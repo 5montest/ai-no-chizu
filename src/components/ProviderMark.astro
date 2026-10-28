@@ -1,10 +1,12 @@
 ---
 import { withBase } from '../lib/site.mjs';
-interface Props { vendor: string; }
-const { vendor } = Astro.props;
+// compact は、見出しで提供元名をすでに示している一覧で使う。
+// 名前を二度書かずに済むよう、アイコンだけを出し、読み上げ用に名前を残す。
+interface Props { vendor: string; compact?: boolean; }
+const { vendor, compact = false } = Astro.props;
 const icons: Record<string, string> = { 'Mistral AI': 'mistral.png', OpenCode: 'opencode.png', Qwen: 'qwen.png', OpenAI: 'openai.png', Anthropic: 'anthropic.png', Google: 'google.png', DeepSeek: 'deepseek.png', 'Qwen（Alibaba）': 'qwen.png' };
 ---
 <span class="provider-mark">
   {icons[vendor] && <img src={withBase(`/images/providers/${icons[vendor]}`)} width="22" height="22" loading="lazy" decoding="async" alt="" />}
-  <span>{vendor}</span>
+  {compact && icons[vendor] ? <span class="sr-only">{vendor}</span> : <span>{vendor}</span>}
 </span>

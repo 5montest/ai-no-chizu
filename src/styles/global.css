@@ -3699,6 +3699,26 @@ table.axis-table {
   line-height: 1.8;
 }
 
+/* 種類の下の副分類。見出しの下に細い罫線を引き、件数は右端に寄せる。 */
+.zukan-subgroup + .zukan-subgroup {
+  margin-top: 1.4rem;
+}
+
+.zukan-subgroup__head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 0.65rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.zukan-subgroup__head .zukan-group__count {
+  margin-left: auto;
+}
+
 .zukan-card .term-card__cat {
   display: flex;
   flex-wrap: wrap;

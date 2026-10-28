@@ -15,6 +15,53 @@ const groups = groupByKind(entities, zukan.kinds);
 const useCases = zukan.use_cases;
 const interfaces = zukan.interfaces;
 
+// 種類だけで束ねると、基盤モデル18件と契約19件が1枚の格子に並び、どこから読めばよいか分からない。
+// そこで種類の下に副分類を置く。副分類は優劣の判断ではなく、記録済みの値だけで機械的に決める。
+const SPECIALIZED_FAMILIES = [
+  { id: 'speech', label: '音声の認識・合成', uses: ['speech-to-text', 'text-to-speech'] },
+  { id: 'image', label: '画像の生成・編集', uses: ['image-generation'] },
+  { id: 'embedding', label: '埋め込み・検索', uses: ['embeddings'] },
+  { id: 'document', label: '文書からの抽出', uses: ['ocr'] },
+  { id: 'moderation', label: '有害性の判定', uses: ['moderation'] },
+];
+
+const familyOf = (entity: ZukanEntity) =>
+  SPECIALIZED_FAMILIES.find((family) =>
+    (entity.primary_use_cases ?? []).some((use) => family.uses.includes(use)),
+  );
+
+type Subgroup = { key: string; label: string | null; entities: ZukanEntity[] };
+
+// 基盤モデルと契約は提供元、専用モデルは用途、ハーネスとアプリは件数が少ないので副分類を置かない。
+function subgroupsFor(kindId: string, list: ZukanEntity[]): Subgroup[] {
+  if (kindId === 'model' || kindId === 'plan') {
+    const byVendor = new Map<string, ZukanEntity[]>();
+    for (const entity of list) {
+      const vendor = entity.vendor ?? '提供元不明';
+      byVendor.set(vendor, [...(byVendor.get(vendor) ?? []), entity]);
+    }
+    return [...byVendor.entries()]
+      .sort(([left], [right]) => (left < right ? -1 : left > right ? 1 : 0))
+      .map(([vendor, items]) => ({ key: vendor, label: vendor, entities: items }));
+  }
+  if (kindId === 'specialized-model') {
+    const buckets = SPECIALIZED_FAMILIES.map((family) => ({
+      key: family.id,
+      label: family.label as string | null,
+      entities: list.filter((entity) => familyOf(entity)?.id === family.id),
+    }));
+    const rest = list.filter((entity) => !familyOf(entity));
+    if (rest.length > 0) buckets.push({ key: 'other', label: 'その他', entities: rest });
+    return buckets.filter((bucket) => bucket.entities.length > 0);
+  }
+  return [{ key: kindId, label: null, entities: list }];
+}
+
+const sections = groups.map((group) => ({
+  ...group,
+  subgroups: subgroupsFor(group.kind.id, group.entities),
+}));
+
 const PRICE_FILTERS = [
   { id: 'all', label: 'すべて' },
   { id: 'free', label: '無料' },
@@ -116,46 +163,56 @@ const modelCount = entities.reduce(
         </div>
       </div>
 
-      <p class="zukan-group__note">提供元名の横に、公式サイトのアイコンを添えています。モデル・アプリ・プランの区分もあわせて確認してください。</p>
+      <p class="zukan-group__note">提供元名の横に、公式サイトのアイコンを添えています。基盤モデルと契約は提供元、専用モデルは用途で小分けにしています。モデル・アプリ・プランの区分もあわせて確認してください。</p>
       <p class="glossary-count" data-zukan-count aria-live="polite">{entities.length}件を表示中</p>
 
       <div data-zukan-groups>
-        {groups.map((group) => (
-          <section class="zukan-group" data-zukan-group aria-labelledby={`kind-${group.kind.id}`}>
-            <h2 id={`kind-${group.kind.id}`}>
-              <GuideIcon name={kindIcons[group.kind.id] ?? 'book'} /> {group.kind.label}
-              <span class="zukan-group__count">{group.entities.length}件</span>
+        {sections.map((section) => (
+          <section class="zukan-group" data-zukan-group aria-labelledby={`kind-${section.kind.id}`}>
+            <h2 id={`kind-${section.kind.id}`}>
+              <GuideIcon name={kindIcons[section.kind.id] ?? 'book'} /> {section.kind.label}
+              <span class="zukan-group__count" data-group-count>{section.entities.length}件</span>
             </h2>
-            <p class="zukan-group__note">{group.kind.description}</p>
-            <div class="glossary-grid">
-              {group.entities.map((entity) => (
-                <a
-                  class="term-card zukan-card"
-                  href={withBase(`/zukan/${entity.slug}/`)}
-                  data-entity
-                  data-kind={entity.kind}
-                  data-price={priceBucket(entity)}
-                  data-use={(entity.primary_use_cases ?? []).join(' ')}
-                  data-iface={(entity.interfaces ?? []).join(' ')}
-                  data-search={entitySearchText(entity)}
-                >
-                  <span class="zukan-card__provider"><ProviderMark vendor={entity.vendor} /></span>
-                  <span class="term-card__cat">
-                    {group.kind.label}
-                    {entityBadges(entity).map((badge) => (
-                      <span class:list={['badge', { 'badge--warn': badge.tone === 'warn' }]}>
-                        {badge.text}
+            <p class="zukan-group__note">{section.kind.description}</p>
+            {section.subgroups.map((subgroup) => (
+              <div class="zukan-subgroup" data-zukan-subgroup>
+                {subgroup.label && (
+                  <h3 class="zukan-subgroup__head">
+                    <span>{subgroup.label}</span>
+                    <span class="zukan-group__count" data-subgroup-count>{subgroup.entities.length}件</span>
+                  </h3>
+                )}
+                <div class="glossary-grid">
+                  {subgroup.entities.map((entity) => (
+                    <a
+                      class="term-card zukan-card"
+                      href={withBase(`/zukan/${entity.slug}/`)}
+                      data-entity
+                      data-kind={entity.kind}
+                      data-price={priceBucket(entity)}
+                      data-use={(entity.primary_use_cases ?? []).join(' ')}
+                      data-iface={(entity.interfaces ?? []).join(' ')}
+                      data-search={entitySearchText(entity)}
+                    >
+                      <span class="zukan-card__provider"><ProviderMark vendor={entity.vendor} compact={subgroup.label === entity.vendor} /></span>
+                      <span class="term-card__cat">
+                        {section.kind.label}
+                        {entityBadges(entity).map((badge) => (
+                          <span class:list={['badge', { 'badge--warn': badge.tone === 'warn' }]}>
+                            {badge.text}
+                          </span>
+                        ))}
                       </span>
-                    ))}
-                  </span>
-                  <span class="term-card__term">{entity.display_name}</span>
-                  <p class="term-card__short">{summaryOf(entity)}</p>
-                  <span class="zukan-card__meta">
-                    確認 {entity.last_checked_at}
-                  </span>
-                </a>
-              ))}
-            </div>
+                      <span class="term-card__term">{entity.display_name}</span>
+                      <p class="term-card__short">{summaryOf(entity)}</p>
+                      <span class="zukan-card__meta">
+                        確認 {entity.last_checked_at}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
           </section>
         ))}
       </div>
@@ -167,6 +224,10 @@ const modelCount = entities.reduce(
 
       <section class="zukan-footnote">
         <h2>この一覧の読み方</h2>
+        <p>
+          種類の下の小分けは、基盤モデルと契約は提供元、専用モデルは用途で分けています。どちらも登録済みの値から
+          機械的に決めており、性能や優劣の順位ではありません。同じ小分けの中でも、できることと条件は項目ごとに違います。
+        </p>
         <p>
           料金の区分は、各項目の <code>cost_model</code> の記録だけを見ています。価格表が未確認のものは「無料」にも
           「有料」にも寄せず、「料金未確認」に分けています。金額そのものは各項目のページに、
@@ -195,6 +256,7 @@ const modelCount = entities.reduce(
     const interfaceSelect = document.querySelector<HTMLSelectElement>('[data-zukan-interface]');
     const cards = [...document.querySelectorAll<HTMLElement>('[data-entity]')];
     const groups = [...document.querySelectorAll<HTMLElement>('[data-zukan-group]')];
+    const subgroups = [...document.querySelectorAll<HTMLElement>('[data-zukan-subgroup]')];
     const count = document.querySelector<HTMLElement>('[data-zukan-count]');
     const empty = document.querySelector<HTMLElement>('[data-zukan-empty]');
     const reset = document.querySelector<HTMLButtonElement>('[data-zukan-reset]');
@@ -218,10 +280,23 @@ const modelCount = entities.reduce(
         card.hidden = !show;
         if (show) visible += 1;
       }
+      // 見出しの件数は、絞り込みで見えている枚数に合わせる。
+      // 総数を残すと「5件」と書かれた見出しの下に1枚しか並ばず、数え間違いに見える。
+      const shownIn = (root: HTMLElement) =>
+        [...root.querySelectorAll<HTMLElement>('[data-entity]')].filter((card) => !card.hidden)
+          .length;
+
+      for (const subgroup of subgroups) {
+        const visible = shownIn(subgroup);
+        subgroup.hidden = visible === 0;
+        const label = subgroup.querySelector<HTMLElement>('[data-subgroup-count]');
+        if (label) label.textContent = `${visible}件`;
+      }
       for (const group of groups) {
-        group.hidden = ![...group.querySelectorAll<HTMLElement>('[data-entity]')].some(
-          (card) => !card.hidden,
-        );
+        const visible = shownIn(group);
+        group.hidden = visible === 0;
+        const label = group.querySelector<HTMLElement>('[data-group-count]');
+        if (label) label.textContent = `${visible}件`;
       }
       if (count) count.textContent = `${visible}件を表示中`;
       if (empty) empty.hidden = visible !== 0;
