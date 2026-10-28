@@ -53,9 +53,9 @@ sources:
     note: '人手の評価の代わりにAIの評価を報酬に使う手法の一つ。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 
 「大量のテキストを読み込めば、そのままChatGPTのようになるのか」。答えは、それだけでは足りません。知識を入れる作業と、指示に従い役立つ応答を返すように調整する作業は、目的も方法も異なります。ここでは、LLMの学習を段階ごとに分解し、各段階で何が変わり、何が変わらないかを見ます。
 
@@ -137,5 +137,3 @@ SFTのあとは、複数の応答のどちらがよいかという優劣デー�
 
   実装は単純になりますが、報酬の解釈性や調整のしやすさには違いが残ります。報酬モデルを持てば「何を高く評価しているか」を個別に見られますが、DPOではその見通しは下がります。どちらを選ぶかは、評価データの規模や運用の方針次第です。
 </DeepDive>
-
-ここまでで、モデルが作られる骨格が見えました。次は、作る側がどうやって学習の良し悪しを判断するかを見ます。[[ch:07/03-training-evaluation|作る側にも評価が要る]]へ進みましょう。

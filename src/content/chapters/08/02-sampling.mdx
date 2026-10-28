@@ -53,8 +53,8 @@ sources:
     note: '生成の選択方法と設定の違いを、実装の側から整理した解説。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import Callout from '../../../components/Callout.astro';
 import TemperatureExperiment from '../../../components/TemperatureExperiment.astro';
 
 「同じ質問なのに、毎回ちょっと違う答えが返るのはなぜか」。この揺れは事故ではなく、生成の最後に確率から選ぶ手順から来ています。選ばせ方を変えれば、出力の性格も変わります。このページでは、[[next-token-prediction|次トークン予測]]の最後の一手を分解します。
@@ -143,5 +143,3 @@ import TemperatureExperiment from '../../../components/TemperatureExperiment.ast
 
   確率に従う選択には、この意味で「文の幅を保つ」働きがあります。揺れを欠点として消すのか、多様さとして残すのかは、用途ごとの判断になります。
 </DeepDive>
-
-ここまでで、次のトークンがどう選ばれるかを見てきました。次は、その計算の時間がどこに消えるのかを見ます。[[ch:08/03-inference-cost|考える時間はどこに消えるか]]へ進みましょう。

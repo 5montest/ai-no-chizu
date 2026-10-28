@@ -53,8 +53,8 @@ sources:
     note: 'CPU・GPU・NPU への分担方法と、量子化済み重みの扱いが README にまとめられている。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import Callout from '../../../components/Callout.astro';
 
 「配布ページの説明では動かせるはずなのに、手元では生成がゆっくりでがっかりした。量子化を試したが、品質がどう変わったのか自信がない」。前ページで見たとおり、配布される重みは小数の数字の並びであり、その保存精度を選べます。このページでは、精度を落とす[[quantization|量子化]]という工夫とその代償、そしてローカル環境で生成速度がメモリ帯域で決まりやすい条件を扱います。
 

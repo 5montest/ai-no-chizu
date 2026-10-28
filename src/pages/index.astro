@@ -1,236 +1,35 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ReadingPaths from '../components/ReadingPaths.astro';
+import GuideImage from '../components/GuideImage.astro';
 import curriculum from '../data/curriculum.json';
 import glossary from '../data/glossary.json';
 import { withBase } from '../lib/site.mjs';
-
 const entries = await getCollection('chapters');
-const publishedChapters = curriculum.chapters.filter((c) => c.status === 'published');
-const allPublished = publishedChapters.length === curriculum.chapters.length;
-
-const chapterInfo = new Map(
-  publishedChapters.map((chapter) => {
-    const pages = entries
-      .filter((entry) => entry.data.chapter === chapter.id)
-      .sort((a, b) => a.data.order - b.data.order);
-    return [
-      chapter.id,
-      {
-        ...chapter,
-        pageCount: pages.length,
-        readingMinutes: pages.reduce((sum, page) => sum + page.data.readingMinutes, 0),
-      },
-    ];
-  }),
-);
-
-const partsWithContent = curriculum.parts.filter((part) =>
-  publishedChapters.some((chapter) => chapter.part === part.id),
-);
-
-const totalPages = entries.length;
-const totalTerms = glossary.terms.length;
-
-// 公開済みの章が一つもないときだけ curriculum の項目が返り、読了時間を持たない。
-type ChapterSummary = { id: string; shortTitle: string; readingMinutes?: number };
-const firstChapter: ChapterSummary =
-  chapterInfo.get('01') ??
-  chapterInfo.values().next().value ??
-  (publishedChapters[0] as ChapterSummary);
-const firstPages = entries
-  .filter((entry) => entry.data.chapter === firstChapter.id)
-  .sort((a, b) => a.data.order - b.data.order)
-  .map((entry) => ({
-    slug: entry.id.split('/')[1],
-    title: entry.data.title,
-    readingMinutes: entry.data.readingMinutes,
-  }));
-
-// 記事の側から数えれば、章の概要に読了時間がなくても同じ数字になる。
-const firstReadingMinutes = firstPages.reduce((sum, page) => sum + page.readingMinutes, 0);
+const published = curriculum.chapters.filter(c => c.status === 'published');
+const parts = curriculum.parts.filter(part => published.some(c => c.part === part.id));
+const terms = ['ai', 'generative-ai', 'llm', 'prompt', 'rag', 'agent'].map(slug => glossary.terms.find(t => t.slug === slug)!);
 ---
-
-<BaseLayout description="AI・機械学習・LLM・Transformer・エージェント・モデル選びを、図と短いページで体系的に学ぶ社会人向けガイド。">
-  <section class="intro">
-    <div class="shell">
-      <h1>
-        AIがなぜそう動くのか、説明できるようになる。
-      </h1>
-      <p class="intro__lede">
-        ChatGPT や Claude の返答は、魔法ではなく工程の積み重ねです。
-        トークン、Attention、エージェント、モデル選び。ニュースで飛び交う言葉を、
-        一枚の地図につなぎ直します。
-      </p>
-      <div class="intro__actions">
-        <a class="btn" href={withBase('/chapters/01/')}>第1章から読む</a>
-        <a class="btn btn--ghost" href={withBase('/chapters/')}>章一覧を見る</a>
-      </div>
-      <p class="intro__note">
-        {allPublished
-          ? `全${curriculum.chapters.length}章・${totalPages}ページを公開中です。第1章から順に読むとつながります。`
-          : `全${curriculum.chapters.length}章のうち${publishedChapters.length}章・${totalPages}ページを公開中です。公開中の章は第1章から順に読むとつながります。`}
-      </p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <h2>{allPublished ? `全${curriculum.chapters.length}章` : '公開中の章'}</h2>
-        </div>
-        <p>
-          ひとつの章は複数の短いページに分かれています。図とクイズを含み、1ページ8分前後が目安です。
-          {!allPublished && '準備中の章は、章一覧で公開予定の時期を確認できます。'}
-        </p>
-      </div>
-
-      <div class="contents">
-        {partsWithContent.map((part) => (
-          <section aria-labelledby={`home-part-${part.id}`}>
-            <div class="part__head">
-              <span class="part__roman" aria-hidden="true">{part.roman}</span>
-              <div>
-                <h3 id={`home-part-${part.id}`}>
-                  <span class="sr-only">第{part.roman}部</span>
-                  {part.title}
-                </h3>
-                <p class="part__lead">{part.lead}</p>
-              </div>
-            </div>
-            <ul class="chapter-list">
-              {publishedChapters
-                .filter((chapter) => chapter.part === part.id)
-                .map((chapter) => {
-                  const info = chapterInfo.get(chapter.id);
-                  return (
-                    <li>
-                      <a class="chapter-row" href={withBase(`/chapters/${chapter.id}/`)}>
-                        <span class="chapter-row__no">{chapter.id}</span>
-                        <span>
-                          <span class="chapter-row__title">{chapter.title}</span>
-                          <span class="chapter-row__q">{chapter.question}</span>
-                        </span>
-                        <span class="chapter-row__meta">
-                          {info?.pageCount ?? 0}ページ・約{info?.readingMinutes ?? 0}分
-                        </span>
-                      </a>
-                    </li>
-                  );
-                })}
-            </ul>
-          </section>
-        ))}
-      </div>
-
-      <p class="chapter-foot">
-        <a class="btn btn--ghost" href={withBase('/chapters/')}>
-          {allPublished
-            ? `全${curriculum.chapters.length}章の一覧を見る`
-            : `準備中の章も含めた全${curriculum.chapters.length}章を見る`}
-        </a>
-      </p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <h2>第1章から読み始める</h2>
-        </div>
-        <p>
-          {firstChapter.shortTitle}は{firstPages.length}ページ、合わせて約{firstReadingMinutes}分です。
-          上から順に読むと、地図ができた状態で次の章に入れます。
-        </p>
-      </div>
-
-      <ul class="start-list">
-        {firstPages.map((page, index) => (
-          <li>
-            <a href={withBase(`/chapters/${firstChapter.id}/${page.slug}/`)}>
-              <span class="no">{String(index + 1).padStart(2, '0')}</span>
-              <span>{page.title}</span>
-              <span class="time">{page.readingMinutes}分</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <h2>地図、仕組み、判断の順に読む</h2>
-        </div>
-        <p>同じページでも、何を拾うかは読み方によって変わります。</p>
-      </div>
-      <ol class="steps">
-        <li class="step">
-          <h3>地図を持つ</h3>
-          <p>
-            AI、機械学習、生成AI、LLM。言葉の包含関係を押さえると、ニュースの位置づけが分かります。
-            まずは全体像の章を一気に読みます。
-          </p>
-        </li>
-        <li class="step">
-          <h3>仕組みを知る</h3>
-          <p>
-            トークン、ベクトル、Attention、推論。図を自分で描き直せるか試しながら、
-            言葉の裏側の処理をたどります。
-          </p>
-        </li>
-        <li class="step">
-          <h3>選び、確かめる</h3>
-          <p>
-            モデル比較とエージェントの章で、条件付きの判断基準を持ち帰ります。
-            最後にクイズで、説明できるかを確認します。
-          </p>
-        </li>
-      </ol>
-    </div>
-  </section>
-
-  <section class="section section--tight">
-    <div class="shell">
-      <div class="section-head">
-        <div>
-          <h2>読んだあとに使う</h2>
-        </div>
-        <p>用語の定義と、理解の確認。どちらも本文の内容に接続しています。</p>
-      </div>
-      <ul class="tool-list">
-        <li>
-          <a href={withBase('/glossary/')}>
-            <span class="name">用語辞典</span>
-            <span class="desc">
-              「ひとことで」「厳密には」「よくある誤解」の3段で定義。関連する章と用語へたどれます。
-            </span>
-            <span class="meta">全{totalTerms}語・五十音とカテゴリで探す</span>
-          </a>
-        </li>
-        <li>
-          <a href={withBase('/quiz/')}>
-            <span class="name">クイズ</span>
-            <span class="desc">
-              公開中の章からランダムに5問。回答すると、その場で正誤と解説が展開します。
-            </span>
-            <span class="meta">全{totalPages}ページから出題</span>
-          </a>
-        </li>
-        <li>
-          <a href={withBase('/chapters/18/')}>
-            <span class="name">モデル比較</span>
-            <span class="desc">
-              2026年10月27日時点の価格・コンテキスト・重み公開状況。「最強」をひとつ決めず、条件で選びます。
-            </span>
-            <span class="meta">データの取得と見直しの方法</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </section>
+<BaseLayout description="生成AIを業務で使う、提案を読む、社内導入を判断する。図解と目的別の読み方で、AIの仕組みと言葉を正確に学べる社会人向けガイド。">
+  <section class="intro intro--guide"><div class="shell">
+    <p class="eyebrow">仕組みから理解する、社会人のためのAIガイド</p>
+    <h1>AIを使う。提案を読む。<br />自分で判断できるようになる。</h1>
+    <p class="intro__lede">生成AIは便利だけれど、どこまで任せてよいのか。<br class="desktop-break" />言葉の違いと動く仕組みを、仕事の場面と図でつなぎます。<br class="desktop-break" />プログラミングの知識は必要ありません。</p>
+    <div class="intro__actions"><a class="btn" href={withBase('/start/')}>はじめての方へ</a><a class="btn btn--ghost" href={withBase('/checklist/')}>導入判断の確認シート</a></div>
+    <p class="intro__note">全{published.length}章・{entries.length}ページ。すべてを読む必要はありません。目的に合うところから始められます。</p>
+  </div></section>
+  <section class="section section--paths"><div class="shell"><div class="section-head"><div><h2>あなたの目的から、読む。</h2></div><p>最初に読む4ページを、立場ごとに選びました。</p></div><ReadingPaths /></div></section>
+  <section class="section"><div class="shell home-explainer"><div><p class="eyebrow">まず、この違いから</p><h2>「どのAI？」を、<br />もう少し正確に。</h2><p>開発する会社、応答を作るモデル、人が使うアプリ。提案やニュースで同じ「AI」と呼ばれていても、指すものが違います。</p><a href={withBase('/chapters/04/03-model-service/')}>モデルとサービスの違いを読む →</a></div><GuideImage name="model-app-provider" priority /></div></section>
+  <section class="section"><div class="shell"><div class="section-head"><div><h2>最初に押さえる6つの言葉</h2></div><p>詳しい定義や、混同しやすい点は用語辞典で確認できます。</p></div><div class="core-terms">{terms.map(term => <a href={withBase(`/glossary/${term.slug}/`)}><h3>{term.term}</h3><p>{term.short}</p><span>意味とよくある誤解 →</span></a>)}</div></div></section>
+  <section class="section"><div class="shell"><div class="section-head"><div><h2>仕組みを詳しく知りたいときに</h2></div><p>全{published.length}章をテーマ別にまとめています。数式や開発手順を扱う章は、必要になったときに読めます。</p></div><div class="home-chapter-groups">{parts.map(part => {
+    const chapters = published.filter(c => c.part === part.id);
+    return <details class="home-part"><summary><span class="home-part__number">{part.roman}</span><span>{part.title}<small>{part.lead}</small></span><span class="home-part__count">{chapters.length}章</span></summary><ul class="chapter-list">{chapters.map(chapter => <li><a class="chapter-row" href={withBase(`/chapters/${chapter.id}/`)}><span class="chapter-row__no">{chapter.id}</span><span><span class="chapter-row__title">{chapter.title}</span><span class="chapter-row__q">{chapter.question}</span></span></a></li>)}</ul></details>;
+  })}</div><p class="chapter-foot"><a class="btn btn--ghost" href={withBase('/chapters/')}>全章を一覧で見る</a></p></div></section>
+  <section class="section"><div class="shell"><div class="section-head"><div><h2>調べる、確かめる、持ち帰る。</h2></div><p>仕事で迷ったときにも、必要な項目を引けます。</p></div><ul class="tool-list">
+    <li><a href={withBase('/zukan/')}><span class="name">AI図鑑</span><span class="desc">製品・モデル・プランの違いを確認。確認日と出典を添えています。</span><span class="meta">比較する条件から探す</span></a></li>
+    <li><a href={withBase('/glossary/')}><span class="name">用語辞典</span><span class="desc">「ひとことで」「厳密には」「よくある誤解」で説明します。</span><span class="meta">全{glossary.terms.length}語</span></a></li>
+    <li><a href={withBase('/checklist/')}><span class="name">導入判断の確認シート</span><span class="desc">用途・情報・品質・費用・運用。提案を読むときの質問を持ち帰れます。</span><span class="meta">印刷・テンプレート保存</span></a></li>
+    <li><a href={withBase('/quiz/')}><span class="name">クイズ</span><span class="desc">答えを選ぶと、その場で正誤と解説を確認できます。</span><span class="meta">理解を確かめる</span></a></li>
+  </ul></div></section>
 </BaseLayout>

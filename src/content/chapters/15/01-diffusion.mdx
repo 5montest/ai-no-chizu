@@ -57,9 +57,9 @@ sources:
     note: '拡散モデルが訓練データの画像を記憶し、生成時に再現し得ることを示した研究。本文でノイズ除去の学習と記憶の可能性を区別する根拠として挙げている。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
+import Callout from '../../../components/Callout.astro';
 
 画像生成に「赤い屋根の家を夕暮れに」と頼むと、毎回すこしずつ違う絵が返ってきます。同じ指示なのに絵が変わる、影の付き方が不自然なことがある、といった体験をすると、いったい何をしているのか分からなくなります。中には「学習データから似た絵を探して貼り合わせているのでは」と疑う人もいます。このページでは、[[diffusion|拡散モデル]]と呼ばれる方式の中心にある、ノイズを加えると戻すという発想を見ます。
 
@@ -121,5 +121,3 @@ import Diagram from '../../../components/Diagram.astro';
 
   また、どの段階でどれだけ壊すかの刻み方を決めると、同じ枠組みの中で、速い生成や細かい制御を組み立てやすくなります。土台にあるのは「壊し方の設計」であり、生成の工夫の多くはこの設計にさかのぼれます。
 </DeepDive>
-
-次は、この計算を画素ではなく圧縮した表現で行う工夫と、ノイズを除去するネットワークの変遷を見ます。[[ch:15/02-latent-and-architecture|潜在空間で計算する]]へ進みましょう。

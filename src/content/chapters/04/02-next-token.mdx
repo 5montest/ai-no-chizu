@@ -6,7 +6,7 @@ section: '第II部 LLMの内部'
 order: 2
 level: intro
 readingMinutes: 8
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['LLM', '生成', 'サンプリング']
 glossary: ['next-token-prediction', 'logits', 'temperature', 'top-p', 'hallucination', 'inference']
 summary:
@@ -21,7 +21,7 @@ quiz:
       - 'モデルの学習済み知識が更新される。'
       - 'コンテキストウィンドウが広がる。'
     answer: 0
-    explanation: '温度はSoftmaxに入る前のスコアのスケールを変えます。温度を下げると分布が尖り、最も確率の高い候補が選ばれやすくなります。0に近づけると、実質的に毎回同じ候補を選ぶ決定的な挙動になります。'
+    explanation: '温度はSoftmaxに入る前のスコアのスケールを変えます。温度を下げると分布が尖り、最も確率の高い候補が選ばれやすくなります。0に近づけるほど有力な候補が選ばれやすくなります。ただし、実行環境や提供側の変更も関わるため、回答の完全一致は保証されません。'
   - question: 'Top-p（核サンプリング）が行っていることはどれか。'
     options:
       - '確率の高い順に候補を並べ、累積確率がpに達するまでの集合から選ぶ。'
@@ -51,11 +51,15 @@ sources:
     url: 'https://karpathy.github.io/2015/05/21/rnn-effectiveness/'
     publisher: 'Andrej Karpathy'
     note: '文字単位の次トークン予測が、どのように構造を生むかの古典的解説。'
+  - title: 'Advanced usage: Reproducible outputs'
+    url: 'https://developers.openai.com/api/docs/guides/advanced-usage'
+    publisher: 'OpenAI'
+    note: '温度などの条件をそろえても、出力の完全一致が保証されるわけではない点を確認（2026-10-28）。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 import ProbabilityChart from '../../../components/ProbabilityChart.astro';
 
 LLMの説明でよく使われる「次の単語を予測しているだけ」という表現は、半分は正確で、半分は誤解を招きます。確かにモデルの基本的な出力は次のトークンの分布です。しかし、その分布から一つを選ぶ過程には、温度やTop-pといった設定があり、選ばれた結果が次の入力になります。この連鎖が、単なる単語当て以上の振る舞いを生みます。
@@ -123,5 +127,3 @@ LLMの説明でよく使われる「次の単語を予測しているだけ」�
 
   その結果、初めて見る質問に対しても、学習したパターンの組み合わせとして答えを生成できます。これを「理解している」と呼ぶかどうかは立場が分かれますが、少なくとも、入力の意味を辞書で引いて組み立てているわけではないことは確かです。パターンの一般化と、事実の保証は、別の問題として考える必要があります。
 </DeepDive>
-
-次は、このモデルを実際に使うときに現れる「モデル」と「サービス」の層の違いを見ます。[[ch:04/03-model-service|モデルとサービスは別物である]]へ進みましょう。

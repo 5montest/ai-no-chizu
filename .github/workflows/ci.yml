@@ -30,8 +30,14 @@ jobs:
       - name: 記事・用語・図・リンクの整合性
         run: npm run validate:content
 
+      - name: AI図鑑データの整合性
+        run: npm run validate:zukan
+
       - name: テスト
         run: npm test
+
+      - name: 第32章サンプルのテスト
+        run: cd samples/ch32-faq-assistant && node --test "test/*.test.mjs"
 
       - name: ビルド
         run: npm run build

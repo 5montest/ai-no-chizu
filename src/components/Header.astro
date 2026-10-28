@@ -7,12 +7,12 @@ const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
 const local = path.startsWith(base) ? path.slice(base.length) || '/' : path;
 
 const links = [
+  { href: '/start/', label: 'はじめての方へ', match: '/start' },
   { href: '/chapters/', label: '章一覧', match: '/chapters' },
   { href: '/practice/', label: '実践編', match: '/practice' },
   { href: '/zukan/', label: 'AI図鑑', match: '/zukan' },
   { href: '/glossary/', label: '用語辞典', match: '/glossary' },
   { href: '/quiz/', label: 'クイズ', match: '/quiz' },
-  { href: '/about/', label: 'このサイト', match: '/about' },
 ];
 
 const isCurrent = (match: string) =>

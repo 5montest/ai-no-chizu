@@ -49,10 +49,13 @@ sources:
     note: '生成検索の回答で、挙げられた出典が主張を実際に裏付けているかを調べた研究。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import GuideImage from '../../../components/GuideImage.astro';
+import Callout from '../../../components/Callout.astro';
 
 資料に添える参考文献をLLMに調べさせたら、実在しない雑誌名とURLが返ってきました。社内規程の日付を尋ねたら、もっともらしいが古い条文が引用されました。文章は淀みなく読めるのに、内容が事実と合いません。こうした体験は、モデルの設計と学習の形から必然的に起こり得ます。このページでは、**もっともらしい嘘**がどこから生まれるかを見ます。
+
+<GuideImage name="llm-response" />
 
 ## 正しさを測らない生成
 

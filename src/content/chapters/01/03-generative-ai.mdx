@@ -6,7 +6,7 @@ section: '第I部 全体像をつかむ'
 order: 3
 level: intro
 readingMinutes: 8
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['基礎', '生成AI', 'マルチモーダル']
 glossary: ['generative-ai', 'llm', 'foundation-model', 'multimodal', 'diffusion', 'hallucination']
 summary:
@@ -45,9 +45,9 @@ sources:
     note: 'マルチモーダルモデルの用語説明。複数の入力形式を扱う意味を確認。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 
 前のページまでで、AIの広さと、機械学習が何を調整しているかを見ました。このページではいま「AI」と言われて最初に思い浮かぶことが多い**生成AI**を、地図の上に置き直します。
 
@@ -107,5 +107,3 @@ import DeepDive from '../../../components/DeepDive.astro';
 生成AIは文章作成・要約・翻訳・コード生成・画像生成など、多くの作業を変えました。一方で、事実の保証、最新性、計算の正確さ、権限の管理は、モデル単体では完結しません。
 
 地図の上では生成AIは「深層学習を使った生成モデルの一群」であり、その上に基盤モデル、API、アプリケーションが積み重なります。この層の見方が、後のLLM・RAG・エージェントの章の前提になります。
-
-次は、LLMが実際に文章を返すまでの流れを追います。[[ch:04|LLMとは何か]]へ進みましょう。

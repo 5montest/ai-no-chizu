@@ -1,5 +1,8 @@
 ---
 import { getCollection } from 'astro:content';
+import GuideImage from '../../../components/GuideImage.astro';
+import { chapterImages } from '../../../data/guide-images';
+import { optionalTechnicalChapters } from '../../../data/reading-paths';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/Breadcrumb.astro';
 import Sidebar from '../../../components/Sidebar.astro';
@@ -88,6 +91,8 @@ const updated = pages.map((p: any) => p.updated).sort().at(-1);
             <p>{chapter.intro}</p>
           </div>
 
+          {optionalTechnicalChapters.has(chapter.id) && <p class="article-reading-note">仕組みや開発手順を詳しく知りたい方向けの章です。業務での使い方や導入判断は、<a href={withBase('/start/')}>目的別の読み方</a>から始められます。</p>}
+          {chapterImages[chapter.id] && <div class="chapter-visual"><GuideImage name={chapterImages[chapter.id]} /></div>}
           <ul class="page-list">
             {pages.map((page: any) => (
               <li>

@@ -1,4 +1,5 @@
 ---
+import ProviderMark from '../../components/ProviderMark.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import zukanJson from '../../../data/zukan.json';
@@ -167,8 +168,14 @@ const hasCacheColumn = (tiers: readonly PriceTier[] | null | undefined): boolean
 const historyEntries = (zukan.history ?? []).filter((entry) => entry.entity_id === entity.id);
 const siblings = zukan.entities.filter((item) => item.kind === entity.kind && item.id !== entity.id);
 const comparedSiblings = siblings.slice(0, 6);
-const compareHref = (other: ZukanEntity): string =>
-  withBase(`/zukan/compare/?ids=${encodeURIComponent(entity.id)},${encodeURIComponent(other.id)}`);
+// 比較ページは URLSearchParams.getAll('ids') で読むため、カンマ連結ではなく ids を繰り返す。
+// 形式を片側だけ変えると選択が復元されないので、書き出し側と読み込み側をそろえる。
+const compareHref = (other: ZukanEntity): string => {
+  const params = new URLSearchParams();
+  params.append('ids', entity.id);
+  params.append('ids', other.id);
+  return withBase(`/zukan/compare/?${params.toString()}`);
+};
 
 const badges = entityBadges(entity);
 const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? '';
@@ -186,7 +193,8 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
           <p class="term-hero__category">
             {kind?.label ?? entity.kind}／{entity.vendor}
           </p>
-          <h1>{entity.display_name}</h1>
+          <p><ProviderMark vendor={entity.vendor} /></p>
+        <h1>{entity.display_name}</h1>
           {entity.aliases.length > 0 && (
             <p class="term-hero__reading">別名: {entity.aliases.join('、')}</p>
           )}

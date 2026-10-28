@@ -53,9 +53,9 @@ sources:
     note: 'Transformerの計算の流れを図で追いやすくした解説。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 
 「送信してから返事が出てくるまでの間、モデルは何をしているのか」。この待ち時間は、ひとつの計算ではなく、性質の違う二つの計算の合計です。答え始めるまでの作業と、答えながらの作業は、速さの決まり方が違います。このページでは推論を二つに分け、[[latency|遅延]]の正体を見ます。
 
@@ -130,5 +130,3 @@ Decodeの各ステップでは、過去の位置との関係を毎回見ます�
 
   これに対し、複数の依頼を同時に処理する、出力の候補を数本まとめて伸ばす、といった方法は、1本の系列内の逐次性とは別の軸で速度を稼ぐ工夫です。Decodeの並列化の難しさは、同時処理の工夫と混同しやすい点に注意してください。
 </DeepDive>
-
-ここまでで、答える前の計算と、答えながらの計算を分けました。次は、書き出される次のトークンがどう選ばれるかを見ます。[[ch:08/02-sampling|次のトークンをどう選ぶか]]へ進みましょう。

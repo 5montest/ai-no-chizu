@@ -16,7 +16,7 @@ const {
 
 const pageTitle = title ? `${title}｜${SITE.name}` : `${SITE.name}｜${SITE.tagline}`;
 // 公開先は astro.config.mjs の site が決める。未設定の開発時だけ、いま開いている URL を使う。
-const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+const canonical = new URL(Astro.url.pathname.replace(/\/404\/?$/, '/404.html'), Astro.site ?? Astro.url).href;
 const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
 ---
 
@@ -185,7 +185,7 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
           ticking = false;
           let current = headings[0];
           for (const h of headings) {
-            if (h.getBoundingClientRect().top <= 140) current = h;
+            if (h.getClientRects().length && h.getBoundingClientRect().top <= 140) current = h;
           }
           for (const a of tocLinks) {
             // a.hash は日本語を見出し ID と違う形に符号化するので、ID 側にそろえる。
@@ -204,6 +204,27 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
         window.addEventListener('scroll', onScroll, { passive: true });
         syncToc();
       }
+
+      // 目次や検索結果が折りたたみ内を指す場合は、対象を開いてから移動する。
+      const revealHash = () => {
+        let id = '';
+        try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+        const target = id ? document.getElementById(id) : null;
+        if (!target) return;
+        let parent = target.parentElement;
+        let revealed = false;
+        while (parent) {
+          if (parent instanceof HTMLDetailsElement && !parent.open) { parent.open = true; revealed = true; }
+          parent = parent.parentElement;
+        }
+        if (revealed) requestAnimationFrame(() => target.scrollIntoView({ block: 'start' }));
+      };
+      window.addEventListener('hashchange', revealHash);
+      document.addEventListener('click', event => {
+        const link = (event.target as Element)?.closest<HTMLAnchorElement>('a[href*="#"]');
+        if (link && link.pathname === location.pathname && link.hash === location.hash) revealHash();
+      });
+      revealHash();
 
       // --- Mermaid ----------------------------------------------------------
       const mermaidNodes = [...document.querySelectorAll<HTMLElement>('.mermaid')];
@@ -304,6 +325,10 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
             }
           }
         })();
+
+        document.addEventListener('toggle', event => {
+          if (event.target instanceof HTMLDetailsElement && event.target.open) requestAnimationFrame(fitDiagrams);
+        }, true);
 
         document.addEventListener('themechange', () => {
           const drawn = mermaidNodes.map((node) => node.innerHTML);

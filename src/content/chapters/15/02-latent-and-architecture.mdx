@@ -53,8 +53,8 @@ sources:
     note: 'CLIPの論文。画像と言語の対応を扱う基盤として参照される。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import Callout from '../../../components/Callout.astro';
 
 高解像度の画像を生成するサービスで、細部の質感がすっきりしているのを見て、どうしてそれだけの計算をこなせるのか疑問に思うことがあります。前ページではノイズを加えて戻す発想を見ましたが、あれを画素のまま行うと、解像度が上がるほど計算が膨らみます。このページでは、計算の場所を変えて負荷を下げる工夫と、ノイズを除去するネットワークの変遷、そして指示を効かせる仕組みを見ます。
 

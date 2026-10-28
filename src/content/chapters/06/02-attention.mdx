@@ -6,7 +6,7 @@ section: '第II部 LLMの内部'
 order: 2
 level: intermediate
 readingMinutes: 9
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['Attention', 'Transformer', '仕組み']
 glossary: ['attention', 'qkv', 'transformer', 'token', 'embedding']
 summary:
@@ -53,9 +53,9 @@ sources:
     note: 'Attentionの重みを、そのままモデルの説明と見なすことへの批判。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 
 Attentionは、Transformerの中心にある計算です。名前から「モデルがどこに注目しているか」をイメージしやすいですが、実際には**情報の混ぜ方**を決める数学的な操作です。このページでは、Q・K・Vの流れを、図と簡単な例で追います。
 
@@ -120,5 +120,3 @@ Scaled Dot-Product Attentionは、次のように書けます。
 ## Attentionは部品である
 
 Attentionは、文脈を混ぜるための強力な仕組みです。しかし、モデルの振る舞いがAttentionだけで決まるわけではありません。Transformerの各ブロックはAttentionとFFN（Feed Forward Network）で構成され、残差接続と正規化がそれを支えています。知識の多くはFFNのパラメータに蓄えられているという見方が有力ですが、それはAttentionが補助的という意味ではありません。Attentionだけを取り出して「モデルの思考」と見なすと、全体像を見失います。
-
-次は、Q・K・Vをもう少し直感的に捉え直します。[[ch:06/03-qkv|Q・K・Vの役割]]へ進みましょう。

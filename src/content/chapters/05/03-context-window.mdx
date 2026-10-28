@@ -6,7 +6,7 @@ section: '第II部 LLMの内部'
 order: 3
 level: intro
 readingMinutes: 8
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['コンテキスト', '設計', 'RAG']
 glossary: ['context-window', 'token', 'kv-cache', 'latency', 'rag', 'context-engineering']
 summary:
@@ -53,9 +53,9 @@ sources:
     note: '長いコンテキストを扱う際のAPI上の考え方と制約。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 
 LLMを使い始めると、すぐに「コンテキスト長」という言葉に出会います。100万トークンまで読める、といった宣伝文句も増えました。しかし、大きな机を用意すれば仕事がうまく進むとは限らないのと同じで、長いコンテキストを入れれば良い答えが返るわけではありません。
 
@@ -112,5 +112,3 @@ LLMを使い始めると、すぐに「コンテキスト長」という言葉�
 ## 広い机より、整理された机
 
 コンテキストウィンドウは、モデルに一度に渡せる作業スペースです。広さは便利ですが、整理されていなければ、必要な資料を見つけられません。指示を明確にし、資料を絞り、出力の余白を残す。この基本は、モデルが長くなっても変わりません。
-
-次は、このトークン列を文脈として混ぜるTransformerとAttentionの仕組みを見ます。[[ch:06|TransformerとAttention]]へ進みましょう。

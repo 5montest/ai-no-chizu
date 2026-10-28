@@ -6,7 +6,7 @@ section: '第II部 LLMの内部'
 order: 1
 level: intro
 readingMinutes: 9
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['LLM', '推論', '全体像']
 glossary: ['llm', 'token', 'tokenization', 'embedding', 'transformer', 'logits', 'prefill', 'decode', 'ttft', 'kv-cache']
 summary:
@@ -53,13 +53,16 @@ sources:
     note: 'トークン、ストリーミング、推論パラメータの実装上の扱いを確認。'
 ---
 
-import Diagram from '../../../components/Diagram.astro';
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import Diagram from '../../../components/Diagram.astro';
+import GuideImage from '../../../components/GuideImage.astro';
+import Callout from '../../../components/Callout.astro';
 
 チャット欄に「このメールを丁寧な表現に直して」と入力し、返答が流れてくる。この数秒の間に、モデルの中では何が起きているのでしょうか。
 
 モデルは文章を一気に組み立てているわけではありません。次のトークンを予測し、それを入力に足し、また次を予測します。この小さな操作の繰り返しが、見た目上は滑らかな文章になります。このページではその一本の流れを最初から最後まで追います。
+
+<GuideImage name="llm-response" />
 
 ## 入力から出力までの七つの段階
 
@@ -73,7 +76,11 @@ import DeepDive from '../../../components/DeepDive.astro';
 6. 選択。スコアを確率に変え、温度やTop-pなどの設定で一つ選ぶ。
 7. 復元と繰り返し。選んだトークンを文字に戻して表示し、同じトークンを入力列の末尾に足して、次のトークンの予測へ戻る。
 
+<DeepDive title="処理の内訳を詳しく見る" tag="詳しい図">
+
 <Diagram name="llm-pipeline" />
+
+</DeepDive>
 
 図では分かりやすさのために一直線に描いていますが、処理の進み方は段階によって異なります。入力プロンプトは一度にまとめて処理され（Prefill）、生成の段階では選んだトークンを1つずつ足しながら進みます（Decode）。
 
@@ -118,5 +125,3 @@ PrefillとDecodeの計算の違い、KVキャッシュが効く理由、待ち�
 ここまで述べたのは、モデル単体の処理です。実際の製品では、その手前に「どの履歴を入れるか」「どの資料を検索するか」「どのツールを使わせるか」というアプリケーション側の設計があります。
 
 同じモデルでも、システム指示、検索結果、ツールの有無、出力の検証で結果は変わります。「モデルの性能が足りない」と結論を出す前に、**入力の構成と外側の処理**を確認してください。この視点は、後の章で繰り返し登場します。
-
-次は、この流れの中心にある「次のトークンを予測する」という操作を、もう少し詳しく見ます。[[ch:04/02-next-token|次のトークンを予測するとはどういうことか]]へ進みましょう。

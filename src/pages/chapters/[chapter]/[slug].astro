@@ -8,6 +8,7 @@ import Quiz from '../../../components/Quiz.astro';
 import SourceList from '../../../components/SourceList.astro';
 import RelatedTerms from '../../../components/RelatedTerms.astro';
 import PageNav from '../../../components/PageNav.astro';
+import { optionalTechnicalChapters } from '../../../data/reading-paths';
 import curriculum from '../../../data/curriculum.json';
 import { withBase, SITE, BASE } from '../../../lib/site.mjs';
 import { buildCourseOrder, neighbours, toNavItem } from '../../../lib/course-nav.mjs';
@@ -104,6 +105,7 @@ const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展'
               </dl>
             </header>
 
+            {optionalTechnicalChapters.has(chapterId) && <p class="article-reading-note">詳しい仕組み・開発を知りたい方向けです。業務で必要なところを先に読むには、<a href={withBase('/start/')}>目的別の読み方へ</a>。</p>}
             <section class="summary-box" aria-labelledby="summary-box-title">
               <h2 class="summary-box__label" id="summary-box-title">3行の要点</h2>
               <ul>

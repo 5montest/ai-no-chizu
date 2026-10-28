@@ -37,7 +37,7 @@ export const SITE = {
     '社会人向けのAI技術ガイド。AI・機械学習・LLM・Transformer・エージェント・モデル選びを、図と短いページで体系的に学ぶ。',
   author: 'AIの地図 編集部',
   published: '2026-10-27',
-  updated: '2026-10-27',
+  updated: '2026-10-28',
 };
 
 /** サイト内の絶対パスにベースを付ける。`withBase('/chapters/')` */

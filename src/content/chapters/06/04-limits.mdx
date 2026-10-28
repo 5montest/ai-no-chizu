@@ -6,7 +6,7 @@ section: '第II部 LLMの内部'
 order: 4
 level: intermediate
 readingMinutes: 8
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['Transformer', '解釈', '限界']
 glossary: ['attention', 'transformer', 'parameter', 'hallucination', 'context-window', 'rag']
 summary:
@@ -53,9 +53,9 @@ sources:
     note: '特定のヘッドが文脈内学習で果たす役割を調べた研究。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 
 AttentionはTransformerの中心ですが、モデルの振る舞いのすべてを説明するわけではありません。Attentionの外側にある要素と、可視化を過信しないための注意点を整理します。
 
@@ -105,5 +105,3 @@ Attentionは、コンテキスト内の情報を混ぜる仕組みです。し�
 ## 部品から系へ
 
 Transformerの理解は、Attentionの計算から始まりますが、そこで終わりません。FFN、残差接続、学習データ、推論設定、外側の検索や検証まで含めて、一つの系として見る必要があります。
-
-ここまでで、Transformerという部品の作りの基礎を一通り見ました。次は、その部品が学習によってどう組み上がり、どう評価されるかを見ます。[[ch:07|LLMはどう作られるのか]]へ進みましょう。モデルの外側に仕組みを組み、自律的な作業を行わせるエージェントの話は、この先の章で扱います（[[ch:12|AIエージェントとは何か]]）。

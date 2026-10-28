@@ -16,7 +16,8 @@ const { sources, heading = '出典・参考資料' } = Astro.props;
 
 {sources.length > 0 && (
   <section class="sources">
-    <h2>{heading}</h2>
+    <details class="sources__details">
+    <summary><h2>{heading} <span>（{sources.length}件）</span></h2></summary>
     <ol>
       {sources.map((source) => (
         <li>
@@ -30,5 +31,6 @@ const { sources, heading = '出典・参考資料' } = Astro.props;
         </li>
       ))}
     </ol>
+    </details>
   </section>
 )}

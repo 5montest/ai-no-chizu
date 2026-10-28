@@ -39,20 +39,23 @@ quiz:
     answer: 0
     explanation: '二つの違いは、手順を誰が決めるかです。手順が決まっているなら、意図と結果の対応が分かりやすいのはワークフローです。エージェントのような複雑な配置は、必要が生まれてから足します。RAGはこの二つとは別の軸にある部品で、資料を参照する必要があるときに組み込みます。'
 sources:
-  - title: 'Anthropic Docs'
-    url: 'https://docs.anthropic.com/'
+  - title: 'Building effective agents'
+    url: 'https://www.anthropic.com/research/building-effective-agents'
     publisher: 'Anthropic'
-    note: 'LLMを仕事に組み込む構成と、安全な使われ方を整理した一次資料。'
+    note: 'ワークフローとエージェントの区別、必要な場合に複雑さを増やすという設計方針（2024年の解説）。'
   - title: 'LangChain Docs'
     url: 'https://python.langchain.com/docs/'
     publisher: 'LangChain'
     note: 'RAGやワークフローの組み立て方を、実装例とともに示した資料。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import GuideImage from '../../../components/GuideImage.astro';
+import Callout from '../../../components/Callout.astro';
 
 「対象の仕事は決まった。では、AIを業務の流れの中のどこに置くか」。置き場所の設計が雑なままだと、試験の段階では上手く見えたのに、実際の仕事ではずれを感じることになります。このページでは、入力と出力の決め方、人の関与をどこまで入れるか、例外と取り消しの手順、ワークフローとエージェントの選び方とRAGの組み込み方、権限と監査ログを扱います。
+
+<GuideImage name="business-workflow" />
 
 ## 入力と出力を決める
 
@@ -129,5 +132,3 @@ AIが扱える情報と操作は、業務で必要な最小限にします。初
 
   したがって、実務の導入では、まずワークフローで動きを確認し、必要な位置から段階的にエージェントへ広げる進め方が現実的です。配置の複雑さは、確認のあり方と一緒に設計します。
 </DeepDive>
-
-入力と出力、人の関与の選び方、例外の処理、配置方式、権限と記録まで見ました。この順序で設計しておくと、導入後の運用が受け取りやすくなります。導入後の評価の組み方、監視と文書の整え方を見ます。[[ch:20/03-operations|出してからが本番]]へ進みましょう。

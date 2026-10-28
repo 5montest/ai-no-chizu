@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GuideImage from '../components/GuideImage.astro';
+import { checklistGroups } from '../data/adoption-checklist';
+import { withBase } from '../lib/site.mjs';
+const total = checklistGroups.reduce((sum,g) => sum + g.items.length, 0);
+---
+<BaseLayout title="導入判断の確認シート" description="AI導入の用途、入力情報、品質、費用、権限、運用を確認する18項目。提案レビューや試験導入に使える印刷用シートとテンプレート。">
+  <div class="page"><div class="shell guide-page">
+    <nav class="breadcrumbs" aria-label="パンくずリスト"><a href={withBase('/')}>ホーム</a><span aria-hidden="true">/</span><span>導入判断の確認シート</span></nav>
+    <header class="guide-page__head"><p class="eyebrow">提案レビュー・試験導入に</p><h1>導入の前に、条件と担当をそろえる。</h1><p>確認した項目にチェックし、未確認の条件と確認先を残してください。チェック数だけで導入の可否を決めず、用途に応じて項目を追加・調整します。</p></header>
+    <div class="checklist-actions"><button class="btn" type="button" data-print>印刷・PDFに保存</button><a class="btn btn--ghost" href={withBase('/downloads/ai-adoption-checklist.md')} download>記入用テンプレートを保存</a></div>
+    <p class="checklist-status" role="status" aria-live="polite" data-checklist-status>確認済み 0 / {total}項目</p><p class="checklist-help">チェックはこの画面内だけの表示です。再読み込みすると消えます。記録を残すときは印刷するか、テンプレートを使ってください。</p>
+    <GuideImage name="business-workflow" />
+    <div class="adoption-checklist">{checklistGroups.map(group => <section class="checklist-group" aria-labelledby={`check-${group.id}`}><h2 id={`check-${group.id}`}>{group.title}</h2><p class="checklist-group__question">{group.question}</p><ul>{group.items.map((item,i) => <li><label><input type="checkbox" data-adoption-check id={`${group.id}-${i}`} /><span>{item}</span></label></li>)}</ul><a href={withBase(`/chapters/${group.chapter}/`)}>この観点を詳しく読む →</a></section>)}</div>
+    <section class="guide-section prose"><h2>判断は「条件」と一緒に残す</h2><p>「導入する」「範囲を限って試す」「追加確認してから判断する」「今回は見送る」など、判断と理由を記録します。対象業務、使う製品・プラン、入力データ、担当者、見直し日を一緒に残すと、条件が変わったときに再確認できます。</p><p>本シートは、このサイトの業務活用・評価・安全運用の説明を実務向けに整理したものです。社内規程や個別契約の確認に合わせて使ってください。</p><p>背景となる枠組み：<a href="https://www.nist.gov/itl/ai-risk-management-framework">NIST AI Risk Management Framework</a>、<a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence">NIST Generative AI Profile</a>。項目や件数は本サイトの編集によるものです。</p></section>
+  </div></div>
+</BaseLayout>
+<script>
+  const checks = [...document.querySelectorAll<HTMLInputElement>('[data-adoption-check]')];
+  const status = document.querySelector<HTMLElement>('[data-checklist-status]');
+  const update = () => { if (status) status.textContent = `確認済み ${checks.filter(c => c.checked).length} / ${checks.length}項目`; };
+  checks.forEach(check => check.addEventListener('change', update));
+  window.addEventListener('pageshow', update);
+  document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+</script>

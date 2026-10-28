@@ -99,6 +99,8 @@ function buildRoutes() {
     '/',
     '/404/',
     '/about/',
+    '/start/',
+    '/checklist/',
     '/chapters/',
     '/glossary/',
     '/practice/',

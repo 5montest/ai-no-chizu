@@ -52,8 +52,8 @@ sources:
     note: '変更を小さく保ち、動く状態を維持するという開発の定石を説いた書籍。本文の「差分を小さく保つ」指針の背景として挙げている。オンライン版のURLは未確認。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import Callout from '../../../components/Callout.astro';
 
 テストも通るコードを書いたのに、レビューで「このリポジトリではこう書きません」と差し戻されることがあります。コードとして正しいことと、プロジェクトの中で通用することは、同じではありません。ここでは、後者のために何を読むのかを見ます。
 
@@ -114,5 +114,3 @@ import DeepDive from '../../../components/DeepDive.astro';
 
   この差は、「既存の慣習に従ってください」と書くだけでは埋まりません。近いファイルのパスを渡すこと、具体的な例を示すこと、書いたあとに整形と静的検査をかけること。手元の例を近づけるほうが、抽象的な指示より効きます。
 </DeepDive>
-
-次は、書いたコードを実際に動かし、確かめる段階を見ます。[[ch:13/02-execution-loop|実行して確かめる]]へ進みましょう。

@@ -51,12 +51,19 @@ sources:
     url: 'https://modelcontextprotocol.io/'
     publisher: 'Model Context Protocol'
     note: 'ツールやデータの接続方法を共通化するプロトコル。接続先の権限の確認が利用者側の判断になる。'
+  - title: 'Data controls in the OpenAI platform'
+    url: 'https://developers.openai.com/api/docs/guides/your-data'
+    publisher: 'OpenAI'
+    note: '学習利用とデータ保存の区分を確認する具体例（2026-10-28）。他の製品やプランに同じ条件を一般化しない。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import GuideImage from '../../../components/GuideImage.astro';
+import Callout from '../../../components/Callout.astro';
 
 「外部の文章を読ませるのは不安だ。任せた仕事の中身が、どこへ流れていくのか分からない」。エージェントを社内で使うと、こうした心配が二つ同時に生じます。一つは、外部の文書が中へ入ってくる矢印。もう一つは、社内の情報が外へ出ていく矢印です。インジェクションの仕組みと承認の設計は、[[ch:12/03-tools-safety|ツールを使わせる前に決めること]]で扱いました。このページでは、同じ問題を運用の観点から整理し、漏えいの経路と、第三者モデルへデータを渡すときの確認事項まで触れます。
+
+<GuideImage name="data-boundary" />
 
 ## 外から入る文章は、指示と同じ権限を持たない
 
@@ -114,6 +121,8 @@ import DeepDive from '../../../components/DeepDive.astro';
 
 ## 第三者モデルへ渡すときの確認
 
+「学習に使わない」と「保存しない」は別の条件です。たとえばOpenAIのAPIの公式資料は、学習への利用、不正利用の監視ログ、機能を提供するための保存を区別しています。ほかのサービスにも同じ条件を当てはめず、使う製品・プラン・設定ごとに確認します。
+
 クラウドのモデルサービスを利用するとき、安全対策は提供元と利用者が分担します。提供元が望ましい設計をしていたとしても、利用者側に残る判断は次のとおりです。
 
 - データの扱い：入力と出力が保存される期間、学習に使われるかどうか、削除の方法。
@@ -134,5 +143,3 @@ import DeepDive from '../../../components/DeepDive.astro';
 
 だからこそ、閉じ込めてから接続を組み立てる順番が効きます。まず、書き込みの範囲とネットワークの宛先を閉じます。そして、必要な接続を宛先ごとに認め、その接続の中で扱えるデータの範囲を決めます。この並びで作ると、事故が起きたときの範囲が予測しやすくなります。
 </DeepDive>
-
-入った文章と出る情報の両方を絞る設計ができたら、次はこれを続けるための話に進みます。[[ch:21/03-operations|運用し続けるための設計]]へ進みましょう。

@@ -18,7 +18,7 @@ const allPublished = publishedCount === curriculum.chapters.length;
 
 <BaseLayout
   title="章一覧"
-  description={`AIの地図の全${curriculum.chapters.length}章を、${curriculum.parts.length}つの部で一覧。第1章から順に読み進められます。`}
+  description={`AIの地図の全${curriculum.chapters.length}章を、${curriculum.parts.length}つの部で一覧。目的に合わせて必要な章から読めます。`}
 >
   <div class="page">
     <div class="shell">
@@ -40,6 +40,7 @@ const allPublished = publishedCount === curriculum.chapters.length;
         </p>
       </div>
 
+      <p class="article-reading-note">初めての方は<a href={withBase('/start/')}>目的別の読み方</a>からどうぞ。第27〜32章は、ターミナルや開発ツールを使う方向けの実践です。</p>
       <div class="contents">
         {curriculum.parts.map((part) => (
           <section aria-labelledby={`part-${part.id}`}>

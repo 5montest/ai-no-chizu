@@ -6,7 +6,7 @@ section: '第II部 LLMの内部'
 order: 3
 level: intermediate
 readingMinutes: 7
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['Attention', 'QKV', 'Transformer']
 glossary: ['qkv', 'attention', 'transformer', 'embedding']
 summary:
@@ -53,9 +53,9 @@ sources:
     note: 'Q・K・Vを図で直感的に説明した入門。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 
 Attentionの説明で必ず出てくるQ・K・V。検索にたとえると分かりやすいのですが、たとえ話をそのまま信じると、実際の計算を見誤ります。このページでは、比喩の便利さと限界を押さえます。
 
@@ -114,5 +114,3 @@ Decoder-onlyのLLMは、主にSelf-Attentionを使います。入力の文章も
 ## 部品の名前より、情報の流れ
 
 Q・K・Vという名前を覚えること自体が目的ではありません。各位置が、どの位置から、どれだけ情報を集めるかを学習する、という流れが大切です。この流れが分かれば、Attentionの図を初めて見ても、何をしているのかを追えます。
-
-次は、Attentionだけでは説明できない部分を見ます。[[ch:06/04-limits|Attentionだけでは説明できない]]へ進みましょう。

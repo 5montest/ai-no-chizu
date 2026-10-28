@@ -6,7 +6,7 @@ section: '第III部 LLMを使えるシステムにする'
 order: 2
 level: intermediate
 readingMinutes: 9
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['エージェント', 'ハーネス', '設計']
 glossary: ['harness', 'agent-loop', 'agent', 'context-window', 'context-engineering', 'sandbox']
 summary:
@@ -53,9 +53,9 @@ sources:
     note: 'ツールの命名・説明・戻り値の設計に関する実務的な解説。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 
 同じモデルを使っているのに、あるエージェントは安定して作業を終え、別のエージェントは堂々巡りをします。差を生むのは、モデルの外側にある**ハーネス**の設計です。ここでは、ハーネスが何を引き受けているのかを整理します。
 
@@ -127,5 +127,3 @@ import DeepDive from '../../../components/DeepDive.astro';
 ハーネスを分離して設計しておくと、モデルを差し替えやすくなります。新しいモデルが出たとき、ツールのインターフェースと状態管理が共通なら、評価して入れ替えるだけで済みます。
 
 逆に、モデルとハーネスが密結合していると、モデルの変更が思わぬ形で動作を壊します。モデルは交換可能な部品として扱い、ハーネスに資産を置く。これが、変化の速い領域での現実的な設計です。
-
-次は、ツール実行に伴う具体的なリスクと、その統制を見ます。[[ch:12/03-tools-safety|ツールを使わせる前に決めること]]へ進みましょう。

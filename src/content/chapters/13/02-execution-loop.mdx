@@ -52,9 +52,9 @@ sources:
     note: 'ツール実行と検証をループに組み込む際の設計パターンの整理。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
+import Callout from '../../../components/Callout.astro';
 
 実装が終わっても、動くかどうかは別問題です。ビルドが通るか、既存のテストが壊れていないか、想定した環境で動くか。編集して終わりにせず、**実行して確かめる**ループを回すことが、[[agent-loop|エージェントループ]]の価値を決めます。
 
@@ -118,5 +118,3 @@ Gitは、エージェントの作業を監査するための記録でもあり�
 
   対策は地味です。ロックファイルでバージョンを固定します。実行手順をリポジトリに書き、誰が同じ手順で再現できるようにします。実行環境を隔離し、他の作業と共有しません。この隔離は事故防止にもなります。誤って別のプロジェクトのファイルを触らないための境界でもあります。
 </DeepDive>
-
-次は、一つのタスクが長引いたときに、作業をどう続けるかを見ます。[[ch:13/03-long-tasks|長い作業をどう続けるか]]へ進みましょう。

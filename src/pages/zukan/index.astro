@@ -1,4 +1,5 @@
 ---
+import ProviderMark from '../../components/ProviderMark.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import zukanJson from '../../../data/zukan.json';
 import { entityBadges, entitySearchText, groupByKind, priceBucket } from '../../lib/zukan.mjs';
@@ -111,6 +112,7 @@ const modelCount = entities.reduce(
         </div>
       </div>
 
+      <p class="zukan-group__note">提供元名の横に、公式サイトのアイコンを添えています。モデル・アプリ・プランの区分もあわせて確認してください。</p>
       <p class="glossary-count" data-zukan-count aria-live="polite">{entities.length}件を表示中</p>
 
       <div data-zukan-groups>
@@ -133,6 +135,7 @@ const modelCount = entities.reduce(
                   data-iface={(entity.interfaces ?? []).join(' ')}
                   data-search={entitySearchText(entity)}
                 >
+                  <span class="zukan-card__provider"><ProviderMark vendor={entity.vendor} /></span>
                   <span class="term-card__cat">
                     {group.kind.label}
                     {entityBadges(entity).map((badge) => (
@@ -144,7 +147,7 @@ const modelCount = entities.reduce(
                   <span class="term-card__term">{entity.display_name}</span>
                   <p class="term-card__short">{summaryOf(entity)}</p>
                   <span class="zukan-card__meta">
-                    {entity.vendor}／確認 {entity.last_checked_at}
+                    確認 {entity.last_checked_at}
                   </span>
                 </a>
               ))}
@@ -180,8 +183,10 @@ const modelCount = entities.reduce(
       value.normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim();
 
     const search = document.querySelector<HTMLInputElement>('[data-zukan-search]');
-    const kindChips = [...document.querySelectorAll<HTMLButtonElement>('[data-kind]')];
-    const priceChips = [...document.querySelectorAll<HTMLButtonElement>('[data-price]')];
+    // 製品カード（<a>）も data-kind / data-price を持つ。button に限定しないと、
+    // カードに is-active を付けたり絞り込みの click を奪ったりしてしまう。
+    const kindChips = [...document.querySelectorAll<HTMLButtonElement>('button[data-kind]')];
+    const priceChips = [...document.querySelectorAll<HTMLButtonElement>('button[data-price]')];
     const useSelect = document.querySelector<HTMLSelectElement>('[data-zukan-use]');
     const interfaceSelect = document.querySelector<HTMLSelectElement>('[data-zukan-interface]');
     const cards = [...document.querySelectorAll<HTMLElement>('[data-entity]')];

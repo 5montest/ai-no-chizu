@@ -43,6 +43,11 @@ export const GET: APIRoute = async () => {
       };
     });
 
+  pages.push(
+    { type: 'page', title: 'はじめての方へ・目的別の読み方', description: '使い始める方、提案を読む方、導入を判断する方の入口。', text: '業務で使う 提案を読む 社内導入 判断 依頼 プロンプト 入門 読書ルート', url: withBase('/start/'), chapter: '', chapterTitle: '読み方ガイド', tags: ['入門', '業務活用'], featured: true },
+    { type: 'page', title: '導入判断の確認シート', description: '用途・情報・品質・費用・権限・運用を確認。印刷やテンプレート保存もできます。', text: 'AI導入 チェックリスト 試験導入 PoC 学習 保存 削除 契約 効果 品質 評価 工数 コスト 停止 見直し', url: withBase('/checklist/'), chapter: '', chapterTitle: '導入判断', tags: ['業務活用', '導入判断'], featured: true },
+  );
+
   const terms = glossary.terms.map((term) => ({
     type: 'term',
     title: term.term,

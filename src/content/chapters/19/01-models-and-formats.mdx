@@ -53,10 +53,13 @@ sources:
     note: 'GGUF を扱う代表的な推論実装。量子化の精度表記が README に整理されている。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import Diagram from '../../../components/Diagram.astro';
+import Callout from '../../../components/Callout.astro';
 
 「家のPCでもLLMが動くらしい。モデルを配布しているサイトを開いたら、似たような名前のファイルがずらりと並んでいて、どれを落とせばいいのか分からない」。ローカルLLMを始めようとした多くの人が、まずここで足踏みします。このページでは、配布されているファイルの中身、形式の選び方、ライセンスの確認、そして必要メモリの目安を順に整理します。
+
+<Diagram name="local-deployment" />
 
 ## モデルの本体は重みである
 

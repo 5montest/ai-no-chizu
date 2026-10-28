@@ -53,9 +53,9 @@ sources:
     note: '学習率やミニバッチを含む、勾配降下法の派生手法の整理。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
+import Callout from '../../../components/Callout.astro';
 
 学習の実体は、パラメータを少しずつ動かして予測の誤差を小さくする作業です。このページでは、その「少し動かす」がどう決まるのかを見ます。数式は最小限にして、計算の意味を追います。
 
@@ -124,5 +124,3 @@ LLMの事前学習では、次のトークンの予測に交差エントロピ�
 4. 勾配が極端に小さくなる、または大きくなる。層の設計や正規化で対処する。
 
 損失の曲線を記録し、学習率やデータの変更と対応づけて見る。これが、学習を進めるうえでの基本的な作業です。
-
-次は、層を重ねることで何が変わるのか、そして学習したモデルが未知のデータに通用するかをどう確かめるかを見ます。[[ch:03/03-layers-generalization|層を重ねると何が起きるか]]へ進みましょう。

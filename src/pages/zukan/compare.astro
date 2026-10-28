@@ -255,10 +255,14 @@ const payload = {
 
     const known = new Set(Object.keys(payload.entities));
 
+    // 正しい形式は ?ids=a&ids=b。古いカンマ連結のリンク（?ids=a,b）も開けるよう分割して読む。
     const readIds = () => {
       const seen = [];
-      for (const id of new URLSearchParams(location.search).getAll('ids')) {
-        if (known.has(id) && !seen.includes(id)) seen.push(id);
+      for (const raw of new URLSearchParams(location.search).getAll('ids')) {
+        for (const id of raw.split(',')) {
+          const value = id.trim();
+          if (known.has(value) && !seen.includes(value)) seen.push(value);
+        }
       }
       return seen;
     };

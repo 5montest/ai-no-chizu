@@ -53,8 +53,8 @@ sources:
     note: '言語モデルの学習と評価、データの扱いを扱う公開教科書。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import Callout from '../../../components/Callout.astro';
 
 機械学習の説明では「データから学ぶ」と言われます。しかし、データがあれば自動的に学べるわけではありません。何を入力として見せ、何を正解とするか。どのデータで学習し、どのデータで確かめるか。この設計で、同じアルゴリズムでも結果が変わります。
 
@@ -119,5 +119,3 @@ import DeepDive from '../../../components/DeepDive.astro';
 ## データを見ることから始まる
 
 学習の設計は、アルゴリズムの選択より前に、データの観察から始まります。どんな事例があり、どんな偏りがあり、どこに欠損があるか。これを確認せずにモデルを大きくしても、問題は大きくなるだけです。
-
-次は、モデルがどうやって誤差を小さくしていくのかを見ます。[[ch:03/02-loss-and-gradient|誤差を小さくする計算]]へ進みましょう。

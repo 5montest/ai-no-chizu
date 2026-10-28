@@ -6,7 +6,7 @@ section: '第III部 LLMを使えるシステムにする'
 order: 1
 level: intermediate
 readingMinutes: 9
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['エージェント', 'Agent Loop', '設計']
 glossary: ['agent', 'agent-loop', 'harness', 'function-calling', 'mcp']
 summary:
@@ -53,11 +53,14 @@ sources:
     note: '計画・記憶・ツール利用というエージェントの構成要素を整理した解説。'
 ---
 
-import Diagram from '../../../components/Diagram.astro';
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import Diagram from '../../../components/Diagram.astro';
+import GuideImage from '../../../components/GuideImage.astro';
+import Callout from '../../../components/Callout.astro';
 
 「AIエージェント」という言葉は、チャットAIの延長として語られることがあります。しかし、両者の違いはモデルの賢さではなく、**行動のループを持つかどうか**にあります。ここでは、エージェントが何を繰り返しているのかを、最小限の構造から見ます。
+
+<GuideImage name="agent-approval" />
 
 ## チャット・ワークフロー・エージェント
 
@@ -112,5 +115,3 @@ import DeepDive from '../../../components/DeepDive.astro';
 エージェントの設計で見落とされやすいのが、**止め方**です。目的を達成したら終了する。同じ失敗を繰り返したら終了する。予算を使い切ったら終了する。人間が止めたら即座に止まる。
 
 終了条件が曖昧だと、ループは延々と続き、コストだけが増えます。逆に、早すぎる終了は、未完了の作業を残します。「何をもって完了とするか」を開始前に定義することが、エージェント設計の第一歩です。
-
-次は、このループの外側にあるハーネスの役割を詳しく見ます。[[ch:12/02-harness|モデルの外側を設計する]]へ進みましょう。

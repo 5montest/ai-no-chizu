@@ -53,10 +53,13 @@ sources:
     note: '文字列からスペクトログラムを経て音声を作る合成モデルの系譜。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import Diagram from '../../../components/Diagram.astro';
+import Callout from '../../../components/Callout.astro';
 
 会議の文字起こしを試すと、たいてい一度は「ここ、聞き違えている」という場面に出会います。社内の略語が別の語に置き換わり、専門用語が別の単語になり、話者が変わったところで文が混ざります。一方で、音声合成の側は「声は自然になったが、どこか棒読みに聞こえる」という印象を持たれます。ここでは、音声を扱う技術が実際には何をしているのかを、認識と合成に分けて見ていきます。
+
+<Diagram name="speech-processing" />
 
 ## 音声AIの中身を分ける
 

@@ -1,0 +1,10 @@
+---
+import { withBase } from '../lib/site.mjs';
+interface Props { vendor: string; }
+const { vendor } = Astro.props;
+const icons: Record<string, string> = { OpenAI: 'openai.png', Anthropic: 'anthropic.png', Google: 'google.png', DeepSeek: 'deepseek.png', 'Qwen（Alibaba）': 'qwen.png' };
+---
+<span class="provider-mark">
+  {icons[vendor] && <img src={withBase(`/images/providers/${icons[vendor]}`)} width="22" height="22" loading="lazy" decoding="async" alt="" />}
+  <span>{vendor}</span>
+</span>

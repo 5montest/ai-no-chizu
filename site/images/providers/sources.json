@@ -1,0 +1,32 @@
+[
+  {
+    "key": "openai",
+    "source": "https://developers.openai.com/favicon.png",
+    "file": "public/images/providers/openai.png",
+    "checked": "2026-10-28"
+  },
+  {
+    "key": "anthropic",
+    "source": "https://claude.com/favicon.ico",
+    "file": "public/images/providers/anthropic.png",
+    "checked": "2026-10-28"
+  },
+  {
+    "key": "google",
+    "source": "https://www.gstatic.com/devrel-devsite/prod/v5a0f9ff8b593048661361a49e11ab98a8b1ac025e19e60e6189f2b56796f8a43/googledevai/images/favicon-new.png",
+    "file": "public/images/providers/google.png",
+    "checked": "2026-10-28"
+  },
+  {
+    "key": "deepseek",
+    "source": "https://www.deepseek.com/favicon.ico",
+    "file": "public/images/providers/deepseek.png",
+    "checked": "2026-10-28"
+  },
+  {
+    "key": "qwen",
+    "source": "https://img.alicdn.com/imgextra/i4/O1CN01OXv3EM1FN8t9W4P79_!!6000000000474-2-tps-80-80.png",
+    "file": "public/images/providers/qwen.png",
+    "checked": "2026-10-28"
+  }
+]

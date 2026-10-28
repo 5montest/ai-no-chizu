@@ -6,7 +6,7 @@ section: '第III部 LLMを使えるシステムにする'
 order: 3
 level: intermediate
 readingMinutes: 10
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['エージェント', 'ツール', '安全性', 'MCP']
 glossary: ['function-calling', 'mcp', 'sandbox', 'agent', 'harness', 'prompt']
 summary:
@@ -53,8 +53,8 @@ sources:
     note: 'プロンプトインジェクションを含む、LLMアプリケーションの代表的リスク。'
 ---
 
-import Callout from '../../../components/Callout.astro';
 import DeepDive from '../../../components/DeepDive.astro';
+import Callout from '../../../components/Callout.astro';
 
 エージェントにツールを渡すと、できることは増えます。同時に、**モデルの判断が現実世界に影響を与える**ようになります。ここでは、ツール連携の仕組みと、事故を防ぐための設計を整理します。
 
@@ -129,5 +129,3 @@ MCP（Model Context Protocol）は、モデルとツール・データソース�
 エージェントの能力を上げようとして、ツールをどんどん追加したくなります。しかし、ツールが増えると、選択の誤り、説明の衝突、権限の広がりが同時に増えます。
 
 まずは、目的に必要な最小限のツールから始めます。そのうえで、実際のログを見て、不足や誤用を確認しながら足す。**能力の追加は、リスクの追加でもある**ことを忘れないでください。
-
-ここまでで、LLMをシステムに組み込むための基本を、パイプライン、文脈、エージェント、ツールの順に見ました。次は、数あるモデルをどう選び、どう評価するかという実務の中心に移ります。[[ch:18|モデルはどう選ぶのか]]へ進みましょう。

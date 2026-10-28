@@ -6,7 +6,7 @@ section: '第I部 全体像をつかむ'
 order: 2
 level: intro
 readingMinutes: 8
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['基礎', '機械学習', '学習']
 glossary: ['machine-learning', 'parameter', 'overfitting', 'generalization', 'deep-learning', 'pretraining']
 summary:
@@ -53,9 +53,9 @@ sources:
     note: '回帰・分類・勾配降下法の基礎を順に学べる講座。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 
 「AIはデータから学習する」とよく言われます。しかし、学習という言葉から「子どもが経験から学ぶ」ようなイメージを持つと、実際の仕組みを見誤ります。機械学習の学習は、もっと限定的で、測定可能な作業です。
 
@@ -112,5 +112,3 @@ import DeepDive from '../../../components/DeepDive.astro';
 学習したモデルを使うとき、パラメータはもう変わりません。入力を与えて出力を得るだけです。これを[[inference|推論（Inference）]]と呼びます。チャットAIを使うとき、モデルがその場で学習しているわけではなく、学習済みのパラメータを使って次のトークンを選んでいます。
 
 学習には時間と費用がかかり、推論は利用のたびに費用がかかります。どちらを改善したいのかによって、データを増やす、モデルを小さくする、キャッシュを使う、といった打ち手が変わります。
-
-次は、こうした学習の上に成り立つ生成AIが地図のどこに位置するかを見ます。[[ch:01/03-generative-ai|生成AIは地図のどこにいるのか]]へ進みましょう。

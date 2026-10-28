@@ -6,7 +6,7 @@ section: '第V部 現代のAIを選び、動かす'
 order: 1
 level: intermediate
 readingMinutes: 9
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['モデル選定', '評価', '実務']
 glossary: ['benchmark', 'elo', 'accuracy', 'latency', 'hallucination', 'llm']
 summary:
@@ -53,9 +53,9 @@ sources:
     note: '品質・速度・価格を並べて比較している独立系の指標。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 
 「結局、どのモデルが一番いいの？」。この問いに対して、このサイトは**単一の答えを出しません**。理由は、モデルの優劣が、使う場面の条件に強く依存するからです。ここでは、その理由と、代わりに持つべき選定の軸を整理します。
 
@@ -126,5 +126,3 @@ import DeepDive from '../../../components/DeepDive.astro';
 ## このサイトが順位を出さない理由
 
 モデルは頻繁に更新され、価格も条件も変わります。固定した順位を載せると、すぐに古くなり、誤解を生みます。そこでこのサイトでは、**比較の軸と読み方**を示し、具体的な価格・文脈長は確認日付きのデータとして掲載します。
-
-次は、ベンチマークの数字をどう読むかを見ます。[[ch:18/02-benchmarks|ベンチマークは何を測っているのか]]へ進みましょう。

@@ -6,7 +6,7 @@ section: '第V部 現代のAIを選び、動かす'
 order: 2
 level: intermediate
 readingMinutes: 10
-updated: '2026-10-27'
+updated: '2026-10-28'
 tags: ['ベンチマーク', '評価', 'Elo']
 glossary: ['benchmark', 'elo', 'accuracy', 'contamination', 'hallucination', 'llm']
 summary:
@@ -53,9 +53,9 @@ sources:
     note: '人間のペア比較によるElo評価の設計と課題。'
 ---
 
+import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
-import DeepDive from '../../../components/DeepDive.astro';
 
 ベンチマークの数字は、モデル選びの手がかりになります。しかし、数字だけを見ると、**何を測ったのか**を取り違えます。ここでは、代表的な指標の意味と、読むときの注意点を整理します。
 
@@ -128,8 +128,6 @@ Chatbot ArenaのようなEloは、二つのモデルの回答を人間が比べ�
 2. **測定条件は自分の使い方に近いか。** プロンプト、言語、文脈長、ツール利用。
 3. **差は誤差か、実用上の差か。** 数ポイントの差は、測定の揺れで入れ替わることがある。
 4. **失敗の中身は何か。** 同じスコアでも、間違え方が違う。
-5. **自分のデータで試す。** 代表タスクを20〜50件ほど用意し、同じ条件で比べる。
+5. **自分のデータで試す。** 初期検証の目安として代表タスクを20〜50件ほど用意し、同じ条件で比べる。必要な件数は、用途や誤りの影響に応じて増やす。
 
 最後の「自分のデータで試す」が、最も重要です。ベンチマークは地図であり、目的地までの道は自分で歩いて確かめます。
-
-次は、価格・文脈長・速度という、品質以外の実務的な軸を見ます。[[ch:18/03-price-context|価格・文脈長・速度で選ぶ]]へ進みましょう。
