@@ -52,12 +52,16 @@ sources:
     publisher: 'Google'
     note: '長いコンテキストを扱う際のAPI上の考え方と制約。'
 ---
+import GuideImage from '../../../components/GuideImage.astro';
+
 
 import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
 
 LLMを使い始めると、すぐに「コンテキスト長」という言葉に出会います。100万トークンまで読める、といった宣伝文句も増えました。しかし、大きな机を用意すれば仕事がうまく進むとは限らないのと同じで、長いコンテキストを入れれば良い答えが返るわけではありません。
+
+<GuideImage name="context-memory" />
 
 ## コンテキストウィンドウとは何か
 

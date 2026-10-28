@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import GuideIcon from '../../../components/GuideIcon.astro';
 import GuideImage from '../../../components/GuideImage.astro';
 import { chapterImages } from '../../../data/guide-images';
 import { optionalTechnicalChapters } from '../../../data/reading-paths';
@@ -34,6 +35,7 @@ export async function getStaticPaths() {
 }
 
 const { chapter, pages } = Astro.props;
+const chapterIcons: Record<string,string> = { '01':'book','02':'clock','03':'chart','04':'chip','05':'layers','06':'network','07':'layers','08':'clock','09':'document','10':'folder','11':'search','12':'tools','13':'network','14':'layers','15':'document','16':'sound','17':'tools','18':'check','19':'terminal','20':'user','21':'shield','22':'chart','23':'layers','24':'chip','25':'coins','26':'folder','27':'terminal','28':'chart','29':'tools','30':'network','31':'sound','32':'check' };
 const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展' } as Record<string, string>;
 const totalMinutes = pages.reduce((sum: number, page: any) => sum + page.readingMinutes, 0);
 const published = curriculum.chapters.filter((c) => c.status === 'published');
@@ -63,7 +65,7 @@ const updated = pages.map((p: any) => p.updated).sort().at(-1);
                 第{part?.roman}部 {part?.title}
               </a>
             </p>
-            <div class="chapter-hero__no">第{chapter.id}章</div>
+            <div class="chapter-hero__no"><GuideIcon name={chapterIcons[chapter.id] ?? 'book'} /> 第{chapter.id}章</div>
             <h1>{chapter.title}</h1>
             <p class="chapter-hero__q">{chapter.question}</p>
 
@@ -91,7 +93,7 @@ const updated = pages.map((p: any) => p.updated).sort().at(-1);
             <p>{chapter.intro}</p>
           </div>
 
-          {optionalTechnicalChapters.has(chapter.id) && <p class="article-reading-note">仕組みや開発手順を詳しく知りたい方向けの章です。業務での使い方や導入判断は、<a href={withBase('/start/')}>目的別の読み方</a>から始められます。</p>}
+          {optionalTechnicalChapters.has(chapter.id) && <p class="article-reading-note">仕組みや内部構造、開発手順を詳しく扱う章です。業務での使い方や導入判断から入りたい場合は、<a href={withBase('/start/')}>学習ルート</a>で別の入口を選べます。</p>}
           {chapterImages[chapter.id] && <div class="chapter-visual"><GuideImage name={chapterImages[chapter.id]} /></div>}
           <ul class="page-list">
             {pages.map((page: any) => (

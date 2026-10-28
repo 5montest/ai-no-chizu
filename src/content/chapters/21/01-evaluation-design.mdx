@@ -8,7 +8,7 @@ level: intermediate
 readingMinutes: 9
 updated: '2026-10-28'
 tags: ['評価', 'ベンチマーク', '品質管理']
-glossary: ['benchmark', 'accuracy', 'contamination', 'hallucination']
+glossary: ['benchmark', 'accuracy', 'contamination', 'hallucination', 'eval-set', 'false-negative', 'false-positive', 'precision', 'recall']
 summary:
   - 'ベンチマークのスコアは候補を絞る材料であり、自社の用途の品質を保証しません。'
   - '評価セットは用途の代表タスクごとに作り、正解の型まで納得して決めます。'
@@ -51,12 +51,20 @@ sources:
     url: 'https://arxiv.org/abs/2303.16634'
     publisher: 'arXiv'
     note: 'LLMを使う自動採点の設計と課題。'
+  - title: 'Classification metrics'
+    url: 'https://scikit-learn.org/stable/modules/model_evaluation.html#classification-metrics'
+    publisher: 'scikit-learn'
+    note: '適合率・再現率・混同行列の定義を参照（確認日 2026-10-28）。'
 ---
+import GuideImage from '../../../components/GuideImage.astro';
+
 
 import DeepDive from '../../../components/DeepDive.astro';
 import Callout from '../../../components/Callout.astro';
 
 「ベンチマークで上位のモデルを入れたのに、自社の仕事では粗さが目立つ」。この不満は、評価の対象がずれていたことから生まれます。公開ベンチマークはモデルの候補を絞る材料としては有効ですが、自社の用途の品質を保証しません。このページでは、自分の評価を持つために、用途の切り出し、正解の作り方、再現性、人手評価の設計を順に整理します。
+
+<GuideImage name="evaluation-errors" />
 
 ## 評価セットは用途を写す
 
@@ -91,6 +99,17 @@ import Callout from '../../../components/Callout.astro';
 | --- | --- | --- |
 | 自動採点 | 正解の型が決まっている。分類、抽出、形式の確認 | 表現の質までは測れない。採点ロジック自体の検査も必要 |
 | 人手採点 | 表現や根拠の質を問う。要約、文書作成、提案 | 基準が揺れる。設計とコストがかかる |
+
+## 見落としと誤検出を数える
+
+例えば100件の問い合わせに、対応が必要なものが20件あるとします。AIが「要対応」としたのが18件、そのうち正しく検出できたのが15件なら、[[false-positive|誤検出]]は3件、[[false-negative|見落とし]]は5件です。
+
+| 指標 | この例の計算 | 分かること |
+| --- | --- | --- |
+| [[precision|適合率]] | 15 ÷ 18 ≒ 83% | 要対応とした中に、不要なものがどれだけ混ざるか |
+| [[recall|再現率]] | 15 ÷ 20 = 75% | 必要な対応を、どれだけ拾えたか |
+
+「何もしない」と答えるだけでも、この例では80件が正解になります。正解率だけで判断せず、見落としで起きる損害と、余分な確認にかかる時間を並べて決めます。割合には必ず件数を添え、少数の例による高得点を過大に評価しないようにします。
 
 ## 同じ条件で回す
 

@@ -9,9 +9,10 @@ const index = new Map(entries.map(entry => [entry.id, entry]));
 <div class:list={['reading-paths', { 'reading-paths--detailed': detailed }]}>
   {readingPaths.map((path, i) => (
     <section class="reading-path" id={path.id} aria-labelledby={`path-${path.id}`}>
-      <p class="reading-path__label"><span aria-hidden="true">0{i + 1}</span> {path.label}</p>
+      <p class="reading-path__label"><span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span> {path.label}</p>
       <h3 id={`path-${path.id}`}>{path.title}</h3>
       <p>{path.description}</p>
+      <p class="reading-path__prereq"><span>前提</span>{path.prerequisite}</p>
       {detailed ? <>
         <ol class="reading-path__pages">
           {path.pages.map(item => {
@@ -22,7 +23,10 @@ const index = new Map(entries.map(entry => [entry.id, entry]));
         </ol>
         <p class="reading-path__outcome">読み終えたら：{path.outcome}</p>
         {path.id === 'decide' && <a href={withBase('/checklist/')}>導入判断の確認シートへ →</a>}
-      </> : <a class="reading-path__link" href={withBase(`/start/#${path.id}`)}>読むページを選ぶ →</a>}
+      </> : <>
+        <p class="reading-path__outcome">読み終えたら：{path.outcome}</p>
+        <a class="reading-path__link" href={withBase(`/start/#${path.id}`)}>読むページを選ぶ →</a>
+      </>}
     </section>
   ))}
 </div>

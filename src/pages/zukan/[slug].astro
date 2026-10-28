@@ -75,6 +75,8 @@ const MODALITY_LABELS: Record<string, string> = {
   audio: '音声',
   video: '動画',
   file: 'ファイル',
+  vector: '数値ベクトル',
+  classification: '分類結果・スコア',
 };
 const UNIT_LABELS: Record<string, string> = {
   per_month: '月額',
@@ -119,7 +121,7 @@ const CAPABILITY_LABELS: Record<Capability, string> = {
   unknown: '未確認',
   'n/a': '該当なし',
 };
-const capabilityRows = CAPABILITY_ROWS.filter(([key]) => entity[key] !== undefined);
+const capabilityRows = CAPABILITY_ROWS.filter(([key]) => entity[key] !== undefined && entity[key] !== 'n/a');
 
 // 章への案内は分類ごとに変える。準備中の章は「準備中」と書き、公開済みに見せない。
 const CHAPTER_HINTS: Record<string, string[]> = {
@@ -147,6 +149,7 @@ const priceEntries = priceEntriesFor(priceIndex, entity.id);
 const officialPrices = priceEntries.filter((entry) => entry.source_kind === 'official');
 const resellerPrices = priceEntries.filter((entry) => entry.source_kind !== 'official');
 const planSnapshots = planSnapshotsFor(pricing, entity.id);
+const meteredSnapshots = pricing.snapshots.filter(s => entity.pricing_snapshot_ids.includes(s.id) && s.charges?.some(c => c.entity_id === entity.id));
 
 const freshnessText = (check: ReturnType<typeof freshnessState>): string => {
   if (check.state === 'fresh') {
@@ -207,37 +210,7 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
           </p>
         </header>
 
-        <section class="term-section">
-          <h2>確認日と状態</h2>
-          <dl class="zukan-facts">
-            <div>
-              <dt>最終確認日</dt>
-              <dd><time datetime={entity.last_checked_at}>{entity.last_checked_at}</time></dd>
-            </div>
-            <div>
-              <dt>最終検証日</dt>
-              <dd><time datetime={entity.last_verified_at}>{entity.last_verified_at}</time></dd>
-            </div>
-            <div>
-              <dt>情報の状態</dt>
-              <dd>
-                {VERIFICATION_LABELS[entity.verification_status] ?? '公式情報で確認済み'}
-                {entity.verification_status === 'reseller-only'
-                  ? '（提供元の公式ページでは確認できず、再販事業者の掲載のみを根拠にしています）'
-                  : ''}
-              </dd>
-            </div>
-            <div>
-              <dt>仕様の再確認</dt>
-              <dd>{freshnessText(specFreshness)}</dd>
-            </div>
-          </dl>
-          <p>
-            価格は{zukan.policy.freshness.price_review_after_days}日、仕様は
-            {zukan.policy.freshness.spec_review_after_days}
-            日を過ぎたら「再確認が必要」と表示します。{zukan.policy.freshness.note}
-          </p>
-        </section>
+
 
         <section class="term-section">
           <h2>これは何か</h2>
@@ -281,6 +254,8 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
           </section>
         )}
 
+        {capabilityRows.length === 0 && entity.capability_notes && <p class="zukan-note">{entity.capability_notes}</p>}
+
         <section class="term-section">
           <h2>使うには</h2>
           <dl class="zukan-facts">
@@ -294,7 +269,7 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
             </div>
             <div>
               <dt>対応OS・環境</dt>
-              <dd>{labelsOf(entity.platforms, labels.platform).join('、') || '未確認'}</dd>
+              <dd>{labelsOf(entity.platforms, labels.platform).join('、') || (entity.interfaces.includes('api') ? 'APIへ接続できる実行環境（OSは利用するソフトに依存）' : '未確認')}</dd>
             </div>
             <div>
               <dt>必要なもの</dt>
@@ -387,6 +362,18 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
                   )}
                 </figure>
               ))}
+            </>
+          )}
+
+          {meteredSnapshots.length > 0 && (
+            <><h3>用途ごとの従量料金</h3>
+              {meteredSnapshots.map(snapshot => <figure class="zukan-price">
+                <figcaption class="zukan-price__head"><span>USD／{TAX_LABELS[snapshot.tax] ?? snapshot.tax}／確認 {snapshot.fetched_at}</span></figcaption>
+                <div class="model-table-wrap"><table class="model-table"><caption>単位と条件を確認して計算してください。音声の時間とトークン数は別の単位です。</caption>
+                  <thead><tr><th scope="col">項目</th><th scope="col">単価・単位</th><th scope="col">条件と出典</th></tr></thead>
+                  <tbody>{snapshot.charges?.filter(c => c.entity_id === entity.id).map(c => <tr><th scope="row">{c.label}</th><td>{money(c.price)} / {c.unit}</td><td>{c.condition}<br/><a href={c.source.url}>{c.source.title}</a></td></tr>)}</tbody>
+                </table></div><ul class="zukan-list">{snapshot.notes.map(note => <li>{note}</li>)}</ul>
+              </figure>)}
             </>
           )}
 
@@ -486,13 +473,13 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
             </>
           )}
 
-          {priceEntries.length === 0 && planSnapshots.length === 0 && (
+          {priceEntries.length === 0 && planSnapshots.length === 0 && meteredSnapshots.length === 0 && (
             <p>
               この項目の料金はまだ確認できていません。金額を0円として扱わず、未確認のままにしています。
             </p>
           )}
 
-          {entity.cost_model === 'unknown' && priceEntries.length === 0 && planSnapshots.length === 0 && (
+          {entity.cost_model === 'unknown' && priceEntries.length === 0 && planSnapshots.length === 0 && meteredSnapshots.length === 0 && (
             <p>料金体系そのものが未確認のため、無料・有料のどちらにも分類していません。</p>
           )}
         </section>
@@ -568,7 +555,7 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
           </section>
         )}
 
-        {(entity.context_window || entity.input_modalities || entity.output_modalities || entity.reasoning_efforts) && (
+        {(entity.context_window || entity.context_label || entity.input_modalities || entity.output_modalities || entity.reasoning_efforts) && (
           <section class="term-section">
             <h2>仕様</h2>
             <dl class="zukan-facts">
@@ -582,6 +569,7 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
                   </dd>
                 </div>
               )}
+              {entity.context_label && <div><dt>文脈長（公式表記）</dt><dd>{entity.context_label}</dd></div>}
               {entity.input_modalities && (
                 <div>
                   <dt>入力</dt>
@@ -599,14 +587,45 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
                   <dt>推論の強さ</dt>
                   <dd>
                     {entity.reasoning_efforts.supported.join('、')}
-                    （既定: {entity.reasoning_efforts.default}／
-                    {entity.reasoning_efforts.mandatory ? '指定は必須' : '指定は任意'}）
+                    （既定: {entity.reasoning_efforts.default === 'unknown' ? '公式で確認できず' : entity.reasoning_efforts.default}／
+                    {entity.reasoning_efforts.mandatory ? '推論を無効にする設定なし' : '推論なしも選択可能'}）
                   </dd>
                 </div>
               )}
             </dl>
           </section>
         )}
+
+        <details class="term-section zukan-metadata"><summary>確認日と情報の状態を詳しく見る</summary>
+          <dl class="zukan-facts">
+            <div>
+              <dt>最終確認日</dt>
+              <dd><time datetime={entity.last_checked_at}>{entity.last_checked_at}</time></dd>
+            </div>
+            <div>
+              <dt>最終検証日</dt>
+              <dd><time datetime={entity.last_verified_at}>{entity.last_verified_at}</time></dd>
+            </div>
+            <div>
+              <dt>情報の状態</dt>
+              <dd>
+                {VERIFICATION_LABELS[entity.verification_status] ?? '公式情報で確認済み'}
+                {entity.verification_status === 'reseller-only'
+                  ? '（提供元の公式ページでは確認できず、再販事業者の掲載のみを根拠にしています）'
+                  : ''}
+              </dd>
+            </div>
+            <div>
+              <dt>仕様の再確認</dt>
+              <dd>{freshnessText(specFreshness)}</dd>
+            </div>
+          </dl>
+          <p>
+            価格は{zukan.policy.freshness.price_review_after_days}日、仕様は
+            {zukan.policy.freshness.spec_review_after_days}
+            日を過ぎたら「再確認が必要」と表示します。{zukan.policy.freshness.note}
+          </p>
+        </details>
 
         {historyEntries.length > 0 && (
           <section class="term-section">
@@ -644,7 +663,7 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
             ))}
           </ul>
           <p>
-            公式ページ: <a href={entity.official_url}>{entity.official_url}</a>
+            公式ページ: <a href={entity.official_url}>{entity.vendor}の公式説明を開く ↗</a>
           </p>
         </section>
 

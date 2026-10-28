@@ -1,0 +1,1153 @@
+{
+  "01/03-generative-ai": {
+    "title": "見分ける出力と、作る出力",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "check",
+        "label": "識別・予測",
+        "detail": "入力に対してラベルや数値を返す。例：問い合わせの分類。"
+      },
+      {
+        "icon": "document",
+        "label": "生成",
+        "detail": "入力に応じて文章や画像を組み立てる。例：返信の下書き。"
+      }
+    ],
+    "caption": "生成にも分類にも評価が必要です。何を出力するかと、どう確かめるかを組にして考えます。"
+  },
+  "02/02-learning-turn": {
+    "title": "特徴を作る担当が変わった",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "user",
+        "label": "人が特徴量を設計",
+        "detail": "広さ・単語の有無などを選び、学習するモデルへ渡す。"
+      },
+      {
+        "icon": "layers",
+        "label": "表現もモデルが学習",
+        "detail": "画像や文章から、層を通じて特徴を学ぶ。"
+      }
+    ],
+    "caption": "深層学習でも、データ・目的・評価方法の設計は必要です。"
+  },
+  "02/03-foundation-models": {
+    "title": "基盤モデルを用途に合わせる",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "book",
+        "label": "事前学習",
+        "detail": "幅広いデータから、共通に使える能力を学ぶ。"
+      },
+      {
+        "icon": "chip",
+        "label": "学習済みの土台",
+        "detail": "用途ごとに最初から作り直す負担を減らす。"
+      },
+      {
+        "icon": "tools",
+        "label": "用途への適応",
+        "detail": "指示・検索・追加学習などを目的に応じて選ぶ。"
+      }
+    ],
+    "caption": "発展の流れを簡略化した図です。すべての製品が同じ学習工程を採るとは限りません。"
+  },
+  "03/01-data-and-splits": {
+    "title": "データを、使う目的で分ける",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "chip",
+        "label": "学習用",
+        "detail": "予測と正解の差から、モデルの重みを調整する。"
+      },
+      {
+        "icon": "tools",
+        "label": "検証用",
+        "detail": "設定や学習を止める時点を比較する。"
+      },
+      {
+        "icon": "check",
+        "label": "テスト用",
+        "detail": "調整から分離し、最後の性能確認に使う。"
+      }
+    ],
+    "caption": "同じ人物や文書の類似例が両側に入ると評価が甘くなります。分ける単位も決めます。"
+  },
+  "03/03-layers-generalization": {
+    "title": "覚えた例と、新しい例で比べる",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "book",
+        "label": "学習した例",
+        "detail": "この成績だけでは、未知の入力への強さは分からない。"
+      },
+      {
+        "icon": "check",
+        "label": "学習していない例",
+        "detail": "同じ基準で評価し、成績の差を見る。"
+      }
+    ],
+    "caption": "学習用だけで損失が小さく、検証用では大きい場合は、過学習などを調べます。"
+  },
+  "05/02-embedding": {
+    "title": "文書と質問を、比べられる形にする",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "文書を準備",
+        "detail": "文や段落を検索する単位に整える。"
+      },
+      {
+        "icon": "network",
+        "label": "数値へ変換",
+        "detail": "文書と質問を、比較できるベクトル空間へ置く。"
+      },
+      {
+        "icon": "search",
+        "label": "近い文書を探す",
+        "detail": "類似度を手がかりに候補を取り出す。"
+      },
+      {
+        "icon": "check",
+        "label": "内容を確かめる",
+        "detail": "関連があるか、新しく正しい資料かを確認する。"
+      }
+    ],
+    "caption": "ベクトルの近さは、意味の同一性や事実の正しさを保証しません。"
+  },
+  "06/03-qkv": {
+    "title": "Q・Kで参照の割合を決め、Vを集める",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "search",
+        "label": "QueryとKey",
+        "detail": "各位置の表現から、参照する相性を計算する。"
+      },
+      {
+        "icon": "chart",
+        "label": "重みへ変換",
+        "detail": "マスクやSoftmaxを使って参照の割合を作る。"
+      },
+      {
+        "icon": "layers",
+        "label": "Valueを混ぜる",
+        "detail": "割合に応じて情報を集め、新しい表現を作る。"
+      }
+    ],
+    "caption": "本を一冊選ぶ検索とは異なり、複数の位置の情報を重み付きで混ぜる計算です。"
+  },
+  "06/04-limits": {
+    "title": "Transformerを支える部品",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "network",
+        "label": "Attention",
+        "detail": "位置同士の関係を使い、参照する情報を混ぜる。"
+      },
+      {
+        "icon": "chip",
+        "label": "FFN",
+        "detail": "各位置の表現を変換する。知識の保持にも関わる。"
+      },
+      {
+        "icon": "layers",
+        "label": "残差接続・正規化",
+        "detail": "層を重ねた学習や情報の伝達を支える。"
+      }
+    ],
+    "caption": "Attentionの可視化だけで、モデルがその答えを出した理由のすべてを説明できるとは限りません。"
+  },
+  "07/01-pretraining-data": {
+    "title": "集めたデータを、そのまま使わない",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "folder",
+        "label": "素材を集める",
+        "detail": "対象の言語・分野・権利条件を確認する。"
+      },
+      {
+        "icon": "search",
+        "label": "品質を確認",
+        "detail": "ノイズや重複、不要な情報を取り除く。"
+      },
+      {
+        "icon": "layers",
+        "label": "配分を決める",
+        "detail": "分野や言語の偏りを確認する。"
+      },
+      {
+        "icon": "chip",
+        "label": "学習に使う",
+        "detail": "目的に沿ってモデルの重みを調整する。"
+      }
+    ],
+    "caption": "データの選び方と配分は、身につく能力や偏りに関わります。"
+  },
+  "07/03-training-evaluation": {
+    "title": "目標の点数と、実際に欲しい品質を分ける",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "評価基準を定める",
+        "detail": "何がよい回答か、例と条件をそろえる。"
+      },
+      {
+        "icon": "chart",
+        "label": "調整前後を測る",
+        "detail": "同じ評価セットで比べる。"
+      },
+      {
+        "icon": "search",
+        "label": "失敗を調べる",
+        "detail": "別の能力の低下や、評価への合わせ込みを見る。"
+      },
+      {
+        "icon": "tools",
+        "label": "データを見直す",
+        "detail": "手本・報酬・評価方法のずれを修正する。"
+      }
+    ],
+    "caption": "合計スコアだけでなく、失敗の種類や他の能力の変化も確認します。"
+  },
+  "08/03-inference-cost": {
+    "title": "待ち時間を、発生する場所で分ける",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "network",
+        "label": "通信・順番待ち",
+        "detail": "送信、接続、サーバーの混雑による待ち。"
+      },
+      {
+        "icon": "book",
+        "label": "入力の処理",
+        "detail": "指示・履歴・資料を処理する時間。"
+      },
+      {
+        "icon": "chip",
+        "label": "回答の生成",
+        "detail": "出力トークンや推論計算にかかる時間。"
+      },
+      {
+        "icon": "tools",
+        "label": "ツールの処理",
+        "detail": "検索などの呼び出しと結果待ち。"
+      }
+    ],
+    "caption": "実際には処理が重なる場合もあります。遅い区間を測ってから対策を選びます。"
+  },
+  "09/02-knowledge-and-reasoning": {
+    "title": "誤答の原因で、試す対策を変える",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "book",
+        "label": "知識が足りない",
+        "detail": "正しい資料を渡し、答えが改善するか確認する。"
+      },
+      {
+        "icon": "layers",
+        "label": "手順が崩れる",
+        "detail": "条件や作業を分け、どこで外れるかを見る。"
+      },
+      {
+        "icon": "document",
+        "label": "文脈が混雑する",
+        "detail": "不要な資料を減らし、必要な条件を明示する。"
+      }
+    ],
+    "caption": "同じ誤答に複数の原因が関わることもあります。一度に条件を変えすぎずに比べます。"
+  },
+  "09/03-bias-and-trust": {
+    "title": "外部の文書と、操作の権限を分ける",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "外部の文章",
+        "detail": "検索結果や添付資料に、命令が混じる場合がある。"
+      },
+      {
+        "icon": "shield",
+        "label": "信頼を分ける",
+        "detail": "資料の内容を、利用者の指示と同じ権限で扱わない。"
+      },
+      {
+        "icon": "tools",
+        "label": "操作を制限",
+        "detail": "実行する側で、送信先・書き込み範囲を絞る。"
+      },
+      {
+        "icon": "user",
+        "label": "確認と記録",
+        "detail": "影響の大きい操作を確認し、履歴を残す。"
+      }
+    ],
+    "caption": "プロンプトに注意書きを入れることに加え、アプリ側で権限を制御します。"
+  },
+  "10/01-instructions": {
+    "title": "依頼を、確認できる形にする",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "user",
+        "label": "目的と読み手",
+        "detail": "誰に、何を伝える・してもらうためかを書く。"
+      },
+      {
+        "icon": "folder",
+        "label": "材料と条件",
+        "detail": "使う事実と、守る制約を渡す。"
+      },
+      {
+        "icon": "document",
+        "label": "出力の形",
+        "detail": "長さ・項目・形式を指定する。"
+      },
+      {
+        "icon": "check",
+        "label": "結果の確認",
+        "detail": "材料にない事実や、条件の抜けを確かめる。"
+      }
+    ],
+    "caption": "「不明は不明と書く」と伝えても、事実や根拠の確認は続けます。"
+  },
+  "10/02-few-shot": {
+    "title": "説明だけの依頼と、例を添える依頼",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "説明から指定",
+        "detail": "目的・条件・出力形式を言葉で伝える。"
+      },
+      {
+        "icon": "book",
+        "label": "入出力の例を追加",
+        "detail": "分類名や書式を、具体的な手本で示す。"
+      }
+    ],
+    "caption": "例を入力に添える処理では、通常、モデルの重みは更新されません。例の偏りや量も確認します。"
+  },
+  "11/02-index-and-retrieval": {
+    "title": "準備の処理と、質問時の処理を分ける",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "folder",
+        "label": "文書を取り込むとき",
+        "detail": "分割し、語の索引や埋め込みを作って保存する。"
+      },
+      {
+        "icon": "search",
+        "label": "質問に答えるとき",
+        "detail": "候補を検索し、必要に応じて並べ替えて入力へ渡す。"
+      }
+    ],
+    "caption": "文書の更新・削除と、検索する人の閲覧権限も、索引の管理に含めます。"
+  },
+  "11/03-tools-and-citations": {
+    "title": "引用は、原文へ戻れる形で確認する",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "search",
+        "label": "文書を取り出す",
+        "detail": "回答に必要な根拠を探す。"
+      },
+      {
+        "icon": "document",
+        "label": "根拠と回答を組む",
+        "detail": "文書名やページなどを対応させる。"
+      },
+      {
+        "icon": "book",
+        "label": "原文を開く",
+        "detail": "引用先が実在し、該当箇所を読めるか確認する。"
+      },
+      {
+        "icon": "check",
+        "label": "主張と照合",
+        "detail": "引用が、回答の内容を本当に支えるか確かめる。"
+      }
+    ],
+    "caption": "実在するURLが付いていても、回答の主張に合う根拠とは限りません。"
+  },
+  "12/03-tools-safety": {
+    "title": "呼び出しの提案と、実行は別",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "chip",
+        "label": "モデルが提案",
+        "detail": "ツール名と引数を構造化して出す。"
+      },
+      {
+        "icon": "shield",
+        "label": "アプリが検査",
+        "detail": "権限・入力・承認の条件を確かめる。"
+      },
+      {
+        "icon": "tools",
+        "label": "許された処理を実行",
+        "detail": "決めた範囲だけでツールを動かす。"
+      },
+      {
+        "icon": "document",
+        "label": "結果を返す",
+        "detail": "成功や失敗を記録し、モデルへ渡す。"
+      }
+    ],
+    "caption": "MCPは接続の共通化に使います。接続できることと、その操作を許可することは別です。"
+  },
+  "13/01-repository-context": {
+    "title": "編集の前に読む順序",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "folder",
+        "label": "構成と指示",
+        "detail": "作業対象、README、プロジェクトの指示を読む。"
+      },
+      {
+        "icon": "search",
+        "label": "関連する実装",
+        "detail": "呼び出し元・テスト・既存の書き方を調べる。"
+      },
+      {
+        "icon": "tools",
+        "label": "小さく変更",
+        "detail": "目的に必要な範囲を編集する。"
+      },
+      {
+        "icon": "check",
+        "label": "整合を確認",
+        "detail": "テストと差分で、既存の振る舞いを確かめる。"
+      }
+    ],
+    "caption": "単体で動くことと、既存のプロジェクトに合うことを分けて確認します。"
+  },
+  "13/03-long-tasks": {
+    "title": "長い作業を、再開できる単位へ",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "完了条件を書く",
+        "detail": "途中でも確認できる単位に作業を分ける。"
+      },
+      {
+        "icon": "tools",
+        "label": "一つずつ実行",
+        "detail": "結果を確かめながら変更する。"
+      },
+      {
+        "icon": "folder",
+        "label": "状態を残す",
+        "detail": "変更・検証結果・未解決の点を記録する。"
+      },
+      {
+        "icon": "book",
+        "label": "引き継いで再開",
+        "detail": "最新の状態と記録を読み、次の作業へ進む。"
+      }
+    ],
+    "caption": "要約だけで完了と判断せず、実ファイルやテスト結果と突き合わせます。"
+  },
+  "14/02-vlm": {
+    "title": "画像を読む処理と、読み取りの確認",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "画像を用意",
+        "detail": "必要な文字や図が判別できる品質にする。"
+      },
+      {
+        "icon": "layers",
+        "label": "特徴を表現",
+        "detail": "視覚エンコーダなどで数値の表現にする。"
+      },
+      {
+        "icon": "chip",
+        "label": "言語で処理",
+        "detail": "質問と画像の表現から回答を作る。"
+      },
+      {
+        "icon": "check",
+        "label": "原画像と照合",
+        "detail": "数値・配置・細かな文字を確かめる。"
+      }
+    ],
+    "caption": "画像の解像度や処理方式によって、読み取れる範囲と費用が変わります。"
+  },
+  "14/03-integration": {
+    "title": "一体で扱う構成と、部品をつなぐ構成",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "layers",
+        "label": "統合する構成",
+        "detail": "画像や音声などの表現を、モデル内で結びつける。"
+      },
+      {
+        "icon": "network",
+        "label": "複数の処理を接続",
+        "detail": "音声認識・言語処理・音声合成などを順につなぐ。"
+      }
+    ],
+    "caption": "部品をつなぐ方式は交換や区間別の評価がしやすい一方、誤りや遅延が次の工程へ伝わります。"
+  },
+  "15/02-latent-and-architecture": {
+    "title": "圧縮した表現で生成する構成",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "画像を表現に変換",
+        "detail": "エンコーダで、圧縮された数値表現へ移す。"
+      },
+      {
+        "icon": "layers",
+        "label": "潜在空間で処理",
+        "detail": "ノイズの除去などを、圧縮された表現で行う。"
+      },
+      {
+        "icon": "document",
+        "label": "画像へ戻す",
+        "detail": "デコーダで画素の表現へ戻す。"
+      }
+    ],
+    "caption": "潜在拡散の概念図です。すべての画像生成モデルが同じ構成を使うわけではありません。"
+  },
+  "15/03-editing-and-evaluation": {
+    "title": "生成・編集した画像の確認",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "check",
+        "label": "指示への適合",
+        "detail": "構図、文字、指定した変更が反映されたか。"
+      },
+      {
+        "icon": "search",
+        "label": "品質と事実",
+        "detail": "形、数値、人物や物の一貫性に誤りがないか。"
+      },
+      {
+        "icon": "shield",
+        "label": "利用する条件",
+        "detail": "素材・生成物の権利や、業務での利用条件を確認。"
+      }
+    ],
+    "caption": "評価する目的に応じて項目を決めます。見た目の自然さだけで利用を決めません。"
+  },
+  "16/01-temporal-consistency": {
+    "title": "一枚の品質と、時間をまたぐ品質",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "一枚のフレーム",
+        "detail": "その時点の形や質感、構図を見る。"
+      },
+      {
+        "icon": "network",
+        "label": "前後のフレーム",
+        "detail": "人物、物、背景、動きが連続しているかを見る。"
+      }
+    ],
+    "caption": "一枚では自然な画像でも、前後をつなぐと同一性や動きが崩れることがあります。"
+  },
+  "16/03-realtime": {
+    "title": "音声会話の遅れを分けて測る",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "sound",
+        "label": "音声を受け取る",
+        "detail": "発話の区切りを検知し、入力を処理する。"
+      },
+      {
+        "icon": "chip",
+        "label": "回答を作る",
+        "detail": "必要な検索やモデルの処理を行う。"
+      },
+      {
+        "icon": "sound",
+        "label": "音声にする",
+        "detail": "回答を聞ける形に変換する。"
+      },
+      {
+        "icon": "clock",
+        "label": "再生を始める",
+        "detail": "相手が最初の音を聞くまでの時間を確かめる。"
+      }
+    ],
+    "caption": "区間を重ねる実装もあります。合計時間と、最初に聞こえるまでの時間を分けます。"
+  },
+  "17/02-vla": {
+    "title": "視覚・言語・行動を結びつける",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "観測",
+        "detail": "画像やセンサーから、周囲と機体の状態を得る。"
+      },
+      {
+        "icon": "book",
+        "label": "指示",
+        "detail": "何を達成したいかを言語で受け取る。"
+      },
+      {
+        "icon": "chip",
+        "label": "行動の候補",
+        "detail": "観測と指示から、次の動作を予測する。"
+      },
+      {
+        "icon": "shield",
+        "label": "実機での制御",
+        "detail": "安全条件や制御器と組み合わせて動かす。"
+      }
+    ],
+    "caption": "VLAの概念図です。行動の表現や制御器との分担は実装ごとに異なります。"
+  },
+  "17/03-sim-to-real": {
+    "title": "仮想環境で試し、現実との差を調べる",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "layers",
+        "label": "シミュレーション",
+        "detail": "光・摩擦・遅延などの条件を近似する。"
+      },
+      {
+        "icon": "tools",
+        "label": "条件を変えて学習",
+        "detail": "変動のある環境で動きを試す。"
+      },
+      {
+        "icon": "shield",
+        "label": "限定した実機試験",
+        "detail": "安全な範囲で現実とのずれを確かめる。"
+      },
+      {
+        "icon": "check",
+        "label": "差を反映",
+        "detail": "動作や条件を見直して、再評価する。"
+      }
+    ],
+    "caption": "仮想環境の成功を、そのまま実機での安全性や成功率に読み替えません。"
+  },
+  "18/03-price-context": {
+    "title": "単価・文脈長・速さは別に確認する",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "coins",
+        "label": "単価",
+        "detail": "入力・出力の量と料金、追加条件を見る。"
+      },
+      {
+        "icon": "book",
+        "label": "文脈長",
+        "detail": "必要な入力と出力が上限に収まるかを見る。"
+      },
+      {
+        "icon": "clock",
+        "label": "速さ",
+        "detail": "最初の表示までと、最後までの時間を見る。"
+      }
+    ],
+    "caption": "仕様上の上限と、実際の業務で品質を保って使える範囲は分けて確かめます。"
+  },
+  "18/04-conditional-comparison": {
+    "title": "数値に、比較した条件を添える",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "測った内容",
+        "detail": "タスク・データ・採点の方法を記録する。"
+      },
+      {
+        "icon": "chip",
+        "label": "実行した条件",
+        "detail": "モデル・提供元・設定・環境を記録する。"
+      },
+      {
+        "icon": "chart",
+        "label": "数値と出典",
+        "detail": "結果、測定日、参照元を対応させる。"
+      },
+      {
+        "icon": "check",
+        "label": "用途に照らす",
+        "detail": "条件の違いと未確認事項を含めて判断する。"
+      }
+    ],
+    "caption": "同じ名前の指標でも、問題の版や実行設定が違えば単純には比較できません。"
+  },
+  "19/03-inference-engines": {
+    "title": "手元で動かす道具の担当範囲",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "chip",
+        "label": "llama.cpp",
+        "detail": "GGUFなどのモデルを実行する推論実装。"
+      },
+      {
+        "icon": "folder",
+        "label": "Ollama",
+        "detail": "モデルの取得・管理・実行・APIをまとめる道具。"
+      },
+      {
+        "icon": "network",
+        "label": "vLLM",
+        "detail": "サーバーで複数の依頼を処理する提供基盤。"
+      }
+    ],
+    "caption": "用途は重なります。モデル形式、機器、同時処理数を確認して構成を選びます。"
+  },
+  "20/03-operations": {
+    "title": "導入時の状態を、次の担当へ渡す",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "判断の基準",
+        "detail": "目的、合格条件、導入を決めた理由。"
+      },
+      {
+        "icon": "chart",
+        "label": "測った結果",
+        "detail": "入力・出力、確認工数、時間と費用。"
+      },
+      {
+        "icon": "user",
+        "label": "担当と連絡先",
+        "detail": "記録・問い合わせ・更新を担う人。"
+      },
+      {
+        "icon": "folder",
+        "label": "運用の資料",
+        "detail": "版、設定、見直しの時期を残す。"
+      }
+    ],
+    "caption": "引き継ぎは、モデル名だけでなく、実際に動いた条件と結果を含めます。"
+  },
+  "21/03-operations": {
+    "title": "更新・異常・再開の判断をつなぐ",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "search",
+        "label": "変化を見つける",
+        "detail": "提供元の更新や、利用中の失敗を確認する。"
+      },
+      {
+        "icon": "chart",
+        "label": "同条件で再評価",
+        "detail": "代表例と問題事例で結果を比べる。"
+      },
+      {
+        "icon": "shield",
+        "label": "継続・停止を判断",
+        "detail": "業務への影響と、戻す方法を確認する。"
+      },
+      {
+        "icon": "user",
+        "label": "担当者が記録",
+        "detail": "採用した条件と、再開・見直しの理由を残す。"
+      }
+    ],
+    "caption": "品質の変化はモデル以外の資料・設定・ツールでも起きます。"
+  },
+  "22/02-claims": {
+    "title": "宣伝の主張から、根拠へ戻る",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "主張を一文にする",
+        "detail": "何が、何と比べて改善した話かを分ける。"
+      },
+      {
+        "icon": "book",
+        "label": "一次資料へ戻る",
+        "detail": "モデルカードや技術資料の条件を読む。"
+      },
+      {
+        "icon": "search",
+        "label": "範囲を確かめる",
+        "detail": "得点・デモで示せることと、未確認のことを区別する。"
+      },
+      {
+        "icon": "check",
+        "label": "自分の用途で判断",
+        "detail": "必要な入力・品質・運用条件に照らして試す。"
+      }
+    ],
+    "caption": "提供元の公式発表も、その会社による評価です。条件と検証範囲を読みます。"
+  },
+  "22/03-what-to-watch": {
+    "title": "変化を追うときの確認先",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "chip",
+        "label": "モデルの変化",
+        "detail": "入出力、推論設定、提供終了予定を確認する。"
+      },
+      {
+        "icon": "tools",
+        "label": "接続・実行環境",
+        "detail": "ツールや規格、権限の変更を確認する。"
+      },
+      {
+        "icon": "shield",
+        "label": "運用する条件",
+        "detail": "契約・データ管理・社内規程の変更を確認する。"
+      }
+    ],
+    "caption": "将来の予測と、すでに公式に確認できる仕様を分けて記録します。"
+  },
+  "23/02-product-sheet": {
+    "title": "製品名より先に、必要条件を決める",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "user",
+        "label": "用途",
+        "detail": "誰が、どの仕事で使うかを一文にする。"
+      },
+      {
+        "icon": "check",
+        "label": "必須条件",
+        "detail": "OS・情報管理・予算・必要な機能を定める。"
+      },
+      {
+        "icon": "search",
+        "label": "候補を確認",
+        "detail": "公式資料に戻り、条件を満たすか調べる。"
+      },
+      {
+        "icon": "document",
+        "label": "理由を記録",
+        "detail": "確認日と未確認事項を含めて、選定理由を残す。"
+      }
+    ],
+    "caption": "条件が未確認なら保留と記録し、満たすと推定して選びません。"
+  },
+  "24/02-model-table": {
+    "title": "表示名だけでは、実行条件を特定できない",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "表示名",
+        "detail": "画面や資料に出る、人が読む名前。"
+      },
+      {
+        "icon": "chip",
+        "label": "モデルID",
+        "detail": "APIや実行環境が受け付ける識別子。"
+      },
+      {
+        "icon": "network",
+        "label": "提供元と設定",
+        "detail": "公式・再販・推論設定・ツールの条件。"
+      }
+    ],
+    "caption": "同じような名前でも、公式APIと再販事業者のIDや仕様を別々に記録します。"
+  },
+  "25/02-cost-sheet": {
+    "title": "月の費用を、量と単価から積み上げる",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "利用量を決める",
+        "detail": "回数、1回の入力と出力の量を見積もる。"
+      },
+      {
+        "icon": "coins",
+        "label": "条件に合う単価",
+        "detail": "契約先・入力長・キャッシュなどを確認する。"
+      },
+      {
+        "icon": "chart",
+        "label": "区分ごとに計算",
+        "detail": "入力・出力・ツールなどの費用を分けて足す。"
+      },
+      {
+        "icon": "user",
+        "label": "運用も含めて比較",
+        "detail": "確認と修正の工数、固定費も別に記録する。"
+      }
+    ],
+    "caption": "推定値と実測値、未設定と0円を区別します。課金単位が違う値は、そのまま足しません。"
+  },
+  "26/01-browser-and-desktop": {
+    "title": "アプリを変えると、接続と運用も変わる",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "network",
+        "label": "ブラウザ版",
+        "detail": "ブラウザで使える機能と、契約・管理設定を確認。"
+      },
+      {
+        "icon": "terminal",
+        "label": "デスクトップ版",
+        "detail": "対応OS、ファイル・画面・音声への接続、更新方法を確認。"
+      }
+    ],
+    "caption": "同じサービスでも対応する機能は一致するとは限りません。モデルとアプリの仕様を分けます。"
+  },
+  "26/03-comparison-report": {
+    "title": "アプリを、同じ資料と依頼で比較する",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "folder",
+        "label": "資料を固定",
+        "detail": "比較に使える範囲の資料を用意する。"
+      },
+      {
+        "icon": "document",
+        "label": "依頼を固定",
+        "detail": "同じ質問と完了条件を渡す。"
+      },
+      {
+        "icon": "check",
+        "label": "結果を照合",
+        "detail": "出典、取り違え、操作の手間を確認する。"
+      },
+      {
+        "icon": "chart",
+        "label": "条件と差を記録",
+        "detail": "製品・版・設定・費用・未確認事項を残す。"
+      }
+    ],
+    "caption": "モデルとアプリの両方が違う場合、差をモデル単体の優劣とは断定しません。"
+  },
+  "27/02-diff-review": {
+    "title": "結果の要約と、実際の変更を照合する",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "folder",
+        "label": "戻せる状態を用意",
+        "detail": "依頼前のGitの状態と、目的を記録する。"
+      },
+      {
+        "icon": "tools",
+        "label": "小さく依頼",
+        "detail": "必要な変更の範囲と完了条件を伝える。"
+      },
+      {
+        "icon": "check",
+        "label": "テストと差分を確認",
+        "detail": "コマンドの結果と、変更されたファイルを読む。"
+      },
+      {
+        "icon": "user",
+        "label": "検収",
+        "detail": "受け入れる・修正を頼む・戻すを判断する。"
+      }
+    ],
+    "caption": "エージェントの「完了」という要約だけで、変更を受け入れないようにします。"
+  },
+  "28/02-experiment-log": {
+    "title": "実験を、やり直せる記録にする",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "条件をそろえる",
+        "detail": "依頼、開始コミット、完了条件を固定する。"
+      },
+      {
+        "icon": "clock",
+        "label": "各構成を実行",
+        "detail": "日時、設定、介入、失敗、時間を記録する。"
+      },
+      {
+        "icon": "check",
+        "label": "同じ観点で検収",
+        "detail": "結果とテストを比較する。"
+      },
+      {
+        "icon": "chart",
+        "label": "差の範囲を説明",
+        "detail": "回数と条件の違いを添え、未確認の優劣を作らない。"
+      }
+    ],
+    "caption": "一度の成功や失敗だけで、製品全体の順位を決めません。"
+  },
+  "29/02-inspection-skill": {
+    "title": "検査するSkillを、手順として作る",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "document",
+        "label": "観点を定める",
+        "detail": "何を検査し、どの形で返すかを書く。"
+      },
+      {
+        "icon": "book",
+        "label": "SKILL.mdに記録",
+        "detail": "使う条件、手順、注意、出力形式をまとめる。"
+      },
+      {
+        "icon": "tools",
+        "label": "同じ記事で試す",
+        "detail": "導入前後の指摘と、不要な変更を比べる。"
+      },
+      {
+        "icon": "check",
+        "label": "指摘を検収",
+        "detail": "人が正しさを確認し、手順を見直す。"
+      }
+    ],
+    "caption": "Skillは手順の再利用を助けます。内容が常に正しくなる保証ではありません。"
+  },
+  "30/02-roles-and-subagents": {
+    "title": "分担するときに、引き継ぐもの",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "search",
+        "label": "調査",
+        "detail": "問いと範囲を渡し、根拠と未確認事項を受け取る。"
+      },
+      {
+        "icon": "tools",
+        "label": "実装",
+        "detail": "完了条件と担当範囲を渡し、差分と検証結果を受け取る。"
+      },
+      {
+        "icon": "check",
+        "label": "レビュー",
+        "detail": "変更と観点を渡し、場所と理由のある指摘を受け取る。"
+      }
+    ],
+    "caption": "別のエージェントが会話の前提を共有しているとは限りません。必要な条件を明示します。"
+  },
+  "30/03-parallel-worktrees": {
+    "title": "並列作業は、場所を分けてから統合する",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "folder",
+        "label": "作業場所を分ける",
+        "detail": "ブランチとworktreeを担当ごとに用意する。"
+      },
+      {
+        "icon": "tools",
+        "label": "独立して変更",
+        "detail": "ファイルや責務の境界を決めて作業する。"
+      },
+      {
+        "icon": "network",
+        "label": "変更を統合",
+        "detail": "順序を決め、競合と依存関係を解決する。"
+      },
+      {
+        "icon": "check",
+        "label": "統合後に検証",
+        "detail": "組み合わせた状態でテストし、完了を判断する。"
+      }
+    ],
+    "caption": "準備・実行・統合・検証を含む合計時間で、並列化の効果を比べます。"
+  },
+  "31/03-voice-pipeline": {
+    "title": "音声の入口から出口までを測る",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "sound",
+        "label": "音声認識",
+        "detail": "話された内容を文字にし、誤認識を確認する。"
+      },
+      {
+        "icon": "chip",
+        "label": "言語処理",
+        "detail": "依頼に応じた応答を作り、内容を確かめる。"
+      },
+      {
+        "icon": "document",
+        "label": "読み上げ原稿",
+        "detail": "略語や数字、息継ぎを読みやすく整える。"
+      },
+      {
+        "icon": "sound",
+        "label": "音声合成",
+        "detail": "声にして、聞き取りやすさと遅れを確認する。"
+      }
+    ],
+    "caption": "認識・生成・合成で、課金単位も失敗の種類も異なります。区間ごとに記録します。"
+  },
+  "32/02-build-and-test": {
+    "title": "答えない条件を先に判定する",
+    "kind": "flow",
+    "nodes": [
+      {
+        "icon": "shield",
+        "label": "機微な質問か",
+        "detail": "該当する場合は人に回し、自動回答しない。"
+      },
+      {
+        "icon": "search",
+        "label": "資料との一致",
+        "detail": "候補、語の一致、候補間の差を確認する。"
+      },
+      {
+        "icon": "document",
+        "label": "回答か引き継ぎか",
+        "detail": "条件を満たしたときだけ本文と出典を返す。"
+      },
+      {
+        "icon": "check",
+        "label": "同じ条件でテスト",
+        "detail": "例外や修正後も、決めた挙動を確かめる。"
+      }
+    ],
+    "caption": "この演習はルールで構成するサンプルです。一致の割合は、回答が正しい確率ではありません。"
+  },
+  "32/03-cost-license-and-release": {
+    "title": "公開する条件を、記録として残す",
+    "kind": "compare",
+    "nodes": [
+      {
+        "icon": "coins",
+        "label": "費用",
+        "detail": "単価・単位・利用量・未設定の値を確認する。"
+      },
+      {
+        "icon": "book",
+        "label": "素材と権利",
+        "detail": "出所、利用条件、確認日を素材ごとに記録する。"
+      },
+      {
+        "icon": "check",
+        "label": "検証結果",
+        "detail": "済み・未確認と、判断の根拠を分けて書く。"
+      }
+    ],
+    "caption": "動いたことに加え、使う条件と未確認事項が説明できる状態を目指します。"
+  }
+}

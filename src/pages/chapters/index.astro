@@ -14,6 +14,8 @@ for (const entry of entries) {
 }
 const publishedCount = curriculum.chapters.filter((c) => c.status === 'published').length;
 const allPublished = publishedCount === curriculum.chapters.length;
+const publishedChapters = curriculum.chapters.filter((c) => c.status === 'published');
+const basicChapters = publishedChapters.filter((c) => c.part <= 6);
 ---
 
 <BaseLayout
@@ -31,7 +33,8 @@ const allPublished = publishedCount === curriculum.chapters.length;
       <div class="section-head section-head--left page-head">
         <h1>章一覧</h1>
         <p>
-          基礎編（第1〜22章）で仕組みと考え方を学び、実践編（第23〜32章）で実際の製品を選んで使います。
+          第1〜{basicChapters.length}章の基礎編で仕組みと考え方を学び、
+          第{basicChapters.length + 1}〜{publishedChapters.length}章の<a href={withBase('/practice/')}>実践編</a>で実際の製品を選んで使います。
           {curriculum.parts.length}つの部で構成し、各章は複数の短いページに分かれ、
           図・例・誤解しやすい点・クイズを含みます。
           {allPublished
@@ -40,7 +43,7 @@ const allPublished = publishedCount === curriculum.chapters.length;
         </p>
       </div>
 
-      <p class="article-reading-note">初めての方は<a href={withBase('/start/')}>目的別の読み方</a>からどうぞ。第27〜32章は、ターミナルや開発ツールを使う方向けの実践です。</p>
+      <p class="article-reading-note">初めての方は<a href={withBase('/start/')}>学習ルート</a>から目的の近いものを選べます。第27章以降は、CLIや開発ツールを使う演習を含むため、ターミナルとGitの操作を前提にしています。</p>
       <div class="contents">
         {curriculum.parts.map((part) => (
           <section aria-labelledby={`part-${part.id}`}>
@@ -104,9 +107,9 @@ const allPublished = publishedCount === curriculum.chapters.length;
             <>
               <p class="callout__label">公開の進め方</p>
               <p>
-                第1〜22章（基礎編）と、第23〜25章・第27〜32章（実践編）を公開しています。
-                残りの実践編は、公式資料での確認と実習の検証が終わった章から順に追加します。
-                準備中の章は一覧に残し、公開時に本文と実習を追加します。
+                全{curriculum.chapters.length}章のうち{publishedCount}章を公開しています。
+                残り{curriculum.chapters.length - publishedCount}章は、公式資料での確認と実習の検証が終わった章から
+                順に追加します。準備中の章は一覧に残し、公開時に本文と実習を追加します。
               </p>
               <p>
                 製品名から探したいときは<a href={withBase('/zukan/')}>AI図鑑</a>、

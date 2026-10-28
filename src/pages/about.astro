@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE, withBase } from '../lib/site.mjs';
+import { readingPaths } from '../data/reading-paths';
 ---
 
 <BaseLayout title="このサイトについて" description="AIの地図の編集方針、構成、更新方法、主な参照元について。">
@@ -16,8 +17,9 @@ import { SITE, withBase } from '../lib/site.mjs';
         <div class="section-head section-head--left page-head">
           <h1>このサイトについて</h1>
           <p>
-            AIの地図は、社会人がAIを「なんとなく」ではなく、仕組みと条件を踏まえて使えるようになるための
-            学習ガイドです。製品ニュースの追跡ではなく、長く使える地図を持つことを目的にしています。
+            AIの地図は、AI・LLMの仕組みから、モデルや製品の選び方、コーディングエージェントを使った
+            実装までを、図解と例で扱う学習ガイドです。製品ニュースの追跡ではなく、
+            長く使える地図を持つことを目的にしています。
           </p>
         </div>
 
@@ -38,8 +40,10 @@ import { SITE, withBase } from '../lib/site.mjs';
             <div class="about-card">
               <h3>読者として想定する人</h3>
               <p>
-                生成AIを業務で使い始めた社会人、AI関連の提案を読む立場の人、社内導入の判断に関わる人。
-                プログラミングの前提知識は必要ありませんが、言葉を正確に使いたい人向けです。
+                生成AIを業務で使い始めた社会人、AI関連の提案を読む立場の人、社内導入の判断に関わる人に加えて、
+                仕組みから学び直したい人、モデルや製品を比較して選びたい人、CLIエージェントで実装したい人を
+                想定しています。基礎編はプログラミングの知識がなくても読めます。実践編の一部の章は、
+                ターミナルとGitの操作を前提にしています。
               </p>
             </div>
             <div class="about-card">
@@ -66,7 +70,7 @@ import { SITE, withBase } from '../lib/site.mjs';
           </div>
 
           <h2>目的に合わせて読む</h2>
-          <p>業務で使い始めた方、提案を読む方、導入を判断する方は、<a href={withBase('/start/')}>はじめての方へ</a>から必要なページを選べます。数式や内部構造、CLI・開発ツールを扱う章は、詳しく知りたい方向けの補足です。</p>
+          <p>学びたいことが決まっている場合は、<a href={withBase('/start/')}>はじめての方へ</a>で学習ルートを選べます。仕組みの理解、生成AIの利用、モデルや製品の比較、社内導入の判断、エージェントの実装の{readingPaths.length}つに分け、それぞれ最初に読むページを示しています。数式や内部構造、CLI・開発ツールを扱う章も、この中から目的に応じて選べます。</p>
           <p>導入前に整理する項目は、<a href={withBase('/checklist/')}>導入判断の確認シート</a>にまとめています。</p>
           <h2 id="data">モデルデータの更新</h2>
           <p>

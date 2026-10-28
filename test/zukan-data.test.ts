@@ -150,7 +150,7 @@ test('再販ID・文脈長・入力モダリティのずれを検出する', () 
   const modality = structuredClone({ zukan, comparison, capabilities });
   const withModalities = mustFind(
     modality.zukan.entities,
-    (entity) => entity.input_modalities !== null && (entity.model_ids ?? []).length > 0,
+    (entity) => entity.input_modalities !== null && entity.input_modalities_basis !== 'official' && (entity.model_ids ?? []).some(m => m.provider === 'OpenRouter'),
     '入力モダリティとモデルIDを持つエンティティがない',
   );
   withModalities.input_modalities = ['text'];
@@ -184,4 +184,27 @@ test('確認できていない単価は null で保持し、文字列を混ぜ�
       }
     }
   }
+});
+
+
+test('公式の入力仕様を再販APIの受け付け形式で上書きしない', () => {
+  const scoped = structuredClone({ zukan, comparison, capabilities });
+  const official = mustFind(scoped.zukan.entities, e => e.input_modalities_basis === 'official' && e.model_ids.some(m => m.provider === 'OpenRouter'), '公式と再販の両方を持つモデル');
+  official.input_modalities = ['audio'];
+  assert.equal(findModelMismatches(scoped).some(m => m.includes('入力モダリティ')), false);
+  // 同じ再販の値を根拠とするときは差を検出する。
+  official.input_modalities_basis = 'reseller';
+  assert.equal(findModelMismatches(scoped).some(m => m.includes('入力モダリティ')), true);
+});
+
+test('専用モデルの従量料金には個別の単位・条件・出典がある', () => {
+  const charges = pricing.snapshots.flatMap(s => s.charges ?? []);
+  assert.ok(charges.length > 0);
+  for (const charge of charges) {
+    assert.ok(entityIds.has(charge.entity_id));
+    assert.ok(charge.unit && charge.condition && charge.source?.url);
+    assert.ok(charge.price === null || (Number.isFinite(charge.price) && charge.price >= 0));
+  }
+  assert.ok(charges.some(c => c.unit.includes('分')));
+  assert.ok(charges.some(c => c.unit.includes('ページ')));
 });

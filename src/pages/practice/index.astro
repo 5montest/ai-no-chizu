@@ -24,18 +24,22 @@ const practiceChapters = curriculum.chapters.filter((chapter) => chapter.part >=
 const readyChapters = practiceChapters.filter((chapter) => (stats.get(chapter.id)?.pages ?? 0) > 0);
 const pendingChapters = practiceChapters.filter((chapter) => (stats.get(chapter.id)?.pages ?? 0) === 0);
 
+const basicChapters = curriculum.chapters.filter((chapter) => chapter.part <= 6);
+const basicRange = `${Number(basicChapters[0].id)}〜${Number(basicChapters[basicChapters.length - 1].id)}`;
+const practiceRange = `${Number(practiceChapters[0].id)}〜${Number(practiceChapters[practiceChapters.length - 1].id)}`;
+
 const PATHS = [
   {
     href: withBase('/chapters/01/'),
     label: '学ぶ',
-    title: '基礎編（第1〜22章）',
+    title: `基礎編（第${basicRange}章）`,
     body: '仕組みと考え方を先に押さえます。トークン、Attention、学習、検索、評価まで、製品の内側で何が起きているかを順に読みます。',
     meta: '第1章から読む',
   },
   {
     href: '#chapters',
     label: '使う',
-    title: '実践編（第23〜32章）',
+    title: `実践編（第${practiceRange}章）`,
     body: '製品を選び、動かし、比べます。各章には実習と、そのまま使える成果物（選択シート、選定表、試算表など）を置きます。',
     meta: `${readyChapters.length}章を公開中`,
   },
@@ -51,7 +55,7 @@ const PATHS = [
 
 <BaseLayout
   title="実践編"
-  description="第23〜32章の実践編。製品の選び方、モデルの選び方、料金の比べ方から、CLI・ハーネス・拡張機構・専用モデルの組合せ、製品の完成までを扱います。"
+  description={`第${practiceRange}章の実践編。製品の選び方、モデルの選び方、料金の比べ方から、CLI・ハーネス・拡張機構・専用モデルの組合せ、製品の完成までを扱います。`}
 >
   <div class="page">
     <div class="shell">
@@ -65,8 +69,9 @@ const PATHS = [
         <h1>実践編</h1>
         <p>
           基礎編で仕組みを押さえたあと、実際に手を動かすための入口です。製品を選び、動かし、比べるまでの流れを
-          第23〜32章で扱います。各章には実習と成果物を置き、読んだあとに何かが手元に残る形にしています。
-          このサイトは3つの入口から使えます。
+          第{practiceRange}章で扱います。各章には演習と、選択シートや選定表などの成果物を置いています。
+          ここでは基礎編・実践編・AI図鑑への入口を並べています。目的から選びたい場合は
+          <a href={withBase('/start/')}>学習ルート</a>を使ってください。
         </p>
       </div>
 

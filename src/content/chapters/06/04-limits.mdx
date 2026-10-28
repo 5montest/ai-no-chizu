@@ -8,7 +8,7 @@ level: intermediate
 readingMinutes: 8
 updated: '2026-10-28'
 tags: ['Transformer', '解釈', '限界']
-glossary: ['attention', 'transformer', 'parameter', 'hallucination', 'context-window', 'rag']
+glossary: ['attention', 'transformer', 'parameter', 'hallucination', 'context-window', 'rag', 'gradient']
 summary:
   - 'Transformerの振る舞いはAttentionだけでなく、FFN・残差接続・正規化・学習データで決まる。'
   - 'Attentionの重みは判断の手がかりだが、そのまま理由の説明にはならない。'
@@ -67,7 +67,7 @@ Transformerブロックの後半には、Feed Forward Network（FFN）があり�
 
 ## 残差接続と正規化
 
-残差接続は、層の入力を出力に足すことで、情報と勾配の通り道を確保します。正規化は表現のスケールを整え、学習を安定させます。これらは主役に見えませんが、深いTransformerを成立させるための前提です。
+残差接続は、層の入力を出力に足すことで、情報と[[gradient|勾配]]の通り道を確保します。正規化は表現のスケールを整え、学習を安定させます。これらは主役に見えませんが、深いTransformerを成立させるための前提です。
 
 層の数、隠れ次元、ヘッド数、正規化の位置といった設計の違いは、同じAttentionの計算でも、学習のしやすさや最終的な性能を変えます。アーキテクチャの比較では、Attentionの有無だけでなく、こうした構成全体を見る必要があります。
 

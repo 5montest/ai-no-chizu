@@ -1,0 +1,13 @@
+---
+import GuideIcon from './GuideIcon.astro';
+import raw from '../data/article-visuals.json';
+interface Node { icon: string; label: string; detail: string; }
+interface Visual { title: string; kind: 'flow' | 'compare'; nodes: Node[]; caption: string; }
+const { page } = Astro.props;
+const visual = (raw as Record<string, Visual>)[page];
+---
+{visual && <figure class:list={['article-visual', `article-visual--${visual.kind}`]} aria-label={visual.title} style={`--visual-count: ${visual.nodes.length}`}>
+  <div class="article-visual__title"><GuideIcon name={visual.kind === 'flow' ? 'network' : 'layers'} size={20} /><span>{visual.title}</span></div>
+  {visual.kind === 'flow' ? <ol class="article-visual__nodes">{visual.nodes.map((node,i) => <li><span class="article-visual__icon"><GuideIcon name={node.icon} /><span>{i+1}</span></span><h3>{node.label}</h3><p>{node.detail}</p></li>)}</ol> : <ul class="article-visual__nodes">{visual.nodes.map(node => <li><span class="article-visual__icon"><GuideIcon name={node.icon} /></span><h3>{node.label}</h3><p>{node.detail}</p></li>)}</ul>}
+  <figcaption>{visual.caption}</figcaption>
+</figure>}

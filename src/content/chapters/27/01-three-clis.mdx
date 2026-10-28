@@ -8,7 +8,7 @@ level: intro
 readingMinutes: 15
 updated: '2026-10-28'
 tags: ['CLI', 'エージェント', '権限']
-glossary: ['harness', 'agent-loop', 'sandbox', 'function-calling']
+glossary: ['harness', 'agent-loop', 'sandbox', 'function-calling', 'api-key', 'license', 'plan-mode']
 summary:
   - 'Claude Code、Codex CLI、OpenCode は同じ層（ハーネス）の製品で、違いは配布元・必要なアカウント・権限の設計に出る。'
   - '導入は公式ページのコマンドをそのまま写し、起動後にバージョンと作業ディレクトリを自分の目で確認する。'
@@ -83,9 +83,9 @@ import Diagram from '../../../components/Diagram.astro';
 
 **Claude Code**：Anthropic が配布するハーネスです。公式には、ターミナルでローカルに動き、バックエンドサーバーやリモートのコード索引を必要としないと書かれています。Mac、Linux、Windows に対応し、Claude の Pro / Max / Team / Enterprise プランか、Console のアカウントで使います。
 
-**Codex CLI**：OpenAI が配布するハーネスです。ChatGPT でのサインイン、または API キーで使います。公式ドキュメントには macOS・Linux 向けのインストーラと、npm・Homebrew のタブが用意されています。
+**Codex CLI**：OpenAI が配布するハーネスです。ChatGPT でのサインイン、または [[api-key|API キー]]で使います。公式ドキュメントには macOS・Linux 向けのインストーラと、npm・Homebrew のタブが用意されています。
 
-**OpenCode**：MIT ライセンスのオープンソースで、特定のモデル企業の製品ではありません。複数の提供元を切り替えて使う前提で作られています。ターミナルのほか、デスクトップアプリと IDE 拡張でも提供されています。
+**OpenCode**：MIT [[license|ライセンス]]のオープンソースで、特定のモデル企業の製品ではありません。複数の提供元を切り替えて使う前提で作られています。ターミナルのほか、デスクトップアプリと IDE 拡張でも提供されています。
 
 三つを比べるときに気をつけるのは、**モデル名と混ぜない**ことです。「Codex CLI と Claude Opus 5.5 はどちらが賢いか」は、層が違うので問いとして成立しません。層の分け方は[第23章の五層](/chapters/23/01-five-layers/)で扱いました。
 
@@ -166,7 +166,7 @@ cd /path/to/your/project
 
 **Codex CLI** は `codex` で起動し、初回は「Sign in with ChatGPT」などの方法を選びます。セッションの中で `/permissions` を実行すると、何を許可するかを選べます。公式の説明では、ファイルの編集やコマンドの実行を確認なしで許す範囲と、いま有効なサンドボックス・書き込み可能なディレクトリを確認できます。`/model` でモデルと推論の強さ、`/status` で作業ディレクトリを確認できます。
 
-**OpenCode** は `opencode` で起動し、`/connect` から提供元を選びます。OpenCode 自身の提供元を使う場合は、案内された先でサインインし、請求情報を登録して API キーを発行し、プロンプトに貼ります。Tab キーで Plan mode に入り、変更を行わない状態で方針だけを出させられます。
+**OpenCode** は `opencode` で起動し、`/connect` から提供元を選びます。OpenCode 自身の提供元を使う場合は、案内された先でサインインし、請求情報を登録して API キーを発行し、プロンプトに貼ります。Tab キーで [[plan-mode|Plan mode]] に入り、変更を行わない状態で方針だけを出させられます。
 
 Codex CLI のサンドボックスは、名前だけ覚えても判断できません。何ができて何ができないかの対応は次のとおりです。
 

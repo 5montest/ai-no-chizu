@@ -8,7 +8,7 @@ level: advanced
 readingMinutes: 15
 updated: '2026-10-28'
 tags: ['Git', 'worktree', '並列', '統合']
-glossary: ['harness', 'sandbox', 'agent-loop', 'benchmark']
+glossary: ['harness', 'sandbox', 'agent-loop', 'benchmark', 'subagent', 'worktree']
 summary:
   - 'worktree は履歴を共有したまま、作業ディレクトリとブランチを分ける。'
   - '並列の費用は起動時間ではなく、マージ・競合解決・検証のやり直しに現れる。'
@@ -59,7 +59,7 @@ sources:
 
 import DeepDive from '../../../components/DeepDive.astro';
 
-前の記事では、一つの作業ディレクトリの中で役割を分けました。この記事では、作業ディレクトリそのものを分けます。二つの仕事を同時に進めたいとき、同じ場所で動かすと、片方の変更がもう片方の足元を崩します。Git の worktree を使えば、履歴は共有したまま、作業場所を分けられます。
+前の記事では、一つの作業ディレクトリの中で役割を分けました。この記事では、作業ディレクトリそのものを分けます。二つの仕事を同時に進めたいとき、同じ場所で動かすと、片方の変更がもう片方の足元を崩します。Git の [[worktree|worktree]] を使えば、履歴は共有したまま、作業場所を分けられます。
 
 前提は、第27章の練習用リポジトリと、Git の基本操作です。`git status`、`git diff`、`git commit` が分かっていれば足ります。
 
@@ -101,7 +101,7 @@ Claude Code という[[harness]]には、起動時に worktree を作る指定�
 
 注意すべきは、これが新しいチェックアウトだという点です。依存パッケージや `.env` のような、コミットされていないファイルは入っていません。公式には、必要なファイルを `.worktreeinclude` に書いて持ち込む方法が説明されています。
 
-サブエージェントに worktree を割り当てることもできます。frontmatter に `isolation: worktree` を書くと、その実行ごとに一時的な worktree が作られ、変更が無ければ終了時に削除されます。
+[[subagent|サブエージェント]]に worktree を割り当てることもできます。frontmatter に `isolation: worktree` を書くと、その実行ごとに一時的な worktree が作られ、変更が無ければ終了時に削除されます。
 
 ただし、隔離は完全ではありません。worktree は作業場所を分ける仕組みで、[[sandbox]]のように触れる範囲を制限するものではありません。公式には、検査の仕組みが追える操作と追えない操作が分かれていて、シェルのコピーやリダイレクトによる書き込みは追わないと書かれています。読み取れない形のコマンドについては、検査を無効にできないとも書かれています。worktree を使っていても、`git status` で本体側の状態を確かめる習慣は残してください。
 

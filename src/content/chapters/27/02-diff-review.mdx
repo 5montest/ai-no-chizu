@@ -8,7 +8,7 @@ level: intro
 readingMinutes: 14
 updated: '2026-10-28'
 tags: ['CLI', 'Git', 'レビュー', 'テスト']
-glossary: ['harness', 'agent-loop', 'sandbox']
+glossary: ['harness', 'agent-loop', 'sandbox', 'plan-mode']
 summary:
   - '検収は「何が変わったか」「頼んだとおりか」「戻せるか」の三つの問いで進める。'
   - '依頼の前に変更の無い状態を作り、依頼のあとは git diff を上から全部読む。'
@@ -170,7 +170,7 @@ git stash pop
 
 `git reset --hard` は使いません。作業ツリーの変更をまとめて消すため、消えた内容は戻せません。使う場面が本当にあるとしても、検収の練習では使いません。
 
-Plan mode のある道具では、変更の前に方針だけを出させ、方針と差分を比べることもできます。OpenCode なら Tab キーで切り替えます。方針と実装が食い違ったときは、どちらが正しいかを決めるのは自分です。
+[[plan-mode|Plan mode]] のある道具では、変更の前に方針だけを出させ、方針と差分を比べることもできます。OpenCode なら Tab キーで切り替えます。方針と実装が食い違ったときは、どちらが正しいかを決めるのは自分です。
 
 <DeepDive title="演習・記入例と確認の観点" tag="試す人向け">
 

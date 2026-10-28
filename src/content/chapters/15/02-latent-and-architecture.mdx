@@ -8,7 +8,7 @@ level: intermediate
 readingMinutes: 10
 updated: '2026-10-28'
 tags: ['潜在空間', 'DiT', '画像生成']
-glossary: ['diffusion', 'dit', 'prompt', 'encoder', 'transformer', 'token']
+glossary: ['diffusion', 'dit', 'prompt', 'encoder', 'transformer', 'token', 'distillation']
 summary:
   - '実用的な拡散モデルは、画素ではなく圧縮した表現の上でノイズ除去を行うことで計算量を抑えている。'
   - 'ノイズを除去するネットワークはU-Netが中心だったが、Transformer系のDiTへ広がっている。'
@@ -106,7 +106,7 @@ import Callout from '../../../components/Callout.astro';
 枠組みは安定しつつも、中身の改良は続いています。
 
 - Flow Matching：ノイズから画像へ至る道筋そのものを、滑らかな流れとして学ぶ考え方です。少ないステップで済みやすい方向が探られています。
-- 蒸留：大きいモデルの出力の傾きを、小さいモデルに写し取ることで、少ないステップや軽い構成で近い品質を狙います。
+- [[distillation|蒸留]]：大きいモデルの出力の傾きを、小さいモデルに写し取ることで、少ないステップや軽い構成で近い品質を狙います。
 - 構造の模索：部品の置き換えや条件の渡し方など、計算の組み方を変える研究が重ねられています。
 
 方式の名前が新しくなっても、壊して戻す発想と、条件として指示を渡す形は保たれています。次は、作ったあとに直す作業と、出来栄えを測る難しさに目を向けます。[[ch:15/03-editing-and-evaluation|作るだけでなく直す・測る]]へ進みましょう。

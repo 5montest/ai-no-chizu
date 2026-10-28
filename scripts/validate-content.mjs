@@ -328,6 +328,53 @@ for (const term of glossary.terms) {
   }
 }
 
+// ---- 学習ルート ---------------------------------------------------------
+
+/**
+ * 学習ルートはトップページと /start/ の導線そのもの。参照先の記事が消えると、
+ * 押した先が404になる。--root の小さな見本には置かないため、無ければ飛ばす。
+ */
+const readingPathsFile = path.join(ROOT, 'src/data/reading-paths.ts');
+if (fs.existsSync(readingPathsFile)) {
+  const { readingPaths } = await import(readingPathsFile);
+  const seenPathIds = new Set();
+
+  for (const route of readingPaths) {
+    const label = `src/data/reading-paths.ts（${route.id ?? 'id なし'}）`;
+    if (!route.id || String(route.id).trim() === '') {
+      fail(label, 'id が空です');
+      continue;
+    }
+    if (seenPathIds.has(route.id)) {
+      fail(label, `ルートの id「${route.id}」が重複しています`);
+    }
+    seenPathIds.add(route.id);
+
+    for (const key of ['label', 'title', 'description', 'outcome', 'prerequisite']) {
+      if (typeof route[key] !== 'string' || route[key].trim() === '') {
+        fail(label, `${key} が空です`);
+      }
+    }
+
+    const pageIds = new Set();
+    for (const page of route.pages ?? []) {
+      if (pageIds.has(page.id)) {
+        fail(label, `ページ「${page.id}」を同じルートで2回参照しています`);
+      }
+      pageIds.add(page.id);
+      if (!pages.has(page.id)) {
+        fail(label, `参照先 src/content/chapters/${page.id}.mdx がありません`);
+      }
+      if (typeof page.reason !== 'string' || page.reason.trim() === '') {
+        fail(label, `ページ「${page.id}」の reason が空です`);
+      }
+    }
+    if (pageIds.size === 0) {
+      fail(label, 'pages が空です');
+    }
+  }
+}
+
 // ---- 結果 ---------------------------------------------------------------
 
 for (const warning of warnings) {

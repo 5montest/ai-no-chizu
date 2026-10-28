@@ -8,7 +8,7 @@ level: intermediate
 readingMinutes: 10
 updated: '2026-10-28'
 tags: ['引用', 'Function Calling', 'RAG']
-glossary: ['rag', 'function-calling', 'fine-tuning', 'prompt', 'hallucination']
+glossary: ['rag', 'function-calling', 'fine-tuning', 'prompt', 'hallucination', 'api']
 summary:
   - '回答には根拠となる文書を添え、どの部分を根拠にしたかを示す。引用は検証の入口である。'
   - '検索はFunction Callingの一つの道具として渡せ、Web検索や外部APIで対象を広げられる。'
@@ -88,7 +88,7 @@ RAGで文書を取り出せるようになったあとに来るのが、「こ�
 
 - Function Calling：[[function-calling|Function Calling]]で検索ツールを渡すと、モデルが必要なときに呼び出します。ツール呼び出しの仕組みは、次の章で詳しく見ます。
 - Web検索：社内文書にない、あるいは社外の最新情報に触れる場合に使います。出典の信頼性を評価する手間が増えます。
-- 外部API：在庫や予約状況など、文書ではなくデータを取ってくる場合です。答えが書物にあるのではなく、システムの状態にあります。
+- 外部[[api|API]]：在庫や予約状況など、文書ではなくデータを取ってくる場合です。答えが書物にあるのではなく、システムの状態にあります。
 
 いずれも、モデルが「調べる」という行動を取れるようにする拡張です。一方で、何を外部に送ってよいか、どの出典を信用するかという判断も増えます。
 

@@ -1,8 +1,15 @@
 ---
+import GuideIcon from '../../components/GuideIcon.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import glossary from '../../data/glossary.json';
 import { withBase } from '../../lib/site.mjs';
 
+const categoryIcons: Record<string,string> = { basic: 'book', llm: 'chip', learning: 'layers', architecture: 'network', application: 'tools', local: 'terminal', evaluation: 'chart', business: 'coins', security: 'shield', practice: 'check' };
+const confusingPairs = [
+  ['学習と推論', 'machine-learning', 'inference'], ['モデルとハーネス', 'llm', 'harness'],
+  ['適合率と再現率', 'precision', 'recall'], ['追加学習と保存', 'fine-tuning', 'data-retention'],
+  ['音声認識と音声合成', 'stt', 'tts'], ['重みの公開と利用条件', 'open-weights', 'license'],
+];
 const categories = glossary.categories;
 const terms = [...glossary.terms].sort((a, b) => a.reading.localeCompare(b.reading, 'ja'));
 const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
@@ -21,10 +28,11 @@ const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
         <h1>用語辞典</h1>
         <p>
           ひとことで言うと何か。厳密には何が違うのか。どこで誤解されやすいのか。
-          本文で出てきた{terms.length}語を、3つの層で定義しています。
+          AIの仕組みや業務利用に関わる{terms.length}語を、3つの層で定義しています。
         </p>
       </div>
 
+      <section class="term-pairs" aria-labelledby="term-pairs-title"><h2 id="term-pairs-title">混同しやすい言葉から探す</h2><div>{confusingPairs.map(([label,a,b]) => <p><span>{label}</span><a href={withBase(`/glossary/${a}/`)}>{terms.find(t => t.slug === a)?.term}</a><span aria-hidden="true"> / </span><a href={withBase(`/glossary/${b}/`)}>{terms.find(t => t.slug === b)?.term}</a></p>)}</div></section>
       <div class="glossary-tools">
         <label class="search-field">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
@@ -51,9 +59,9 @@ const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
             href={withBase(`/glossary/${term.slug}/`)}
             data-term
             data-cat={term.category}
-            data-search={`${term.term} ${term.reading} ${term.short} ${term.strict}`}
+            data-search={`${term.term} ${term.reading} ${term.aliases.join(' ')} ${term.short} ${term.strict} ${term.example}`}
           >
-            <span class="term-card__cat">{labelOf[term.category]}</span>
+            <span class="term-card__cat"><GuideIcon name={categoryIcons[term.category] ?? 'book'} size={18} /> {labelOf[term.category]}</span>
             <span class="term-card__term">{term.term}</span>
             <p class="term-card__short">{term.short}</p>
           </a>
@@ -67,7 +75,7 @@ const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
 
   <script>
     const input = document.querySelector<HTMLInputElement>('[data-glossary-search]');
-    const chips = [...document.querySelectorAll<HTMLButtonElement>('[data-cat]')];
+    const chips = [...document.querySelectorAll<HTMLButtonElement>('button[data-cat]')];
     const cards = [...document.querySelectorAll<HTMLElement>('[data-term]')];
     const count = document.querySelector<HTMLElement>('[data-glossary-count]');
     const empty = document.querySelector<HTMLElement>('[data-glossary-empty]');

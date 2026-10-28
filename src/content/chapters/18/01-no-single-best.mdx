@@ -8,7 +8,7 @@ level: intermediate
 readingMinutes: 9
 updated: '2026-10-28'
 tags: ['モデル選定', '評価', '実務']
-glossary: ['benchmark', 'elo', 'accuracy', 'latency', 'hallucination', 'llm']
+glossary: ['benchmark', 'elo', 'accuracy', 'latency', 'hallucination', 'llm', 'api', 'data-retention', 'open-weights', 'rate-limit']
 summary:
   - 'モデルの良し悪しは、用途・入出力・制約・運用条件の組み合わせで決まる。'
   - '単一の総合ランキングは、条件の異なるタスクを一つの数字に押し込めた要約にすぎない。'
@@ -84,9 +84,9 @@ import Callout from '../../../components/Callout.astro';
 | 価格 | 入力・出力の単価、キャッシュ、バッチ割引、想定利用量 |
 | 文脈長 | 扱いたい文書の長さ、長文での品質低下 |
 | 入出力 | 画像・音声・PDF・ツール呼び出しへの対応 |
-| データ | 入力が学習に使われるか、保存期間、リージョン |
-| 運用 | APIの安定性、レート制限、障害時の代替、サポート |
-| 移植性 | オープンウェイトか、自前環境で動かせるか |
+| データ | 入力が学習に使われるか、[[data-retention|保存期間]]、リージョン |
+| 運用 | [[api|API]]の安定性、[[rate-limit|レート制限]]、障害時の代替、サポート |
+| 移植性 | [[open-weights|オープンウェイト]]か、自前環境で動かせるか |
 
 すべてを満たすモデルは通常ありません。**何を犠牲にできるか**を決めるのが、選定です。
 

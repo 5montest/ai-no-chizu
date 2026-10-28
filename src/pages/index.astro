@@ -9,27 +9,29 @@ import { withBase } from '../lib/site.mjs';
 const entries = await getCollection('chapters');
 const published = curriculum.chapters.filter(c => c.status === 'published');
 const parts = curriculum.parts.filter(part => published.some(c => c.part === part.id));
+const basicChapters = published.filter(c => c.part <= 6);
+const practiceChapters = published.filter(c => c.part >= 7);
 const terms = ['ai', 'generative-ai', 'llm', 'prompt', 'rag', 'agent'].map(slug => glossary.terms.find(t => t.slug === slug)!);
 ---
-<BaseLayout description="生成AIを業務で使う、提案を読む、社内導入を判断する。図解と目的別の読み方で、AIの仕組みと言葉を正確に学べる社会人向けガイド。">
+<BaseLayout description="AI・LLMの基本原理から、ChatGPT・Claudeなどの製品の選び方、コーディングエージェントによる実装まで、図解と例で体系的に解説する学習ガイド。">
   <section class="intro intro--guide"><div class="shell">
-    <p class="eyebrow">仕組みから理解する、社会人のためのAIガイド</p>
-    <h1>AIを使う。提案を読む。<br />自分で判断できるようになる。</h1>
-    <p class="intro__lede">生成AIは便利だけれど、どこまで任せてよいのか。<br class="desktop-break" />言葉の違いと動く仕組みを、仕事の場面と図でつなぎます。<br class="desktop-break" />プログラミングの知識は必要ありません。</p>
-    <div class="intro__actions"><a class="btn" href={withBase('/start/')}>はじめての方へ</a><a class="btn btn--ghost" href={withBase('/checklist/')}>導入判断の確認シート</a></div>
-    <p class="intro__note">全{published.length}章・{entries.length}ページ。すべてを読む必要はありません。目的に合うところから始められます。</p>
+    <p class="eyebrow">AI・LLMの学習ガイド</p>
+    <h1>AIの仕組みから、モデルの選び方・実践まで学ぶ</h1>
+    <p class="intro__lede">AI・LLMの基本原理から、ChatGPT・Claudeなどの製品、コーディングエージェントの使い方まで、図解と例で解説します。基礎編はプログラミング未経験でも読めます。実践編にはCLIやコードを使う演習もあります。</p>
+    <div class="intro__actions"><a class="btn" href={withBase('/start/')}>学習ルートを選ぶ</a><a class="btn btn--ghost" href={withBase('/chapters/')}>章一覧を見る</a></div>
+    <p class="intro__note">全{published.length}章（基礎編{basicChapters.length}章・実践編{practiceChapters.length}章）・全{entries.length}ページ。すべてを読む必要はありません。</p>
   </div></section>
-  <section class="section section--paths"><div class="shell"><div class="section-head"><div><h2>あなたの目的から、読む。</h2></div><p>最初に読む4ページを、立場ごとに選びました。</p></div><ReadingPaths /></div></section>
-  <section class="section"><div class="shell home-explainer"><div><p class="eyebrow">まず、この違いから</p><h2>「どのAI？」を、<br />もう少し正確に。</h2><p>開発する会社、応答を作るモデル、人が使うアプリ。提案やニュースで同じ「AI」と呼ばれていても、指すものが違います。</p><a href={withBase('/chapters/04/03-model-service/')}>モデルとサービスの違いを読む →</a></div><GuideImage name="model-app-provider" priority /></div></section>
-  <section class="section"><div class="shell"><div class="section-head"><div><h2>最初に押さえる6つの言葉</h2></div><p>詳しい定義や、混同しやすい点は用語辞典で確認できます。</p></div><div class="core-terms">{terms.map(term => <a href={withBase(`/glossary/${term.slug}/`)}><h3>{term.term}</h3><p>{term.short}</p><span>意味とよくある誤解 →</span></a>)}</div></div></section>
-  <section class="section"><div class="shell"><div class="section-head"><div><h2>仕組みを詳しく知りたいときに</h2></div><p>全{published.length}章をテーマ別にまとめています。数式や開発手順を扱う章は、必要になったときに読めます。</p></div><div class="home-chapter-groups">{parts.map(part => {
+  <section class="section section--paths"><div class="shell"><div class="section-head"><div><h2>目的別の学習ルート</h2></div><p>関心の近いルートを選ぶと、最初に読むページと、読み終えたときにできることが分かります。</p></div><ReadingPaths /></div></section>
+  <section class="section"><div class="shell home-explainer"><div><p class="eyebrow">まず、この違いから</p><h2>モデル・アプリ・提供元の違い</h2><p>開発する会社、応答を作るモデル、人が使うアプリ。提案やニュースで同じ「AI」と呼ばれていても、指すものが違います。</p><a href={withBase('/chapters/04/03-model-service/')}>モデルとサービスの違いを読む →</a></div><GuideImage name="model-app-provider" priority /></div></section>
+  <section class="section"><div class="shell"><div class="section-head"><div><h2>AIの基本用語{terms.length}選</h2></div><p>詳しい定義や、混同しやすい点は用語辞典で確認できます。</p></div><div class="core-terms">{terms.map(term => <a href={withBase(`/glossary/${term.slug}/`)}><h3>{term.term}</h3><p>{term.short}</p><span>意味とよくある誤解 →</span></a>)}</div></div></section>
+  <section class="section"><div class="shell"><div class="section-head"><div><h2>全{published.length}章をテーマ別に探す</h2></div><p>{parts.length}つの部に分けています。{basicChapters.length}章の基礎編で仕組みと考え方を、{practiceChapters.length}章の実践編で製品の選択と実装を扱います。</p></div><div class="home-chapter-groups">{parts.map(part => {
     const chapters = published.filter(c => c.part === part.id);
     return <details class="home-part"><summary><span class="home-part__number">{part.roman}</span><span>{part.title}<small>{part.lead}</small></span><span class="home-part__count">{chapters.length}章</span></summary><ul class="chapter-list">{chapters.map(chapter => <li><a class="chapter-row" href={withBase(`/chapters/${chapter.id}/`)}><span class="chapter-row__no">{chapter.id}</span><span><span class="chapter-row__title">{chapter.title}</span><span class="chapter-row__q">{chapter.question}</span></span></a></li>)}</ul></details>;
-  })}</div><p class="chapter-foot"><a class="btn btn--ghost" href={withBase('/chapters/')}>全章を一覧で見る</a></p></div></section>
-  <section class="section"><div class="shell"><div class="section-head"><div><h2>調べる、確かめる、持ち帰る。</h2></div><p>仕事で迷ったときにも、必要な項目を引けます。</p></div><ul class="tool-list">
+  })}</div><p class="chapter-foot"><a class="btn btn--ghost" href={withBase('/chapters/')}>章一覧を見る</a> <a class="btn btn--ghost" href={withBase('/practice/')}>実践編を見る</a></p></div></section>
+  <section class="section"><div class="shell"><div class="section-head"><div><h2>AI図鑑・用語辞典・学習ツール</h2></div><p>用語や製品を調べたいとき、導入前の確認項目を確かめたいときに使えます。</p></div><ul class="tool-list">
     <li><a href={withBase('/zukan/')}><span class="name">AI図鑑</span><span class="desc">製品・モデル・プランの違いを確認。確認日と出典を添えています。</span><span class="meta">比較する条件から探す</span></a></li>
     <li><a href={withBase('/glossary/')}><span class="name">用語辞典</span><span class="desc">「ひとことで」「厳密には」「よくある誤解」で説明します。</span><span class="meta">全{glossary.terms.length}語</span></a></li>
-    <li><a href={withBase('/checklist/')}><span class="name">導入判断の確認シート</span><span class="desc">用途・情報・品質・費用・運用。提案を読むときの質問を持ち帰れます。</span><span class="meta">印刷・テンプレート保存</span></a></li>
-    <li><a href={withBase('/quiz/')}><span class="name">クイズ</span><span class="desc">答えを選ぶと、その場で正誤と解説を確認できます。</span><span class="meta">理解を確かめる</span></a></li>
+    <li><a href={withBase('/checklist/')}><span class="name">導入判断の確認シート</span><span class="desc">用途・情報・品質・費用・運用の5項目で点検できます。</span><span class="meta">印刷・テンプレート保存</span></a></li>
+    <li><a href={withBase('/quiz/')}><span class="name">クイズ</span><span class="desc">答えを選ぶと、その場で正誤と解説を確認できます。</span><span class="meta">章ごとに解く</span></a></li>
   </ul></div></section>
 </BaseLayout>

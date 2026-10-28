@@ -32,9 +32,9 @@ export const BASE = normalizeBase(envBase);
 
 export const SITE = {
   name: 'AIの地図',
-  tagline: 'なんとなく使うから、仕組みを理解して使うへ',
+  tagline: 'AI・LLMの原理から、製品選びと実装まで',
   description:
-    '社会人向けのAI技術ガイド。AI・機械学習・LLM・Transformer・エージェント・モデル選びを、図と短いページで体系的に学ぶ。',
+    'AIの技術解説ガイド。AI・機械学習・LLMの原理から、モデルや製品の選び方、エージェントによる実装まで、図と短いページで体系的に学ぶ。',
   author: 'AIの地図 編集部',
   published: '2026-10-27',
   updated: '2026-10-28',

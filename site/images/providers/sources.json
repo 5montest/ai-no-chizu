@@ -28,5 +28,17 @@
     "source": "https://img.alicdn.com/imgextra/i4/O1CN01OXv3EM1FN8t9W4P79_!!6000000000474-2-tps-80-80.png",
     "file": "public/images/providers/qwen.png",
     "checked": "2026-10-28"
+  },
+  {
+    "key": "mistral",
+    "source": "https://mistral.ai/favicon.ico",
+    "file": "public/images/providers/mistral.png",
+    "checked": "2026-10-28"
+  },
+  {
+    "key": "opencode",
+    "source": "https://opencode.ai/favicon-96x96-v3.png",
+    "file": "public/images/providers/opencode.png",
+    "checked": "2026-10-28"
   }
 ]

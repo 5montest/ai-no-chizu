@@ -1,0 +1,23 @@
+---
+interface Props { name: string; size?: number; }
+const { name, size = 28 } = Astro.props;
+const paths: Record<string, string> = {
+  document: 'M7 3h7l4 4v14H4V3h3m7 0v5h5M8 12h7M8 16h7',
+  chip: 'M7 7h10v10H7zM9 3v4m6-4v4M9 17v4m6-4v4M3 9h4m-4 6h4M17 9h4m-4 6h4M10 10h4v4h-4z',
+  search: 'M16 16l5 5M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0',
+  check: 'M5 4h14v17H5zM9 4V2h6v2M8 11l2 2 5-5M8 17h7',
+  shield: 'M12 2l8 4v6c0 5-8 10-8 10S4 17 4 12V6zM8 12l3 3 5-6',
+  user: 'M17 7a5 5 0 1 1-10 0 5 5 0 0 1 10 0M3 22v-3c0-7 18-7 18 0v3',
+  tools: 'M14 5a6 6 0 0 0-7 7L2 17l5 5 5-5a6 6 0 0 0 7-7l-4 4-4-4z',
+  clock: 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0M12 6v7l4 2',
+  coins: 'M20 5c0 4-16 4-16 0s16-4 16 0v13c0 4-16 4-16 0V5M4 11c0 4 16 4 16 0',
+  network: 'M3 3h6v6H3zM15 15h6v6h-6zM3 15h6v6H3zM15 3h6v6h-6zM9 6h6M6 9v6M18 9v6M9 18h6',
+  folder: 'M2 6V3h7l3 3h10v15H2zM2 9h20',
+  chart: 'M3 2v19h19M7 17v-5m5 5V7m5 10V3',
+  terminal: 'M2 3h20v18H2zM6 8l4 4-4 4m7 0h5',
+  sound: 'M4 10h4l5-5v14l-5-5H4zM17 7c4 3 4 7 0 10M20 3c6 5 6 13 0 18',
+  book: 'M12 5C7 2 2 3 2 3v17s5-1 10 2c5-3 10-2 10-2V3s-5-1-10 2v17',
+  layers: 'M12 2l10 6-10 6L2 8zM2 12l10 6 10-6M2 16l10 6 10-6',
+};
+---
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d={paths[name] ?? paths.document} /></svg>

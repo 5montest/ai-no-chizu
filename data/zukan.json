@@ -42,59 +42,221 @@
     }
   ],
   "use_cases": [
-    { "id": "general-chat", "label": "一般の会話" },
-    { "id": "reasoning", "label": "推論・分析" },
-    { "id": "coding", "label": "コーディング" },
-    { "id": "long-context", "label": "長い文書の処理" },
-    { "id": "bulk-classification", "label": "大量の分類・抽出" },
-    { "id": "image-understanding", "label": "画像の理解" },
-    { "id": "low-latency", "label": "低遅延の応答" },
-    { "id": "agent-work", "label": "エージェント作業" },
-    { "id": "research", "label": "調査・検索" },
-    { "id": "document-work", "label": "文書の作成・編集" },
-    { "id": "local-run", "label": "ローカル実行" }
+    {
+      "id": "general-chat",
+      "label": "一般の会話"
+    },
+    {
+      "id": "reasoning",
+      "label": "推論・分析"
+    },
+    {
+      "id": "coding",
+      "label": "コーディング"
+    },
+    {
+      "id": "long-context",
+      "label": "長い文書の処理"
+    },
+    {
+      "id": "bulk-classification",
+      "label": "大量の分類・抽出"
+    },
+    {
+      "id": "image-understanding",
+      "label": "画像の理解"
+    },
+    {
+      "id": "low-latency",
+      "label": "低遅延の応答"
+    },
+    {
+      "id": "agent-work",
+      "label": "エージェント作業"
+    },
+    {
+      "id": "research",
+      "label": "調査・検索"
+    },
+    {
+      "id": "document-work",
+      "label": "文書の作成・編集"
+    },
+    {
+      "id": "local-run",
+      "label": "ローカル実行"
+    },
+    {
+      "id": "speech-to-text",
+      "label": "音声認識"
+    },
+    {
+      "id": "text-to-speech",
+      "label": "音声合成"
+    },
+    {
+      "id": "embeddings",
+      "label": "埋め込み・検索"
+    },
+    {
+      "id": "moderation",
+      "label": "有害性の分類"
+    },
+    {
+      "id": "image-generation",
+      "label": "画像生成・編集"
+    },
+    {
+      "id": "ocr",
+      "label": "文字・文書の抽出"
+    }
   ],
   "interfaces": [
-    { "id": "web", "label": "Webブラウザ" },
-    { "id": "desktop", "label": "デスクトップアプリ" },
-    { "id": "mobile", "label": "モバイルアプリ" },
-    { "id": "cli", "label": "CLI" },
-    { "id": "ide", "label": "IDE拡張" },
-    { "id": "api", "label": "API" },
-    { "id": "local", "label": "ローカル実行" }
+    {
+      "id": "web",
+      "label": "Webブラウザ"
+    },
+    {
+      "id": "desktop",
+      "label": "デスクトップアプリ"
+    },
+    {
+      "id": "mobile",
+      "label": "モバイルアプリ"
+    },
+    {
+      "id": "cli",
+      "label": "CLI"
+    },
+    {
+      "id": "ide",
+      "label": "IDE拡張"
+    },
+    {
+      "id": "api",
+      "label": "API"
+    },
+    {
+      "id": "local",
+      "label": "ローカル実行"
+    }
   ],
   "platforms": [
-    { "id": "web", "label": "Web" },
-    { "id": "macos", "label": "macOS" },
-    { "id": "windows", "label": "Windows" },
-    { "id": "linux", "label": "Linux" },
-    { "id": "ios", "label": "iOS" },
-    { "id": "android", "label": "Android" }
+    {
+      "id": "web",
+      "label": "Web"
+    },
+    {
+      "id": "macos",
+      "label": "macOS"
+    },
+    {
+      "id": "windows",
+      "label": "Windows"
+    },
+    {
+      "id": "linux",
+      "label": "Linux"
+    },
+    {
+      "id": "ios",
+      "label": "iOS"
+    },
+    {
+      "id": "android",
+      "label": "Android"
+    }
   ],
   "access_routes": [
-    { "id": "claude-app", "label": "Claude のアプリ" },
-    { "id": "claude-code", "label": "Claude Code" },
-    { "id": "claude-api", "label": "Claude Platform（API）" },
-    { "id": "chatgpt-app", "label": "ChatGPT のアプリ" },
-    { "id": "codex-cli", "label": "Codex CLI" },
-    { "id": "openai-api", "label": "OpenAI API" },
-    { "id": "opencode", "label": "OpenCode" },
-    { "id": "opencode-go", "label": "OpenCode Go" },
-    { "id": "openrouter", "label": "OpenRouter（再販）" },
-    { "id": "deepseek-api", "label": "DeepSeek API" }
+    {
+      "id": "claude-app",
+      "label": "Claude のアプリ"
+    },
+    {
+      "id": "claude-code",
+      "label": "Claude Code"
+    },
+    {
+      "id": "claude-api",
+      "label": "Claude Platform（API）"
+    },
+    {
+      "id": "chatgpt-app",
+      "label": "ChatGPT のアプリ"
+    },
+    {
+      "id": "codex-cli",
+      "label": "Codex CLI"
+    },
+    {
+      "id": "openai-api",
+      "label": "OpenAI API"
+    },
+    {
+      "id": "opencode",
+      "label": "OpenCode"
+    },
+    {
+      "id": "opencode-go",
+      "label": "OpenCode Go"
+    },
+    {
+      "id": "openrouter",
+      "label": "OpenRouter（再販）"
+    },
+    {
+      "id": "deepseek-api",
+      "label": "DeepSeek API"
+    },
+    {
+      "id": "gemini-api",
+      "label": "Gemini API"
+    },
+    {
+      "id": "gemini-app",
+      "label": "Gemini アプリ"
+    },
+    {
+      "id": "gemini-cli",
+      "label": "Gemini CLI"
+    },
+    {
+      "id": "xai-api",
+      "label": "xAI API"
+    },
+    {
+      "id": "mistral-api",
+      "label": "Mistral API"
+    },
+    {
+      "id": "local",
+      "label": "手元・社内の実行環境"
+    },
+    {
+      "id": "hugging-face",
+      "label": "公式のモデル配布元"
+    }
   ],
   "entities": [
     {
       "id": "claude-fable-5-1",
       "slug": "claude-fable-5-1",
       "display_name": "Claude Fable 5.1",
-      "aliases": ["Fable 5.1", "Fable"],
+      "aliases": [
+        "Fable 5.1",
+        "Fable"
+      ],
       "vendor": "Anthropic",
       "kind": "model",
       "subtype": "frontier",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["reasoning", "coding", "agent-work", "long-context"],
+      "primary_use_cases": [
+        "reasoning",
+        "coding",
+        "agent-work",
+        "long-context"
+      ],
       "not_suitable_for": [
         "短い定型処理を大量に流す用途（掲載4モデルの中で単価が最も高い）",
         "無料プランだけで試す用途（Claude の Free では選べない）"
@@ -109,10 +271,31 @@
         "Pro では「利用クレジット」扱い、Max では週間上限の50%までで、無制限ではない",
         "公式の料金ページは表示名のみで、API の model 文字列は確認できていない"
       ],
-      "interfaces": ["web", "desktop", "mobile", "cli", "ide", "api"],
-      "platforms": ["web", "macos", "windows", "linux", "ios", "android"],
-      "requires": ["Claude の有料プラン、または Claude Platform（Console）のアカウント"],
-      "available_via": ["claude-app", "claude-code", "claude-api", "openrouter"],
+      "interfaces": [
+        "web",
+        "desktop",
+        "mobile",
+        "cli",
+        "ide",
+        "api"
+      ],
+      "platforms": [
+        "web",
+        "macos",
+        "windows",
+        "linux",
+        "ios",
+        "android"
+      ],
+      "requires": [
+        "Claude の有料プラン、または Claude Platform（Console）のアカウント"
+      ],
+      "available_via": [
+        "claude-app",
+        "claude-code",
+        "claude-api",
+        "openrouter"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -123,28 +306,42 @@
           "note": "再販事業者の一覧に載る ID。Anthropic 公式の API model 文字列ではない。"
         }
       ],
-      "input_modalities": ["text", "image", "file"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1000000,
         "basis": "reseller",
         "note": "公式の料金ページは「最大100万トークン、モデルにより異なる」とだけ記載し、モデル別の値は示していない。100万という個別の値は再販事業者の一覧による。"
       },
       "reasoning_efforts": {
-        "supported": ["max", "xhigh", "high", "medium", "low"],
+        "supported": [
+          "max",
+          "xhigh",
+          "high",
+          "medium",
+          "low"
+        ],
         "default": "high",
         "mandatory": true
       },
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "入力モダリティと推論の設定は、2026-10-27 に取得した再販事業者の一覧で確認した。ツール呼び出しや拡張機構はモデル単体ではなく、使うハーネスと API 側の実装で決まるため unknown としている。",
+      "capability_notes": "テキスト・画像入力、テキスト出力、ツール利用を公式のモデル一覧で確認。Skillや権限は利用するアプリ側の設定。 Fable 5.1はtool_choiceのauto・noneに対応し、any・特定ツールの強制指定は非対応。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["anthropic-api-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "anthropic-api-2026-10-28"
+      ],
       "official_url": "https://claude.com/pricing",
       "sources": [
         {
@@ -158,25 +355,44 @@
           "url": "https://openrouter.ai/api/v1/models",
           "publisher": "OpenRouter",
           "note": "2026-10-27 取得。再販経路のモデル ID、入力モダリティ、推論 effort、文脈長を確認した。"
+        },
+        {
+          "title": "Fable 5.1 changes",
+          "url": "https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1",
+          "publisher": "Anthropic",
+          "note": "公式資料を確認（2026-10-28）。"
         }
       ],
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "このページの価格は Claude Platform の従量課金の値で、Claude アプリの月額プランとは別の体系。同じ「Fable」でも、アプリの利用枠と API の単価は換算できない。",
-      "conditions": ["価格は税別・米ドル", "100万トークンあたり", "プロンプトキャッシュ利用時は読み取り・書き込みの単価が別に適用される"]
+      "conditions": [
+        "価格は税別・米ドル",
+        "100万トークンあたり",
+        "プロンプトキャッシュ利用時は読み取り・書き込みの単価が別に適用される"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "claude-opus-5-5",
       "slug": "claude-opus-5-5",
       "display_name": "Claude Opus 5.5",
-      "aliases": ["Opus 5.5"],
+      "aliases": [
+        "Opus 5.5"
+      ],
       "vendor": "Anthropic",
       "kind": "model",
       "subtype": "frontier",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["reasoning", "coding", "agent-work"],
-      "not_suitable_for": ["単価を最優先する大量処理（Fable の4割の入力単価でも Haiku の40倍）"],
+      "primary_use_cases": [
+        "reasoning",
+        "coding",
+        "agent-work"
+      ],
+      "not_suitable_for": [
+        "単価を最優先する大量処理（Fable の4割の入力単価でも Haiku の40倍）"
+      ],
       "strengths": [
         "公式の料金表で入力4ドル・出力20ドル（100万トークンあたり、税別）",
         "高速モード（fast mode）が用意され、標準価格の2倍で最大2.5倍の速度と記載されている",
@@ -186,10 +402,31 @@
         "高速モードは研究プレビューで、100万トークンあたり入力8ドル・出力40ドル",
         "高速モードは従量課金プランか、サブスクリプションの利用クレジット経由でのみ使える"
       ],
-      "interfaces": ["web", "desktop", "mobile", "cli", "ide", "api"],
-      "platforms": ["web", "macos", "windows", "linux", "ios", "android"],
-      "requires": ["Claude の有料プラン、または Claude Platform（Console）のアカウント"],
-      "available_via": ["claude-app", "claude-code", "claude-api", "openrouter"],
+      "interfaces": [
+        "web",
+        "desktop",
+        "mobile",
+        "cli",
+        "ide",
+        "api"
+      ],
+      "platforms": [
+        "web",
+        "macos",
+        "windows",
+        "linux",
+        "ios",
+        "android"
+      ],
+      "requires": [
+        "Claude の有料プラン、または Claude Platform（Console）のアカウント"
+      ],
+      "available_via": [
+        "claude-app",
+        "claude-code",
+        "claude-api",
+        "openrouter"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -200,28 +437,42 @@
           "note": "再販事業者の一覧に載る ID。Anthropic 公式の API model 文字列ではない。"
         }
       ],
-      "input_modalities": ["text", "image", "file"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1000000,
         "basis": "reseller",
         "note": "公式は「最大100万トークン、モデルにより異なる」とのみ記載。個別値は再販事業者の一覧による。"
       },
       "reasoning_efforts": {
-        "supported": ["max", "xhigh", "high", "medium", "low"],
+        "supported": [
+          "max",
+          "xhigh",
+          "high",
+          "medium",
+          "low"
+        ],
         "default": "high",
         "mandatory": true
       },
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "高速モードの料金と速度の説明は、Claude Code の製品ページ FAQ と料金ページの注記による。実機での速度は測っていない。",
+      "capability_notes": "テキスト・画像入力、テキスト出力、ツール利用を公式のモデル一覧で確認。Skillや権限は利用するアプリ側の設定。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["anthropic-api-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "anthropic-api-2026-10-28"
+      ],
       "official_url": "https://claude.com/pricing",
       "sources": [
         {
@@ -240,30 +491,67 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "高速モードの単価は「2倍」という倍率と、Claude Code ページの実額の両方が公式に載っている。用途によっては通常モードより高くつく。",
-      "conditions": ["価格は税別・米ドル", "高速モードは研究プレビュー", "高速モードは従量課金または利用クレジット経由"]
+      "conditions": [
+        "価格は税別・米ドル",
+        "高速モードは研究プレビュー",
+        "高速モードは従量課金または利用クレジット経由"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "claude-sonnet-5-5",
       "slug": "claude-sonnet-5-5",
       "display_name": "Claude Sonnet 5.5",
-      "aliases": ["Sonnet 5.5"],
+      "aliases": [
+        "Sonnet 5.5"
+      ],
       "vendor": "Anthropic",
       "kind": "model",
       "subtype": "balanced",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["general-chat", "coding", "document-work", "agent-work"],
-      "not_suitable_for": ["最も難しい推論を単価より優先する用途（同社の上位モデルと比べた品質の数値は未確認）"],
+      "primary_use_cases": [
+        "general-chat",
+        "coding",
+        "document-work",
+        "agent-work"
+      ],
+      "not_suitable_for": [
+        "最も難しい推論を単価より優先する用途（同社の上位モデルと比べた品質の数値は未確認）"
+      ],
       "strengths": [
         "公式の料金表で入力2ドル・出力10ドル（100万トークンあたり、税別）",
         "Claude の Free を含むすべての個人プランで利用できる唯一の上位系モデル",
         "日本語を含む一般の会話・文書作業・コーディングの中心として案内されている"
       ],
-      "limitations": ["上位モデルとの品質差は、このサイトが確認できる条件つきの測定値がない"],
-      "interfaces": ["web", "desktop", "mobile", "cli", "ide", "api"],
-      "platforms": ["web", "macos", "windows", "linux", "ios", "android"],
-      "requires": ["Claude のアカウント（Free でも利用可）、または Claude Platform のアカウント"],
-      "available_via": ["claude-app", "claude-code", "claude-api", "openrouter"],
+      "limitations": [
+        "上位モデルとの品質差は、このサイトが確認できる条件つきの測定値がない"
+      ],
+      "interfaces": [
+        "web",
+        "desktop",
+        "mobile",
+        "cli",
+        "ide",
+        "api"
+      ],
+      "platforms": [
+        "web",
+        "macos",
+        "windows",
+        "linux",
+        "ios",
+        "android"
+      ],
+      "requires": [
+        "Claude のアカウント（Free でも利用可）、または Claude Platform のアカウント"
+      ],
+      "available_via": [
+        "claude-app",
+        "claude-code",
+        "claude-api",
+        "openrouter"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -274,28 +562,42 @@
           "note": "再販事業者の一覧に載る ID。Anthropic 公式の API model 文字列ではない。"
         }
       ],
-      "input_modalities": ["text", "image", "file"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1000000,
         "basis": "reseller",
         "note": "公式は「最大100万トークン、モデルにより異なる」とのみ記載。"
       },
       "reasoning_efforts": {
-        "supported": ["max", "xhigh", "high", "medium", "low"],
+        "supported": [
+          "max",
+          "xhigh",
+          "high",
+          "medium",
+          "low"
+        ],
         "default": "high",
         "mandatory": true
       },
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "プラン別の利用可否は、公式のプラン比較表で Sonnet・Haiku が Free から Enterprise まで「Yes」と記載されていることによる。",
+      "capability_notes": "テキスト・画像入力、テキスト出力、ツール利用を公式のモデル一覧で確認。Skillや権限は利用するアプリ側の設定。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["anthropic-api-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "anthropic-api-2026-10-28"
+      ],
       "official_url": "https://claude.com/pricing",
       "sources": [
         {
@@ -308,20 +610,32 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "無料プランでも選べるが、利用量の上限はプランごとに異なる。「使える」ことと「無制限に使える」ことは別。",
-      "conditions": ["価格は税別・米ドル", "100万トークンあたり"]
+      "conditions": [
+        "価格は税別・米ドル",
+        "100万トークンあたり"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "claude-haiku-5-5",
       "slug": "claude-haiku-5-5",
       "display_name": "Claude Haiku 5.5",
-      "aliases": ["Haiku 5.5"],
+      "aliases": [
+        "Haiku 5.5"
+      ],
       "vendor": "Anthropic",
       "kind": "model",
       "subtype": "light",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["bulk-classification", "low-latency", "general-chat"],
-      "not_suitable_for": ["長い文書全体の推論（100万トークン超の入力は単価が上がる段階がある）"],
+      "primary_use_cases": [
+        "bulk-classification",
+        "low-latency",
+        "general-chat"
+      ],
+      "not_suitable_for": [
+        "長い文書全体の推論（100万トークン超の入力は単価が上がる段階がある）"
+      ],
       "strengths": [
         "公式の料金表で入力0.10ドル・出力0.50ドル（100万トークンあたり、税別）で、掲載4モデルの中で最も安い",
         "入力が10万トークン以下の場合の単価が明示されている",
@@ -331,10 +645,32 @@
         "入力が10万トークンを超えると、入力0.50ドル・出力2.50ドル（100万トークンあたり）に上がる",
         "思考の強制がない設定を持ち、上位モデルと同じ推論の使い方はできない"
       ],
-      "interfaces": ["web", "desktop", "mobile", "cli", "ide", "api"],
-      "platforms": ["web", "macos", "windows", "linux", "ios", "android"],
-      "requires": ["Claude のアカウント（Free でも利用可）、または Claude Platform のアカウント"],
-      "available_via": ["claude-app", "claude-code", "claude-api", "openrouter", "opencode-go"],
+      "interfaces": [
+        "web",
+        "desktop",
+        "mobile",
+        "cli",
+        "ide",
+        "api"
+      ],
+      "platforms": [
+        "web",
+        "macos",
+        "windows",
+        "linux",
+        "ios",
+        "android"
+      ],
+      "requires": [
+        "Claude のアカウント（Free でも利用可）、または Claude Platform のアカウント"
+      ],
+      "available_via": [
+        "claude-app",
+        "claude-code",
+        "claude-api",
+        "openrouter",
+        "opencode-go"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -345,28 +681,41 @@
           "note": "再販事業者の一覧に載る ID。"
         }
       ],
-      "input_modalities": ["text", "image", "file"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1000000,
         "basis": "reseller",
         "note": "公式は「最大100万トークン、モデルにより異なる」とのみ記載。単価の段階は10万トークンで切り替わる。"
       },
       "reasoning_efforts": {
-        "supported": ["high", "medium", "low", "none"],
+        "supported": [
+          "high",
+          "medium",
+          "low",
+          "none"
+        ],
         "default": "medium",
         "mandatory": false
       },
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "推論設定は再販事業者の一覧による。公式料金ページの段階価格（10万トークン超）は、長い入力を送ると単価が変わることを示している。",
+      "capability_notes": "テキスト・画像入力、テキスト出力、ツール利用を公式のモデル一覧で確認。Skillや権限は利用するアプリ側の設定。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["anthropic-api-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "anthropic-api-2026-10-28"
+      ],
       "official_url": "https://claude.com/pricing",
       "sources": [
         {
@@ -385,33 +734,52 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "安いのは10万トークン以下の入力。長い文書を丸ごと渡す用途では、上位モデルとの差が縮む。",
-      "conditions": ["価格は税別・米ドル", "100万トークンあたり", "10万トークンを境に単価が変わる"]
+      "conditions": [
+        "価格は税別・米ドル",
+        "100万トークンあたり",
+        "10万トークンを境に単価が変わる"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "gpt-6-astra",
       "slug": "gpt-6-astra",
       "display_name": "GPT-6 Astra",
-      "aliases": ["gpt-6-astra", "Astra"],
+      "aliases": [
+        "gpt-6-astra",
+        "Astra"
+      ],
       "vendor": "OpenAI",
       "kind": "model",
       "subtype": "frontier",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["reasoning", "agent-work", "coding"],
-      "not_suitable_for": ["単価を抑えた大量処理（標準で入力10ドル・出力50ドル）"],
+      "primary_use_cases": [
+        "reasoning",
+        "agent-work",
+        "coding"
+      ],
+      "not_suitable_for": [
+        "単価を抑えた大量処理（標準で入力10ドル・出力50ドル）"
+      ],
       "strengths": [
-        "OpenAI の公式料金表に標準・バッチ・高速・超高速の4区分で掲載されている",
-        "バッチで入力5ドル・出力25ドル、超高速で入力60ドル・出力300ドルと、同じモデルで速度と価格を選べる",
-        "プロンプトキャッシュの読み取りが100万トークンあたり1.00ドル"
+        "テキストと画像を入力し、テキストを出力する。",
+        "推論の強さと、利用するツールの条件を公式のモデルページで確認できる。"
       ],
       "limitations": [
-        "標準の出力単価50ドルは、公式表の掲載モデルの中で最も高い",
-        "超高速は標準の6倍の出力単価で、通常の対話には向かない"
+        "モデル自体が音声や画像を直接出力する機能とは区別する。",
+        "長い入力や速度モードで料金条件が変わる。"
       ],
-      "interfaces": ["api", "web", "desktop", "mobile"],
-      "platforms": ["web", "macos", "windows", "linux", "ios", "android"],
-      "requires": ["OpenAI の API アカウント（従量課金）"],
-      "available_via": ["openai-api"],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenAI の API アカウント（従量課金）"
+      ],
+      "available_via": [
+        "openai-api"
+      ],
       "model_ids": [
         {
           "provider": "OpenAI",
@@ -422,58 +790,105 @@
           "note": "公式料金表のモデル名の列に記載された文字列。"
         }
       ],
-      "input_modalities": null,
-      "output_modalities": null,
-      "context_window": null,
-      "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "context_window": {
+        "tokens": 1050000,
+        "basis": "official",
+        "note": "公式の総コンテキスト上限。最大入力は922,000、最大出力は128,000トークンとして別に確認。"
+      },
+      "reasoning_efforts": {
+        "supported": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "unknown",
+        "mandatory": true
+      },
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "入力モダリティ・文脈長・推論設定は、参照した公式料金ページに記載がないため未確認。数値を推定で埋めていない。",
+      "capability_notes": "入出力・文脈長・推論設定は公式の個別モデルページを確認。ツールの実行はアプリ側で権限を制御する。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openai-api-2026-10-28"],
-      "official_url": "https://developers.openai.com/api/docs/pricing",
+      "pricing_snapshot_ids": [
+        "openai-api-2026-10-28"
+      ],
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
       "sources": [
         {
           "title": "API Pricing",
           "url": "https://developers.openai.com/api/docs/pricing",
           "publisher": "OpenAI",
           "note": "2026-10-28 取得。gpt-6-astra の標準・バッチ・高速・超高速の単価と、キャッシュ読み取り・書き込みの単価を確認した。"
+        },
+        {
+          "title": "GPT-6 Astra",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-astra",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         }
       ],
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "公式に確認できたのは料金表の範囲。アプリ（ChatGPT）のどのプランで選べるかは、料金ページに到達できなかったため未確認。",
-      "conditions": ["価格は税別・米ドル", "100万トークンあたり", "標準・バッチ・高速・超高速で区分が分かれる"]
+      "notes": "公式APIの仕様を確認。Chat・Work・Codexで選べるモデルや利用枠は、アプリと契約の条件として別に確認する。",
+      "conditions": [
+        "価格は税別・米ドル",
+        "100万トークンあたり",
+        "標準・バッチ・高速・超高速で区分が分かれる"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "gpt-6-1-sol",
       "slug": "gpt-6-1-sol",
       "display_name": "GPT-6.1 Sol",
-      "aliases": ["gpt-6.1-sol"],
+      "aliases": [
+        "gpt-6.1-sol"
+      ],
       "vendor": "OpenAI",
       "kind": "model",
       "subtype": "balanced",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["general-chat", "coding", "agent-work", "reasoning"],
-      "not_suitable_for": ["最も安い処理（同社の Luna の20倍の入力単価）"],
+      "primary_use_cases": [
+        "general-chat",
+        "coding",
+        "agent-work",
+        "reasoning"
+      ],
+      "not_suitable_for": [
+        "最も安い処理（同社の Luna の20倍の入力単価）"
+      ],
       "strengths": [
-        "公式料金表で入力2ドル・出力10ドル（100万トークンあたり）",
-        "バッチで半額、キャッシュ読み取りで0.10ドルと、同じモデル内で価格を下げる手段が用意されている"
+        "テキストと画像を入力し、テキストを出力する。",
+        "推論の強さと、利用するツールの条件を公式のモデルページで確認できる。"
       ],
       "limitations": [
-        "アプリ側（ChatGPT のプラン）での提供状況は、この図鑑では確認できていない",
-        "文脈長・入力モダリティは料金表に記載がない"
+        "モデル自体が音声や画像を直接出力する機能とは区別する。",
+        "長い入力や速度モードで料金条件が変わる。"
       ],
-      "interfaces": ["api"],
-      "platforms": ["web", "macos", "windows", "linux"],
-      "requires": ["OpenAI の API アカウント（従量課金）"],
-      "available_via": ["openai-api"],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenAI の API アカウント（従量課金）"
+      ],
+      "available_via": [
+        "openai-api"
+      ],
       "model_ids": [
         {
           "provider": "OpenAI",
@@ -484,55 +899,103 @@
           "note": "公式料金表のモデル名の列に記載された文字列。"
         }
       ],
-      "input_modalities": null,
-      "output_modalities": null,
-      "context_window": null,
-      "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "context_window": {
+        "tokens": 1050000,
+        "basis": "official",
+        "note": "公式の総コンテキスト上限。最大入力は922,000、最大出力は128,000トークンとして別に確認。"
+      },
+      "reasoning_efforts": {
+        "supported": [
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium",
+        "mandatory": true
+      },
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "公式料金表で確認できたのは料金のみ。再販事業者の一覧には「GPT-6.1 Sol Pro」という別名の項目があり、同じモデルかどうかは確認できていない。",
+      "capability_notes": "入出力・文脈長・推論設定は公式の個別モデルページを確認。ツールの実行はアプリ側で権限を制御する。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openai-api-2026-10-28"],
-      "official_url": "https://developers.openai.com/api/docs/pricing",
+      "pricing_snapshot_ids": [
+        "openai-api-2026-10-28"
+      ],
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
       "sources": [
         {
           "title": "API Pricing",
           "url": "https://developers.openai.com/api/docs/pricing",
           "publisher": "OpenAI",
           "note": "2026-10-28 取得。gpt-6.1-sol の標準・バッチ・高速・超高速、キャッシュの単価を確認した。"
+        },
+        {
+          "title": "GPT-6.1 Sol",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         }
       ],
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "再販事業者の「GPT-6.1 Sol Pro」とは別のエンティティとして登録している。名前が似ているが、同一モデルだという公式の記載を確認できていないため。",
-      "conditions": ["価格は税別・米ドル", "100万トークンあたり"]
+      "notes": "公式APIの仕様を確認。Chat・Work・Codexで選べるモデルや利用枠は、アプリと契約の条件として別に確認する。",
+      "conditions": [
+        "価格は税別・米ドル",
+        "100万トークンあたり"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "gpt-6-1-terra",
       "slug": "gpt-6-1-terra",
       "display_name": "GPT-6.1 Terra",
-      "aliases": ["gpt-6.1-terra"],
+      "aliases": [
+        "gpt-6.1-terra"
+      ],
       "vendor": "OpenAI",
       "kind": "model",
       "subtype": "balanced",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["general-chat", "bulk-classification", "document-work"],
-      "not_suitable_for": ["上位モデルと同じ難度の推論（品質の比較値は未確認）"],
-      "strengths": [
-        "公式料金表で入力1ドル・出力5ドル（100万トークンあたり）",
-        "キャッシュ読み取りが0.05ドルで、定型の長い指示を繰り返す用途では単価を下げやすい"
+      "primary_use_cases": [
+        "general-chat",
+        "bulk-classification",
+        "document-work"
       ],
-      "limitations": ["文脈長・入力モダリティ・推論設定は料金表に記載がない"],
-      "interfaces": ["api"],
-      "platforms": ["web", "macos", "windows", "linux"],
-      "requires": ["OpenAI の API アカウント（従量課金）"],
-      "available_via": ["openai-api"],
+      "not_suitable_for": [
+        "上位モデルと同じ難度の推論（品質の比較値は未確認）"
+      ],
+      "strengths": [
+        "テキストと画像を入力し、テキストを出力する。",
+        "推論の強さと、利用するツールの条件を公式のモデルページで確認できる。"
+      ],
+      "limitations": [
+        "モデル自体が音声や画像を直接出力する機能とは区別する。",
+        "長い入力や速度モードで料金条件が変わる。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenAI の API アカウント（従量課金）"
+      ],
+      "available_via": [
+        "openai-api"
+      ],
       "model_ids": [
         {
           "provider": "OpenAI",
@@ -543,55 +1006,106 @@
           "note": "公式料金表のモデル名の列に記載された文字列。"
         }
       ],
-      "input_modalities": null,
-      "output_modalities": null,
-      "context_window": null,
-      "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "context_window": {
+        "tokens": 1050000,
+        "basis": "official",
+        "note": "公式の総コンテキスト上限。最大入力は922,000、最大出力は128,000トークンとして別に確認。"
+      },
+      "reasoning_efforts": {
+        "supported": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium",
+        "mandatory": false
+      },
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "再販事業者の「GPT-6.1 Terra Pro」とは別エンティティ。同一モデルかは未確認。",
+      "capability_notes": "入出力・文脈長・推論設定は公式の個別モデルページを確認。ツールの実行はアプリ側で権限を制御する。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openai-api-2026-10-28"],
-      "official_url": "https://developers.openai.com/api/docs/pricing",
+      "pricing_snapshot_ids": [
+        "openai-api-2026-10-28"
+      ],
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-6.1-terra",
       "sources": [
         {
           "title": "API Pricing",
           "url": "https://developers.openai.com/api/docs/pricing",
           "publisher": "OpenAI",
           "note": "2026-10-28 取得。gpt-6.1-terra の単価を確認した。"
+        },
+        {
+          "title": "GPT-6.1 Terra",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6.1-terra",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         }
       ],
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "同じ「Terra」でも、再販事業者の一覧では文脈長が約105万トークンと記載されている。提供元が違えば上限も変わる。",
-      "conditions": ["価格は税別・米ドル", "100万トークンあたり"]
+      "notes": "公式APIの仕様を確認。Chat・Work・Codexで選べるモデルや利用枠は、アプリと契約の条件として別に確認する。",
+      "conditions": [
+        "価格は税別・米ドル",
+        "100万トークンあたり"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "gpt-6-luna",
       "slug": "gpt-6-luna",
       "display_name": "GPT-6 Luna",
-      "aliases": ["gpt-6-luna", "GPT 6 Luna"],
+      "aliases": [
+        "gpt-6-luna",
+        "GPT 6 Luna"
+      ],
       "vendor": "OpenAI",
       "kind": "model",
       "subtype": "light",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["bulk-classification", "low-latency", "general-chat"],
-      "not_suitable_for": ["長い文書の推論（文脈長が未確認）"],
-      "strengths": [
-        "公式料金表で入力0.10ドル・出力0.50ドル（100万トークンあたり）で、同社の掲載モデルで最も安い",
-        "バッチ・高速・超高速の区分でも一貫した倍率（半額・2倍・6倍）で掲載されている"
+      "primary_use_cases": [
+        "bulk-classification",
+        "low-latency",
+        "general-chat"
       ],
-      "limitations": ["文脈長・入力モダリティは料金表に記載がない"],
-      "interfaces": ["api"],
-      "platforms": ["web", "macos", "windows", "linux"],
-      "requires": ["OpenAI の API アカウント（従量課金）"],
-      "available_via": ["openai-api", "opencode-go"],
+      "not_suitable_for": [
+        "長い文書の推論（文脈長が未確認）"
+      ],
+      "strengths": [
+        "テキストと画像を入力し、テキストを出力する。",
+        "推論の強さと、利用するツールの条件を公式のモデルページで確認できる。"
+      ],
+      "limitations": [
+        "モデル自体が音声や画像を直接出力する機能とは区別する。",
+        "長い入力や速度モードで料金条件が変わる。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenAI の API アカウント（従量課金）"
+      ],
+      "available_via": [
+        "openai-api",
+        "opencode-go"
+      ],
       "model_ids": [
         {
           "provider": "OpenAI",
@@ -602,21 +1116,44 @@
           "note": "公式料金表のモデル名の列に記載された文字列。"
         }
       ],
-      "input_modalities": null,
-      "output_modalities": null,
-      "context_window": null,
-      "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "context_window": {
+        "tokens": 1050000,
+        "basis": "official",
+        "note": "公式の総コンテキスト上限。最大入力は922,000、最大出力は128,000トークンとして別に確認。"
+      },
+      "reasoning_efforts": {
+        "supported": [
+          "none",
+          "low",
+          "medium",
+          "high",
+          "xhigh",
+          "max"
+        ],
+        "default": "medium",
+        "mandatory": false
+      },
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "OpenCode Go のモデル一覧にも「GPT 6 Luna」が含まれる。Go 経由の単価は Go の料金表の値で、OpenAI の公式単価とは別の体系。",
+      "capability_notes": "推論設定・入出力・文脈長は公式の個別モデルページを確認。ツール利用のAPI条件も確認する。LunaのChat Completionsでは、function callingは推論none時に限る。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openai-api-2026-10-28", "opencode-go-2026-10-28"],
-      "official_url": "https://developers.openai.com/api/docs/pricing",
+      "pricing_snapshot_ids": [
+        "openai-api-2026-10-28",
+        "opencode-go-2026-10-28"
+      ],
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
       "sources": [
         {
           "title": "API Pricing",
@@ -629,12 +1166,22 @@
           "url": "https://opencode.ai/v2/docs/console/go/",
           "publisher": "OpenCode",
           "note": "2026-10-28 取得。Go のモデル一覧と、モデル別の月額上限を確認した。"
+        },
+        {
+          "title": "GPT-6 Luna",
+          "url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         }
       ],
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "OpenAI の API 単価と OpenCode Go の月額枠は換算できない。同じモデル名でも、買い方が違えば費用の形が変わる。",
-      "conditions": ["価格は税別・米ドル", "100万トークンあたり"]
+      "notes": "公式APIの仕様を確認。Chat・Work・Codexで選べるモデルや利用枠は、アプリと契約の条件として別に確認する。",
+      "conditions": [
+        "価格は税別・米ドル",
+        "100万トークンあたり"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "gpt-6-1-sol-pro",
@@ -646,17 +1193,31 @@
       "subtype": "balanced",
       "availability_status": "available",
       "verification_status": "reseller-only",
-      "primary_use_cases": ["general-chat", "coding", "reasoning"],
-      "not_suitable_for": ["公式の単価や仕様が必須の見積もり（提供元の公式表に項目がない）"],
-      "strengths": ["再販事業者の一覧で、文脈長 約105万トークン、入力2ドル・出力10ドルと記載されている"],
+      "primary_use_cases": [
+        "general-chat",
+        "coding",
+        "reasoning"
+      ],
+      "not_suitable_for": [
+        "公式の単価や仕様が必須の見積もり（提供元の公式表に項目がない）"
+      ],
+      "strengths": [
+        "再販事業者の一覧で、文脈長 約105万トークン、入力2ドル・出力10ドルと記載されている"
+      ],
       "limitations": [
         "OpenAI の公式料金表には「Sol Pro」という名前の項目がない",
         "公式の「gpt-6.1-sol」と同一モデルかどうかを確認できていない"
       ],
-      "interfaces": ["api"],
-      "platforms": ["web"],
-      "requires": ["OpenRouter のアカウントとクレジット"],
-      "available_via": ["openrouter"],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenRouter のアカウントとクレジット"
+      ],
+      "available_via": [
+        "openrouter"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -667,28 +1228,42 @@
           "note": "再販事業者の一覧に載る ID。"
         }
       ],
-      "input_modalities": ["text", "image", "file"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1050000,
         "basis": "reseller",
         "note": "再販事業者の一覧の値。公式の文脈長は未確認。"
       },
       "reasoning_efforts": {
-        "supported": ["max", "xhigh", "high", "medium", "low"],
+        "supported": [
+          "max",
+          "xhigh",
+          "high",
+          "medium",
+          "low"
+        ],
         "default": "medium",
         "mandatory": true
       },
       "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "このエンティティの情報は再販事業者の一覧のみに基づく。公式の提供元のページで同じ名前を確認できていないため、verification_status を reseller-only としている。",
+      "capability_notes": "このエンティティの情報は再販事業者の一覧のみに基づく。公式の提供元のページで同じ名前を確認できていないため、verification_status を reseller-only としている。 Skill・Plugin・MCP・権限などは、モデル単体ではなく利用するアプリやハーネス側で確認する。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openrouter-2026-10-27"],
+      "pricing_snapshot_ids": [
+        "openrouter-2026-10-27"
+      ],
       "official_url": "https://openrouter.ai/api/v1/models",
       "sources": [
         {
@@ -701,7 +1276,10 @@
       "last_verified_at": "2026-10-27",
       "last_checked_at": "2026-10-28",
       "notes": "公式の gpt-6.1-sol とは別エンティティ。名前の近さだけで同じモデルと決めつけない。",
-      "conditions": ["価格は再販事業者の表示", "100万トークンあたり"]
+      "conditions": [
+        "価格は再販事業者の表示",
+        "100万トークンあたり"
+      ]
     },
     {
       "id": "gpt-6-1-terra-pro",
@@ -713,14 +1291,30 @@
       "subtype": "balanced",
       "availability_status": "available",
       "verification_status": "reseller-only",
-      "primary_use_cases": ["general-chat", "bulk-classification", "document-work"],
-      "not_suitable_for": ["公式の単価が必須の見積もり"],
-      "strengths": ["再販事業者の一覧で、文脈長 約105万トークン、入力1ドル・出力5ドルと記載されている"],
-      "limitations": ["OpenAI の公式料金表に「Terra Pro」という名前の項目がない"],
-      "interfaces": ["api"],
-      "platforms": ["web"],
-      "requires": ["OpenRouter のアカウントとクレジット"],
-      "available_via": ["openrouter"],
+      "primary_use_cases": [
+        "general-chat",
+        "bulk-classification",
+        "document-work"
+      ],
+      "not_suitable_for": [
+        "公式の単価が必須の見積もり"
+      ],
+      "strengths": [
+        "再販事業者の一覧で、文脈長 約105万トークン、入力1ドル・出力5ドルと記載されている"
+      ],
+      "limitations": [
+        "OpenAI の公式料金表に「Terra Pro」という名前の項目がない"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenRouter のアカウントとクレジット"
+      ],
+      "available_via": [
+        "openrouter"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -731,28 +1325,42 @@
           "note": "再販事業者の一覧に載る ID。"
         }
       ],
-      "input_modalities": ["text", "image", "file"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image",
+        "file"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1050000,
         "basis": "reseller",
         "note": "再販事業者の一覧の値。"
       },
       "reasoning_efforts": {
-        "supported": ["max", "xhigh", "high", "medium", "low"],
+        "supported": [
+          "max",
+          "xhigh",
+          "high",
+          "medium",
+          "low"
+        ],
         "default": "medium",
         "mandatory": true
       },
       "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "情報源は再販事業者の一覧のみ。",
+      "capability_notes": "情報源は再販事業者の一覧のみ。 Skill・Plugin・MCP・権限などは、モデル単体ではなく利用するアプリやハーネス側で確認する。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openrouter-2026-10-27"],
+      "pricing_snapshot_ids": [
+        "openrouter-2026-10-27"
+      ],
       "official_url": "https://openrouter.ai/api/v1/models",
       "sources": [
         {
@@ -765,20 +1373,33 @@
       "last_verified_at": "2026-10-27",
       "last_checked_at": "2026-10-28",
       "notes": "公式の gpt-6.1-terra とは別エンティティ。",
-      "conditions": ["価格は再販事業者の表示", "100万トークンあたり"]
+      "conditions": [
+        "価格は再販事業者の表示",
+        "100万トークンあたり"
+      ]
     },
     {
       "id": "deepseek-v4-1-flash",
       "slug": "deepseek-v4-1-flash",
       "display_name": "DeepSeek V4.1 Flash",
-      "aliases": ["deepseek-flash", "DeepSeek-V4.1-Flash-1017", "DeepSeek V4.1 Flash"],
+      "aliases": [
+        "deepseek-flash",
+        "DeepSeek-V4.1-Flash-1017",
+        "DeepSeek V4.1 Flash"
+      ],
       "vendor": "DeepSeek",
       "kind": "model",
       "subtype": "light",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["bulk-classification", "coding", "low-latency"],
-      "not_suitable_for": ["ピーク時間帯の大量処理を最安で済ませたい用途（ピークはオフピークの2倍）"],
+      "primary_use_cases": [
+        "bulk-classification",
+        "coding",
+        "low-latency"
+      ],
+      "not_suitable_for": [
+        "ピーク時間帯の大量処理を最安で済ませたい用途（ピークはオフピークの2倍）"
+      ],
       "strengths": [
         "公式の料金ページで、オフピーク時は入力0.15ドル・出力0.60ドル（100万トークンあたり、キャッシュミス）",
         "文脈長100万トークン・最大出力384Kトークンと、公式に仕様が明示されている",
@@ -788,10 +1409,18 @@
         "ピーク時間帯（UTC 01:00–04:00、06:00–10:00 の月〜金、中国の祝日を除く）は単価が2倍",
         "同時実行数の上限がモデルごとに決まっている（公式表で2500）"
       ],
-      "interfaces": ["api"],
-      "platforms": ["web"],
-      "requires": ["DeepSeek の API アカウント、または OpenRouter などの再販アカウント"],
-      "available_via": ["deepseek-api", "openrouter", "opencode-go"],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "DeepSeek の API アカウント、または OpenRouter などの再販アカウント"
+      ],
+      "available_via": [
+        "deepseek-api",
+        "openrouter",
+        "opencode-go"
+      ],
       "model_ids": [
         {
           "provider": "DeepSeek",
@@ -810,24 +1439,33 @@
           "note": "再販事業者の一覧に載る ID。"
         }
       ],
-      "input_modalities": ["text", "image"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1000000,
         "basis": "official",
         "note": "公式料金ページの CONTEXT LENGTH 欄に 1M、MAX OUTPUT 欄に 384K と記載。"
       },
       "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "思考モードの有無は公式ページの「Supports both non-thinking and thinking (default) modes」による。effort の段階は公式料金ページに記載がないため未確認。Vision は Flash のみ対応と表に記載。",
+      "capability_notes": "思考モードの有無は公式ページの「Supports both non-thinking and thinking (default) modes」による。effort の段階は公式料金ページに記載がないため未確認。Vision は Flash のみ対応と表に記載。 Skill・Plugin・MCP・権限などは、モデル単体ではなく利用するアプリやハーネス側で確認する。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["deepseek-api-2026-10-28", "openrouter-2026-10-27", "opencode-go-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "deepseek-api-2026-10-28",
+        "openrouter-2026-10-27",
+        "opencode-go-2026-10-28"
+      ],
       "official_url": "https://api-docs.deepseek.com/quick_start/pricing",
       "sources": [
         {
@@ -846,30 +1484,56 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "公式のオフピーク入力0.15ドルに対し、再販事業者の一覧は0.14ドルと表示している。丸めか条件差かは確認できていないため、両者を別のスナップショットとして保持している。",
-      "conditions": ["価格は税別・米ドル", "100万トークンあたり", "ピークとオフピークで単価が変わる", "キャッシュヒットとミスで単価が変わる"]
+      "conditions": [
+        "価格は税別・米ドル",
+        "100万トークンあたり",
+        "ピークとオフピークで単価が変わる",
+        "キャッシュヒットとミスで単価が変わる"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "deepseek-v4-pro",
       "slug": "deepseek-v4-pro",
       "display_name": "DeepSeek V4 Pro",
-      "aliases": ["deepseek-v4-pro", "DeepSeek-V4-Pro-0813", "DeepSeek V4 Pro"],
+      "aliases": [
+        "deepseek-v4-pro",
+        "DeepSeek-V4-Pro-0813",
+        "DeepSeek V4 Pro"
+      ],
       "vendor": "DeepSeek",
       "kind": "model",
       "subtype": "balanced",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["reasoning", "coding", "agent-work"],
-      "not_suitable_for": ["画像を含む入力（公式表で Vision 非対応）"],
+      "primary_use_cases": [
+        "reasoning",
+        "coding",
+        "agent-work"
+      ],
+      "not_suitable_for": [
+        "画像を含む入力（公式表で Vision 非対応）"
+      ],
       "strengths": [
         "公式の料金ページで、オフピーク時は入力0.66ドル・出力1.98ドル（100万トークンあたり、キャッシュミス）",
         "思考モードが既定で有効",
         "文脈長100万トークン・最大出力384Kトークン"
       ],
-      "limitations": ["ピーク時間帯は単価が2倍", "画像入力に対応しない"],
-      "interfaces": ["api"],
-      "platforms": ["web"],
-      "requires": ["DeepSeek の API アカウント、または再販アカウント"],
-      "available_via": ["deepseek-api", "opencode-go"],
+      "limitations": [
+        "ピーク時間帯は単価が2倍",
+        "画像入力に対応しない"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "DeepSeek の API アカウント、または再販アカウント"
+      ],
+      "available_via": [
+        "deepseek-api",
+        "opencode-go"
+      ],
       "model_ids": [
         {
           "provider": "DeepSeek",
@@ -880,24 +1544,31 @@
           "note": "公式の料金ページのモデル名列に記載。"
         }
       ],
-      "input_modalities": ["text"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1000000,
         "basis": "official",
         "note": "公式料金ページの表で、CONTEXT LENGTH 1M と MAX OUTPUT 384K が2モデル共通の欄に記載されている。"
       },
       "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "Vision 非対応は公式表の「Not supported」による。effort の段階は未確認。",
+      "capability_notes": "Vision 非対応は公式表の「Not supported」による。effort の段階は未確認。 Skill・Plugin・MCP・権限などは、モデル単体ではなく利用するアプリやハーネス側で確認する。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["deepseek-api-2026-10-28", "opencode-go-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "deepseek-api-2026-10-28",
+        "opencode-go-2026-10-28"
+      ],
       "official_url": "https://api-docs.deepseek.com/quick_start/pricing",
       "sources": [
         {
@@ -910,7 +1581,12 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "同じ提供元の Flash より単価が高いが、思考の深さや品質の比較値はこのサイトでは確認できていない。",
-      "conditions": ["価格は税別・米ドル", "100万トークンあたり", "ピークとオフピークで単価が変わる"]
+      "conditions": [
+        "価格は税別・米ドル",
+        "100万トークンあたり",
+        "ピークとオフピークで単価が変わる"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "gemini-4-argon",
@@ -921,22 +1597,35 @@
       "kind": "model",
       "subtype": "frontier",
       "availability_status": "available",
-      "verification_status": "reseller-only",
-      "primary_use_cases": ["long-context", "image-understanding", "reasoning"],
-      "not_suitable_for": ["公式の単価が必須の見積もり（Google の料金ページに到達できていない）"],
+      "verification_status": "official",
+      "primary_use_cases": [
+        "long-context",
+        "image-understanding",
+        "reasoning"
+      ],
+      "not_suitable_for": [
+        "公式の単価が必須の見積もり（Google の料金ページに到達できていない）"
+      ],
       "strengths": [
-        "再販事業者の一覧で、テキスト・画像・動画・音声・ファイルの入力に対応すると記載されている",
-        "文脈長 約104万トークン",
-        "OpenCode Go のモデル一覧にも含まれる"
+        "文章・画像・音声・動画・PDFを入力し、テキストで答える。",
+        "Function calling、コード実行、検索などに対応する。"
       ],
       "limitations": [
-        "Google の公式料金・モデル一覧のページは、確認時点で認証の往復が発生し内容を取得できなかった",
-        "公式の単価・文脈長・モデル ID は未確認"
+        "画像生成・音声生成・Live APIは、このモデルの対応機能とは別。",
+        "Argonのキャッシュは暗黙的な方式のみ。"
       ],
-      "interfaces": ["api"],
-      "platforms": ["web"],
-      "requires": ["OpenRouter などの再販アカウント"],
-      "available_via": ["openrouter", "opencode-go"],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenRouter などの再販アカウント"
+      ],
+      "available_via": [
+        "openrouter",
+        "opencode-go",
+        "gemini-api"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -945,31 +1634,55 @@
           "verification_status": "reseller-only",
           "verified_at": "2026-10-27",
           "note": "再販事業者の一覧に載る ID。"
+        },
+        {
+          "provider": "Google",
+          "id": "gemini-4-argon",
+          "environment": "api-official",
+          "verification_status": "official",
+          "verified_at": "2026-10-28",
+          "note": "公式のモデルページに掲載されたID。"
         }
       ],
-      "input_modalities": ["text", "image", "video", "audio", "file"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "file"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1048576,
-        "basis": "reseller",
-        "note": "再販事業者の一覧の値。"
+        "basis": "official",
+        "note": "Argonは入力と出力を合計する統一上限。Flashは入力上限。出力上限やlong decodeの条件は別に確認。"
       },
       "reasoning_efforts": {
-        "supported": ["high", "medium", "low"],
-        "default": "medium",
+        "supported": [
+          "low",
+          "medium",
+          "high"
+        ],
+        "default": "unknown",
         "mandatory": true
       },
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "すべて再販事業者の一覧に基づく。提供元の公式ページでは確認できていない。",
+      "capability_notes": "対応機能を公式のモデルページで確認。UIの操作や承認設定はアプリごとに異なる。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openrouter-2026-10-27", "opencode-go-2026-10-28"],
-      "official_url": "https://openrouter.ai/api/v1/models",
+      "pricing_snapshot_ids": [
+        "openrouter-2026-10-27",
+        "opencode-go-2026-10-28",
+        "gemini-api-2026-10-28"
+      ],
+      "official_url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
       "sources": [
         {
           "title": "OpenRouter Models API",
@@ -982,12 +1695,22 @@
           "url": "https://opencode.ai/v2/docs/console/go/",
           "publisher": "OpenCode",
           "note": "2026-10-28 取得。Go のモデル一覧に含まれることを確認した。"
+        },
+        {
+          "title": "Gemini 4 Argon",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+          "publisher": "Google",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         }
       ],
-      "last_verified_at": "2026-10-27",
+      "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "Google の公式ページを取得できなかったため、公式の単価は掲載していない。公式が確認できるまでの暫定の登録。",
-      "conditions": ["価格は再販事業者の表示", "100万トークンあたり"]
+      "notes": "公式モデルページを確認済み。提供元のAPI価格と、再販事業者の単価は別の取得記録として示す。",
+      "conditions": [
+        "価格は再販事業者の表示",
+        "100万トークンあたり"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "gemini-3-8-flash",
@@ -998,15 +1721,34 @@
       "kind": "model",
       "subtype": "light",
       "availability_status": "available",
-      "verification_status": "reseller-only",
-      "primary_use_cases": ["low-latency", "bulk-classification", "image-understanding"],
-      "not_suitable_for": ["公式の単価が必須の見積もり"],
-      "strengths": ["再販事業者の一覧で、テキスト・画像・動画・音声・ファイルの入力に対応すると記載されている"],
-      "limitations": ["Google の公式ページを取得できていないため、公式の単価・仕様は未確認"],
-      "interfaces": ["api"],
-      "platforms": ["web"],
-      "requires": ["OpenRouter などの再販アカウント"],
-      "available_via": ["openrouter"],
+      "verification_status": "official",
+      "primary_use_cases": [
+        "low-latency",
+        "bulk-classification",
+        "image-understanding"
+      ],
+      "not_suitable_for": [
+        "公式の単価が必須の見積もり"
+      ],
+      "strengths": [
+        "文章・画像・音声・動画・PDFを入力し、テキストで答える。",
+        "Function calling、コード実行、検索などに対応する。"
+      ],
+      "limitations": [
+        "画像生成・音声生成・Live APIは、このモデルの対応機能とは別。",
+        "minimalの推論設定は対応外。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenRouter などの再販アカウント"
+      ],
+      "available_via": [
+        "openrouter",
+        "gemini-api"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -1015,62 +1757,115 @@
           "verification_status": "reseller-only",
           "verified_at": "2026-10-27",
           "note": "再販事業者の一覧に載る ID。"
+        },
+        {
+          "provider": "Google",
+          "id": "gemini-3.8-flash",
+          "environment": "api-official",
+          "verification_status": "official",
+          "verified_at": "2026-10-28",
+          "note": "公式のモデルページに掲載されたID。"
         }
       ],
-      "input_modalities": ["text", "image", "video", "audio", "file"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image",
+        "video",
+        "audio",
+        "file"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1048576,
-        "basis": "reseller",
-        "note": "再販事業者の一覧の値。"
+        "basis": "official",
+        "note": "Argonは入力と出力を合計する統一上限。Flashは入力上限。出力上限やlong decodeの条件は別に確認。"
       },
       "reasoning_efforts": {
-        "supported": ["high", "medium", "low"],
-        "default": "medium",
+        "supported": [
+          "low",
+          "medium",
+          "high"
+        ],
+        "default": "unknown",
         "mandatory": true
       },
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "すべて再販事業者の一覧に基づく。",
+      "capability_notes": "対応機能を公式のモデルページで確認。UIの操作や承認設定はアプリごとに異なる。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openrouter-2026-10-27"],
-      "official_url": "https://openrouter.ai/api/v1/models",
+      "pricing_snapshot_ids": [
+        "openrouter-2026-10-27",
+        "gemini-api-2026-10-28"
+      ],
+      "official_url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
       "sources": [
         {
           "title": "OpenRouter Models API",
           "url": "https://openrouter.ai/api/v1/models",
           "publisher": "OpenRouter",
           "note": "2026-10-27 取得。"
+        },
+        {
+          "title": "Gemini 3.8 Flash",
+          "url": "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash",
+          "publisher": "Google",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         }
       ],
-      "last_verified_at": "2026-10-27",
+      "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "公式情報が確認できるまでの暫定の登録。",
-      "conditions": ["価格は再販事業者の表示", "100万トークンあたり"]
+      "notes": "公式モデルページを確認済み。提供元のAPI価格と、再販事業者の単価は別の取得記録として示す。",
+      "conditions": [
+        "価格は再販事業者の表示",
+        "100万トークンあたり"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "grok-4-7",
       "slug": "grok-4-7",
       "display_name": "Grok 4.7",
-      "aliases": ["Grok 4.7"],
+      "aliases": [
+        "Grok 4.7"
+      ],
       "vendor": "xAI",
       "kind": "model",
       "subtype": "balanced",
       "availability_status": "available",
-      "verification_status": "reseller-only",
-      "primary_use_cases": ["general-chat", "reasoning", "image-understanding"],
-      "not_suitable_for": ["公式の単価が必須の見積もり"],
-      "strengths": ["再販事業者の一覧で、文脈長 50万トークン、入力2ドル・出力6ドルと記載されている"],
-      "limitations": ["xAI の公式ページはこの図鑑では参照できておらず、公式の単価・仕様は未確認"],
-      "interfaces": ["api"],
-      "platforms": ["web"],
-      "requires": ["OpenRouter などの再販アカウント"],
-      "available_via": ["openrouter", "opencode-go"],
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "reasoning",
+        "image-understanding"
+      ],
+      "not_suitable_for": [
+        "公式の単価が必須の見積もり"
+      ],
+      "strengths": [
+        "テキストと画像の入力、テキストの出力、ツール呼び出しに対応。"
+      ],
+      "limitations": [
+        "提供方式、入力長、地域などの条件を確認する。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenRouter などの再販アカウント"
+      ],
+      "available_via": [
+        "openrouter",
+        "opencode-go",
+        "xai-api"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -1079,31 +1874,53 @@
           "verification_status": "reseller-only",
           "verified_at": "2026-10-27",
           "note": "再販事業者の一覧に載る ID。"
+        },
+        {
+          "provider": "xAI",
+          "id": "grok-4.7",
+          "environment": "api-official",
+          "verification_status": "official",
+          "verified_at": "2026-10-28",
+          "note": "公式のモデルページに掲載されたID。"
         }
       ],
-      "input_modalities": ["text", "image", "file"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 500000,
-        "basis": "reseller",
-        "note": "再販事業者の一覧の値。"
+        "basis": "official",
+        "note": "公式APIの上限。長文時の料金条件は別に確認。"
       },
       "reasoning_efforts": {
-        "supported": ["xhigh", "high", "medium", "low"],
+        "supported": [
+          "low",
+          "medium",
+          "high",
+          "xhigh"
+        ],
         "default": "high",
         "mandatory": true
       },
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "再販事業者の一覧に基づく。OpenCode Go のモデル一覧にも含まれる。",
+      "capability_notes": "ツール呼び出しに対応。モデル単体の能力と、アプリ側の拡張・権限を分ける。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openrouter-2026-10-27", "opencode-go-2026-10-28"],
-      "official_url": "https://openrouter.ai/api/v1/models",
+      "pricing_snapshot_ids": [
+        "openrouter-2026-10-27",
+        "opencode-go-2026-10-28",
+        "xai-official-2026-10-28"
+      ],
+      "official_url": "https://docs.x.ai/developers/models/grok-4.7",
       "sources": [
         {
           "title": "OpenRouter Models API",
@@ -1116,25 +1933,43 @@
           "url": "https://opencode.ai/v2/docs/console/go/",
           "publisher": "OpenCode",
           "note": "2026-10-28 取得。Go のモデル一覧に含まれることを確認した。"
+        },
+        {
+          "title": "Grok 4.7",
+          "url": "https://docs.x.ai/developers/models/grok-4.7",
+          "publisher": "xAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         }
       ],
-      "last_verified_at": "2026-10-27",
+      "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "公式情報が確認できるまでの暫定の登録。",
-      "conditions": ["価格は再販事業者の表示", "100万トークンあたり"]
+      "notes": "公式の個別ページでID・機能・単価を確認。再販APIの条件と区別して掲載。",
+      "conditions": [
+        "価格は再販事業者の表示",
+        "100万トークンあたり"
+      ],
+      "input_modalities_basis": "official"
     },
     {
       "id": "qwen3-8-27b",
       "slug": "qwen3-8-27b",
       "display_name": "Qwen3.8 27B",
-      "aliases": ["qwen3.8-27b"],
+      "aliases": [
+        "qwen3.8-27b"
+      ],
       "vendor": "Qwen（Alibaba）",
       "kind": "model",
       "subtype": "light",
       "availability_status": "available",
-      "verification_status": "reseller-only",
-      "primary_use_cases": ["bulk-classification", "image-understanding", "document-work"],
-      "not_suitable_for": ["公式の単価が必須の見積もり"],
+      "verification_status": "partial",
+      "primary_use_cases": [
+        "bulk-classification",
+        "image-understanding",
+        "document-work"
+      ],
+      "not_suitable_for": [
+        "公式の単価が必須の見積もり"
+      ],
       "strengths": [
         "再販事業者の一覧で、入力0.20ドル・出力2.50ドル（100万トークンあたり）",
         "テキスト・画像・動画の入力に対応すると記載されている"
@@ -1143,10 +1978,16 @@
         "提供元の公式ページはこの図鑑では参照できていない",
         "文脈長はモデル単位で100万トークンと記載される一方、提供元の欄では26万トークン台と記載される（第18章の調査と同じ傾向）"
       ],
-      "interfaces": ["api"],
-      "platforms": ["web"],
-      "requires": ["OpenRouter などの再販アカウント"],
-      "available_via": ["openrouter"],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenRouter などの再販アカウント"
+      ],
+      "available_via": [
+        "openrouter"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -1157,60 +1998,100 @@
           "note": "再販事業者の一覧に載る ID。"
         }
       ],
-      "input_modalities": ["text", "image", "video"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image",
+        "video"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1000000,
         "basis": "reseller",
         "note": "モデル単位の値。契約する提供元では上限が下がる場合がある。"
       },
       "reasoning_efforts": {
-        "supported": ["xhigh", "medium", "low", "none"],
+        "supported": [
+          "xhigh",
+          "medium",
+          "low",
+          "none"
+        ],
         "default": "xhigh",
         "mandatory": false
       },
       "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "再販事業者の一覧に基づく。文脈長の提供元差は、第18章の記事で扱っている。",
+      "capability_notes": "再販事業者の一覧に基づく。文脈長の提供元差は、第18章の記事で扱っている。 Skill・Plugin・MCP・権限などは、モデル単体ではなく利用するアプリやハーネス側で確認する。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openrouter-2026-10-27"],
-      "official_url": "https://openrouter.ai/api/v1/models",
+      "pricing_snapshot_ids": [
+        "openrouter-2026-10-27"
+      ],
+      "official_url": "https://huggingface.co/Qwen/Qwen3.8-27B",
       "sources": [
         {
           "title": "OpenRouter Models API",
           "url": "https://openrouter.ai/api/v1/models",
           "publisher": "OpenRouter",
           "note": "2026-10-27 取得。"
+        },
+        {
+          "title": "Qwen3.8-27B model card",
+          "url": "https://huggingface.co/Qwen/Qwen3.8-27B",
+          "publisher": "Qwen",
+          "note": "公式配布元を確認。再販のモデルIDや配信条件と区別する。"
         }
       ],
-      "last_verified_at": "2026-10-27",
+      "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "モデルが扱える上限と、提供元が実際に配信する上限は別。長い入力を送る前に契約先の値を確認する。",
-      "conditions": ["価格は再販事業者の表示", "100万トークンあたり"]
+      "notes": "公式のモデル配布元を確認。再販APIのIDと文脈上限は、再販事業者が提供する条件として掲載する。",
+      "conditions": [
+        "価格は再販事業者の表示",
+        "100万トークンあたり"
+      ]
     },
     {
       "id": "qwen3-8-max-prime",
       "slug": "qwen3-8-max-prime",
       "display_name": "Qwen3.8 Max Prime",
-      "aliases": ["Qwen3.8 Max"],
+      "aliases": [
+        "Qwen3.8 Max"
+      ],
       "vendor": "Qwen（Alibaba）",
       "kind": "model",
       "subtype": "frontier",
       "availability_status": "available",
       "verification_status": "reseller-only",
-      "primary_use_cases": ["reasoning", "long-context", "coding"],
-      "not_suitable_for": ["公式の単価が必須の見積もり"],
-      "strengths": ["再販事業者の一覧で、入力4ドル・出力12ドル、文脈長100万トークンと記載されている"],
-      "limitations": ["提供元の公式ページは参照できておらず、公式の単価・仕様は未確認"],
-      "interfaces": ["api"],
-      "platforms": ["web"],
-      "requires": ["OpenRouter などの再販アカウント"],
-      "available_via": ["openrouter"],
+      "primary_use_cases": [
+        "reasoning",
+        "long-context",
+        "coding"
+      ],
+      "not_suitable_for": [
+        "公式の単価が必須の見積もり"
+      ],
+      "strengths": [
+        "再販事業者の一覧で、入力4ドル・出力12ドル、文脈長100万トークンと記載されている"
+      ],
+      "limitations": [
+        "提供元の公式ページは参照できておらず、公式の単価・仕様は未確認"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenRouter などの再販アカウント"
+      ],
+      "available_via": [
+        "openrouter"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -1221,28 +2102,42 @@
           "note": "再販事業者の一覧に載る ID。"
         }
       ],
-      "input_modalities": ["text", "image", "video"],
-      "output_modalities": ["text"],
+      "input_modalities": [
+        "text",
+        "image",
+        "video"
+      ],
+      "output_modalities": [
+        "text"
+      ],
       "context_window": {
         "tokens": 1000000,
         "basis": "reseller",
         "note": "モデル単位の値。"
       },
       "reasoning_efforts": {
-        "supported": ["xhigh", "high", "medium", "low", "minimal"],
+        "supported": [
+          "xhigh",
+          "high",
+          "medium",
+          "low",
+          "minimal"
+        ],
         "default": "xhigh",
         "mandatory": true
       },
       "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "再販事業者の一覧に基づく。OpenCode Go の「Qwen3.8 Max」と同じ名前かどうかは、ID が違うため確認していない。",
+      "capability_notes": "再販事業者の一覧に基づく。OpenCode Go の「Qwen3.8 Max」と同じ名前かどうかは、ID が違うため確認していない。 Skill・Plugin・MCP・権限などは、モデル単体ではなく利用するアプリやハーネス側で確認する。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openrouter-2026-10-27"],
+      "pricing_snapshot_ids": [
+        "openrouter-2026-10-27"
+      ],
       "official_url": "https://openrouter.ai/api/v1/models",
       "sources": [
         {
@@ -1256,31 +2151,59 @@
           "url": "https://opencode.ai/v2/docs/console/go/",
           "publisher": "OpenCode",
           "note": "2026-10-28 取得。「Qwen3.8 Max」がモデル一覧にあることを確認した。"
+        },
+        {
+          "title": "Alibaba Cloud models",
+          "url": "https://www.alibabacloud.com/help/en/model-studio/models",
+          "publisher": "Alibaba Cloud",
+          "note": "公式名qwen3.8-maxを確認。Max Primeという再販名と同一とは断定しない。"
         }
       ],
-      "last_verified_at": "2026-10-27",
+      "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "OpenCode Go の「Qwen3.8 Max」とは ID が異なる。同じモデルの別名かは未確認のため、別エンティティとして扱う。",
-      "conditions": ["価格は再販事業者の表示", "100万トークンあたり"]
+      "notes": "Qwen3.8-Maxは公式の一覧にあるが、再販名Max Primeとの同一性は公式資料から確定できない。ここでは再販事業者の製品記録として区別する。",
+      "conditions": [
+        "価格は再販事業者の表示",
+        "100万トークンあたり"
+      ]
     },
     {
       "id": "mistral-large-4",
       "slug": "mistral-large-4",
       "display_name": "Mistral Large 4",
-      "aliases": ["mistralai/mistral-large-4-0"],
+      "aliases": [
+        "mistralai/mistral-large-4-0"
+      ],
       "vendor": "Mistral AI",
       "kind": "model",
       "subtype": "balanced",
-      "availability_status": "available",
-      "verification_status": "reseller-only",
-      "primary_use_cases": ["general-chat", "document-work"],
-      "not_suitable_for": ["公式の単価が必須の見積もり"],
-      "strengths": ["再販事業者の一覧で、入力1.36ドル・出力4.18ドル、文脈長 約105万トークンと記載されている"],
-      "limitations": ["提供元の公式ページは参照できておらず、公式の単価・仕様は未確認"],
-      "interfaces": ["api"],
-      "platforms": ["web"],
-      "requires": ["OpenRouter などの再販アカウント"],
-      "available_via": ["openrouter"],
+      "availability_status": "preview",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [
+        "公式の単価が必須の見積もり"
+      ],
+      "strengths": [
+        "テキストと画像の入力、テキストの出力、ツール呼び出しに対応。"
+      ],
+      "limitations": [
+        "提供方式、入力長、地域などの条件を確認する。",
+        "公式表示はPublic Preview。提供条件の変更に注意する。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenRouter などの再販アカウント"
+      ],
+      "available_via": [
+        "openrouter",
+        "mistral-api"
+      ],
       "model_ids": [
         {
           "provider": "OpenRouter",
@@ -1289,43 +2212,69 @@
           "verification_status": "reseller-only",
           "verified_at": "2026-10-27",
           "note": "再販事業者の一覧に載る ID。"
+        },
+        {
+          "provider": "Mistral AI",
+          "id": "mistral-large-4",
+          "environment": "api-official",
+          "verification_status": "official",
+          "verified_at": "2026-10-28",
+          "note": "公式のモデルページに掲載されたID。"
         }
       ],
-      "input_modalities": ["text", "image"],
-      "output_modalities": ["text"],
-      "context_window": {
-        "tokens": 1048576,
-        "basis": "reseller",
-        "note": "再販事業者の一覧の値。"
-      },
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "context_window": null,
       "reasoning_efforts": {
-        "supported": ["high", "none"],
+        "supported": [
+          "high",
+          "none"
+        ],
         "default": "high",
         "mandatory": false
       },
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
+      "tool_support": "yes",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
       "plan_mode": "n/a",
       "permissions": "n/a",
-      "capability_notes": "再販事業者の一覧に基づく。",
+      "capability_notes": "ツール呼び出しに対応。モデル単体の能力と、アプリ側の拡張・権限を分ける。",
       "cost_model": "usage-based",
-      "pricing_snapshot_ids": ["openrouter-2026-10-27"],
-      "official_url": "https://openrouter.ai/api/v1/models",
+      "pricing_snapshot_ids": [
+        "openrouter-2026-10-27",
+        "mistral-official-2026-10-28"
+      ],
+      "official_url": "https://docs.mistral.ai/models/mistral-large-4-0",
       "sources": [
         {
           "title": "OpenRouter Models API",
           "url": "https://openrouter.ai/api/v1/models",
           "publisher": "OpenRouter",
           "note": "2026-10-27 取得。"
+        },
+        {
+          "title": "Mistral Large 4",
+          "url": "https://docs.mistral.ai/models/mistral-large-4-0",
+          "publisher": "Mistral AI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         }
       ],
-      "last_verified_at": "2026-10-27",
+      "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "公式情報が確認できるまでの暫定の登録。",
-      "conditions": ["価格は再販事業者の表示", "100万トークンあたり"]
+      "notes": "公式の個別ページでID・機能・単価を確認。再販APIの条件と区別して掲載。",
+      "conditions": [
+        "価格は再販事業者の表示",
+        "100万トークンあたり"
+      ],
+      "input_modalities_basis": "official",
+      "context_label": "1M（公式ページの表記。契約先で厳密な上限を確認）"
     },
     {
       "id": "claude-code",
@@ -1337,8 +2286,13 @@
       "subtype": "agentic-coding",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["coding", "agent-work"],
-      "not_suitable_for": ["API の従量課金だけで閉じた自動処理（対話と承認を前提にした製品）"],
+      "primary_use_cases": [
+        "coding",
+        "agent-work"
+      ],
+      "not_suitable_for": [
+        "API の従量課金だけで閉じた自動処理（対話と承認を前提にした製品）"
+      ],
       "strengths": [
         "ターミナルで動き、Git などのコマンドラインツールと MCP サーバーを使って作業できると公式に記載されている",
         "ファイルの変更やコマンドの実行の前に許可を求める",
@@ -1346,31 +2300,44 @@
         "Claude の Pro / Max / Team / Enterprise、または Console アカウントで使える"
       ],
       "limitations": [
-        "Skills・Plugins・サブエージェント・Plan Mode の個別仕様は、この図鑑が参照した公式ページでは確認できていない",
-        "利用量の上限は契約プランに依存し、API の単価とは別の体系"
+        "機能やモデルの利用量は、契約プランと管理設定に依存する。"
       ],
-      "interfaces": ["cli", "ide", "desktop"],
-      "platforms": ["macos", "linux", "windows"],
+      "interfaces": [
+        "cli",
+        "ide",
+        "desktop"
+      ],
+      "platforms": [
+        "macos",
+        "linux",
+        "windows"
+      ],
       "requires": [
         "Claude の Pro / Max / Team / Enterprise プラン、または Claude Platform（Console）のアカウント",
         "ターミナル"
       ],
-      "available_via": ["claude-code", "claude-app"],
+      "available_via": [
+        "claude-code",
+        "claude-app"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
       "context_window": null,
       "reasoning_efforts": null,
       "tool_support": "yes",
-      "skills": "unknown",
-      "plugins": "unknown",
+      "skills": "yes",
+      "plugins": "yes",
       "mcp": "yes",
-      "subagents": "unknown",
-      "plan_mode": "unknown",
+      "subagents": "yes",
+      "plan_mode": "yes",
       "permissions": "yes",
-      "capability_notes": "tool_support と mcp は公式の製品ページ本文、permissions は「変更やコマンド実行の前に許可を求める」という記載による。skills・plugins はサイトのナビゲーションに名前が出るだけで、Claude Code の機能としての説明を確認できていないため unknown。",
+      "capability_notes": "Skills・Plugins・Subagents・Plan modeを、それぞれの公式文書で確認。権限設定と、実機で確認した結果は分けて記録する。",
       "cost_model": "mixed",
-      "pricing_snapshot_ids": ["anthropic-subscription-2026-10-28", "anthropic-api-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "anthropic-subscription-2026-10-28",
+        "anthropic-api-2026-10-28"
+      ],
       "official_url": "https://claude.com/product/claude-code",
       "sources": [
         {
@@ -1384,25 +2351,59 @@
           "url": "https://claude.com/pricing",
           "publisher": "Anthropic",
           "note": "2026-10-28 取得。プラン別に Claude Code が使えるかを確認した（Free は No、Pro 以上は Yes）。"
+        },
+        {
+          "title": "Skills",
+          "url": "https://code.claude.com/docs/en/skills",
+          "publisher": "Anthropic",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        },
+        {
+          "title": "Plugins",
+          "url": "https://code.claude.com/docs/en/plugins",
+          "publisher": "Anthropic",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        },
+        {
+          "title": "Subagents",
+          "url": "https://code.claude.com/docs/en/sub-agents",
+          "publisher": "Anthropic",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        },
+        {
+          "title": "Common workflows",
+          "url": "https://code.claude.com/docs/en/common-workflows",
+          "publisher": "Anthropic",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         }
       ],
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "Claude Code はモデルではない。どのモデルを使うかは別の設定で、同じ「Claude」でもモデル名と製品名を混同しない。",
-      "conditions": ["プランにより利用量の上限が異なる", "Console アカウントでは API の従量課金"]
+      "conditions": [
+        "プランにより利用量の上限が異なる",
+        "Console アカウントでは API の従量課金"
+      ]
     },
     {
       "id": "codex-cli",
       "slug": "codex-cli",
       "display_name": "Codex CLI",
-      "aliases": ["Codex"],
+      "aliases": [
+        "Codex"
+      ],
       "vendor": "OpenAI",
       "kind": "harness",
       "subtype": "agentic-coding",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["coding", "agent-work"],
-      "not_suitable_for": ["課金なしで試す用途（サインインと利用枠が必要）"],
+      "primary_use_cases": [
+        "coding",
+        "agent-work"
+      ],
+      "not_suitable_for": [
+        "課金なしで試す用途（サインインと利用枠が必要）"
+      ],
       "strengths": [
         "公式ドキュメントに macOS/Linux/Windows と npm・Homebrew の導入手順が載っている",
         "サンドボックスと承認の設定が文書化されている",
@@ -1413,10 +2414,24 @@
         "Plan Mode という名前の機能は、参照した公式ドキュメントでは確認できていない",
         "利用枠は ChatGPT のプランに依存し、その料金表はこの図鑑では取得できなかった"
       ],
-      "interfaces": ["cli", "ide"],
-      "platforms": ["macos", "linux", "windows"],
-      "requires": ["ChatGPT でのサインイン、または API キー", "ターミナル"],
-      "available_via": ["codex-cli"],
+      "interfaces": [
+        "cli",
+        "ide"
+      ],
+      "platforms": [
+        "macos",
+        "linux",
+        "windows"
+      ],
+      "requires": [
+        "ChatGPT でのサインイン、または API キー",
+        "ターミナル"
+      ],
+      "available_via": [
+        "codex-cli",
+        "openai-api",
+        "chatgpt-app"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
@@ -1427,11 +2442,14 @@
       "plugins": "yes",
       "mcp": "yes",
       "subagents": "yes",
-      "plan_mode": "unknown",
+      "plan_mode": "yes",
       "permissions": "yes",
-      "capability_notes": "skills は公式の Build skills ドキュメント、subagents は公式のサブエージェント文書、サンドボックスと承認は Agent approvals & security の文書で確認した。permissions は承認とサンドボックスの仕組みがあることを指す。",
+      "capability_notes": "Skills、MCP、サブエージェント、計画と権限の制御を公式文書で確認。対応範囲はCLI・アプリなどの利用面と版によって確認する。",
       "cost_model": "mixed",
-      "pricing_snapshot_ids": ["openai-api-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "openai-api-2026-10-28",
+        "chatgpt-subscription-2026-10-28"
+      ],
       "official_url": "https://learn.chatgpt.com/docs/codex/cli",
       "sources": [
         {
@@ -1451,12 +2469,33 @@
           "url": "https://learn.chatgpt.com/docs/agent-configuration/subagents",
           "publisher": "OpenAI",
           "note": "2026-10-28 取得。サブエージェントの実行と、既定で有効であることの記載を確認した。"
+        },
+        {
+          "title": "Skills",
+          "url": "https://developers.openai.com/codex/skills",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        },
+        {
+          "title": "Multi-agents",
+          "url": "https://developers.openai.com/codex/multi-agent",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        },
+        {
+          "title": "Developer commands",
+          "url": "https://learn.chatgpt.com/docs/developer-commands",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         }
       ],
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "「Codex」はハーネスの名前で、GPT モデルの名前ではない。Codex CLI が使うモデルは別に選ぶ。ChatGPT の有料プランの料金は、確認時点で公式ページを取得できなかったため掲載していない。",
-      "conditions": ["ChatGPT のプランまたは API キーで認証する", "サンドボックスの範囲は設定で変わる"]
+      "notes": "モデル名とCLI製品名を区別する。ChatGPTプランに含まれる利用と、APIキーによる従量課金も別に確認する。",
+      "conditions": [
+        "ChatGPT のプランまたは API キーで認証する",
+        "サンドボックスの範囲は設定で変わる"
+      ]
     },
     {
       "id": "opencode",
@@ -1468,8 +2507,13 @@
       "subtype": "agentic-coding",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["coding", "agent-work"],
-      "not_suitable_for": ["提供元が保証する長期サポートが必要な用途（オープンソースで、機能は頻繁に変わる）"],
+      "primary_use_cases": [
+        "coding",
+        "agent-work"
+      ],
+      "not_suitable_for": [
+        "提供元が保証する長期サポートが必要な用途（オープンソースで、機能は頻繁に変わる）"
+      ],
       "strengths": [
         "MIT ライセンスのオープンソースで、ターミナル・デスクトップアプリ・IDE 拡張として提供されている",
         "Plan mode があり、変更を行わずに実装方針を提案する状態に切り替えられる（Tab キー）",
@@ -1477,13 +2521,26 @@
         "複数の提供元を切り替えて使える"
       ],
       "limitations": [
-        "サブエージェントに相当する機能の名称と範囲は、参照した文書では確認できていない",
-        "Windows では WSL の利用が案内されている"
+        "モデルの提供元と認証、利用料はOpenCode本体とは別に設定する。"
       ],
-      "interfaces": ["cli", "desktop", "ide"],
-      "platforms": ["macos", "linux", "windows"],
-      "requires": ["ターミナル（Windows は WSL 推奨）", "使うモデルの提供元のアカウントまたは API キー"],
-      "available_via": ["opencode", "opencode-go"],
+      "interfaces": [
+        "cli",
+        "desktop",
+        "ide"
+      ],
+      "platforms": [
+        "macos",
+        "linux",
+        "windows"
+      ],
+      "requires": [
+        "ターミナル（Windows は WSL 推奨）",
+        "使うモデルの提供元のアカウントまたは API キー"
+      ],
+      "available_via": [
+        "opencode",
+        "opencode-go"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
@@ -1493,12 +2550,14 @@
       "skills": "yes",
       "plugins": "yes",
       "mcp": "yes",
-      "subagents": "unknown",
+      "subagents": "yes",
       "plan_mode": "yes",
       "permissions": "yes",
-      "capability_notes": "plan_mode は公式ドキュメントの「OpenCode has a Plan mode that disables its ability to make changes and instead suggest how it'll implement the feature. Switch to it using the Tab key」による。skills・plugins・mcp・permissions はドキュメントの独立した項目として存在することを確認した。",
+      "capability_notes": "Build・Planという主担当と、General・Exploreなどのサブエージェントを公式のAgents文書で確認。",
       "cost_model": "mixed",
-      "pricing_snapshot_ids": ["opencode-go-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "opencode-go-2026-10-28"
+      ],
       "official_url": "https://opencode.ai/docs/",
       "sources": [
         {
@@ -1512,25 +2571,44 @@
           "url": "https://opencode.ai/",
           "publisher": "OpenCode",
           "note": "2026-10-28 取得。オープンソース（MIT）であること、複数の提供元に対応することを確認した。"
+        },
+        {
+          "title": "Agents",
+          "url": "https://opencode.ai/docs/agents/",
+          "publisher": "OpenCode",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         }
       ],
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "OpenCode 本体は無料のオープンソースで、モデルの利用料は別にかかる。OpenCode Go は OpenCode が提供する有料のモデル利用サービスで、本体とは別のエンティティ。",
-      "conditions": ["モデルの利用料は提供元ごとに異なる", "OpenCode Go は任意の追加サービス"]
+      "conditions": [
+        "モデルの利用料は提供元ごとに異なる",
+        "OpenCode Go は任意の追加サービス"
+      ]
     },
     {
       "id": "claude-app",
       "slug": "claude-app",
       "display_name": "Claude（アプリ）",
-      "aliases": ["Claude", "Claude Desktop", "Claude デスクトップ"],
+      "aliases": [
+        "Claude",
+        "Claude Desktop",
+        "Claude デスクトップ"
+      ],
       "vendor": "Anthropic",
       "kind": "app",
       "subtype": "chat-app",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["general-chat", "document-work", "research"],
-      "not_suitable_for": ["API と同じ単価で大量に呼び出す用途（アプリの利用枠は API の従量課金と別）"],
+      "primary_use_cases": [
+        "general-chat",
+        "document-work",
+        "research"
+      ],
+      "not_suitable_for": [
+        "API と同じ単価で大量に呼び出す用途（アプリの利用枠は API の従量課金と別）"
+      ],
       "strengths": [
         "Web・デスクトップ・iOS・Android で提供され、Free プランから使える",
         "Skills、コネクタ、Artifacts、プロジェクト、メモリなど、プラン別の機能が公式の比較表に載っている",
@@ -1540,10 +2618,24 @@
         "使えるモデルと利用量はプランで決まり、API の単価とは換算できない",
         "機能の一部はベータで、プランによって提供状況が違う"
       ],
-      "interfaces": ["web", "desktop", "mobile"],
-      "platforms": ["web", "macos", "windows", "ios", "android"],
-      "requires": ["Claude のアカウント"],
-      "available_via": ["claude-app"],
+      "interfaces": [
+        "web",
+        "desktop",
+        "mobile"
+      ],
+      "platforms": [
+        "web",
+        "macos",
+        "windows",
+        "ios",
+        "android"
+      ],
+      "requires": [
+        "Claude のアカウント"
+      ],
+      "available_via": [
+        "claude-app"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
@@ -1558,7 +2650,9 @@
       "permissions": "unknown",
       "capability_notes": "Skills は個人向けプランの比較表で Free から Max まで「Yes」と記載されている。デスクトップ拡張、音声モード、シークレットチャットも同表に記載がある。",
       "cost_model": "mixed",
-      "pricing_snapshot_ids": ["anthropic-subscription-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "anthropic-subscription-2026-10-28"
+      ],
       "official_url": "https://claude.com/pricing",
       "sources": [
         {
@@ -1571,101 +2665,166 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "アプリの「Claude」と、モデルの「Claude Sonnet」などは別のレイヤー。アプリで選べるモデルは提供状況に依存する。",
-      "conditions": ["機能と利用量はプランで異なる", "一部の機能はベータ"]
+      "conditions": [
+        "機能と利用量はプランで異なる",
+        "一部の機能はベータ"
+      ]
     },
     {
       "id": "chatgpt-app",
       "slug": "chatgpt-app",
       "display_name": "ChatGPT（アプリ）",
-      "aliases": ["ChatGPT"],
+      "aliases": [
+        "ChatGPT"
+      ],
       "vendor": "OpenAI",
       "kind": "app",
       "subtype": "chat-app",
-      "availability_status": "unverified",
-      "verification_status": "unverified",
-      "primary_use_cases": ["general-chat", "document-work"],
-      "not_suitable_for": ["この図鑑の情報だけでの契約判断（公式の料金・プラン情報を取得できていない）"],
-      "strengths": [],
-      "limitations": [
-        "公式の料金ページが確認時点で取得できなかった（403）",
-        "公式の利用者向けドキュメントの料金ページは 404 だった",
-        "プラン名・価格・利用枠を、この図鑑では掲載していない"
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
       ],
-      "interfaces": ["web", "desktop", "mobile"],
-      "platforms": ["web"],
-      "requires": ["未確認"],
-      "available_via": ["chatgpt-app"],
+      "not_suitable_for": [
+        "この図鑑の情報だけでの契約判断（公式の料金・プラン情報を取得できていない）"
+      ],
+      "strengths": [
+        "ブラウザやデスクトップで対話し、ファイルや成果物を確認できる。",
+        "デスクトップではChat・Work・Codexを目的に応じて選ぶ。"
+      ],
+      "limitations": [
+        "機能やモデルの対応は、利用面・契約・管理設定によって異なる。"
+      ],
+      "interfaces": [
+        "web",
+        "desktop"
+      ],
+      "platforms": [
+        "web",
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "requires": [
+        "ChatGPTアカウント。利用する機能・プランに応じた権限。"
+      ],
+      "available_via": [
+        "chatgpt-app"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
       "context_window": null,
       "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
+      "tool_support": "yes",
+      "skills": "yes",
+      "plugins": "yes",
       "mcp": "unknown",
-      "subagents": "unknown",
-      "plan_mode": "unknown",
-      "permissions": "unknown",
-      "capability_notes": "料金・プラン・機能の一覧を公式で確認できていないため、確認できた項目だけを書く方針に従い、ほぼ空の状態で登録している。推測で埋めない。",
-      "cost_model": "unknown",
-      "pricing_snapshot_ids": [],
-      "official_url": "https://chatgpt.com/",
+      "subagents": "yes",
+      "plan_mode": "yes",
+      "permissions": "yes",
+      "capability_notes": "ファイル作業、ツールやPluginの利用、計画・権限の制御は、Work・Codexなど対応する利用面の機能として確認する。",
+      "cost_model": "mixed",
+      "pricing_snapshot_ids": [
+        "chatgpt-subscription-2026-10-28"
+      ],
+      "official_url": "https://learn.chatgpt.com/docs/app",
       "sources": [
         {
-          "title": "ChatGPT Pricing（取得できず）",
-          "url": "https://chatgpt.com/pricing",
+          "title": "ChatGPT desktop app",
+          "url": "https://learn.chatgpt.com/docs/app",
           "publisher": "OpenAI",
-          "note": "2026-10-28 に取得を試み、403 が返った。内容を確認できていないため、このページの情報は掲載していない。"
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
         },
         {
-          "title": "Codex CLI（利用者向けドキュメント）",
-          "url": "https://learn.chatgpt.com/docs/codex/cli",
+          "title": "Pricing",
+          "url": "https://learn.chatgpt.com/docs/pricing",
           "publisher": "OpenAI",
-          "note": "2026-10-28 取得。「Sign in with ChatGPT」「Apps powered by your user's ChatGPT plan」という記載は確認したが、プラン名・価格は書かれていない。"
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        },
+        {
+          "title": "Build skills",
+          "url": "https://learn.chatgpt.com/docs/build-skills",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        },
+        {
+          "title": "Subagents",
+          "url": "https://developers.openai.com/codex/multi-agent",
+          "publisher": "OpenAI",
+          "note": "Work・Codexでの対応を確認。Chat全体の共通機能とは扱わない（2026-10-28）。"
         }
       ],
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
-      "notes": "未確認の製品を未確認のまま登録している例。公式ページが取得できるようになった時点で、価格とプランを追加する。",
-      "conditions": ["価格・プラン・機能は未確認"]
+      "notes": "公式のアプリ説明とChatGPT Learnの料金資料を確認済み。Work・Codexの利用枠を、APIのトークン単価へ換算しない。",
+      "conditions": [
+        "価格・プラン・機能は未確認"
+      ]
     },
     {
       "id": "claude-free",
       "slug": "claude-free",
       "display_name": "Claude Free",
-      "aliases": ["Free"],
+      "aliases": [
+        "Free"
+      ],
       "vendor": "Anthropic",
       "kind": "plan",
       "subtype": "subscription",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["general-chat"],
-      "not_suitable_for": ["Claude Code を使う用途（無料プランでは提供されない）", "Fable や Opus を使う用途"],
-      "strengths": ["0ドルで、Web・デスクトップ・モバイルのアプリを使える", "Sonnet と Haiku は利用できる"],
+      "primary_use_cases": [
+        "general-chat"
+      ],
+      "not_suitable_for": [
+        "Claude Code を使う用途（無料プランでは提供されない）",
+        "Fable や Opus を使う用途"
+      ],
+      "strengths": [
+        "0ドルで、Web・デスクトップ・モバイルのアプリを使える",
+        "Sonnet と Haiku は利用できる"
+      ],
       "limitations": [
         "Claude Code、Research、利用クレジット、優先アクセスは提供されない",
         "プロジェクトは5件まで"
       ],
-      "interfaces": ["web", "desktop", "mobile"],
-      "platforms": ["web", "macos", "windows", "ios", "android"],
-      "requires": ["アカウント作成"],
-      "available_via": ["claude-app"],
+      "interfaces": [
+        "web",
+        "desktop",
+        "mobile"
+      ],
+      "platforms": [
+        "web",
+        "macos",
+        "windows",
+        "ios",
+        "android"
+      ],
+      "requires": [
+        "アカウント作成"
+      ],
+      "available_via": [
+        "claude-app"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
       "context_window": null,
       "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "yes",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
-      "plan_mode": "unknown",
-      "permissions": "unknown",
-      "capability_notes": "公式の個人向け比較表に基づく。",
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
       "cost_model": "free",
-      "pricing_snapshot_ids": ["anthropic-subscription-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "anthropic-subscription-2026-10-28"
+      ],
       "official_url": "https://claude.com/pricing",
       "sources": [
         {
@@ -1678,20 +2837,31 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "無料でも使えるが、利用量の上限はある。上限の具体的な回数は公式ページに記載がない。",
-      "conditions": ["価格は米ドル", "税の扱いはプランにより異なる"]
+      "conditions": [
+        "価格は米ドル",
+        "税の扱いはプランにより異なる"
+      ]
     },
     {
       "id": "claude-pro",
       "slug": "claude-pro",
       "display_name": "Claude Pro",
-      "aliases": ["Pro"],
+      "aliases": [
+        "Pro"
+      ],
       "vendor": "Anthropic",
       "kind": "plan",
       "subtype": "subscription",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["general-chat", "coding", "document-work"],
-      "not_suitable_for": ["最も重い利用を1つのプランで賄う用途（Max の5分の1の利用枠）"],
+      "primary_use_cases": [
+        "general-chat",
+        "coding",
+        "document-work"
+      ],
+      "not_suitable_for": [
+        "最も重い利用を1つのプランで賄う用途（Max の5分の1の利用枠）"
+      ],
       "strengths": [
         "月20ドル（月払い）、年払いなら月17ドル相当（200ドルを一括前払い）",
         "Claude Code、Research、プロジェクト、コネクタが使える",
@@ -1701,25 +2871,44 @@
         "月額のAPI クレジットは付かない",
         "Fable は週間上限の50%までの Max と違い、利用クレジットの消費として扱われる"
       ],
-      "interfaces": ["web", "desktop", "mobile", "cli", "ide"],
-      "platforms": ["web", "macos", "windows", "ios", "android"],
-      "requires": ["Anthropic のアカウントと支払い方法"],
-      "available_via": ["claude-app", "claude-code"],
+      "interfaces": [
+        "web",
+        "desktop",
+        "mobile",
+        "cli",
+        "ide"
+      ],
+      "platforms": [
+        "web",
+        "macos",
+        "windows",
+        "ios",
+        "android"
+      ],
+      "requires": [
+        "Anthropic のアカウントと支払い方法"
+      ],
+      "available_via": [
+        "claude-app",
+        "claude-code"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
       "context_window": null,
       "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "yes",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
-      "plan_mode": "unknown",
-      "permissions": "unknown",
-      "capability_notes": "公式の個人向け比較表に基づく。",
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
       "cost_model": "paid",
-      "pricing_snapshot_ids": ["anthropic-subscription-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "anthropic-subscription-2026-10-28"
+      ],
       "official_url": "https://claude.com/pricing",
       "sources": [
         {
@@ -1732,20 +2921,32 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "「月17ドル」は年払いの割引後の月あたり換算で、実際には200ドルを一括で支払う。月払いと年払いを同じ表の同じ列に置かない。",
-      "conditions": ["価格は米ドル", "税別", "年払いは一括前払い"]
+      "conditions": [
+        "価格は米ドル",
+        "税別",
+        "年払いは一括前払い"
+      ]
     },
     {
       "id": "claude-max",
       "slug": "claude-max",
       "display_name": "Claude Max",
-      "aliases": ["Max"],
+      "aliases": [
+        "Max"
+      ],
       "vendor": "Anthropic",
       "kind": "plan",
       "subtype": "subscription",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["general-chat", "coding", "agent-work"],
-      "not_suitable_for": ["月額を抑えたい用途（月100ドルから）"],
+      "primary_use_cases": [
+        "general-chat",
+        "coding",
+        "agent-work"
+      ],
+      "not_suitable_for": [
+        "月額を抑えたい用途（月100ドルから）"
+      ],
       "strengths": [
         "月100ドルからで、Pro の5倍または20倍の利用量を選べる",
         "Fable・Opus を含む上位モデルを使え、Fable は週間上限の50%まで使える",
@@ -1756,25 +2957,44 @@
         "利用量の上限は枠によって異なり、20倍を選ぶと月200ドル",
         "API クレジットは毎月付くものではなく、条件は公式の注記を確認する必要がある"
       ],
-      "interfaces": ["web", "desktop", "mobile", "cli", "ide"],
-      "platforms": ["web", "macos", "windows", "ios", "android"],
-      "requires": ["Anthropic のアカウントと支払い方法"],
-      "available_via": ["claude-app", "claude-code"],
+      "interfaces": [
+        "web",
+        "desktop",
+        "mobile",
+        "cli",
+        "ide"
+      ],
+      "platforms": [
+        "web",
+        "macos",
+        "windows",
+        "ios",
+        "android"
+      ],
+      "requires": [
+        "Anthropic のアカウントと支払い方法"
+      ],
+      "available_via": [
+        "claude-app",
+        "claude-code"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
       "context_window": null,
       "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "yes",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
-      "plan_mode": "unknown",
-      "permissions": "unknown",
-      "capability_notes": "公式の個人向け比較表に基づく。",
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
       "cost_model": "paid",
-      "pricing_snapshot_ids": ["anthropic-subscription-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "anthropic-subscription-2026-10-28"
+      ],
       "official_url": "https://claude.com/pricing",
       "sources": [
         {
@@ -1787,20 +3007,32 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "「月100ドルから」は下限。20倍の枠の価格は、この図鑑では個別に確認できていない（比較表では Max 20x の列があるが、料金の実額は「From $100」のみ）。",
-      "conditions": ["価格は米ドル", "税別", "利用量は5倍と20倍の2種類"]
+      "conditions": [
+        "価格は米ドル",
+        "税別",
+        "利用量は5倍と20倍の2種類"
+      ]
     },
     {
       "id": "claude-team",
       "slug": "claude-team",
       "display_name": "Claude Team",
-      "aliases": ["Team"],
+      "aliases": [
+        "Team"
+      ],
       "vendor": "Anthropic",
       "kind": "plan",
       "subtype": "subscription",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["general-chat", "coding", "document-work"],
-      "not_suitable_for": ["1人だけの利用（2人からが対象）"],
+      "primary_use_cases": [
+        "general-chat",
+        "coding",
+        "document-work"
+      ],
+      "not_suitable_for": [
+        "1人だけの利用（2人からが対象）"
+      ],
       "strengths": [
         "2〜150人のチーム向けで、標準席は年払いで1席あたり月20ドル（月払い25ドル）",
         "プレミアム席は5倍の利用量で、Claude Code と Claude Cowork が使える",
@@ -1810,25 +3042,45 @@
         "席の種類を混在できるが、利用枠は席の種類で異なる",
         "Fable はプレミアム席で週間上限の50%まで"
       ],
-      "interfaces": ["web", "desktop", "mobile", "cli", "ide"],
-      "platforms": ["web", "macos", "windows", "ios", "android"],
-      "requires": ["2人以上のチーム", "Anthropic の契約と支払い方法"],
-      "available_via": ["claude-app", "claude-code"],
+      "interfaces": [
+        "web",
+        "desktop",
+        "mobile",
+        "cli",
+        "ide"
+      ],
+      "platforms": [
+        "web",
+        "macos",
+        "windows",
+        "ios",
+        "android"
+      ],
+      "requires": [
+        "2人以上のチーム",
+        "Anthropic の契約と支払い方法"
+      ],
+      "available_via": [
+        "claude-app",
+        "claude-code"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
       "context_window": null,
       "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "yes",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
-      "plan_mode": "unknown",
-      "permissions": "unknown",
-      "capability_notes": "公式のチーム向け料金と機能一覧に基づく。",
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
       "cost_model": "paid",
-      "pricing_snapshot_ids": ["anthropic-subscription-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "anthropic-subscription-2026-10-28"
+      ],
       "official_url": "https://claude.com/pricing",
       "sources": [
         {
@@ -1841,45 +3093,80 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "席単価は年払いと月払いで違う。人数分を掛けた総額で比べる。",
-      "conditions": ["価格は米ドル・税別", "年払いと月払いで単価が異なる", "2〜150人"]
+      "conditions": [
+        "価格は米ドル・税別",
+        "年払いと月払いで単価が異なる",
+        "2〜150人"
+      ]
     },
     {
       "id": "claude-enterprise",
       "slug": "claude-enterprise",
       "display_name": "Claude Enterprise",
-      "aliases": ["Enterprise"],
+      "aliases": [
+        "Enterprise"
+      ],
       "vendor": "Anthropic",
       "kind": "plan",
       "subtype": "subscription",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["general-chat", "coding", "document-work"],
-      "not_suitable_for": ["小規模な個人利用（20席から）"],
+      "primary_use_cases": [
+        "general-chat",
+        "coding",
+        "document-work"
+      ],
+      "not_suitable_for": [
+        "小規模な個人利用（20席から）"
+      ],
       "strengths": [
         "席単価に加えて、利用量を API の単価で支払う体系",
         "年払いで1席あたり月20ドル、最低20席",
         "SSO、SCIM、監査ログ、保持期間の制御など、管理機能が揃っている"
       ],
-      "limitations": ["利用量の費用がモデルとタスクで変わるため、総額は事前に確定しない"],
-      "interfaces": ["web", "desktop", "mobile", "cli", "ide"],
-      "platforms": ["web", "macos", "windows", "ios", "android"],
-      "requires": ["20席以上の契約", "営業との相談"],
-      "available_via": ["claude-app", "claude-code", "claude-api"],
+      "limitations": [
+        "利用量の費用がモデルとタスクで変わるため、総額は事前に確定しない"
+      ],
+      "interfaces": [
+        "web",
+        "desktop",
+        "mobile",
+        "cli",
+        "ide"
+      ],
+      "platforms": [
+        "web",
+        "macos",
+        "windows",
+        "ios",
+        "android"
+      ],
+      "requires": [
+        "20席以上の契約",
+        "営業との相談"
+      ],
+      "available_via": [
+        "claude-app",
+        "claude-code",
+        "claude-api"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
       "context_window": null,
       "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "yes",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
-      "plan_mode": "unknown",
-      "permissions": "unknown",
-      "capability_notes": "公式の法人向け料金に基づく。",
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
       "cost_model": "paid",
-      "pricing_snapshot_ids": ["anthropic-subscription-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "anthropic-subscription-2026-10-28"
+      ],
       "official_url": "https://claude.com/pricing",
       "sources": [
         {
@@ -1892,20 +3179,32 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "「席単価＋API 単価の利用量」なので、月額を1つの数字で表せない。試算では利用量を別項目にする。",
-      "conditions": ["価格は米ドル・税別", "年払い", "20席以上"]
+      "conditions": [
+        "価格は米ドル・税別",
+        "年払い",
+        "20席以上"
+      ]
     },
     {
       "id": "opencode-go",
       "slug": "opencode-go",
       "display_name": "OpenCode Go",
-      "aliases": ["Go"],
+      "aliases": [
+        "Go"
+      ],
       "vendor": "OpenCode",
       "kind": "plan",
       "subtype": "subscription",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["coding", "agent-work"],
-      "not_suitable_for": ["複数人で1つの契約を共有する用途（1人のワークスペースが対象）", "OpenCode 以外の用途を想定した一般的なAPI利用"],
+      "primary_use_cases": [
+        "coding",
+        "agent-work"
+      ],
+      "not_suitable_for": [
+        "複数人で1つの契約を共有する用途（1人のワークスペースが対象）",
+        "OpenCode 以外の用途を想定した一般的なAPI利用"
+      ],
       "strengths": [
         "月10ドルで、コーディング向けのモデル群を OpenCode から使える",
         "利用上限はモデルごとの月額ドル換算で決まり、5時間で月額の20%、週で50%、月で100%という配分が公式に明示されている",
@@ -1916,25 +3215,42 @@
         "モデルごとに月額上限が異なり、同じ10ドルでも使える量はモデルで変わる",
         "Go Plus（月40ドル）で上限がどこまで上がるかは、モデル別の数値が公開されていない"
       ],
-      "interfaces": ["cli", "desktop", "ide"],
-      "platforms": ["macos", "linux", "windows"],
-      "requires": ["OpenCode のアカウント", "支払い方法", "OpenCode の /connect で API キーを設定"],
-      "available_via": ["opencode-go", "opencode"],
+      "interfaces": [
+        "cli",
+        "desktop",
+        "ide"
+      ],
+      "platforms": [
+        "macos",
+        "linux",
+        "windows"
+      ],
+      "requires": [
+        "OpenCode のアカウント",
+        "支払い方法",
+        "OpenCode の /connect で API キーを設定"
+      ],
+      "available_via": [
+        "opencode-go",
+        "opencode"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
       "context_window": null,
       "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
-      "plan_mode": "unknown",
-      "permissions": "unknown",
-      "capability_notes": "利用量の配分（5時間20%・週50%・月100%）と、モデル別の単価・月額上限は公式の Go ドキュメントの表による。",
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
       "cost_model": "paid",
-      "pricing_snapshot_ids": ["opencode-go-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "opencode-go-2026-10-28"
+      ],
       "official_url": "https://opencode.ai/v2/docs/console/go/",
       "sources": [
         {
@@ -1947,20 +3263,31 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "月10ドルは「モデルごとの上限の合計」ではない。複数モデルを使うと、それぞれの上限に対して利用量が積み上がる。",
-      "conditions": ["価格は米ドル・税別", "1人のワークスペース", "利用量はモデルごとの月額上限に対する割合"]
+      "conditions": [
+        "価格は米ドル・税別",
+        "1人のワークスペース",
+        "利用量はモデルごとの月額上限に対する割合"
+      ]
     },
     {
       "id": "opencode-go-plus",
       "slug": "opencode-go-plus",
       "display_name": "OpenCode Go Plus",
-      "aliases": ["Go Plus"],
+      "aliases": [
+        "Go Plus"
+      ],
       "vendor": "OpenCode",
       "kind": "plan",
       "subtype": "subscription",
       "availability_status": "available",
       "verification_status": "official",
-      "primary_use_cases": ["coding", "agent-work"],
-      "not_suitable_for": ["複数人での共有"],
+      "primary_use_cases": [
+        "coding",
+        "agent-work"
+      ],
+      "not_suitable_for": [
+        "複数人での共有"
+      ],
       "strengths": [
         "月40ドルで、Go より高い利用上限が案内されている",
         "モデルごとの単価は Go と同じ"
@@ -1969,25 +3296,41 @@
         "モデル別の上限額が Go とどう違うかは、公式ページの表に項目別の記載がない（未確認）",
         "1人のワークスペースが対象"
       ],
-      "interfaces": ["cli", "desktop", "ide"],
-      "platforms": ["macos", "linux", "windows"],
-      "requires": ["OpenCode のアカウント", "支払い方法"],
-      "available_via": ["opencode-go", "opencode"],
+      "interfaces": [
+        "cli",
+        "desktop",
+        "ide"
+      ],
+      "platforms": [
+        "macos",
+        "linux",
+        "windows"
+      ],
+      "requires": [
+        "OpenCode のアカウント",
+        "支払い方法"
+      ],
+      "available_via": [
+        "opencode-go",
+        "opencode"
+      ],
       "model_ids": [],
       "input_modalities": null,
       "output_modalities": null,
       "context_window": null,
       "reasoning_efforts": null,
-      "tool_support": "unknown",
-      "skills": "unknown",
-      "plugins": "unknown",
-      "mcp": "unknown",
-      "subagents": "unknown",
-      "plan_mode": "unknown",
-      "permissions": "unknown",
-      "capability_notes": "「Go Plus は Go より高い利用上限」という説明は公式にあるが、モデル別の上限額の対応表は確認できていない。",
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
       "cost_model": "paid",
-      "pricing_snapshot_ids": ["opencode-go-2026-10-28"],
+      "pricing_snapshot_ids": [
+        "opencode-go-2026-10-28"
+      ],
       "official_url": "https://opencode.ai/v2/docs/console/go/",
       "sources": [
         {
@@ -2000,7 +3343,1711 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "上限が高いことは公式に書かれているが、何倍かは書かれていない。倍率を推定して表示しない。",
-      "conditions": ["価格は米ドル・税別", "1人のワークスペース", "モデル別上限の倍率は未確認"]
+      "conditions": [
+        "価格は米ドル・税別",
+        "1人のワークスペース",
+        "モデル別上限の倍率は未確認"
+      ]
+    },
+    {
+      "id": "chatgpt-free",
+      "slug": "chatgpt-free",
+      "display_name": "ChatGPT Free",
+      "aliases": [
+        "ChatGPT Free",
+        "chatgpt-free"
+      ],
+      "vendor": "OpenAI",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "無料枠。モデルや機能の上限を確認する。"
+      ],
+      "limitations": [
+        "Work・Codexは段階的提供。公式料金ページではLunaをデスクトップアプリのStandard速度で利用する条件。",
+        "Plus以上のCLI・Web・IDEの利用条件を、このプランへ流用しない。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "chatgpt-app"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "free",
+      "pricing_snapshot_ids": [
+        "chatgpt-subscription-2026-10-28"
+      ],
+      "official_url": "https://learn.chatgpt.com/docs/pricing",
+      "sources": [
+        {
+          "title": "ChatGPT Free",
+          "url": "https://learn.chatgpt.com/docs/pricing",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "個人向けのChatGPT契約。Work・Codexの利用条件はデスクトップアプリと提供状況を確認する。API利用料は別。",
+      "conditions": []
+    },
+    {
+      "id": "chatgpt-go",
+      "slug": "chatgpt-go",
+      "display_name": "ChatGPT Go",
+      "aliases": [
+        "ChatGPT Go",
+        "chatgpt-go"
+      ],
+      "vendor": "OpenAI",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "軽い利用向けのプラン。提供地域や利用面を確認する。"
+      ],
+      "limitations": [
+        "Work・Codexは段階的提供。公式料金ページではLunaをデスクトップアプリのStandard速度で利用する条件。",
+        "Plus以上のCLI・Web・IDEの利用条件を、このプランへ流用しない。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "chatgpt-app"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "paid",
+      "pricing_snapshot_ids": [
+        "chatgpt-subscription-2026-10-28"
+      ],
+      "official_url": "https://learn.chatgpt.com/docs/pricing",
+      "sources": [
+        {
+          "title": "ChatGPT Go",
+          "url": "https://learn.chatgpt.com/docs/pricing",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "個人向けのChatGPT契約。Work・Codexの利用条件はデスクトップアプリと提供状況を確認する。API利用料は別。",
+      "conditions": []
+    },
+    {
+      "id": "chatgpt-plus",
+      "slug": "chatgpt-plus",
+      "display_name": "ChatGPT Plus",
+      "aliases": [
+        "ChatGPT Plus",
+        "chatgpt-plus"
+      ],
+      "vendor": "OpenAI",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "個人向けプラン。追加利用やモデル別の条件を確認する。"
+      ],
+      "limitations": [
+        "APIの従量料金とは別の契約。利用上限は契約と管理設定で確認。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "chatgpt-app",
+        "codex-cli"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "paid",
+      "pricing_snapshot_ids": [
+        "chatgpt-subscription-2026-10-28"
+      ],
+      "official_url": "https://learn.chatgpt.com/docs/pricing",
+      "sources": [
+        {
+          "title": "ChatGPT Plus",
+          "url": "https://learn.chatgpt.com/docs/pricing",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
+      "conditions": []
+    },
+    {
+      "id": "chatgpt-pro-100",
+      "slug": "chatgpt-pro-100",
+      "display_name": "ChatGPT Pro $100",
+      "aliases": [
+        "ChatGPT Pro $100",
+        "chatgpt-pro-100"
+      ],
+      "vendor": "OpenAI",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "Proの利用量別の選択肢。"
+      ],
+      "limitations": [
+        "APIの従量料金とは別の契約。利用上限は契約と管理設定で確認。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "chatgpt-app",
+        "codex-cli"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "paid",
+      "pricing_snapshot_ids": [
+        "chatgpt-subscription-2026-10-28"
+      ],
+      "official_url": "https://learn.chatgpt.com/docs/pricing",
+      "sources": [
+        {
+          "title": "ChatGPT Pro $100",
+          "url": "https://learn.chatgpt.com/docs/pricing",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
+      "conditions": []
+    },
+    {
+      "id": "chatgpt-pro-200",
+      "slug": "chatgpt-pro-200",
+      "display_name": "ChatGPT Pro $200",
+      "aliases": [
+        "ChatGPT Pro $200",
+        "chatgpt-pro-200"
+      ],
+      "vendor": "OpenAI",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "Proの利用量別の選択肢。"
+      ],
+      "limitations": [
+        "APIの従量料金とは別の契約。利用上限は契約と管理設定で確認。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "chatgpt-app",
+        "codex-cli"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "paid",
+      "pricing_snapshot_ids": [
+        "chatgpt-subscription-2026-10-28"
+      ],
+      "official_url": "https://learn.chatgpt.com/docs/pricing",
+      "sources": [
+        {
+          "title": "ChatGPT Pro $200",
+          "url": "https://learn.chatgpt.com/docs/pricing",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
+      "conditions": []
+    },
+    {
+      "id": "chatgpt-pro-500",
+      "slug": "chatgpt-pro-500",
+      "display_name": "ChatGPT Pro $500",
+      "aliases": [
+        "ChatGPT Pro $500",
+        "chatgpt-pro-500"
+      ],
+      "vendor": "OpenAI",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "Proの利用量別の選択肢。Ultrafastの利用条件は別に確認。"
+      ],
+      "limitations": [
+        "APIの従量料金とは別の契約。利用上限は契約と管理設定で確認。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "chatgpt-app",
+        "codex-cli"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "paid",
+      "pricing_snapshot_ids": [
+        "chatgpt-subscription-2026-10-28"
+      ],
+      "official_url": "https://learn.chatgpt.com/docs/pricing",
+      "sources": [
+        {
+          "title": "ChatGPT Pro $500",
+          "url": "https://learn.chatgpt.com/docs/pricing",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
+      "conditions": []
+    },
+    {
+      "id": "chatgpt-business",
+      "slug": "chatgpt-business",
+      "display_name": "ChatGPT Business",
+      "aliases": [
+        "ChatGPT Business",
+        "chatgpt-business"
+      ],
+      "vendor": "OpenAI",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "2席以上。月払いと年払いの席単価を分けて確認。"
+      ],
+      "limitations": [
+        "APIの従量料金とは別の契約。利用上限は契約と管理設定で確認。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "chatgpt-app",
+        "codex-cli"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "paid",
+      "pricing_snapshot_ids": [
+        "chatgpt-subscription-2026-10-28"
+      ],
+      "official_url": "https://learn.chatgpt.com/docs/pricing",
+      "sources": [
+        {
+          "title": "ChatGPT Business",
+          "url": "https://learn.chatgpt.com/docs/pricing",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
+      "conditions": []
+    },
+    {
+      "id": "chatgpt-enterprise",
+      "slug": "chatgpt-enterprise",
+      "display_name": "ChatGPT Enterprise",
+      "aliases": [
+        "ChatGPT Enterprise",
+        "chatgpt-enterprise"
+      ],
+      "vendor": "OpenAI",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "公式は営業窓口への問い合わせ。個別契約の金額を適用する。"
+      ],
+      "limitations": [
+        "APIの従量料金とは別の契約。利用上限は契約と管理設定で確認。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "chatgpt-app",
+        "codex-cli"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "paid",
+      "pricing_snapshot_ids": [
+        "chatgpt-subscription-2026-10-28"
+      ],
+      "official_url": "https://learn.chatgpt.com/docs/pricing",
+      "sources": [
+        {
+          "title": "ChatGPT Enterprise",
+          "url": "https://learn.chatgpt.com/docs/pricing",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
+      "conditions": []
+    },
+    {
+      "id": "gemini-app",
+      "slug": "gemini-app",
+      "display_name": "Gemini（アプリ）",
+      "aliases": [
+        "Gemini（アプリ）",
+        "gemini-app"
+      ],
+      "vendor": "Google",
+      "kind": "app",
+      "subtype": "app",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work",
+        "research"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "対話、調査、文書の作業などを行うアプリ。",
+        "Google AIのプランにより、利用できるモデルや機能の範囲が変わる。"
+      ],
+      "limitations": [
+        "個人用Google AIプランと、組織用Google Workspaceの契約を区別する。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "gemini-app"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "機能と課金単位は個別の公式資料を確認。",
+      "cost_model": "mixed",
+      "pricing_snapshot_ids": [
+        "google-subscription-2026-10-28"
+      ],
+      "official_url": "https://one.google.com/about/google-ai-plans/",
+      "sources": [
+        {
+          "title": "Gemini（アプリ）",
+          "url": "https://one.google.com/about/google-ai-plans/",
+          "publisher": "Google",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "モデル名Gemini 4 Argonなどと、アプリ名や契約プランを分けて比較する。",
+      "conditions": []
+    },
+    {
+      "id": "google-ai-plus",
+      "slug": "google-ai-plus",
+      "display_name": "Google AI Plus",
+      "aliases": [
+        "Google AI Plus",
+        "google-ai-plus"
+      ],
+      "vendor": "Google",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "Geminiアプリ等の利用枠を広げる、個人向けの有料プラン。"
+      ],
+      "limitations": [
+        "利用できる機能は国、年齢、言語などの条件に依存する。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "gemini-app"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "paid",
+      "pricing_snapshot_ids": [
+        "google-subscription-2026-10-28"
+      ],
+      "official_url": "https://one.google.com/about/google-ai-plans/",
+      "sources": [
+        {
+          "title": "Google AI Plus",
+          "url": "https://one.google.com/about/google-ai-plans/",
+          "publisher": "Google",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "個人のGoogleアカウント向けGoogle AI契約。Geminiアプリ等の利用枠を含む。Workspace向け契約とAPI従量料金は別。",
+      "conditions": []
+    },
+    {
+      "id": "google-ai-pro",
+      "slug": "google-ai-pro",
+      "display_name": "Google AI Pro",
+      "aliases": [
+        "Google AI Pro",
+        "google-ai-pro"
+      ],
+      "vendor": "Google",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "Gemini・NotebookLM・Googleアプリ等の利用枠を広げる個人向けプラン。"
+      ],
+      "limitations": [
+        "利用できる機能は国、年齢、言語などの条件に依存する。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "gemini-app"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "paid",
+      "pricing_snapshot_ids": [
+        "google-subscription-2026-10-28"
+      ],
+      "official_url": "https://one.google.com/about/google-ai-plans/",
+      "sources": [
+        {
+          "title": "Google AI Pro",
+          "url": "https://one.google.com/about/google-ai-plans/",
+          "publisher": "Google",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "個人のGoogleアカウント向けGoogle AI契約。Geminiアプリ等の利用枠を含む。Workspace向け契約とAPI従量料金は別。",
+      "conditions": []
+    },
+    {
+      "id": "google-ai-ultra",
+      "slug": "google-ai-ultra",
+      "display_name": "Google AI Ultra",
+      "aliases": [
+        "Google AI Ultra",
+        "google-ai-ultra"
+      ],
+      "vendor": "Google",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "個人向けGoogle AIプランの中で、より大きい利用枠を提供する。"
+      ],
+      "limitations": [
+        "利用できる機能は国、年齢、言語などの条件に依存する。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "gemini-app"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "paid",
+      "pricing_snapshot_ids": [
+        "google-subscription-2026-10-28"
+      ],
+      "official_url": "https://one.google.com/about/google-ai-plans/",
+      "sources": [
+        {
+          "title": "Google AI Ultra",
+          "url": "https://one.google.com/about/google-ai-plans/",
+          "publisher": "Google",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "個人のGoogleアカウント向けGoogle AI契約。Geminiアプリ等の利用枠を含む。Workspace向け契約とAPI従量料金は別。",
+      "conditions": []
+    },
+    {
+      "id": "gemini-cli",
+      "slug": "gemini-cli",
+      "display_name": "Gemini CLI",
+      "aliases": [
+        "Gemini CLI",
+        "gemini-cli"
+      ],
+      "vendor": "Google",
+      "kind": "harness",
+      "subtype": "harness",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "coding",
+        "agent-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "ターミナルからファイルやシェルを使い、作業を進める実行環境。",
+        "公式文書にSkills、Extensions、MCP、Plan Modeの説明がある。"
+      ],
+      "limitations": [
+        "認証方法と契約により、利用枠と料金の適用先が異なる。"
+      ],
+      "interfaces": [
+        "cli"
+      ],
+      "platforms": [
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "requires": [
+        "Node.js 20以上、インターネット接続、対応する認証方法。",
+        "公式推奨OSはmacOS 15以上、Windows 11 24H2以上、Ubuntu 20.04以上。"
+      ],
+      "available_via": [
+        "gemini-cli",
+        "gemini-api"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "yes",
+      "skills": "yes",
+      "plugins": "yes",
+      "mcp": "yes",
+      "subagents": "unknown",
+      "plan_mode": "yes",
+      "permissions": "yes",
+      "capability_notes": "機能と課金単位は個別の公式資料を確認。",
+      "cost_model": "mixed",
+      "pricing_snapshot_ids": [
+        "gemini-cli-access-2026-10-28"
+      ],
+      "official_url": "https://geminicli.com/docs/",
+      "sources": [
+        {
+          "title": "Gemini CLI",
+          "url": "https://geminicli.com/docs/",
+          "publisher": "Google",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        },
+        {
+          "title": "Gemini CLI installation",
+          "url": "https://geminicli.com/docs/get-started/installation/",
+          "publisher": "Google",
+          "note": "推奨OS・Node.js・メモリ条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "Geminiモデルそのものではない。モデルの対応とCLIの機能を分ける。",
+      "conditions": []
+    },
+    {
+      "id": "gpt-transcribe",
+      "slug": "gpt-transcribe",
+      "display_name": "GPT Transcribe",
+      "aliases": [
+        "GPT Transcribe",
+        "gpt-transcribe",
+        "音声認識",
+        "文字起こし",
+        "STT"
+      ],
+      "vendor": "OpenAI",
+      "kind": "specialized-model",
+      "subtype": "specialized",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "speech-to-text"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "音声から書き起こしを作る。文脈やキーワードを手がかりにできる。"
+      ],
+      "limitations": [
+        "固有名詞、数字、発言者の対応は原音と照合する。",
+        "録音を送信する経路と、保存・学習利用の条件を確認する。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenAI APIのアカウントとAPIキー。ChatGPTの月額契約とAPI利用料は別。"
+      ],
+      "available_via": [
+        "openai-api"
+      ],
+      "model_ids": [
+        {
+          "provider": "OpenAI",
+          "id": "gpt-transcribe",
+          "environment": "api-official",
+          "verification_status": "official",
+          "verified_at": "2026-10-28",
+          "note": "公式のモデルページに掲載されたID。"
+        }
+      ],
+      "input_modalities": [
+        "audio",
+        "text"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "機能と課金単位は個別の公式資料を確認。",
+      "cost_model": "usage-based",
+      "pricing_snapshot_ids": [
+        "specialized-services-2026-10-28"
+      ],
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-transcribe",
+      "sources": [
+        {
+          "title": "GPT Transcribe",
+          "url": "https://developers.openai.com/api/docs/models/gpt-transcribe",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "音声を文字へ変換するAPI用モデル。会議やインタビューの文字起こしに使う。文章の要約や読み上げは別の処理。",
+      "conditions": [],
+      "input_modalities_basis": "official"
+    },
+    {
+      "id": "gpt-realtime-2-1-mini",
+      "slug": "gpt-realtime-2-1-mini",
+      "display_name": "GPT Realtime 2.1 Mini",
+      "aliases": [
+        "GPT Realtime 2.1 Mini",
+        "gpt-realtime-2-1-mini",
+        "音声会話",
+        "リアルタイム",
+        "Realtime",
+        "音声合成"
+      ],
+      "vendor": "OpenAI",
+      "kind": "specialized-model",
+      "subtype": "specialized",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "text-to-speech",
+        "low-latency"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "Realtime接続で音声とテキストを扱う。"
+      ],
+      "limitations": [
+        "テキスト、音声、画像では課金単位と単価が異なる。",
+        "Speech APIのモデル名を置き換えるだけでは移行できない。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenAI APIのアカウントとAPIキー。ChatGPTの月額契約とAPI利用料は別。"
+      ],
+      "available_via": [
+        "openai-api"
+      ],
+      "model_ids": [
+        {
+          "provider": "OpenAI",
+          "id": "gpt-realtime-2.1-mini",
+          "environment": "api-official",
+          "verification_status": "official",
+          "verified_at": "2026-10-28",
+          "note": "公式のモデルページに掲載されたID。"
+        }
+      ],
+      "input_modalities": [
+        "text",
+        "audio",
+        "image"
+      ],
+      "output_modalities": [
+        "text",
+        "audio"
+      ],
+      "context_window": {
+        "tokens": 128000,
+        "basis": "official",
+        "note": "最大出力は32,000トークン。音声入出力の上限やセッション条件も別に確認する。"
+      },
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "機能と課金単位は個別の公式資料を確認。",
+      "cost_model": "usage-based",
+      "pricing_snapshot_ids": [
+        "specialized-services-2026-10-28"
+      ],
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-realtime-2.1-mini",
+      "sources": [
+        {
+          "title": "GPT Realtime 2.1 Mini",
+          "url": "https://developers.openai.com/api/docs/models/gpt-realtime-2.1-mini",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "Realtime APIで音声のやり取りを扱うモデル。文字と音声を出力でき、テキスト・音声・画像を入力できる。",
+      "conditions": [],
+      "input_modalities_basis": "official"
+    },
+    {
+      "id": "gpt-4o-mini-tts",
+      "slug": "gpt-4o-mini-tts",
+      "display_name": "GPT-4o Mini TTS（移行対象）",
+      "aliases": [
+        "GPT-4o Mini TTS（移行対象）",
+        "gpt-4o-mini-tts",
+        "音声合成",
+        "読み上げ",
+        "TTS"
+      ],
+      "vendor": "OpenAI",
+      "kind": "specialized-model",
+      "subtype": "specialized",
+      "availability_status": "limited",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "text-to-speech"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "既存のSpeech APIで読み上げ音声を生成するモデル。"
+      ],
+      "limitations": [
+        "新規導入では移行先とAPIの違いを確認する。",
+        "移行先gpt-realtime-2.1-miniはRealtime APIを使う。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenAI APIのアカウントとAPIキー。ChatGPTの月額契約とAPI利用料は別。"
+      ],
+      "available_via": [
+        "openai-api"
+      ],
+      "model_ids": [
+        {
+          "provider": "OpenAI",
+          "id": "gpt-4o-mini-tts",
+          "environment": "api-official",
+          "verification_status": "official",
+          "verified_at": "2026-10-28",
+          "note": "公式のモデルページに掲載されたID。"
+        }
+      ],
+      "input_modalities": [
+        "text"
+      ],
+      "output_modalities": [
+        "audio"
+      ],
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "機能と課金単位は個別の公式資料を確認。",
+      "cost_model": "usage-based",
+      "pricing_snapshot_ids": [
+        "specialized-services-2026-10-28"
+      ],
+      "official_url": "https://developers.openai.com/api/docs/guides/text-to-speech",
+      "sources": [
+        {
+          "title": "GPT-4o Mini TTS（移行対象）",
+          "url": "https://developers.openai.com/api/docs/guides/text-to-speech",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "文章を音声へ変える旧来のSpeech API用モデル。非推奨で、2027-01-06に停止予定。既存実装の移行確認用に掲載。",
+      "conditions": [],
+      "input_modalities_basis": "official"
+    },
+    {
+      "id": "text-embedding-3-small",
+      "slug": "text-embedding-3-small",
+      "display_name": "text-embedding-3-small",
+      "aliases": [
+        "text-embedding-3-small",
+        "埋め込み",
+        "ベクトル検索",
+        "Embedding"
+      ],
+      "vendor": "OpenAI",
+      "kind": "specialized-model",
+      "subtype": "specialized",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "embeddings"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "テキストを検索や分類に使う数値ベクトルへ変換する。"
+      ],
+      "limitations": [
+        "検索の品質は、文書の切り方と評価用の質問にも左右される。",
+        "異なる埋め込みモデルで作ったベクトルは、そのまま混ぜて比較しない。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenAI APIのアカウントとAPIキー。ChatGPTの月額契約とAPI利用料は別。"
+      ],
+      "available_via": [
+        "openai-api"
+      ],
+      "model_ids": [
+        {
+          "provider": "OpenAI",
+          "id": "text-embedding-3-small",
+          "environment": "api-official",
+          "verification_status": "official",
+          "verified_at": "2026-10-28",
+          "note": "公式のモデルページに掲載されたID。"
+        }
+      ],
+      "input_modalities": [
+        "text"
+      ],
+      "output_modalities": [
+        "vector"
+      ],
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "機能と課金単位は個別の公式資料を確認。",
+      "cost_model": "usage-based",
+      "pricing_snapshot_ids": [
+        "specialized-services-2026-10-28"
+      ],
+      "official_url": "https://developers.openai.com/api/docs/models/text-embedding-3-small",
+      "sources": [
+        {
+          "title": "text-embedding-3-small",
+          "url": "https://developers.openai.com/api/docs/models/text-embedding-3-small",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "文章を数値ベクトルに変換するモデル。文書検索、類似する問い合わせの検索などに使う。回答文を作るモデルとは役割が違う。",
+      "conditions": [],
+      "input_modalities_basis": "official"
+    },
+    {
+      "id": "omni-moderation-latest",
+      "slug": "omni-moderation-latest",
+      "display_name": "omni-moderation-latest",
+      "aliases": [
+        "omni-moderation-latest",
+        "モデレーション",
+        "有害性分類",
+        "Moderation"
+      ],
+      "vendor": "OpenAI",
+      "kind": "specialized-model",
+      "subtype": "specialized",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "moderation"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "テキストや画像の有害性を分類する。"
+      ],
+      "limitations": [
+        "業務上の正誤や契約上の可否を判断するモデルではない。",
+        "スコアをどう扱うか、人へ引き継ぐ条件をアプリ側で決める。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenAI APIのアカウントとAPIキー。ChatGPTの月額契約とAPI利用料は別。"
+      ],
+      "available_via": [
+        "openai-api"
+      ],
+      "model_ids": [
+        {
+          "provider": "OpenAI",
+          "id": "omni-moderation-latest",
+          "environment": "api-official",
+          "verification_status": "official",
+          "verified_at": "2026-10-28",
+          "note": "公式のモデルページに掲載されたID。"
+        }
+      ],
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "classification"
+      ],
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "機能と課金単位は個別の公式資料を確認。",
+      "cost_model": "free",
+      "pricing_snapshot_ids": [
+        "specialized-services-2026-10-28"
+      ],
+      "official_url": "https://developers.openai.com/api/docs/models/omni-moderation-latest",
+      "sources": [
+        {
+          "title": "omni-moderation-latest",
+          "url": "https://developers.openai.com/api/docs/models/omni-moderation-latest",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "テキストや画像を入力し、有害性の分類結果とスコアを返すモデル。文章を生成するものではない。",
+      "conditions": [],
+      "input_modalities_basis": "official"
+    },
+    {
+      "id": "gpt-image-2",
+      "slug": "gpt-image-2",
+      "display_name": "GPT Image 2",
+      "aliases": [
+        "GPT Image 2",
+        "gpt-image-2",
+        "画像生成",
+        "画像編集"
+      ],
+      "vendor": "OpenAI",
+      "kind": "specialized-model",
+      "subtype": "specialized",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "image-generation"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "画像の生成と編集に対応する。"
+      ],
+      "limitations": [
+        "画像内の文字・数値・図の関係は、生成後に人が確認する。",
+        "入力と出力の種類に応じて、料金が別々に計算される。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "OpenAI APIのアカウントとAPIキー。ChatGPTの月額契約とAPI利用料は別。"
+      ],
+      "available_via": [
+        "openai-api"
+      ],
+      "model_ids": [
+        {
+          "provider": "OpenAI",
+          "id": "gpt-image-2",
+          "environment": "api-official",
+          "verification_status": "official",
+          "verified_at": "2026-10-28",
+          "note": "公式のモデルページに掲載されたID。"
+        }
+      ],
+      "input_modalities": [
+        "text",
+        "image"
+      ],
+      "output_modalities": [
+        "image"
+      ],
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "機能と課金単位は個別の公式資料を確認。",
+      "cost_model": "usage-based",
+      "pricing_snapshot_ids": [
+        "specialized-services-2026-10-28"
+      ],
+      "official_url": "https://developers.openai.com/api/docs/models/gpt-image-2",
+      "sources": [
+        {
+          "title": "GPT Image 2",
+          "url": "https://developers.openai.com/api/docs/models/gpt-image-2",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "文章や画像から、画像の生成と編集を行うモデル。入力画像の理解だけを行うモデルとは区別する。",
+      "conditions": [],
+      "input_modalities_basis": "official"
+    },
+    {
+      "id": "mistral-ocr-4-1",
+      "slug": "mistral-ocr-4-1",
+      "display_name": "Mistral OCR 4.1",
+      "aliases": [
+        "Mistral OCR 4.1",
+        "mistral-ocr-4-1",
+        "OCR",
+        "PDF読み取り",
+        "文字抽出"
+      ],
+      "vendor": "Mistral AI",
+      "kind": "specialized-model",
+      "subtype": "specialized",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "ocr"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "文書の文字、構造や位置などを抽出するサービス。"
+      ],
+      "limitations": [
+        "通常OCRと、注釈を付ける処理では単価が異なる。",
+        "読み取れた内容が業務上正しいことを保証する機能ではない。"
+      ],
+      "interfaces": [
+        "api"
+      ],
+      "platforms": [],
+      "requires": [
+        "Mistral APIのアカウントとAPIキー。処理する文書の利用権限。"
+      ],
+      "available_via": [
+        "mistral-api"
+      ],
+      "model_ids": [
+        {
+          "provider": "Mistral AI",
+          "id": "mistral-ocr-4-1",
+          "environment": "api-official",
+          "verification_status": "official",
+          "verified_at": "2026-10-28",
+          "note": "公式のモデルページに掲載されたID。"
+        }
+      ],
+      "input_modalities": [
+        "image",
+        "file"
+      ],
+      "output_modalities": [
+        "text",
+        "classification"
+      ],
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "機能と課金単位は個別の公式資料を確認。",
+      "cost_model": "usage-based",
+      "pricing_snapshot_ids": [
+        "specialized-services-2026-10-28"
+      ],
+      "official_url": "https://docs.mistral.ai/models/ocr-4-1",
+      "sources": [
+        {
+          "title": "Mistral OCR 4.1",
+          "url": "https://docs.mistral.ai/models/ocr-4-1",
+          "publisher": "Mistral AI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "画像やPDFから、文字と文書の構造を抽出するOCRモデル。抽出した表や数値は原本と照合して使う。",
+      "conditions": [],
+      "input_modalities_basis": "official"
+    },
+    {
+      "id": "whisper-local",
+      "slug": "whisper-local",
+      "display_name": "Whisper（ローカル実行）",
+      "aliases": [
+        "Whisper（ローカル実行）",
+        "whisper-local",
+        "音声認識",
+        "文字起こし",
+        "STT",
+        "ローカル"
+      ],
+      "vendor": "OpenAI",
+      "kind": "specialized-model",
+      "subtype": "specialized",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "speech-to-text",
+        "local-run"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "公開されたモデルを、手元の実行環境へ配置できる。"
+      ],
+      "limitations": [
+        "MITライセンスの条件、実行ソフト、必要メモリを確認する。",
+        "配布モデルの取得費がなくても、計算機と運用の費用はかかる。"
+      ],
+      "interfaces": [
+        "local"
+      ],
+      "platforms": [],
+      "requires": [
+        "モデルを動かせる計算機、実行ソフト、音声を扱うffmpegなどの環境。",
+        "公開モデルの取得とMITライセンスの確認。ローカルでの実行にOpenAI APIキーは不要。"
+      ],
+      "available_via": [
+        "local",
+        "hugging-face"
+      ],
+      "model_ids": [],
+      "input_modalities": [
+        "audio"
+      ],
+      "output_modalities": [
+        "text"
+      ],
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "機能と課金単位は個別の公式資料を確認。",
+      "cost_model": "free",
+      "pricing_snapshot_ids": [
+        "specialized-services-2026-10-28"
+      ],
+      "official_url": "https://github.com/openai/whisper",
+      "sources": [
+        {
+          "title": "Whisper（ローカル実行）",
+          "url": "https://github.com/openai/whisper",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "OpenAIが公開した音声認識モデルを手元で実行する選択肢。クラウドAPIのWhisperとは実行場所と費用の数え方が違う。",
+      "conditions": [],
+      "input_modalities_basis": "official"
+    },
+    {
+      "id": "bge-m3",
+      "slug": "bge-m3",
+      "display_name": "BGE-M3",
+      "aliases": [
+        "BGE-M3",
+        "bge-m3",
+        "埋め込み",
+        "ベクトル検索",
+        "Embedding"
+      ],
+      "vendor": "BAAI",
+      "kind": "specialized-model",
+      "subtype": "specialized",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "embeddings",
+        "local-run"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "公開されたモデルを、手元の実行環境へ配置できる。"
+      ],
+      "limitations": [
+        "MITライセンスの条件、実行ソフト、必要メモリを確認する。",
+        "回答を生成するモデルではなく、検索を支える部品。"
+      ],
+      "interfaces": [
+        "local"
+      ],
+      "platforms": [],
+      "requires": [
+        "対応する計算機、実行ソフト、モデルの利用条件の確認"
+      ],
+      "available_via": [
+        "local",
+        "hugging-face"
+      ],
+      "model_ids": [],
+      "input_modalities": [
+        "text"
+      ],
+      "output_modalities": [
+        "vector"
+      ],
+      "context_window": {
+        "tokens": 8192,
+        "basis": "official",
+        "note": "公式配布元の入力上限。生成モデルの出力枠とは意味が異なる。"
+      },
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "機能と課金単位は個別の公式資料を確認。",
+      "cost_model": "free",
+      "pricing_snapshot_ids": [
+        "specialized-services-2026-10-28"
+      ],
+      "official_url": "https://huggingface.co/BAAI/bge-m3",
+      "sources": [
+        {
+          "title": "BGE-M3",
+          "url": "https://huggingface.co/BAAI/bge-m3",
+          "publisher": "BAAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "文章を検索用の表現へ変換する公開モデル。密ベクトル、語に近い疎な表現、複数ベクトルによる検索を扱う。",
+      "conditions": [],
+      "input_modalities_basis": "official"
+    },
+    {
+      "id": "chatgpt-edu",
+      "slug": "chatgpt-edu",
+      "display_name": "ChatGPT Edu",
+      "aliases": [
+        "Edu"
+      ],
+      "vendor": "OpenAI",
+      "kind": "plan",
+      "subtype": "plan",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "general-chat",
+        "document-work"
+      ],
+      "not_suitable_for": [],
+      "strengths": [
+        "教育機関向けの管理・利用条件をまとめて契約する。"
+      ],
+      "limitations": [
+        "APIの従量料金とは別の契約。利用上限は契約と管理設定で確認。"
+      ],
+      "interfaces": [
+        "web"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "requires": [
+        "利用する提供元のアカウントと、用途に合う契約"
+      ],
+      "available_via": [
+        "chatgpt-app",
+        "codex-cli"
+      ],
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "tool_support": "n/a",
+      "skills": "n/a",
+      "plugins": "n/a",
+      "mcp": "n/a",
+      "subagents": "n/a",
+      "plan_mode": "n/a",
+      "permissions": "n/a",
+      "capability_notes": "モデル単体の入出力や文脈長を定める項目ではない。利用できる製品・モデル・機能は契約条件を確認する。",
+      "cost_model": "paid",
+      "pricing_snapshot_ids": [
+        "chatgpt-subscription-2026-10-28"
+      ],
+      "official_url": "https://learn.chatgpt.com/docs/pricing",
+      "sources": [
+        {
+          "title": "ChatGPT Enterprise",
+          "url": "https://learn.chatgpt.com/docs/pricing",
+          "publisher": "OpenAI",
+          "note": "公式の仕様・利用条件を確認（2026-10-28）。"
+        }
+      ],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "notes": "教育機関向けの契約。Work・Codexを含む利用条件と料金は個別の契約で確認する。",
+      "conditions": []
     }
   ],
   "plan_matrix": {
@@ -2013,10 +5060,26 @@
       "note": "2026-10-28 取得。「Compare features across plans」の表から、モデル別の利用可否と主要機能を転記した。"
     },
     "tiers": [
-      { "id": "claude-free", "entity_id": "claude-free", "label": "Free" },
-      { "id": "claude-pro", "entity_id": "claude-pro", "label": "Pro" },
-      { "id": "claude-max-5x", "entity_id": "claude-max", "label": "Max 5x" },
-      { "id": "claude-max-20x", "entity_id": "claude-max", "label": "Max 20x" }
+      {
+        "id": "claude-free",
+        "entity_id": "claude-free",
+        "label": "Free"
+      },
+      {
+        "id": "claude-pro",
+        "entity_id": "claude-pro",
+        "label": "Pro"
+      },
+      {
+        "id": "claude-max-5x",
+        "entity_id": "claude-max",
+        "label": "Max 5x"
+      },
+      {
+        "id": "claude-max-20x",
+        "entity_id": "claude-max",
+        "label": "Max 20x"
+      }
     ],
     "model_access": [
       {
@@ -2059,31 +5122,66 @@
     "features": [
       {
         "feature": "Claude Code",
-        "values": { "claude-free": "no", "claude-pro": "yes", "claude-max-5x": "yes", "claude-max-20x": "yes" }
+        "values": {
+          "claude-free": "no",
+          "claude-pro": "yes",
+          "claude-max-5x": "yes",
+          "claude-max-20x": "yes"
+        }
       },
       {
         "feature": "Research",
-        "values": { "claude-free": "no", "claude-pro": "yes", "claude-max-5x": "yes", "claude-max-20x": "yes" }
+        "values": {
+          "claude-free": "no",
+          "claude-pro": "yes",
+          "claude-max-5x": "yes",
+          "claude-max-20x": "yes"
+        }
       },
       {
         "feature": "Projects",
-        "values": { "claude-free": "up-to-5", "claude-pro": "yes", "claude-max-5x": "yes", "claude-max-20x": "yes" }
+        "values": {
+          "claude-free": "up-to-5",
+          "claude-pro": "yes",
+          "claude-max-5x": "yes",
+          "claude-max-20x": "yes"
+        }
       },
       {
         "feature": "Skills",
-        "values": { "claude-free": "yes", "claude-pro": "yes", "claude-max-5x": "yes", "claude-max-20x": "yes" }
+        "values": {
+          "claude-free": "yes",
+          "claude-pro": "yes",
+          "claude-max-5x": "yes",
+          "claude-max-20x": "yes"
+        }
       },
       {
         "feature": "Priority access at high traffic times",
-        "values": { "claude-free": "no", "claude-pro": "no", "claude-max-5x": "yes", "claude-max-20x": "yes" }
+        "values": {
+          "claude-free": "no",
+          "claude-pro": "no",
+          "claude-max-5x": "yes",
+          "claude-max-20x": "yes"
+        }
       },
       {
         "feature": "New Monthly API credits",
-        "values": { "claude-free": "no", "claude-pro": "no", "claude-max-5x": "$100/month", "claude-max-20x": "$200/month" }
+        "values": {
+          "claude-free": "no",
+          "claude-pro": "no",
+          "claude-max-5x": "$100/month",
+          "claude-max-20x": "$200/month"
+        }
       },
       {
         "feature": "@Claude",
-        "values": { "claude-free": "no", "claude-pro": "no", "claude-max-5x": "no", "claude-max-20x": "no" }
+        "values": {
+          "claude-free": "no",
+          "claude-pro": "no",
+          "claude-max-5x": "no",
+          "claude-max-20x": "no"
+        }
       }
     ],
     "team_notes": [

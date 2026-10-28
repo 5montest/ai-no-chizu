@@ -8,7 +8,7 @@ level: intermediate
 readingMinutes: 9
 updated: '2026-10-28'
 tags: ['ローカルLLM', '重み', '配布形式', 'ライセンス']
-glossary: ['parameter', 'gguf', 'llm', 'quantization']
+glossary: ['parameter', 'gguf', 'llm', 'quantization', 'license', 'memory-bandwidth', 'model-card']
 summary:
   - '配布される「モデル」は、学習の結果である重みを中心としたファイル一式である。重みは数字の並びで、その値の意味は学習の過程で決まる。'
   - 'safetensors はテンソルの保存形式、GGUF は重みと実行用の情報をまとめる形式である。どちらも推論に使え、数値の精度とは別の軸で選ぶ。'
@@ -57,7 +57,7 @@ import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
 
-「家のPCでもLLMが動くらしい。モデルを配布しているサイトを開いたら、似たような名前のファイルがずらりと並んでいて、どれを落とせばいいのか分からない」。ローカルLLMを始めようとした多くの人が、まずここで足踏みします。このページでは、配布されているファイルの中身、形式の選び方、ライセンスの確認、そして必要メモリの目安を順に整理します。
+「家のPCでもLLMが動くらしい。モデルを配布しているサイトを開いたら、似たような名前のファイルがずらりと並んでいて、どれを落とせばいいのか分からない」。ローカルLLMを始めようとした多くの人が、まずここで足踏みします。このページでは、配布されているファイルの中身、形式の選び方、[[license|ライセンス]]の確認、そして必要メモリの目安を順に整理します。
 
 <Diagram name="local-deployment" />
 
@@ -143,4 +143,4 @@ import Callout from '../../../components/Callout.astro';
 3. 実行形式。自分の環境が扱える形式と、配布されている精度のバリエーション。
 4. 重みの容量の目安。自分の環境の容量と照らし合わせる。
 
-この順序の最後で保存する精度を選ぶことになりますが、精度は容量と速度、そして品質の三つに同時に影響します。次ページでは、精度を落とすと何が変わるのか、そして生成速度がメモリ帯域で決まりやすい条件を扱います。[[ch:19/02-quantization-memory|精度を落として載せる]]へ進みましょう。
+この順序の最後で保存する精度を選ぶことになりますが、精度は容量と速度、そして品質の三つに同時に影響します。次ページでは、精度を落とすと何が変わるのか、そして生成速度が[[memory-bandwidth|メモリ帯域]]で決まりやすい条件を扱います。[[ch:19/02-quantization-memory|精度を落として載せる]]へ進みましょう。

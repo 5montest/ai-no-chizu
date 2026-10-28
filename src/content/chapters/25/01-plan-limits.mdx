@@ -8,7 +8,7 @@ level: intro
 readingMinutes: 15
 updated: '2026-10-28'
 tags: ['料金', '利用枠', 'コスト']
-glossary: ['token', 'context-window', 'inference', 'latency']
+glossary: ['token', 'context-window', 'inference', 'latency', 'api']
 summary:
   - '月額・クレジット・利用枠・トークン単価は別の項目で、一つにまとめると実効コストを読み違える。'
   - '月額プランの枠は時間窓で数え、モデルごとの倍率がかかるため、リクエスト回数だけでは消費量を測れない。'
@@ -52,16 +52,17 @@ sources:
     publisher: 'OpenCode'
     note: 'Go／Go Plus の月額、モデル別の月次枠とその配分、混雑時間の倍率を確認（取得日 2026-10-28）。'
 ---
+import GuideImage from '../../../components/GuideImage.astro';
+
 
 import DeepDive from '../../../components/DeepDive.astro';
-import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
 
-料金の話は、金額そのものより読み方でつまずきます。「月 20 ドルのプランと、100万トークン 2 ドルのAPI、どちらが安いか」という問いに答えられる人は多くありません。答えられないのは、計算が苦手だからではなく、比べる単位が違うからです。
+料金の話は、金額そのものより読み方でつまずきます。「月 20 ドルのプランと、100万トークン 2 ドルの[[api|API]]、どちらが安いか」という問いに答えられる人は多くありません。答えられないのは、計算が苦手だからではなく、比べる単位が違うからです。
 
 この記事では、金額を暗記するのではなく、料金表のどこを読めば実効コストが見えるかを扱います。金額はすべて 2026-10-28 に公式ページで確認したもので、通貨は米ドル、特に断りのない限り税別です。値は変わりますから、使う前に必ず公式ページで取り直してください。
 
-<Diagram name="cost-components" />
+<GuideImage name="cost-contract" />
 
 ## 四つの支払い方を分ける
 

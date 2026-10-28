@@ -217,3 +217,56 @@ test('同じ URL を使い回した出典は止まる', () => {
     },
   );
 });
+
+/** 見本のルート定義。ID と参照先だけを変えて使う。 */
+function writeReadingPaths(root: string, body: string) {
+  fs.writeFileSync(path.join(root, 'src/data/reading-paths.ts'), body);
+}
+
+test('学習ルートが無い見本では、その検査を飛ばして通す', () => {
+  withFixture({ quiz: { answer: 0 } }, (root) => {
+    const result = runValidator(root);
+    assert.equal(result.code, 0, result.stderr);
+  });
+});
+
+test('学習ルートの参照先が無い記事なら止まる', () => {
+  withFixture({ quiz: { answer: 0 } }, (root) => {
+    writeReadingPaths(
+      root,
+      `export const readingPaths = [
+  {
+    id: 'learn',
+    label: '学ぶ',
+    title: '学ぶ',
+    description: '説明',
+    outcome: 'できる',
+    prerequisite: '不要',
+    pages: [{ id: '01/no-such-page', reason: '理由' }],
+  },
+];
+`,
+    );
+    const result = runValidator(root);
+    assert.equal(result.code, 1);
+    assert.match(result.stderr, /参照先 src\/content\/chapters\/01\/no-such-page\.mdx がありません/);
+  });
+});
+
+test('学習ルートの id が重複していたら止まる', () => {
+  withFixture({ quiz: { answer: 0 } }, (root) => {
+    const route = `{
+    id: 'learn',
+    label: '学ぶ',
+    title: '学ぶ',
+    description: '説明',
+    outcome: 'できる',
+    prerequisite: '不要',
+    pages: [{ id: '01/sample', reason: '理由' }],
+  }`;
+    writeReadingPaths(root, `export const readingPaths = [${route}, ${route}];\n`);
+    const result = runValidator(root);
+    assert.equal(result.code, 1);
+    assert.match(result.stderr, /ルートの id「learn」が重複しています/);
+  });
+});

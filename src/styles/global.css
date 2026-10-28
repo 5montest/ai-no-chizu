@@ -372,8 +372,9 @@ kbd {
 }
 
 @media (min-width: 900px) {
+  /* 説明文は本文と同じ行長で読める幅を確保する（26rem では 1 行 27 字ほどに潰れていた）。 */
   .section-head {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 26rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
   }
 }
 
@@ -4079,10 +4080,13 @@ table.compare-table {
 .intro--guide h1 { max-width: 28em; font-size: clamp(1.8rem, 3.2vw, 2.75rem); line-height: 1.55; letter-spacing: -.035em; }
 .intro--guide .intro__lede { max-width: 42em; font-size: 1rem; }
 .section--paths { padding-top: 1.5rem; }
-.reading-paths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
-.reading-path { display: flex; flex-direction: column; padding: 1.5rem; border: 1px solid var(--line); border-top: 3px solid var(--link); border-radius: var(--radius); background: var(--plate); scroll-margin-top: 5rem; }
+.reading-paths { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1rem; }
+.reading-path { display: flex; flex-direction: column; grid-column: span 2; padding: 1.5rem; border: 1px solid var(--line); border-top: 3px solid var(--link); border-radius: var(--radius); background: var(--plate); scroll-margin-top: 5rem; }
 .reading-path:nth-child(2) { border-top-color: var(--tip); }
 .reading-path:nth-child(3) { border-top-color: var(--warn); }
+.reading-path:nth-child(4) { border-top-color: var(--note); }
+.reading-path:nth-child(5) { border-top-color: var(--tip); }
+.reading-path:nth-child(n + 4) { grid-column: span 3; }
 .reading-path__label { margin: 0 0 .7rem; font-size: .8125rem; color: var(--ink-mute); }
 .reading-path__label span { font-family: var(--font-mono); color: var(--link); margin-right: .45rem; }
 .reading-path h3 { font-size: 1.125rem; line-height: 1.6; margin: 0 0 .7rem; }
@@ -4093,10 +4097,12 @@ table.compare-table {
 .reading-path__pages a { display: flex; align-items: baseline; gap: .5rem; justify-content: space-between; font-size: .9375rem; }
 .reading-path__pages a span { flex: none; color: var(--ink-mute); font-size: .75rem; }
 .reading-path__pages p { margin: .3rem 0 0; color: var(--ink-soft); font-size: .8125rem; }
+.reading-path__prereq { display: flex; align-items: baseline; gap: .45rem; }
+.reading-path__prereq span { flex: none; padding: .1rem .4rem; border: 1px solid var(--line-strong); border-radius: 2px; font-size: .6875rem; line-height: 1.6; color: var(--ink-mute); }
 .reading-path__outcome { padding-top: .8rem; border-top: 1px solid var(--line); }
 .home-explainer { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.4fr); gap: 3rem; align-items: center; }
 .home-explainer h2 { font-size: clamp(1.5rem, 2.3vw, 2rem); line-height: 1.6; margin: 0 0 1rem; }
-.home-explainer p:not(.eyebrow) { color: var(--ink-soft); font-size: .9375rem; line-height: 1.9; max-width: 28em; }
+.home-explainer p:not(.eyebrow) { color: var(--ink-soft); font-size: .9375rem; line-height: 1.9; max-width: 44em; }
 .home-explainer > div > a { font-size: .875rem; }
 .core-terms { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem 1.5rem; }
 .core-terms a { padding: 1rem 0; border-top: 1px solid var(--line-strong); text-decoration: none; color: var(--ink); }
@@ -4137,8 +4143,9 @@ table.compare-table {
 .chapter-visual { margin-block: 1rem 2rem; }
 .article-reading-note { font-size: .8125rem; color: var(--ink-mute); padding: .75rem 0; margin: .25rem 0 1rem; border-top: 1px solid var(--line); line-height: 1.85; }
 .article-reading-note a { white-space: nowrap; }
-.prose > p { max-width: 43em; }
-.prose .deep-dive__body > p { max-width: 43em; }
+/* 本文の段落は、上の要点や表・図と同じ幅で読ませる（従来は 43em で 688px に絞っていた）。 */
+.prose > p,
+.prose .deep-dive__body > p { max-width: none; }
 .checklist-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
 .checklist-status { margin: 1.2rem 0 .3rem; font-size: .875rem; font-weight: 600; color: var(--link); }
 .checklist-help { color: var(--ink-mute); font-size: .8125rem; max-width: 48em; line-height: 1.85; }
@@ -4156,13 +4163,15 @@ table.compare-table {
 .zukan-card__provider { margin: 0 0 .65rem; }
 @media (max-width: 1000px) {
   .reading-paths--detailed { grid-template-columns: 1fr; }
-  .reading-paths--detailed .reading-path { padding: 1.4rem; }
+  .reading-paths--detailed .reading-path { grid-column: auto; padding: 1.4rem; }
 }
 @media (max-width: 760px) {
   .reading-paths, .home-explainer { grid-template-columns: 1fr; gap: 1rem; }
   .home-explainer > div { max-width: 40rem; }
   .home-explainer h2 br { display: none; }
-  .reading-path { padding: 1.25rem; }
+  .reading-path { grid-column: auto; padding: 1.25rem; }
+  /* 2段目を広げる span 3 は 6 列のときだけの指定。1 列では暗黙の列を作ってしまうため戻す。 */
+  .reading-paths .reading-path:nth-child(n + 4) { grid-column: auto; }
   .core-terms, .adoption-checklist { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .guide-page__head { padding-block: 1.5rem; }
   .home-part small { display: none; }
@@ -4196,3 +4205,56 @@ table.compare-table {
 .sources__details[open] > summary { margin-bottom: .8rem; }
 .prose .prompt-example { padding: 1.2rem; margin-block: 1.2rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-2); font-family: var(--font-sans); font-size: .9375rem; line-height: 1.9; white-space: pre-wrap; overflow-wrap: anywhere; }
 .prose .prompt-example code { padding: 0; background: none; font: inherit; }
+
+/* ---------- 記事内の工程・比較図 ---------- */
+.article-visual { margin: 1.5rem 0 2rem; border: 1px solid var(--line); border-radius: 6px; background: var(--plate); overflow: hidden; }
+.article-visual__title { display: flex; gap: .6rem; align-items: center; padding: .8rem 1rem; border-bottom: 1px solid var(--line); font-weight: 600; font-size: .9375rem; color: var(--ink-soft); }
+.article-visual__title svg { flex: none; color: var(--link); }
+.article-visual__nodes { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: .8rem; padding: 1rem !important; list-style: none; margin: 0 !important; }
+.article-visual__nodes > li { position: relative; margin: 0 !important; padding: 1rem; border-radius: 4px; background: var(--accent-wash); min-width: 0; }
+.article-visual--compare .article-visual__nodes > li:nth-child(even) { background: var(--tip-wash); }
+.article-visual__icon { display: flex; align-items: center; justify-content: space-between; color: var(--link); }
+.article-visual__icon > span { color: var(--ink-mute); font-family: var(--font-mono); font-size: .75rem; }
+.article-visual__nodes h3 { border: 0; margin: .65rem 0 .4rem !important; padding: 0; font-size: .9375rem; line-height: 1.7; }
+.article-visual__nodes p { font-size: .8125rem; color: var(--ink-soft); margin: 0; line-height: 1.9; }
+.article-visual--flow .article-visual__nodes > li:not(:last-child)::after { content: '→'; position: absolute; right: -.65rem; top: 2.5rem; z-index: 1; color: var(--link); font-size: 1.1rem; }
+.article-visual figcaption { border-top: 1px solid var(--line); padding: .8rem 1rem; font-size: .8125rem; line-height: 1.85; color: var(--ink-mute); }
+@media (min-width: 701px) { .article-visual--flow .article-visual__nodes { grid-template-columns: repeat(var(--visual-count),minmax(0,1fr)); } }
+@media (max-width: 700px) {
+ .article-visual--flow .article-visual__nodes { grid-template-columns: 1fr; }
+ .article-visual--flow .article-visual__nodes > li { display: grid; grid-template-columns: 32px minmax(0,1fr); gap: 0 .8rem; }
+ .article-visual--flow .article-visual__icon { grid-row: span 2; display: block; }
+ .article-visual--flow .article-visual__icon > span { display: block; margin-top: .25rem; }
+ .article-visual--flow .article-visual__nodes h3 { margin-top: 0 !important; }
+ .article-visual--flow .article-visual__nodes > li:not(:last-child)::after { content: '↓'; top: auto; right: 50%; bottom: -.95rem; }
+}
+@media (max-width: 550px) {
+ .article-visual__nodes { padding: .7rem !important; gap: .7rem; }
+ .article-visual__nodes > li { padding: .8rem; }
+}
+.term-hero__category, .term-card__cat { display: flex; align-items: center; gap: .45rem; }
+.term-example { display: flex; gap: 1rem; padding: 1.2rem; background: var(--accent-wash); border-radius: var(--radius); margin: 1.5rem 0; }
+.term-example > svg { flex: none; color: var(--link); }
+.term-example h2 { margin: 0 0 .4rem; font-size: .9375rem; }
+.term-example p { margin: 0; font-size: .9375rem; line-height: 1.9; }
+.term-pairs { margin: 0 0 1.5rem; padding: 1.1rem; border: 1px solid var(--line); background: var(--plate); border-radius: var(--radius); }
+.term-pairs h2 { margin: 0 0 .7rem; font-size: 1rem; }
+.term-pairs > div { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; }
+.term-pairs p { margin: 0; color: var(--ink-mute); font-size: .8125rem; line-height: 1.9; }
+.term-pairs p > span:first-child { display: block; font-weight: 600; color: var(--ink-soft); }
+@media (max-width: 700px) { .term-pairs > div { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 430px) { .term-pairs > div { grid-template-columns: 1fr; } }
+
+/* Overview figures stay compact next to the encyclopedia controls. */
+.zukan-overview-visual { margin: 0 auto 1.6rem; }
+.zukan-group > h2, .chapter-hero__no { display: flex; align-items: center; gap: .55rem; }
+
+.zukan-metadata > summary { cursor: pointer; font-weight: 700; padding: .75rem 0; }
+
+.zukan-overview-visual > summary { cursor: pointer; padding: .8rem 1rem; color: var(--link); background: var(--plate); border: 1px solid var(--line); border-radius: 6px; font-weight: 700; }
+.zukan-overview-visual .guide-image { max-width: 760px; margin-inline: auto; }
+
+/* Respect semantic hidden state even on cards styled with display:grid/flex. */
+[hidden] { display: none !important; }
+
+.term-section a { overflow-wrap: anywhere; }

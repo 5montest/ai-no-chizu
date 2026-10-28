@@ -1,12 +1,55 @@
 {
   "categories": [
-    { "id": "basic", "label": "基本", "note": "まず押さえたい土台の言葉" },
-    { "id": "llm", "label": "LLMの内部", "note": "文章が返るまでの仕組み" },
-    { "id": "learning", "label": "学習", "note": "モデルはどう作られ、調整されるか" },
-    { "id": "architecture", "label": "アーキテクチャ", "note": "モデルの骨格と種類" },
-    { "id": "application", "label": "応用", "note": "モデルを仕事に接続する部品" },
-    { "id": "local", "label": "ローカル実行", "note": "自分の環境で動かすための言葉" },
-    { "id": "evaluation", "label": "評価", "note": "品質と限界を測る言葉" }
+    {
+      "id": "basic",
+      "label": "基本",
+      "note": "まず押さえたい土台の言葉"
+    },
+    {
+      "id": "llm",
+      "label": "LLMの内部",
+      "note": "文章が返るまでの仕組み"
+    },
+    {
+      "id": "learning",
+      "label": "学習",
+      "note": "モデルはどう作られ、調整されるか"
+    },
+    {
+      "id": "architecture",
+      "label": "アーキテクチャ",
+      "note": "モデルの骨格と種類"
+    },
+    {
+      "id": "application",
+      "label": "応用",
+      "note": "モデルを仕事に接続する部品"
+    },
+    {
+      "id": "local",
+      "label": "ローカル実行",
+      "note": "自分の環境で動かすための言葉"
+    },
+    {
+      "id": "evaluation",
+      "label": "評価",
+      "note": "品質と限界を測る言葉"
+    },
+    {
+      "id": "business",
+      "label": "業務・契約",
+      "note": "試験導入と利用条件を読む言葉"
+    },
+    {
+      "id": "security",
+      "label": "安全・運用",
+      "note": "情報と操作の範囲を管理する言葉"
+    },
+    {
+      "id": "practice",
+      "label": "開発・拡張",
+      "note": "エージェントに作業を任せるための言葉"
+    }
   ],
   "terms": [
     {
@@ -17,8 +60,20 @@
       "short": "人間の知的な働きを、コンピュータで実現しようとする技術と研究の総称。",
       "strict": "特定のタスクを処理するプログラムから、データから振る舞いを学ぶモデルまでを含む広い領域で、単一のアルゴリズムや製品を指す言葉ではない。",
       "myth": "「AI」はChatGPTのような生成AIだけを指す。",
-      "related": ["machine-learning", "generative-ai", "agi"],
-      "chapters": ["01"]
+      "related": [
+        "machine-learning",
+        "generative-ai",
+        "agi"
+      ],
+      "chapters": [
+        "01"
+      ],
+      "aliases": [
+        "ai"
+      ],
+      "example": "問い合わせをルールで振り分ける仕組みも、文章を生成する仕組みも、AIに含まれる。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "machine-learning",
@@ -28,8 +83,21 @@
       "short": "データから規則やパターンを学び、未知の入力に対して予測や判断を行う手法。",
       "strict": "人がすべてのルールを書く代わりに、目的関数を最適化するようにモデルのパラメータをデータから調整する。学習の目的・データ・評価方法は人が設計する。",
       "myth": "AIは自分で考え、何でも自律的に学ぶ。",
-      "related": ["deep-learning", "parameter", "overfitting"],
-      "chapters": ["01", "03"]
+      "related": [
+        "deep-learning",
+        "parameter",
+        "overfitting"
+      ],
+      "chapters": [
+        "01",
+        "03"
+      ],
+      "aliases": [
+        "machine-learning"
+      ],
+      "example": "過去の問い合わせと分類を使い、新しい問い合わせの担当部署を予測する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "deep-learning",
@@ -39,8 +107,21 @@
       "short": "多層のニューラルネットワークを使う機械学習の一分野。",
       "strict": "層を重ねて特徴表現を段階的に学習する。画像・音声・言語などで高い性能を出すが、大量のデータと計算資源を要する。",
       "myth": "「深層」は人間の脳と同じ構造で、同じ働きをしている。",
-      "related": ["machine-learning", "parameter", "transformer"],
-      "chapters": ["01", "03"]
+      "related": [
+        "machine-learning",
+        "parameter",
+        "transformer"
+      ],
+      "chapters": [
+        "01",
+        "03"
+      ],
+      "aliases": [
+        "deep-learning"
+      ],
+      "example": "画像の特徴を何段階もの層で処理し、製品の傷を見分ける。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "generative-ai",
@@ -50,8 +131,21 @@
       "short": "文章・画像・音声などの新しいコンテンツを生成するAIの総称。",
       "strict": "学習したデータの分布を近似し、確率的に新しいサンプルを生成するモデル群を指す。LLMはその一つで、画像生成には拡散モデルなど別の方式もある。",
       "myth": "生成AIとLLMは同じものだ。",
-      "related": ["llm", "diffusion", "multimodal"],
-      "chapters": ["01", "15"]
+      "related": [
+        "llm",
+        "diffusion",
+        "multimodal"
+      ],
+      "chapters": [
+        "01",
+        "15"
+      ],
+      "aliases": [
+        "generative-ai"
+      ],
+      "example": "問い合わせ文と社内資料を渡して、返信の下書きを作る。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "agi",
@@ -61,8 +155,21 @@
       "short": "特定のタスクに限定されず、幅広い知的作業をこなすAIの構想。",
       "strict": "人間と同等以上に幅広い課題を解くAIを指すが、明確に合意された定義や達成基準はなく、評価方法自体が研究課題になっている。",
       "myth": "現在のLLMを見て、AGIに到達したと断定できる。",
-      "related": ["ai", "llm", "benchmark"],
-      "chapters": ["01", "22"]
+      "related": [
+        "ai",
+        "llm",
+        "benchmark"
+      ],
+      "chapters": [
+        "01",
+        "22"
+      ],
+      "aliases": [
+        "agi"
+      ],
+      "example": "提案書に「AGI」とあれば、どんな課題をどの条件で解けるという意味かを確認する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "foundation-model",
@@ -72,8 +179,21 @@
       "short": "大量のデータで事前学習し、さまざまな用途に転用できる大規模モデル。",
       "strict": "単一タスク用に訓練されたモデルではなく、追加学習やプロンプトによって多様な下流タスクに適用される。言語以外の基盤モデルも存在する。",
       "myth": "基盤モデルはLLMの別名だ。",
-      "related": ["llm", "pretraining", "fine-tuning"],
-      "chapters": ["01", "07"]
+      "related": [
+        "llm",
+        "pretraining",
+        "fine-tuning"
+      ],
+      "chapters": [
+        "01",
+        "07"
+      ],
+      "aliases": [
+        "foundation-model"
+      ],
+      "example": "共通のモデルを、要約、分類、文案作成などの用途に使う。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "parameter",
@@ -83,8 +203,22 @@
       "short": "モデルが学習によって調整する数値。",
       "strict": "ニューラルネットワークの結合の強さなどを表す値で、学習とは主にこれらの更新を指す。推論時には通常、値は変わらない。",
       "myth": "パラメータ数が多いモデルは、どの用途でも賢い。",
-      "related": ["machine-learning", "pretraining", "moe"],
-      "chapters": ["03", "07", "19"]
+      "related": [
+        "machine-learning",
+        "pretraining",
+        "moe"
+      ],
+      "chapters": [
+        "03",
+        "07",
+        "19"
+      ],
+      "aliases": [
+        "parameter"
+      ],
+      "example": "通常のチャットで資料を渡す処理と、モデルの重みを変える追加学習を区別する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "multimodal",
@@ -94,8 +228,21 @@
       "short": "テキスト・画像・音声・動画など、複数の種類の入出力を扱うこと。",
       "strict": "複数のモダリティを入力または出力に使うモデル・システムを指す。画像を理解するモデルと画像を生成するモデルは、同じマルチモーダルでも役割が異なる。",
       "myth": "マルチモーダルなら、どんな入力も同じように理解し、生成できる。",
-      "related": ["vlm", "diffusion", "embedding"],
-      "chapters": ["14", "16"]
+      "related": [
+        "vlm",
+        "diffusion",
+        "embedding"
+      ],
+      "chapters": [
+        "14",
+        "16"
+      ],
+      "aliases": [
+        "multimodal"
+      ],
+      "example": "図の入った報告書を画像として読み、内容を文章で説明する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "llm",
@@ -105,8 +252,22 @@
       "short": "大量のテキストで学習した、言語を扱う大規模なモデル。",
       "strict": "トークン列の次トークン確率をモデル化し、自己回帰的に文章を生成するニューラルネットワーク。現在はTransformerのDecoder-only構成が多い。",
       "myth": "LLMはChatGPTのようなチャットアプリのことだ。",
-      "related": ["next-token-prediction", "transformer", "token"],
-      "chapters": ["04", "05", "06"]
+      "related": [
+        "next-token-prediction",
+        "transformer",
+        "token"
+      ],
+      "chapters": [
+        "04",
+        "05",
+        "06"
+      ],
+      "aliases": [
+        "llm"
+      ],
+      "example": "会議メモから論点と宿題を文章にまとめる。事実は元のメモと照合する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "token",
@@ -116,8 +277,20 @@
       "short": "モデルが文字列を分割して扱う単位。",
       "strict": "文字・単語・部分語などの単位で、トークナイザーによって整数IDに変換される。日本語では1文字が複数トークンになることもある。",
       "myth": "トークン数は文字数と同じだ。",
-      "related": ["tokenization", "embedding", "context-window"],
-      "chapters": ["05"]
+      "related": [
+        "tokenization",
+        "embedding",
+        "context-window"
+      ],
+      "chapters": [
+        "05"
+      ],
+      "aliases": [
+        "token"
+      ],
+      "example": "APIの見積もりでは、入力と出力のトークン数を別々に数える。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "tokenization",
@@ -127,8 +300,20 @@
       "short": "文字列をトークン列に分割し、IDに変換する処理。",
       "strict": "語彙表に基づく分割方式（BPEなど）で行われ、モデルごとに語彙と分割規則が異なる。同じ文章でもモデルによってトークン数は変わる。",
       "myth": "同じ文章なら、どのモデルでもトークン数は同じになる。",
-      "related": ["token", "embedding", "llm"],
-      "chapters": ["05"]
+      "related": [
+        "token",
+        "embedding",
+        "llm"
+      ],
+      "chapters": [
+        "05"
+      ],
+      "aliases": [
+        "tokenization"
+      ],
+      "example": "同じ文章でも、モデルが使うトークン化の方法によって数えられる単位数が変わる。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "embedding",
@@ -138,8 +323,21 @@
       "short": "単語や文などを、意味を反映した数値ベクトルに変換した表現。",
       "strict": "離散的なトークンIDを連続ベクトル空間に写像し、似た文脈で使われるもの同士が近くなるよう学習される。検索や分類にも使われる。",
       "myth": "ベクトルの各次元には、人間が読める明確な意味が割り当てられている。",
-      "related": ["token", "vector-database", "rag"],
-      "chapters": ["05", "11"]
+      "related": [
+        "token",
+        "vector-database",
+        "rag"
+      ],
+      "chapters": [
+        "05",
+        "11"
+      ],
+      "aliases": [
+        "embedding"
+      ],
+      "example": "意味の近い問い合わせを探すため、文章を数値の列に変換する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "context-window",
@@ -149,8 +347,22 @@
       "short": "モデルが一度に参照できるトークン列の最大長。",
       "strict": "入力・会話履歴・参照資料・ツール結果・出力を含めたトークン数の上限。超える場合は切り捨て、要約、検索などで調整する。",
       "myth": "コンテキストが長いほど、品質は必ず上がる。",
-      "related": ["token", "inference", "kv-cache"],
-      "chapters": ["05", "08", "10"]
+      "related": [
+        "token",
+        "inference",
+        "kv-cache"
+      ],
+      "chapters": [
+        "05",
+        "08",
+        "10"
+      ],
+      "aliases": [
+        "context-window"
+      ],
+      "example": "長い資料だけで枠を使い切らず、指示、会話履歴、応答のための量も確認する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "transformer",
@@ -160,8 +372,20 @@
       "short": "Attentionを中心に構成されたニューラルネットワークのアーキテクチャ。",
       "strict": "系列全体の位置間の関係を並列に計算でき、現在のLLMの基礎になっている。言語だけでなく画像・音声などにも応用される。",
       "myth": "TransformerはLLMの別名だ。",
-      "related": ["attention", "encoder", "decoder"],
-      "chapters": ["06"]
+      "related": [
+        "attention",
+        "encoder",
+        "decoder"
+      ],
+      "chapters": [
+        "06"
+      ],
+      "aliases": [
+        "transformer"
+      ],
+      "example": "提案書にこの名称があっても、それだけで用途への品質や処理速度は判断しない。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "attention",
@@ -171,8 +395,20 @@
       "short": "各位置が、他のどの位置の情報をどれだけ参照するかを重み付けして集約する仕組み。",
       "strict": "クエリとキーの類似度から重みを計算し、バリューを加重和する。同じ系列内で行うものをSelf-Attentionと呼ぶ。",
       "myth": "Attentionの重みを見れば、モデルの判断理由を完全に説明できる。",
-      "related": ["qkv", "transformer", "decoder"],
-      "chapters": ["06"]
+      "related": [
+        "qkv",
+        "transformer",
+        "decoder"
+      ],
+      "chapters": [
+        "06"
+      ],
+      "aliases": [
+        "attention"
+      ],
+      "example": "「それ」が何を指すかを扱う際に、文中の位置同士の関係を計算する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "qkv",
@@ -182,8 +418,20 @@
       "short": "Attentionで使う3種類のベクトル。",
       "strict": "クエリは「何を探すか」、キーは「何を持っているか」、バリューは「実際に渡す情報」に対応する。類似度に応じてバリューを重み付けして集約する。",
       "myth": "モデルの内部では、人間の検索エンジンのような仕組みが動いている。",
-      "related": ["attention", "transformer", "embedding"],
-      "chapters": ["06"]
+      "related": [
+        "attention",
+        "transformer",
+        "embedding"
+      ],
+      "chapters": [
+        "06"
+      ],
+      "aliases": [
+        "qkv"
+      ],
+      "example": "詳しい説明を読むとき、探す手がかり、照合する手がかり、取り出す内容という役割に分ける。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "next-token-prediction",
@@ -193,8 +441,21 @@
       "short": "直前までのトークン列から、次に来るトークンの確率分布を予測するタスク。",
       "strict": "自己回帰言語モデルの基本目的関数。文章生成は、この予測とサンプリングを1トークンずつ繰り返す。",
       "myth": "「次の単語を当てるだけ」という説明で、LLMの能力をすべて説明できる。",
-      "related": ["llm", "logits", "temperature"],
-      "chapters": ["04", "08"]
+      "related": [
+        "llm",
+        "logits",
+        "temperature"
+      ],
+      "chapters": [
+        "04",
+        "08"
+      ],
+      "aliases": [
+        "next-token-prediction"
+      ],
+      "example": "文章の続きを小さな単位で順に作る。その単位の選択が、事実の検証を兼ねるわけではない。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "logits",
@@ -204,8 +465,21 @@
       "short": "モデルが語彙の各トークンに対して出す、正規化前のスコア。",
       "strict": "Softmaxを通すと確率分布になる。TemperatureやTop-pは、この分布の扱いを変える生成パラメータ。",
       "myth": "ロジットが高いトークンは、事実として正しい。",
-      "related": ["next-token-prediction", "temperature", "top-p"],
-      "chapters": ["04", "08"]
+      "related": [
+        "next-token-prediction",
+        "temperature",
+        "top-p"
+      ],
+      "chapters": [
+        "04",
+        "08"
+      ],
+      "aliases": [
+        "logits"
+      ],
+      "example": "次に出す候補ごとの得点を、温度などの設定を通して確率へ変える。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "temperature",
@@ -215,8 +489,20 @@
       "short": "出力の確率分布の鋭さを調整する生成パラメータ。",
       "strict": "低いと高確率のトークンに集中し、高いと分布が平坦になって多様性が増す。0にしても、環境によって完全な決定論になるとは限らない。",
       "myth": "Temperatureを下げれば、出力は常に正確になる。",
-      "related": ["logits", "top-p", "inference"],
-      "chapters": ["08"]
+      "related": [
+        "logits",
+        "top-p",
+        "inference"
+      ],
+      "chapters": [
+        "08"
+      ],
+      "aliases": [
+        "temperature"
+      ],
+      "example": "同じ依頼を複数回試し、温度だけ変えて表現のばらつきを比べる。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "top-p",
@@ -226,8 +512,20 @@
       "short": "累積確率がpになるまでのトークン集合からサンプリングする方法。",
       "strict": "分布の上位を動的に切り、低確率のトークンを除外する。Temperatureと併用されることが多い。Top-kとは切り方の基準が異なる。",
       "myth": "Top-pとTop-kは同じものだ。",
-      "related": ["temperature", "logits", "next-token-prediction"],
-      "chapters": ["08"]
+      "related": [
+        "temperature",
+        "logits",
+        "next-token-prediction"
+      ],
+      "chapters": [
+        "08"
+      ],
+      "aliases": [
+        "top-p"
+      ],
+      "example": "候補を残す確率の合計を変え、表現の幅がどう変わるかを確かめる。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "kv-cache",
@@ -237,8 +535,21 @@
       "short": "生成時に計算済みのKey・Valueを保持して再利用する仕組み。",
       "strict": "自己回帰生成の再計算を減らして速度を上げるが、文脈長に比例してメモリを消費する。モデルの重みとは別のもの。",
       "myth": "KVキャッシュはモデルのパラメータの一部だ。",
-      "related": ["inference", "context-window", "vram"],
-      "chapters": ["08", "19"]
+      "related": [
+        "inference",
+        "context-window",
+        "vram"
+      ],
+      "chapters": [
+        "08",
+        "19"
+      ],
+      "aliases": [
+        "kv-cache"
+      ],
+      "example": "長い会話や同時利用を扱うサーバーでは、重み以外にこの保存領域も見積もる。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "inference",
@@ -248,8 +559,21 @@
       "short": "学習済みモデルを使って、入力から出力を得る処理。",
       "strict": "推論時には通常、モデルの重みは更新しない。計算資源・生成設定・入力の文脈によって結果が変わる。",
       "myth": "チャットで会話するたびに、モデルは自分の重みを更新している。",
-      "related": ["pretraining", "prefill", "decode"],
-      "chapters": ["04", "08"]
+      "related": [
+        "pretraining",
+        "prefill",
+        "decode"
+      ],
+      "chapters": [
+        "04",
+        "08"
+      ],
+      "aliases": [
+        "inference"
+      ],
+      "example": "学習済みのモデルへ新しい質問を渡し、応答を得る。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "prefill",
@@ -259,8 +583,20 @@
       "short": "生成開始前に、入力トークン列をまとめて処理する段階。",
       "strict": "入力全体のAttentionを並列計算し、KVキャッシュを作る。長い入力ではここが計算時間の大きな部分を占める。",
       "myth": "PrefillとDecodeは、同じ速度特性を持つ。",
-      "related": ["decode", "kv-cache", "ttft"],
-      "chapters": ["08"]
+      "related": [
+        "decode",
+        "kv-cache",
+        "ttft"
+      ],
+      "chapters": [
+        "08"
+      ],
+      "aliases": [
+        "prefill"
+      ],
+      "example": "長い資料を送った後、回答を作り始める前に入力を処理する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "decode",
@@ -270,8 +606,20 @@
       "short": "出力トークンを1つずつ生成する段階。",
       "strict": "直前までのKVキャッシュを使い、次トークンを順に選ぶ。並列化しにくく、生成速度やレイテンシに影響する。",
       "myth": "モデルは回答全体を一気に完成させてから、表示している。",
-      "related": ["prefill", "kv-cache", "tokens-per-second"],
-      "chapters": ["08"]
+      "related": [
+        "prefill",
+        "kv-cache",
+        "tokens-per-second"
+      ],
+      "chapters": [
+        "08"
+      ],
+      "aliases": [
+        "decode"
+      ],
+      "example": "画面へ少しずつ出てくる文章を、次の単位を選びながら生成する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "pretraining",
@@ -281,8 +629,20 @@
       "short": "大規模データで、モデルの基本的な知識や表現を学ぶ段階。",
       "strict": "自己教師あり学習が中心で、次のトークン予測などによってパラメータを調整する。指示に従う訓練とは別の段階。",
       "myth": "事前学習は、指示追従の訓練と同じものだ。",
-      "related": ["sft", "foundation-model", "parameter"],
-      "chapters": ["07"]
+      "related": [
+        "sft",
+        "foundation-model",
+        "parameter"
+      ],
+      "chapters": [
+        "07"
+      ],
+      "aliases": [
+        "pretraining"
+      ],
+      "example": "大量のデータから幅広い規則性を学ぶ。社内資料を回答時に渡すこととは工程が違う。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "sft",
@@ -292,8 +652,20 @@
       "short": "入力と望ましい出力の組で、指示追従の振る舞いを学ばせる段階。",
       "strict": "人手で用意した高品質な対話例などを使い、次トークン予測を継続する。RLHFなどの選好調整の前段として行われることが多い。",
       "myth": "SFTだけで、人間の選好を完全に反映できる。",
-      "related": ["pretraining", "rlhf", "fine-tuning"],
-      "chapters": ["07"]
+      "related": [
+        "pretraining",
+        "rlhf",
+        "fine-tuning"
+      ],
+      "chapters": [
+        "07"
+      ],
+      "aliases": [
+        "sft"
+      ],
+      "example": "望ましい質問と回答の例を用意し、その応答へ近づくよう追加学習する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "rlhf",
@@ -303,8 +675,20 @@
       "short": "人間の選好に基づく報酬モデルを使って、応答を調整する手法。",
       "strict": "複数応答の比較データから報酬モデルを作り、強化学習で方策を最適化する。AIによる評価を使うRLAIFという派生もある。",
       "myth": "RLHFを施せば、事実性は保証される。",
-      "related": ["sft", "fine-tuning", "hallucination"],
-      "chapters": ["07"]
+      "related": [
+        "sft",
+        "fine-tuning",
+        "hallucination"
+      ],
+      "chapters": [
+        "07"
+      ],
+      "aliases": [
+        "rlhf"
+      ],
+      "example": "人が回答を比較した結果などをもとに、望ましい応答へ寄せる学習を行う。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "fine-tuning",
@@ -314,8 +698,22 @@
       "short": "学習済みモデルを追加データで再訓練し、特定の振る舞いや形式に適応させること。",
       "strict": "全パラメータを更新する方法のほか、LoRAなどの効率的な手法がある。知識を新しく覚えさせる用途では、RAGの方が適する場合が多い。",
       "myth": "社内文書を読ませるには、必ずファインチューニングが必要だ。",
-      "related": ["sft", "rag", "pretraining"],
-      "chapters": ["07", "11", "19"]
+      "related": [
+        "sft",
+        "rag",
+        "pretraining"
+      ],
+      "chapters": [
+        "07",
+        "11",
+        "19"
+      ],
+      "aliases": [
+        "fine-tuning"
+      ],
+      "example": "社内の出力形式に沿った学習例を使い、モデルの振る舞いを調整する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "overfitting",
@@ -325,8 +723,21 @@
       "short": "学習データに適合しすぎて、未知のデータへの性能が落ちる状態。",
       "strict": "訓練誤差は下がる一方で、検証誤差が上がる。正則化・データ拡張・早期終了などで緩和する。",
       "myth": "学習データで良い成績を出せば、実運用でも良い成績が出る。",
-      "related": ["generalization", "parameter", "benchmark"],
-      "chapters": ["03", "07"]
+      "related": [
+        "generalization",
+        "parameter",
+        "benchmark"
+      ],
+      "chapters": [
+        "03",
+        "07"
+      ],
+      "aliases": [
+        "overfitting"
+      ],
+      "example": "練習に使った問い合わせは分類できても、新しい言い回しでは外れる。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "generalization",
@@ -336,8 +747,21 @@
       "short": "学習で見ていない入力に対しても、適切に振る舞う能力。",
       "strict": "訓練データへの当てはまりではなく、分布の近い未知データでの性能を指す。分布が大きく異なる実運用では別途評価が必要。",
       "myth": "ベンチマークで高得点なら、自分の業務でも同じように汎化する。",
-      "related": ["overfitting", "benchmark", "accuracy"],
-      "chapters": ["03", "21"]
+      "related": [
+        "overfitting",
+        "benchmark",
+        "accuracy"
+      ],
+      "chapters": [
+        "03",
+        "21"
+      ],
+      "aliases": [
+        "generalization"
+      ],
+      "example": "練習例と同じ文面でなくても、新しい問い合わせを適切に分類できる。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "encoder",
@@ -347,8 +771,20 @@
       "short": "入力を、文脈を反映した表現に変換する側のネットワーク。",
       "strict": "Encoder-onlyモデルは分類・検索向け、Encoder-Decoderは変換タスク向けに使われることが多い。Decoder-onlyのLLMとは構成が異なる。",
       "myth": "すべてのTransformerは同じ構造をしている。",
-      "related": ["decoder", "transformer", "embedding"],
-      "chapters": ["06"]
+      "related": [
+        "decoder",
+        "transformer",
+        "embedding"
+      ],
+      "chapters": [
+        "06"
+      ],
+      "aliases": [
+        "encoder"
+      ],
+      "example": "文書全体を受け取り、検索や分類に使う表現へ変換する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "decoder",
@@ -358,8 +794,20 @@
       "short": "出力を逐次生成する側のネットワーク。",
       "strict": "因果マスクを使い、未来のトークンを参照せずに次トークンを予測する。現在の主要なLLMはDecoder-only構成が多い。",
       "myth": "画像生成のデコーダとLLMのデコーダは、同じ文脈で使う用語だ。",
-      "related": ["encoder", "transformer", "attention"],
-      "chapters": ["06"]
+      "related": [
+        "encoder",
+        "transformer",
+        "attention"
+      ],
+      "chapters": [
+        "06"
+      ],
+      "aliases": [
+        "decoder"
+      ],
+      "example": "与えられた文脈をもとに、返答を順に生成する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "moe",
@@ -369,8 +817,21 @@
       "short": "複数の専門家ネットワークのうち、一部だけを入力ごとに使うアーキテクチャ。",
       "strict": "総パラメータ数を増やしつつ、1トークンあたりの計算量を抑えられる。どの専門家に振るかというルーティングの設計が重要になる。",
       "myth": "MoEでは、総パラメータ数がそのまま計算量になる。",
-      "related": ["dense", "parameter", "inference"],
-      "chapters": ["08", "19"]
+      "related": [
+        "dense",
+        "parameter",
+        "inference"
+      ],
+      "chapters": [
+        "08",
+        "19"
+      ],
+      "aliases": [
+        "moe"
+      ],
+      "example": "総パラメータ数と、各処理で選ばれる部分のパラメータ数を分けて読む。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "dense",
@@ -380,8 +841,20 @@
       "short": "すべての入力で、同じパラメータ構成を使う通常のモデル。",
       "strict": "MoEと対比される構成で、計算量とパラメータ数が比較的素直に対応する。MoEより常に劣るという意味ではない。",
       "myth": "Denseモデルは、MoEより常に性能が低い。",
-      "related": ["moe", "parameter", "inference"],
-      "chapters": ["08"]
+      "related": [
+        "moe",
+        "parameter",
+        "inference"
+      ],
+      "chapters": [
+        "08"
+      ],
+      "aliases": [
+        "dense"
+      ],
+      "example": "MoEと比較するとき、モデル構造だけで実際の速度を決めず、同じ条件で測る。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "vlm",
@@ -391,8 +864,20 @@
       "short": "画像と言語を組み合わせて扱うモデル。画像の理解を担うことが多く、生成の有無は別に確かめる。",
       "strict": "画像を視覚エンコーダで埋め込み、言語モデルと接続する構成が多い。画像を「理解する」モデルであり、画像を「生成する」モデルとは限らない。",
       "myth": "画像を理解できるモデルは、画像も生成できる。",
-      "related": ["multimodal", "embedding", "llm"],
-      "chapters": ["14"]
+      "related": [
+        "multimodal",
+        "embedding",
+        "llm"
+      ],
+      "chapters": [
+        "14"
+      ],
+      "aliases": [
+        "vlm"
+      ],
+      "example": "画面のスクリーンショットを入力し、表示されている内容を文章で説明する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "diffusion",
@@ -402,8 +887,20 @@
       "short": "ノイズを段階的に除去して、画像などのデータを生成するモデル。",
       "strict": "学習ではデータにノイズを加える過程を逆転させる。画像生成の主要方式の一つで、LLMの次トークン予測とは異なる生成原理を持つ。",
       "myth": "拡散モデルはLLMの一種だ。",
-      "related": ["dit", "generative-ai", "multimodal"],
-      "chapters": ["15"]
+      "related": [
+        "dit",
+        "generative-ai",
+        "multimodal"
+      ],
+      "chapters": [
+        "15"
+      ],
+      "aliases": [
+        "diffusion"
+      ],
+      "example": "ノイズを減らす過程を学んだモデルで画像を生成する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "dit",
@@ -413,8 +910,20 @@
       "short": "拡散モデルのノイズ除去をTransformerで行うアーキテクチャ。",
       "strict": "画像をパッチ列として扱い、Transformerで処理する。U-Netの代替として使われることがある。",
       "myth": "DiTはLLMそのものだ。",
-      "related": ["diffusion", "transformer", "generative-ai"],
-      "chapters": ["15"]
+      "related": [
+        "diffusion",
+        "transformer",
+        "generative-ai"
+      ],
+      "chapters": [
+        "15"
+      ],
+      "aliases": [
+        "dit"
+      ],
+      "example": "画像生成の説明で、生成の枠組みと、その内部で使うTransformerを区別する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "prompt",
@@ -424,8 +933,20 @@
       "short": "モデルに与える指示・文脈・入力の総体。",
       "strict": "システム指示、参照資料、会話履歴、ツール結果、ユーザー依頼などを含む。魔法の言い回しより、目的・制約・完成条件の明確さが重要になる。",
       "myth": "特定の呪文のような言い回しを使えば、品質は必ず上がる。",
-      "related": ["context-engineering", "rag", "llm"],
-      "chapters": ["10"]
+      "related": [
+        "context-engineering",
+        "rag",
+        "llm"
+      ],
+      "chapters": [
+        "10"
+      ],
+      "aliases": [
+        "prompt"
+      ],
+      "example": "「この資料から、結論・根拠・未確認事項の三つに分けて要約して」と依頼する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "context-engineering",
@@ -435,8 +956,21 @@
       "short": "モデルに渡す情報の選択・構造化・圧縮を設計すること。",
       "strict": "指示、履歴、参照資料、ツール結果、出力の余白を、目的とトークン予算に合わせて構成する。プロンプト文言だけでなく、何を入れ、何を入れないかを扱う。",
       "myth": "長い文脈をそのまま詰めれば、品質が上がる。",
-      "related": ["prompt", "context-window", "rag"],
-      "chapters": ["05", "10"]
+      "related": [
+        "prompt",
+        "context-window",
+        "rag"
+      ],
+      "chapters": [
+        "05",
+        "10"
+      ],
+      "aliases": [
+        "context-engineering"
+      ],
+      "example": "規程を丸ごと渡すか、検索で必要な条文だけ渡すかを設計する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "rag",
@@ -446,8 +980,20 @@
       "short": "外部の文書を検索し、その内容を文脈に含めて回答を生成する方式。",
       "strict": "検索→資料抽出→生成のパイプライン。モデルの重みを更新せずに、最新情報や社内情報を参照できる。検索精度と引用の設計が品質を左右する。",
       "myth": "RAGを使うと、モデルが社内文書を学習し直す。",
-      "related": ["embedding", "vector-database", "fine-tuning"],
-      "chapters": ["11"]
+      "related": [
+        "embedding",
+        "vector-database",
+        "fine-tuning"
+      ],
+      "chapters": [
+        "11"
+      ],
+      "aliases": [
+        "rag"
+      ],
+      "example": "質問に関係する社内規程を検索し、その部分をモデルへ渡して答える。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "vector-database",
@@ -457,8 +1003,20 @@
       "short": "埋め込みベクトルを保存し、類似検索を行うためのデータベース。",
       "strict": "文書や画像などをベクトル化して格納し、クエリベクトルとの近さで検索する。RAGの検索部分で使われることが多い。",
       "myth": "ベクトル検索さえあれば、常に正確な検索ができる。",
-      "related": ["embedding", "rag", "benchmark"],
-      "chapters": ["11"]
+      "related": [
+        "embedding",
+        "rag",
+        "benchmark"
+      ],
+      "chapters": [
+        "11"
+      ],
+      "aliases": [
+        "vector-database"
+      ],
+      "example": "大量の文書を、数値表現の近さから探すための索引として使う。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "function-calling",
@@ -468,8 +1026,21 @@
       "short": "モデルが外部関数やAPIの呼び出しを、構造化された形で要求する機能。",
       "strict": "モデル自身が実行するのではなく、アプリ側が要求を検証・実行し、結果をモデルに戻す。権限と入力検証はアプリ側の責任になる。",
       "myth": "モデルが勝手にAPIを実行している。",
-      "related": ["agent", "mcp", "harness"],
-      "chapters": ["11", "12"]
+      "related": [
+        "agent",
+        "mcp",
+        "harness"
+      ],
+      "chapters": [
+        "11",
+        "12"
+      ],
+      "aliases": [
+        "function-calling"
+      ],
+      "example": "AIが顧客番号を指定して検索を要求し、アプリが権限を確認して検索を実行する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "agent",
@@ -479,8 +1050,20 @@
       "short": "目標に向けて、モデルがツール選択・実行・結果確認を繰り返すシステム。",
       "strict": "モデル単体ではなく、ループ・状態・ツール・権限・検証を含む外側の仕組みと組み合わさって成立する。",
       "myth": "チャットAIはエージェントだ。",
-      "related": ["agent-loop", "harness", "function-calling"],
-      "chapters": ["12"]
+      "related": [
+        "agent-loop",
+        "harness",
+        "function-calling"
+      ],
+      "chapters": [
+        "12"
+      ],
+      "aliases": [
+        "agent"
+      ],
+      "example": "依頼を受けた後、資料検索、下書き、確認を必要に応じて繰り返す。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "agent-loop",
@@ -490,8 +1073,20 @@
       "short": "観察→計画→行動→結果確認を繰り返す制御ループ。",
       "strict": "各ステップでモデルが判断し、ハーネスが実行と状態更新を行う。終了条件、予算、失敗時の扱いを設計する必要がある。",
       "myth": "ループを回せば回すほど、自律的に賢くなる。",
-      "related": ["agent", "harness", "sandbox"],
-      "chapters": ["12"]
+      "related": [
+        "agent",
+        "harness",
+        "sandbox"
+      ],
+      "chapters": [
+        "12"
+      ],
+      "aliases": [
+        "agent-loop"
+      ],
+      "example": "検索結果が不足したら別の質問で探し直し、条件を満たしたら終了する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "harness",
@@ -501,8 +1096,21 @@
       "short": "モデルを実際の作業に接続する、外側の実行基盤。",
       "strict": "ツール呼び出し、状態管理、権限、承認、Sandbox、履歴圧縮、検証などを担う。同じモデルでもハーネスが違えば成果は変わる。",
       "myth": "モデルの性能が高ければ、エージェントの完成度も自動的に高くなる。",
-      "related": ["agent", "agent-loop", "mcp"],
-      "chapters": ["12", "13"]
+      "related": [
+        "agent",
+        "agent-loop",
+        "mcp"
+      ],
+      "chapters": [
+        "12",
+        "13"
+      ],
+      "aliases": [
+        "harness"
+      ],
+      "example": "同じモデルでも、資料の渡し方やツール、承認の仕組みにより結果が変わる。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "mcp",
@@ -512,8 +1120,20 @@
       "short": "LLMアプリと外部のツール・データを接続するためのプロトコル。",
       "strict": "ツール・リソース・プロンプトなどのインターフェースを標準化する。エージェントそのものではなく、接続の規格である。",
       "myth": "MCPを導入すれば、エージェントが完成する。",
-      "related": ["harness", "function-calling", "agent"],
-      "chapters": ["12"]
+      "related": [
+        "harness",
+        "function-calling",
+        "agent"
+      ],
+      "chapters": [
+        "12"
+      ],
+      "aliases": [
+        "mcp"
+      ],
+      "example": "社内の情報源へ接続する際に、接続規格への対応と、閲覧権限を別々に確認する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "sandbox",
@@ -523,8 +1143,21 @@
       "short": "プログラムやツールを隔離された環境で実行する仕組み。",
       "strict": "ファイル・ネットワーク・権限を制限し、事故や悪意ある操作の影響を抑える。Sandboxがあっても、すべての安全が保証されるわけではない。",
       "myth": "Sandboxに入れれば、どんな操作も安全だ。",
-      "related": ["harness", "agent-loop", "computer-use"],
-      "chapters": ["12", "21"]
+      "related": [
+        "harness",
+        "agent-loop",
+        "computer-use"
+      ],
+      "chapters": [
+        "12",
+        "21"
+      ],
+      "aliases": [
+        "sandbox"
+      ],
+      "example": "練習用フォルダだけを書き換えられる範囲として設定する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "computer-use",
@@ -534,8 +1167,20 @@
       "short": "AIがGUIを操作して、コンピュータ上の作業を行う仕組み。",
       "strict": "画面認識とマウス・キーボード操作を組み合わせる。実環境への影響が大きいため、権限・承認・検証が特に重要になる。",
       "myth": "画面操作を自動化すれば、業務全体が自動化できる。",
-      "related": ["agent", "sandbox", "harness"],
-      "chapters": ["13"]
+      "related": [
+        "agent",
+        "sandbox",
+        "harness"
+      ],
+      "chapters": [
+        "13"
+      ],
+      "aliases": [
+        "computer-use"
+      ],
+      "example": "画面上のボタンを押す前に、操作対象と送信・変更の影響を確認する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "quantization",
@@ -545,8 +1190,20 @@
       "short": "モデルの重みや計算を、低いビット精度で表現すること。",
       "strict": "FP16からINT8、4bitなどへ落とすことで、メモリと計算量を減らす。精度低下や、対応する形式・カーネルの制約がある。",
       "myth": "量子化後のファイルサイズが、実行時に必要なメモリだ。",
-      "related": ["vram", "gguf", "parameter"],
-      "chapters": ["19"]
+      "related": [
+        "vram",
+        "gguf",
+        "parameter"
+      ],
+      "chapters": [
+        "19"
+      ],
+      "aliases": [
+        "quantization"
+      ],
+      "example": "重みの表現精度を下げて容量を減らし、品質と速度を実機で比較する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "vram",
@@ -554,10 +1211,22 @@
       "reading": "ぶいらむ",
       "category": "local",
       "short": "GPUが搭載する専用メモリ。",
-      "strict": "モデルの重み、KVキャッシュ、実行時のバッファなどが載る。不足するとCPUへ一部を逃がし、速度が大きく落ちることがある。",
+      "strict": "モデルの重み、KVキャッシュ、実行時のバッファなどが載る。不足するとCPU側のメモリへ一部を移し、速度が大きく落ちることがある。",
       "myth": "パラメータ数×ビット数だけで、必要なVRAMが決まる。",
-      "related": ["quantization", "kv-cache", "gguf"],
-      "chapters": ["19"]
+      "related": [
+        "quantization",
+        "kv-cache",
+        "gguf"
+      ],
+      "chapters": [
+        "19"
+      ],
+      "aliases": [
+        "vram"
+      ],
+      "example": "GPUで動かすモデルの重み、文脈のキャッシュ、作業領域が収まるか確認する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "gguf",
@@ -567,8 +1236,21 @@
       "short": "モデルの重みと実行用メタデータをまとめたモデルファイル形式。",
       "strict": "llama.cpp系のツールで使われる。量子化した重みだけでなく、F16やBF16など量子化していない重みも格納できる。保存形式と数値精度は別の軸であり、形式名でもモデル名でもない。Ollamaなどでも利用される。",
       "myth": "GGUFはモデルの種類や名前を指す。",
-      "related": ["quantization", "vram", "tokens-per-second"],
-      "chapters": ["19"]
+      "related": [
+        "quantization",
+        "vram",
+        "tokens-per-second"
+      ],
+      "chapters": [
+        "19"
+      ],
+      "aliases": [
+        "gguf",
+        "ジージーユーエフ"
+      ],
+      "example": "GGUF形式のモデルを取得する前に、実行ソフトと量子化の種類、ライセンスを確認する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "tokens-per-second",
@@ -578,8 +1260,21 @@
       "short": "1秒あたりに生成できるトークン数。",
       "strict": "生成速度の指標。入力処理の速度やTTFTとは別に測る。値はハードウェア・量子化・文脈長・バッチ条件で変わる。",
       "myth": "tokens/secが高ければ、最初の応答も速い。",
-      "related": ["ttft", "decode", "quantization"],
-      "chapters": ["18", "19"]
+      "related": [
+        "ttft",
+        "decode",
+        "quantization"
+      ],
+      "chapters": [
+        "18",
+        "19"
+      ],
+      "aliases": [
+        "tokens-per-second"
+      ],
+      "example": "同じモデル・入力長・出力条件で、出力が始まった後の速さを比べる。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "ttft",
@@ -589,8 +1284,22 @@
       "short": "最初のトークンが出力されるまでの時間。",
       "strict": "Time To First Tokenの略。長い入力ではPrefillの影響が大きい。体感の速さはTTFTと生成速度の両方で決まる。",
       "myth": "生成速度だけを見れば、体感速度が分かる。",
-      "related": ["prefill", "tokens-per-second", "latency"],
-      "chapters": ["08", "18", "19"]
+      "related": [
+        "prefill",
+        "tokens-per-second",
+        "latency"
+      ],
+      "chapters": [
+        "08",
+        "18",
+        "19"
+      ],
+      "aliases": [
+        "ttft"
+      ],
+      "example": "送信から最初の出力が表示されるまでを測り、全出力の完了までの時間と分ける。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "benchmark",
@@ -600,8 +1309,21 @@
       "short": "モデルの性能を比較するための、標準的な課題やデータセット。",
       "strict": "正解率やスコアで測るが、設計・データ汚染・推論条件・採点方法の違いで結果は変わる。単一のスコアで用途適性は決まらない。",
       "myth": "ベンチマークで1位のモデルが、自分の業務でも最適だ。",
-      "related": ["elo", "contamination", "accuracy"],
-      "chapters": ["18", "21"]
+      "related": [
+        "elo",
+        "contamination",
+        "accuracy"
+      ],
+      "chapters": [
+        "18",
+        "21"
+      ],
+      "aliases": [
+        "benchmark"
+      ],
+      "example": "公開スコアで候補を絞り、自社の問い合わせや資料で改めて試す。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "elo",
@@ -611,8 +1333,20 @@
       "short": "対戦や比較の勝敗から、相対的な強さを推定するレーティング方式。",
       "strict": "人間の選好比較などで、モデル同士の相対評価を数値化する。投票者の分布・プロンプト・集計方法に依存する。",
       "myth": "Eloが高いほど、客観的な正解率も高い。",
-      "related": ["benchmark", "accuracy", "contamination"],
-      "chapters": ["18"]
+      "related": [
+        "benchmark",
+        "accuracy",
+        "contamination"
+      ],
+      "chapters": [
+        "18"
+      ],
+      "aliases": [
+        "elo"
+      ],
+      "example": "人が二つの回答を比べた結果から得た相対評価を、評価条件と一緒に読む。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "hallucination",
@@ -622,8 +1356,20 @@
       "short": "もっともらしいが、事実と異なる内容を生成すること。",
       "strict": "確率的生成、知識の欠如や古さ、文脈の取り違えなどが原因になる。流暢さは事実性を保証しない。",
       "myth": "モデルは意図的に嘘をついている。",
-      "related": ["llm", "rag", "benchmark"],
-      "chapters": ["09"]
+      "related": [
+        "llm",
+        "rag",
+        "benchmark"
+      ],
+      "chapters": [
+        "09"
+      ],
+      "aliases": [
+        "hallucination"
+      ],
+      "example": "回答に書かれた規程の条番号が、実在する原資料のものか照合する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "latency",
@@ -633,8 +1379,21 @@
       "short": "入力から応答までの遅延。",
       "strict": "TTFT、生成速度、ネットワーク、ツール実行時間などで構成される。高性能モデルほど遅くなりやすい傾向がある。",
       "myth": "レイテンシは、モデルの生成速度だけで決まる。",
-      "related": ["ttft", "tokens-per-second", "benchmark"],
-      "chapters": ["18", "19"]
+      "related": [
+        "ttft",
+        "tokens-per-second",
+        "benchmark"
+      ],
+      "chapters": [
+        "18",
+        "19"
+      ],
+      "aliases": [
+        "latency"
+      ],
+      "example": "送信から最初の表示までと、処理が終わるまでを分けて記録する。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "accuracy",
@@ -644,8 +1403,20 @@
       "short": "予測が正解と一致した割合。",
       "strict": "タスクと正解の定義に依存する。生成タスクでは単一の正解が定まらないことが多く、人手評価やルーブリックが必要になる。",
       "myth": "単一の正解率で、品質全体を測れる。",
-      "related": ["benchmark", "generalization", "hallucination"],
-      "chapters": ["21"]
+      "related": [
+        "benchmark",
+        "generalization",
+        "hallucination"
+      ],
+      "chapters": [
+        "21"
+      ],
+      "aliases": [
+        "accuracy"
+      ],
+      "example": "100件中90件が正解でも、少数の重大な見落としがないか内訳を調べる。",
+      "sources": [],
+      "updated": "2026-10-28"
     },
     {
       "slug": "contamination",
@@ -655,8 +1426,1911 @@
       "short": "評価用のデータが、学習データに含まれてしまうこと。",
       "strict": "ベンチマークのスコアが、実際の汎化性能より高く見える原因になる。評価セットの管理と、公開時期の確認が必要になる。",
       "myth": "ベンチマークの高スコアは、常に本当の実力を示す。",
-      "related": ["benchmark", "generalization", "elo"],
-      "chapters": ["18", "21"]
+      "related": [
+        "benchmark",
+        "generalization",
+        "elo"
+      ],
+      "chapters": [
+        "18",
+        "21"
+      ],
+      "aliases": [
+        "contamination"
+      ],
+      "example": "公開問題の点数が高いとき、その問題が学習データへ混入した可能性も確認する。",
+      "sources": [],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "api",
+      "term": "API",
+      "reading": "エーピーアイ",
+      "category": "application",
+      "short": "ソフトウェアから別の機能やサービスを呼び出すための取り決め。",
+      "strict": "受け付ける入力、返す出力、認証、エラーなどの形式が定められる。画面から使うアプリとは別に、プログラムからモデルを利用する方法の一つ。",
+      "myth": "APIを使えば、アプリと同じ機能や利用枠をそのまま使える。",
+      "example": "社内の画面からモデルAPIへ質問を送り、返答を受け取る。",
+      "aliases": [
+        "api",
+        "API"
+      ],
+      "related": [
+        "llm",
+        "function-calling",
+        "api-key"
+      ],
+      "chapters": [
+        "04",
+        "23"
+      ],
+      "sources": [
+        {
+          "title": "OpenAI API concepts",
+          "url": "https://developers.openai.com/api/docs/key-concepts",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "model-id",
+      "term": "モデルID",
+      "reading": "モデルアイディー",
+      "category": "application",
+      "short": "APIや実行環境が、使うモデルを識別するための文字列。",
+      "strict": "表示名と一致するとは限らず、提供元や版によって異なる。別名が指す実体が更新される場合もある。",
+      "myth": "名前が似たモデルIDは、どの提供元でも同じモデルを指す。",
+      "example": "比較記録に表示名、モデルID、提供元、確認日を残す。",
+      "aliases": [
+        "model-id",
+        "モデルID"
+      ],
+      "related": [
+        "api",
+        "model-card",
+        "benchmark"
+      ],
+      "chapters": [
+        "04",
+        "24"
+      ],
+      "sources": [
+        {
+          "title": "OpenAI API concepts",
+          "url": "https://developers.openai.com/api/docs/key-concepts",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "model-card",
+      "term": "モデルカード",
+      "reading": "モデルカード",
+      "category": "evaluation",
+      "short": "モデルの用途、学習や評価の条件、制約などを説明する資料。",
+      "strict": "掲載範囲は提供元やモデルによって違う。性能の数字とともに測定条件や想定外の用途を読む。",
+      "myth": "モデルカードに高得点があれば、自社の仕事でも同じ品質が出る。",
+      "example": "導入候補の対応言語や、不得意な用途の説明を確かめる。",
+      "aliases": [
+        "model-card",
+        "モデルカード"
+      ],
+      "related": [
+        "benchmark",
+        "eval-set",
+        "open-weights"
+      ],
+      "chapters": [
+        "18",
+        "19",
+        "22"
+      ],
+      "sources": [
+        {
+          "title": "Generative AI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "publisher": "NIST"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "open-weights",
+      "term": "オープンウェイト",
+      "reading": "オープンウェイト",
+      "category": "local",
+      "short": "学習済みの重みを入手できる形で公開していること。",
+      "strict": "利用、改変、再配布、商用利用の条件はライセンスごとに違う。重みの公開だけから、学習データやコードの公開範囲は決まらない。",
+      "myth": "重みが公開されていれば、制限なく商用利用も再配布もできる。",
+      "example": "モデルをダウンロードする前に、重みの利用条件を読む。",
+      "aliases": [
+        "open-weights",
+        "オープンウェイト"
+      ],
+      "related": [
+        "open-source-ai",
+        "license",
+        "parameter"
+      ],
+      "chapters": [
+        "18",
+        "19"
+      ],
+      "sources": [
+        {
+          "title": "Open Source AI Definition",
+          "url": "https://opensource.org/ai/open-source-ai-definition",
+          "publisher": "Open Source Initiative"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "open-source-ai",
+      "term": "オープンソースAI",
+      "reading": "オープンソースエーアイ",
+      "category": "local",
+      "short": "利用や改変などの自由と、必要な構成要素へのアクセスを含む公開の考え方。",
+      "strict": "OSIの定義は重みだけでなく、変更を加えるために必要なコードや学習データに関する情報も扱う。提供元が使う「オープン」という語の範囲は確認が必要。",
+      "myth": "オープンウェイトとオープンソースAIは常に同じ意味。",
+      "example": "公開されたものが重みだけか、コードやデータ情報も含むかを分ける。",
+      "aliases": [
+        "open-source-ai",
+        "オープンソースAI"
+      ],
+      "related": [
+        "open-weights",
+        "license",
+        "model-card"
+      ],
+      "chapters": [
+        "19",
+        "22"
+      ],
+      "sources": [
+        {
+          "title": "Open Source AI Definition",
+          "url": "https://opensource.org/ai/open-source-ai-definition",
+          "publisher": "Open Source Initiative"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "license",
+      "term": "ライセンス",
+      "reading": "ライセンス",
+      "category": "business",
+      "short": "ソフトウェアやモデル、素材を利用・変更・配布する条件。",
+      "strict": "商用利用、再配布、表示義務などの条件は対象ごとに確認する。サービスの契約条件とは確認する対象が異なる。",
+      "myth": "無料でダウンロードできれば、どんな用途でも自由に使える。",
+      "example": "モデルと画像素材について、それぞれ出所と利用条件を記録する。",
+      "aliases": [
+        "license",
+        "ライセンス"
+      ],
+      "related": [
+        "open-weights",
+        "model-card"
+      ],
+      "chapters": [
+        "19",
+        "32"
+      ],
+      "sources": [
+        {
+          "title": "Open Source AI Definition",
+          "url": "https://opensource.org/ai/open-source-ai-definition",
+          "publisher": "Open Source Initiative"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "poc",
+      "term": "PoC（概念実証）",
+      "reading": "ピーオーシー",
+      "category": "business",
+      "short": "小規模に試し、想定する方法が目的に役立つか確かめること。",
+      "strict": "AIの試験導入では、業務に近い入力と基準を先に決め、品質・時間・費用・失敗を確認する。成功したデモだけで本番運用の成立を保証しない。",
+      "myth": "PoCで一度動けば、そのまま全社導入できる。",
+      "example": "問い合わせの実例で、下書きの品質と人の修正時間を比べる。",
+      "aliases": [
+        "poc",
+        "PoC"
+      ],
+      "related": [
+        "eval-set",
+        "human-in-the-loop",
+        "benchmark"
+      ],
+      "chapters": [
+        "20",
+        "21"
+      ],
+      "sources": [
+        {
+          "title": "Generative AI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "publisher": "NIST"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "human-in-the-loop",
+      "term": "Human-in-the-loop",
+      "reading": "ヒューマンインザループ",
+      "category": "business",
+      "short": "処理の途中や結果の確認に、人が関与する設計。",
+      "strict": "承認、訂正、例外対応など、誰がどの時点で関与するかを定める。確認できる量や担当者の判断基準も運用に関わる。",
+      "myth": "最後に人がボタンを押せば、安全性が保証される。",
+      "example": "顧客へ送る前に、担当者が下書きと根拠資料を照合する。",
+      "aliases": [
+        "human-in-the-loop",
+        "Human-in-the-loop"
+      ],
+      "related": [
+        "agent",
+        "audit-log",
+        "guardrail"
+      ],
+      "chapters": [
+        "20",
+        "21"
+      ],
+      "sources": [
+        {
+          "title": "Generative AI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "publisher": "NIST"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "precision",
+      "term": "適合率（Precision）",
+      "reading": "てきごうりつ",
+      "category": "evaluation",
+      "short": "検出したもののうち、正しく検出したものの割合。",
+      "strict": "二値分類ではTP/(TP+FP)。正例として検出した集合に、誤検出がどれだけ混ざるかを見る。分母が0の扱いは評価方法に合わせて定める。",
+      "myth": "適合率が高ければ、必要なものをほぼ全部見つけている。",
+      "example": "対応が必要と判定した問い合わせのうち、本当に必要だった割合。",
+      "aliases": [
+        "precision",
+        "適合率"
+      ],
+      "related": [
+        "recall",
+        "f1-score",
+        "accuracy"
+      ],
+      "chapters": [
+        "11",
+        "21"
+      ],
+      "sources": [
+        {
+          "title": "Machine learning evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "publisher": "scikit-learn"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "recall",
+      "term": "再現率（Recall）",
+      "reading": "さいげんりつ",
+      "category": "evaluation",
+      "short": "見つけるべきもののうち、見つけられたものの割合。",
+      "strict": "二値分類ではTP/(TP+FN)。検索では必要な文書をどこまで取得できたかを測る。評価対象と、上位何件を見るかなどの条件を添える。",
+      "myth": "再現率が高ければ、検索結果に不要な資料は混ざっていない。",
+      "example": "参照すべき規程が10件あり、検索結果に8件含まれるなら再現率は0.8。",
+      "aliases": [
+        "recall",
+        "再現率"
+      ],
+      "related": [
+        "precision",
+        "f1-score",
+        "rag"
+      ],
+      "chapters": [
+        "11",
+        "21"
+      ],
+      "sources": [
+        {
+          "title": "Machine learning evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "publisher": "scikit-learn"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "f1-score",
+      "term": "F1スコア",
+      "reading": "エフワンスコア",
+      "category": "evaluation",
+      "short": "適合率と再現率を調和平均でまとめた指標。",
+      "strict": "2×適合率×再現率/(適合率+再現率)。多クラス評価では集計方法によって値が変わる。誤りの影響の違いまでは一つの値で表さない。",
+      "myth": "F1が最も高いモデルなら、どの業務でも最適。",
+      "example": "見落としが重い仕事では、F1だけでなく再現率と失敗事例も見る。",
+      "aliases": [
+        "f1-score",
+        "F1スコア"
+      ],
+      "related": [
+        "precision",
+        "recall",
+        "accuracy"
+      ],
+      "chapters": [
+        "21"
+      ],
+      "sources": [
+        {
+          "title": "Machine learning evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "publisher": "scikit-learn"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "false-positive",
+      "term": "偽陽性・誤検出",
+      "reading": "ぎようせい",
+      "category": "evaluation",
+      "short": "実際には対象でないものを、対象だと判定する誤り。",
+      "strict": "二値分類のFP。どちらを陽性とするかを先に決め、偽陰性と区別する。",
+      "myth": "誤検出と見落としは、名前だけ違って同じ失敗。",
+      "example": "対応不要の連絡を、緊急対応が必要と判定する。",
+      "aliases": [
+        "false-positive",
+        "偽陽性・誤検出"
+      ],
+      "related": [
+        "false-negative",
+        "precision"
+      ],
+      "chapters": [
+        "21",
+        "32"
+      ],
+      "sources": [
+        {
+          "title": "Machine learning evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "publisher": "scikit-learn"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "false-negative",
+      "term": "偽陰性・見落とし",
+      "reading": "ぎいんせい",
+      "category": "evaluation",
+      "short": "実際には対象のものを、対象でないと判定する誤り。",
+      "strict": "二値分類のFN。陽性の定義と、見落とした場合の影響を明示する。",
+      "myth": "正答率が高ければ、重大な見落としは起きない。",
+      "example": "緊急対応が必要な問い合わせを、対応不要として除外する。",
+      "aliases": [
+        "false-negative",
+        "偽陰性・見落とし"
+      ],
+      "related": [
+        "false-positive",
+        "recall"
+      ],
+      "chapters": [
+        "21",
+        "32"
+      ],
+      "sources": [
+        {
+          "title": "Machine learning evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "publisher": "scikit-learn"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "confusion-matrix",
+      "term": "混同行列",
+      "reading": "こんどうぎょうれつ",
+      "category": "evaluation",
+      "short": "実際の分類と、予測した分類を対応させて件数を並べた表。",
+      "strict": "軸が実際・予測のどちらか、陽性を何と定めたかを確認する。集計や正規化の方法によって表の値の意味が変わる。",
+      "myth": "表の右上の値は、どの混同行列でも同じ種類の誤り。",
+      "example": "必要な問い合わせの検出で、見落としと誤検出を別々に数える。",
+      "aliases": [
+        "confusion-matrix",
+        "混同行列"
+      ],
+      "related": [
+        "precision",
+        "recall",
+        "false-positive",
+        "false-negative"
+      ],
+      "chapters": [
+        "21"
+      ],
+      "sources": [
+        {
+          "title": "Machine learning evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "publisher": "scikit-learn"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "eval-set",
+      "term": "評価セット",
+      "reading": "ひょうかセット",
+      "category": "evaluation",
+      "short": "品質を確かめるための入力、期待する結果、採点基準のまとまり。",
+      "strict": "実務の代表例や例外を含め、比較用に固定する部分と、最近の事例を追加する部分を分けて管理する。",
+      "myth": "評価のたびに都合のよい問題へ入れ替えても、過去のスコアと比較できる。",
+      "example": "新旧モデルへ同じ問い合わせを渡し、同じ基準で採点する。",
+      "aliases": [
+        "eval-set",
+        "評価セット"
+      ],
+      "related": [
+        "benchmark",
+        "ground-truth",
+        "regression-test"
+      ],
+      "chapters": [
+        "07",
+        "21"
+      ],
+      "sources": [
+        {
+          "title": "Machine learning evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "publisher": "scikit-learn"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "ground-truth",
+      "term": "正解データ（Ground truth）",
+      "reading": "せいかいデータ",
+      "category": "evaluation",
+      "short": "評価や学習の基準として用意する正解の記録。",
+      "strict": "人によるラベルや原資料などから作る。定義、作成手順、誤りの確認が必要で、現実の絶対的な真実と常に同一ではない。",
+      "myth": "正解データと呼んでいるので、見直す必要はない。",
+      "example": "問い合わせの分類基準を決め、担当者が確認したラベルを用意する。",
+      "aliases": [
+        "ground-truth",
+        "正解データ"
+      ],
+      "related": [
+        "eval-set",
+        "accuracy"
+      ],
+      "chapters": [
+        "03",
+        "21"
+      ],
+      "sources": [
+        {
+          "title": "Machine learning evaluation",
+          "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+          "publisher": "scikit-learn"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "regression-test",
+      "term": "回帰テスト",
+      "reading": "かいきテスト",
+      "category": "practice",
+      "short": "変更後も、以前必要だった動作を保てているか確かめるテスト。",
+      "strict": "修正した不具合や重要な利用例を再実行し、別の機能への影響を調べる。テストが通る範囲は用意した条件に限られる。",
+      "myth": "回帰テストが通れば、あらゆる不具合がない。",
+      "example": "モデルや検索処理を変えた後も、既存のFAQ質問で確認する。",
+      "aliases": [
+        "regression-test",
+        "回帰テスト"
+      ],
+      "related": [
+        "eval-set",
+        "acceptance-criteria"
+      ],
+      "chapters": [
+        "13",
+        "21",
+        "32"
+      ],
+      "sources": [
+        {
+          "title": "Generative AI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "publisher": "NIST"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "acceptance-criteria",
+      "term": "受け入れ条件",
+      "reading": "うけいれじょうけん",
+      "category": "practice",
+      "short": "成果物を完成として受け取るために、満たすと決めた条件。",
+      "strict": "入力、期待する振る舞い、確かめ方を組にする。動作だけでなく、根拠の提示や例外時の引き継ぎも条件にできる。",
+      "myth": "作る前に条件を決める必要はなく、動いたら完成。",
+      "example": "資料に答えがないときは、推測せず担当窓口を案内する。",
+      "aliases": [
+        "acceptance-criteria",
+        "受け入れ条件"
+      ],
+      "related": [
+        "regression-test",
+        "eval-set",
+        "poc"
+      ],
+      "chapters": [
+        "27",
+        "32"
+      ],
+      "sources": [
+        {
+          "title": "Generative AI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "publisher": "NIST"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "prompt-injection",
+      "term": "プロンプトインジェクション",
+      "reading": "プロンプトインジェクション",
+      "category": "security",
+      "short": "入力した文章などを通じ、モデルを意図しない指示へ誘導する攻撃。",
+      "strict": "検索結果や文書に命令を埋め込む間接的な攻撃もある。指示の区分が存在しても、それだけで外部データの影響を完全に防げるとは限らない。",
+      "myth": "システム指示に「外部の命令を無視」と書けば完全に防げる。",
+      "example": "参照したWebページが、内部資料を別の宛先へ送るよう指示する。",
+      "aliases": [
+        "prompt-injection",
+        "プロンプトインジェクション"
+      ],
+      "related": [
+        "sandbox",
+        "least-privilege",
+        "guardrail"
+      ],
+      "chapters": [
+        "09",
+        "12",
+        "21"
+      ],
+      "sources": [
+        {
+          "title": "Prompt Injection",
+          "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+          "publisher": "OWASP"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "least-privilege",
+      "term": "最小権限",
+      "reading": "さいしょうけんげん",
+      "category": "security",
+      "short": "目的を果たすために必要な範囲だけ、情報や操作を許可すること。",
+      "strict": "閲覧・変更・送信などの権限を分け、対象ファイルや接続先も絞る。サンドボックスとは役割が異なる。",
+      "myth": "安全そうなモデルなら、管理者権限を渡しても問題ない。",
+      "example": "要約だけの作業では、読み取りを認めても削除や送信は認めない。",
+      "aliases": [
+        "least-privilege",
+        "最小権限"
+      ],
+      "related": [
+        "sandbox",
+        "prompt-injection",
+        "audit-log"
+      ],
+      "chapters": [
+        "12",
+        "21",
+        "26"
+      ],
+      "sources": [
+        {
+          "title": "Prompt Injection",
+          "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+          "publisher": "OWASP"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "audit-log",
+      "term": "監査ログ",
+      "reading": "かんさログ",
+      "category": "security",
+      "short": "誰が、いつ、何をしたかを後から確認するための記録。",
+      "strict": "依頼、承認、ツールの操作、結果などを必要な範囲で記録する。機密情報の量や保存期間、閲覧者も管理する。",
+      "myth": "会話を全部保存するだけで、操作を追跡できる。",
+      "example": "送信した宛先と、送信を承認した担当者を記録する。",
+      "aliases": [
+        "audit-log",
+        "監査ログ"
+      ],
+      "related": [
+        "least-privilege",
+        "data-retention",
+        "human-in-the-loop"
+      ],
+      "chapters": [
+        "20",
+        "21"
+      ],
+      "sources": [
+        {
+          "title": "Generative AI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "publisher": "NIST"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "data-retention",
+      "term": "データ保持・保存期間",
+      "reading": "データほじ",
+      "category": "security",
+      "short": "サービスなどが情報を保存する範囲や期間の条件。",
+      "strict": "学習利用、会話履歴、機能提供のための保存、監視用ログを分けて確認する。機能や契約によって条件が異なる。",
+      "myth": "学習に使わないなら、情報は一切保存されない。",
+      "example": "アプリの履歴とAPIのログで、削除条件が同じかを確認する。",
+      "aliases": [
+        "data-retention",
+        "データ保持・保存期間"
+      ],
+      "related": [
+        "audit-log",
+        "data-residency",
+        "api"
+      ],
+      "chapters": [
+        "21",
+        "26"
+      ],
+      "sources": [
+        {
+          "title": "Data controls",
+          "url": "https://developers.openai.com/api/docs/guides/your-data",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "data-residency",
+      "term": "データ所在地",
+      "reading": "データしょざいち",
+      "category": "security",
+      "short": "データを保存・処理する国や地域に関する条件。",
+      "strict": "保存する場所と推論する場所、ログや外部サービスの処理地域を区別して確認する。対応範囲は契約や機能に依存する。",
+      "myth": "国内保存と書かれていれば、すべての処理も国内で完結する。",
+      "example": "資料・ログ・推論処理それぞれの地域条件を確認する。",
+      "aliases": [
+        "data-residency",
+        "データ所在地"
+      ],
+      "related": [
+        "data-retention",
+        "audit-log"
+      ],
+      "chapters": [
+        "21",
+        "26"
+      ],
+      "sources": [
+        {
+          "title": "Data controls",
+          "url": "https://developers.openai.com/api/docs/guides/your-data",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "guardrail",
+      "term": "ガードレール",
+      "reading": "ガードレール",
+      "category": "security",
+      "short": "入力・出力や操作が、決めた範囲を超えないようにする制御。",
+      "strict": "権限、検査、承認、利用上限などを組み合わせる。単一の判定モデルやプロンプトだけを指すとは限らない。",
+      "myth": "ガードレールを入れれば、誤りや攻撃はゼロになる。",
+      "example": "外部への送信先を限定し、重要な操作に承認を挟む。",
+      "aliases": [
+        "guardrail",
+        "ガードレール"
+      ],
+      "related": [
+        "moderation",
+        "least-privilege",
+        "prompt-injection"
+      ],
+      "chapters": [
+        "12",
+        "21",
+        "32"
+      ],
+      "sources": [
+        {
+          "title": "Prompt Injection",
+          "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+          "publisher": "OWASP"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "moderation",
+      "term": "モデレーション",
+      "reading": "モデレーション",
+      "category": "security",
+      "short": "有害・不適切な内容などを検出し、扱いを決めるための処理。",
+      "strict": "モデルの分類やスコアを利用する場合もある。何を自動で止め、人へ回すかは用途に応じて設計する。事実の正しさの検証とは別。",
+      "myth": "モデレーションを通れば、回答は事実として正しい。",
+      "example": "入力の内容を分類し、確認が必要なものを担当者へ回す。",
+      "aliases": [
+        "moderation",
+        "モデレーション"
+      ],
+      "related": [
+        "guardrail",
+        "false-positive",
+        "false-negative"
+      ],
+      "chapters": [
+        "31",
+        "32"
+      ],
+      "sources": [
+        {
+          "title": "Prompt Injection",
+          "url": "https://genai.owasp.org/llmrisk/llm01-prompt-injection/",
+          "publisher": "OWASP"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "api-key",
+      "term": "APIキー",
+      "reading": "エーピーアイキー",
+      "category": "security",
+      "short": "APIへのアクセスを認証するための秘密情報。",
+      "strict": "プロジェクトや権限にひもづけて管理する。公開コードや共有資料、モデルへの入力へ不用意に含めず、必要に応じて失効・再発行する。",
+      "myth": "APIキーは利用者IDと同じで、公開してもよい。",
+      "example": "アプリの利用者向け画面に、サーバー用のAPIキーを埋め込まない。",
+      "aliases": [
+        "api-key",
+        "APIキー"
+      ],
+      "related": [
+        "api",
+        "least-privilege"
+      ],
+      "chapters": [
+        "23",
+        "27",
+        "32"
+      ],
+      "sources": [
+        {
+          "title": "OpenAI API concepts",
+          "url": "https://developers.openai.com/api/docs/key-concepts",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "stt",
+      "term": "STT・音声認識",
+      "reading": "エスティーティー",
+      "category": "application",
+      "short": "音声から、話された内容を文字に変換する処理。",
+      "strict": "Speech-to-Text。ASRと呼ぶこともある。話者の識別、句読点、時刻情報の付与は別機能で、対応はモデルや処理構成による。",
+      "myth": "音声を文字にできれば、誰が話したかも必ず分かる。",
+      "example": "会議の録音を書き起こし、固有名詞を原音と照合する。",
+      "aliases": [
+        "stt",
+        "STT・音声認識"
+      ],
+      "related": [
+        "tts",
+        "wer",
+        "speaker-diarization"
+      ],
+      "chapters": [
+        "16",
+        "31"
+      ],
+      "sources": [
+        {
+          "title": "Whisper",
+          "url": "https://github.com/openai/whisper",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "tts",
+      "term": "TTS・音声合成",
+      "reading": "ティーティーエス",
+      "category": "application",
+      "short": "文字の内容を、読み上げる音声へ変換する処理。",
+      "strict": "Text-to-Speech。声、発音、速さ、対応言語などの条件を確認する。音声を理解して答えを考える処理そのものとは異なる。",
+      "myth": "TTSがあれば、利用者の質問を理解して答えまで作れる。",
+      "example": "回答文の略語や数字の読みを整え、音声へ変換する。",
+      "aliases": [
+        "tts",
+        "TTS・音声合成"
+      ],
+      "related": [
+        "stt",
+        "latency",
+        "multimodal"
+      ],
+      "chapters": [
+        "16",
+        "31"
+      ],
+      "sources": [
+        {
+          "title": "Audio and speech",
+          "url": "https://developers.openai.com/api/docs/guides/audio",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "speaker-diarization",
+      "term": "話者分離",
+      "reading": "わしゃぶんり",
+      "category": "application",
+      "short": "録音のどの区間で、どの話者が話したかを分ける処理。",
+      "strict": "話者A・Bのような区別と、実在する個人の本人確認は別。声が重なる場合などは誤りが起きる。",
+      "myth": "話者分離ができれば、発言者の氏名まで自動で確定できる。",
+      "example": "文字起こしに話者A・Bと時刻を付け、会議参加者が照合する。",
+      "aliases": [
+        "speaker-diarization",
+        "話者分離"
+      ],
+      "related": [
+        "stt",
+        "wer"
+      ],
+      "chapters": [
+        "31"
+      ],
+      "sources": [
+        {
+          "title": "Audio and speech",
+          "url": "https://developers.openai.com/api/docs/guides/audio",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "vad",
+      "term": "VAD・音声区間検出",
+      "reading": "ブイエーディー",
+      "category": "application",
+      "short": "音声の中で、発話している区間を見つける処理。",
+      "strict": "Voice Activity Detection。無音や雑音を認識対象から分けたり、発話の開始や終了を判断したりする。言葉の内容を認識する処理とは異なる。",
+      "myth": "VADで音声の意味や、話者の氏名が分かる。",
+      "example": "長い録音から発話のある区間を切り出して認識へ渡す。",
+      "aliases": [
+        "vad",
+        "VAD・音声区間検出"
+      ],
+      "related": [
+        "stt",
+        "speaker-diarization"
+      ],
+      "chapters": [
+        "31"
+      ],
+      "sources": [
+        {
+          "title": "Audio and speech",
+          "url": "https://developers.openai.com/api/docs/guides/audio",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "wer",
+      "term": "WER（単語誤り率）",
+      "reading": "ダブリューイーアール",
+      "category": "evaluation",
+      "short": "正解文と書き起こしを比べ、置換・削除・挿入した単語の数で測る誤り率。",
+      "strict": "WER=(置換+削除+挿入)/正解の単語数。挿入が多ければ100%を超えうる。日本語では単語の区切り方などの評価条件も固定する。",
+      "myth": "WERが10%なら、重要な情報の90%が正しく残っている。",
+      "example": "固有名詞の誤りを別に確認し、表記や分かち書きをそろえて比較する。",
+      "aliases": [
+        "wer",
+        "WER"
+      ],
+      "related": [
+        "stt",
+        "accuracy",
+        "cer"
+      ],
+      "chapters": [
+        "31"
+      ],
+      "sources": [
+        {
+          "title": "Whisper",
+          "url": "https://github.com/openai/whisper",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "cer",
+      "term": "CER（文字誤り率）",
+      "reading": "シーイーアール",
+      "category": "evaluation",
+      "short": "書き起こしなどの誤りを、単語ではなく文字単位で数える指標。",
+      "strict": "置換・削除・挿入した文字数を、正解の文字数で割る。空白や句読点などをどう扱うかをそろえて比較する。",
+      "myth": "CERとWERは、同じ文章なら同じ数値になる。",
+      "example": "単語区切りが難しい日本語で、文字単位の誤りも確認する。",
+      "aliases": [
+        "cer",
+        "CER"
+      ],
+      "related": [
+        "wer",
+        "stt"
+      ],
+      "chapters": [
+        "31"
+      ],
+      "sources": [
+        {
+          "title": "Whisper",
+          "url": "https://github.com/openai/whisper",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "rtf",
+      "term": "RTF（実時間比）",
+      "reading": "アールティーエフ",
+      "category": "evaluation",
+      "short": "処理にかかった時間を、元の音声の長さで割った比。",
+      "strict": "Real-Time Factor。1より小さければ音声の長さより短い時間で処理したことになる。通信、前処理、機器など測定に含めた範囲を添える。",
+      "myth": "RTFが小さければ、書き起こしの正確さも高い。",
+      "example": "90秒の録音を30秒で処理した場合、RTFは約0.33。",
+      "aliases": [
+        "rtf",
+        "RTF"
+      ],
+      "related": [
+        "stt",
+        "latency",
+        "wer"
+      ],
+      "chapters": [
+        "31"
+      ],
+      "sources": [
+        {
+          "title": "Audio and speech",
+          "url": "https://developers.openai.com/api/docs/guides/audio",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "ocr",
+      "term": "OCR（文字認識）",
+      "reading": "オーシーアール",
+      "category": "application",
+      "short": "画像やスキャン文書に含まれる文字を、文字データとして読み取る処理。",
+      "strict": "文字の抽出と、表の構造や文書の意味を理解する処理を分けて考える。画質、レイアウト、言語によって誤り方が変わる。",
+      "myth": "OCRで抽出できた数値は、原本と照合しなくてよい。",
+      "example": "スキャンした申請書を文字にし、金額を原本と確認する。",
+      "aliases": [
+        "ocr",
+        "OCR"
+      ],
+      "related": [
+        "vlm",
+        "multimodal",
+        "ground-truth"
+      ],
+      "chapters": [
+        "14",
+        "31"
+      ],
+      "sources": [
+        {
+          "title": "Generative AI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "publisher": "NIST"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "chunk",
+      "term": "チャンク",
+      "reading": "チャンク",
+      "category": "application",
+      "short": "検索などで扱いやすい単位に分けた、文書の断片。",
+      "strict": "長さや分割位置で、検索の当たりやすさと文脈の保持が変わる。見出し、表、前後の内容をどう持たせるかも設計する。",
+      "myth": "短く分割するほど、必ず検索精度が上がる。",
+      "example": "規程を節単位に分け、各断片に文書名とページを持たせる。",
+      "aliases": [
+        "chunk",
+        "チャンク"
+      ],
+      "related": [
+        "rag",
+        "embedding",
+        "reranking"
+      ],
+      "chapters": [
+        "11"
+      ],
+      "sources": [
+        {
+          "title": "Retrieval",
+          "url": "https://developers.openai.com/api/docs/guides/retrieval",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "reranking",
+      "term": "リランキング",
+      "reading": "リランキング",
+      "category": "application",
+      "short": "検索で得た候補を、別の基準やモデルで並べ直す処理。",
+      "strict": "最初の検索で広く候補を取り、その後で質問との関連性を詳しく判定する構成がある。候補に入らなかった文書は原則として戻せない。",
+      "myth": "リランキングを入れれば、取り逃した文書も必ず見つかる。",
+      "example": "候補20件を質問との関連性で並べ直し、上位の根拠を選ぶ。",
+      "aliases": [
+        "reranking",
+        "リランキング"
+      ],
+      "related": [
+        "rag",
+        "chunk",
+        "recall"
+      ],
+      "chapters": [
+        "11"
+      ],
+      "sources": [
+        {
+          "title": "Retrieval",
+          "url": "https://developers.openai.com/api/docs/guides/retrieval",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "hybrid-search",
+      "term": "ハイブリッド検索",
+      "reading": "ハイブリッドけんさく",
+      "category": "application",
+      "short": "キーワード検索とベクトル検索など、異なる検索方法を組み合わせること。",
+      "strict": "型番や固有名詞の一致と、表現の異なる関連文書の検索を両立するために使う。組み合わせ方も評価する。",
+      "myth": "検索方法を増やせば、調整なしで常に正しくなる。",
+      "example": "製品型番は語の一致で、言い換えは意味の近さで探す。",
+      "aliases": [
+        "hybrid-search",
+        "ハイブリッド検索"
+      ],
+      "related": [
+        "embedding",
+        "rag",
+        "reranking"
+      ],
+      "chapters": [
+        "11"
+      ],
+      "sources": [
+        {
+          "title": "Retrieval",
+          "url": "https://developers.openai.com/api/docs/guides/retrieval",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "skill",
+      "term": "Skill（スキル）",
+      "reading": "スキル",
+      "category": "practice",
+      "short": "特定の仕事の手順や判断基準を、エージェントが再利用できる形にまとめたもの。",
+      "strict": "SKILL.mdなどに目的、使う条件、手順、出力の形を記す。対応形式、読み込み方、付属ツールは製品によって違う。",
+      "myth": "Skillを追加すると、モデルの重みが更新される。",
+      "example": "記事の検査観点と報告形式を手順としてまとめる。",
+      "aliases": [
+        "skill",
+        "Skill"
+      ],
+      "related": [
+        "plugin",
+        "hook",
+        "mcp"
+      ],
+      "chapters": [
+        "29"
+      ],
+      "sources": [
+        {
+          "title": "Agent Skills",
+          "url": "https://developers.openai.com/codex/skills",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "plugin",
+      "term": "Plugin（プラグイン）",
+      "reading": "プラグイン",
+      "category": "practice",
+      "short": "機能、設定、手順などをまとめて追加・配布する仕組み。",
+      "strict": "Skill、ツール、Hookなどをまとめる製品もある。含められるものや権限は、製品ごとに確認する。",
+      "myth": "どの製品のPluginでも、同じ形式でそのまま使える。",
+      "example": "社内向けの手順とツール接続の設定を一つの配布単位にする。",
+      "aliases": [
+        "plugin",
+        "Plugin"
+      ],
+      "related": [
+        "skill",
+        "mcp",
+        "hook"
+      ],
+      "chapters": [
+        "29"
+      ],
+      "sources": [
+        {
+          "title": "Plugins",
+          "url": "https://code.claude.com/docs/en/plugins",
+          "publisher": "Anthropic"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "hook",
+      "term": "Hook（フック）",
+      "reading": "フック",
+      "category": "practice",
+      "short": "決まったイベントが起きたときに、指定した処理を動かす仕組み。",
+      "strict": "ツール使用の前後や作業の終了など、対応イベントと実行条件は製品ごとに異なる。処理内容にはコマンドなども使われる。",
+      "myth": "Hookなら、環境や設定に関係なく必ず成功する。",
+      "example": "ファイル編集後に、指定した整形コマンドを実行する。",
+      "aliases": [
+        "hook",
+        "Hook"
+      ],
+      "related": [
+        "skill",
+        "plugin",
+        "guardrail"
+      ],
+      "chapters": [
+        "29"
+      ],
+      "sources": [
+        {
+          "title": "Hooks",
+          "url": "https://code.claude.com/docs/en/hooks",
+          "publisher": "Anthropic"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "plan-mode",
+      "term": "Plan mode・計画モード",
+      "reading": "プランモード",
+      "category": "practice",
+      "short": "実行前に、調査や計画の作成を中心に進めるモード。",
+      "strict": "編集やコマンドの制限、計画ファイルの扱い、実行への切り替え方法は製品ごとに異なる。権限の安全境界とは別に確認する。",
+      "myth": "計画モードという名前なら、どの製品でも同じ制限がある。",
+      "example": "変更する範囲と検証方法を読み、方針を決めてから実行へ進む。",
+      "aliases": [
+        "plan-mode",
+        "Plan mode・計画モード"
+      ],
+      "related": [
+        "harness",
+        "subagent",
+        "acceptance-criteria"
+      ],
+      "chapters": [
+        "30"
+      ],
+      "sources": [
+        {
+          "title": "Multi-agents",
+          "url": "https://developers.openai.com/codex/multi-agent",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "subagent",
+      "term": "サブエージェント",
+      "reading": "サブエージェント",
+      "category": "practice",
+      "short": "主担当から、限定した仕事を引き受ける別のエージェント。",
+      "strict": "別の文脈や道具の範囲で動く構成がある。前提、担当範囲、返す結果を明示し、統合する担当も決める。",
+      "myth": "人数を増やせば、どの作業でも速く正確になる。",
+      "example": "調査担当が根拠を集め、実装担当へ必要な条件を渡す。",
+      "aliases": [
+        "subagent",
+        "サブエージェント"
+      ],
+      "related": [
+        "agent",
+        "harness",
+        "worktree"
+      ],
+      "chapters": [
+        "30"
+      ],
+      "sources": [
+        {
+          "title": "Multi-agents",
+          "url": "https://developers.openai.com/codex/multi-agent",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "worktree",
+      "term": "Git worktree",
+      "reading": "ギットワークツリー",
+      "category": "practice",
+      "short": "一つのGitリポジトリに、複数の作業ディレクトリを持たせる機能。",
+      "strict": "履歴を共有しながら、別のブランチなどを異なる場所で作業できる。変更の競合や依存関係の解決が不要になるわけではない。",
+      "myth": "作業場所を分ければ、統合時の競合は起きない。",
+      "example": "調査用と実装用で、別のブランチを別の場所にチェックアウトする。",
+      "aliases": [
+        "worktree",
+        "Git worktree"
+      ],
+      "related": [
+        "subagent",
+        "regression-test"
+      ],
+      "chapters": [
+        "30"
+      ],
+      "sources": [
+        {
+          "title": "git-worktree",
+          "url": "https://git-scm.com/docs/git-worktree",
+          "publisher": "Git"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "context-compaction",
+      "term": "コンテキスト圧縮",
+      "reading": "コンテキストあっしゅく",
+      "category": "application",
+      "short": "長くなった会話や作業記録を、続行に必要な形へ要約・整理すること。",
+      "strict": "完了した作業、未解決の点、判断理由、ファイルの状態などを保持する。製品によっては文章以外の形式も使う。",
+      "myth": "圧縮すれば、過去の情報は失われず全部保持される。",
+      "example": "長い作業で、確定事項と次の手順を残して続行する。",
+      "aliases": [
+        "context-compaction",
+        "コンテキスト圧縮"
+      ],
+      "related": [
+        "context-window",
+        "harness",
+        "agent"
+      ],
+      "chapters": [
+        "13",
+        "30"
+      ],
+      "sources": [
+        {
+          "title": "Conversation state",
+          "url": "https://developers.openai.com/api/docs/guides/conversation-state",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "lora",
+      "term": "LoRA",
+      "reading": "ローラ",
+      "category": "learning",
+      "short": "モデルの重み全体の代わりに、小さな追加パラメータなどを学習する調整手法。",
+      "strict": "低ランク行列を使い、更新するパラメータや必要なメモリを抑える。推論時に使う方法や品質は構成に依存する。",
+      "myth": "LoRAなら、学習データがなくても専門知識を追加できる。",
+      "example": "特定の文体や形式に合わせる調整を、小さな追加重みで行う。",
+      "aliases": [
+        "lora",
+        "LoRA"
+      ],
+      "related": [
+        "fine-tuning",
+        "parameter",
+        "quantization"
+      ],
+      "chapters": [
+        "19"
+      ],
+      "sources": [
+        {
+          "title": "LoRA",
+          "url": "https://arxiv.org/abs/2106.09685",
+          "publisher": "LoRA authors"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "cpu",
+      "term": "CPU",
+      "reading": "シーピーユー",
+      "category": "local",
+      "short": "幅広いプログラムの処理を担う汎用の演算装置。",
+      "strict": "モデルの推論にも利用できるが、速度は計算方式、メモリ帯域、モデル、ソフトに左右される。",
+      "myth": "GPUがないと、どんなLLMも動かせない。",
+      "example": "小さなモデルをCPUで動かし、実際の速度を測る。",
+      "aliases": [
+        "cpu",
+        "CPU"
+      ],
+      "related": [
+        "gpu",
+        "ram",
+        "memory-bandwidth"
+      ],
+      "chapters": [
+        "19"
+      ],
+      "sources": [
+        {
+          "title": "llama.cpp",
+          "url": "https://github.com/ggml-org/llama.cpp",
+          "publisher": "ggml-org"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "gpu",
+      "term": "GPU",
+      "reading": "ジーピーユー",
+      "category": "local",
+      "short": "多数の計算を並列に進めることを得意とする演算装置。",
+      "strict": "AIの学習や推論に使われる。利用できるメモリ容量、帯域、対応するソフトや演算精度も条件になる。",
+      "myth": "GPUの演算性能の数字だけで、生成速度が決まる。",
+      "example": "モデルがVRAMへ収まるかと、利用する実行エンジンの対応を確認する。",
+      "aliases": [
+        "gpu",
+        "GPU"
+      ],
+      "related": [
+        "cpu",
+        "vram",
+        "memory-bandwidth"
+      ],
+      "chapters": [
+        "19"
+      ],
+      "sources": [
+        {
+          "title": "llama.cpp",
+          "url": "https://github.com/ggml-org/llama.cpp",
+          "publisher": "ggml-org"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "npu",
+      "term": "NPU",
+      "reading": "エヌピーユー",
+      "category": "local",
+      "short": "ニューラルネットワークの演算を効率よく行うための専用装置。",
+      "strict": "対応する演算やモデル形式、利用できるソフトは製品ごとに違う。搭載されているだけで、使いたいモデルを動かせるとは限らない。",
+      "myth": "NPUがあれば、どのLLMも同じ速さで使える。",
+      "example": "PCのNPUが、使う推論ソフトで利用できるかを調べる。",
+      "aliases": [
+        "npu",
+        "NPU"
+      ],
+      "related": [
+        "cpu",
+        "gpu",
+        "inference"
+      ],
+      "chapters": [
+        "19"
+      ],
+      "sources": [
+        {
+          "title": "llama.cpp",
+          "url": "https://github.com/ggml-org/llama.cpp",
+          "publisher": "ggml-org"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "ram",
+      "term": "RAM・メインメモリ",
+      "reading": "ラム",
+      "category": "local",
+      "short": "実行中のプログラムやデータを置く、主記憶の領域。",
+      "strict": "モデルの重みや作業用領域を置く場合がある。GPU専用のVRAMとは別の構成も、メモリを共有する構成もある。",
+      "myth": "RAMが多ければ、VRAMの不足は常に速度低下なしで補える。",
+      "example": "モデルの実行に必要な重み・キャッシュ・作業用領域を見積もる。",
+      "aliases": [
+        "ram",
+        "RAM・メインメモリ"
+      ],
+      "related": [
+        "vram",
+        "gpu",
+        "kv-cache"
+      ],
+      "chapters": [
+        "19"
+      ],
+      "sources": [
+        {
+          "title": "llama.cpp",
+          "url": "https://github.com/ggml-org/llama.cpp",
+          "publisher": "ggml-org"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "memory-bandwidth",
+      "term": "メモリ帯域",
+      "reading": "メモリたいいき",
+      "category": "local",
+      "short": "メモリと演算装置の間で、一定時間に転送できるデータ量。",
+      "strict": "推論速度の制約になる条件がある。実効帯域や処理の重なりも関わり、仕様値だけから実速度を断定しない。",
+      "myth": "理論帯域から計算した速度が、そのまま必ず出る。",
+      "example": "単一利用の生成が遅いとき、重みを読み出す転送量も確認する。",
+      "aliases": [
+        "memory-bandwidth",
+        "メモリ帯域"
+      ],
+      "related": [
+        "gpu",
+        "quantization",
+        "decode"
+      ],
+      "chapters": [
+        "19"
+      ],
+      "sources": [
+        {
+          "title": "llama.cpp",
+          "url": "https://github.com/ggml-org/llama.cpp",
+          "publisher": "ggml-org"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "batching",
+      "term": "バッチング",
+      "reading": "バッチング",
+      "category": "llm",
+      "short": "複数の入力をまとめて処理する実行方法。",
+      "strict": "全体の処理量を増やす目的で使う。まとめるための待ち時間やメモリが必要で、一件の応答が必ず速くなるとは限らない。",
+      "myth": "バッチングは、一人への返答を必ず速くする。",
+      "example": "複数利用者の依頼を、サーバーでまとめて計算する。",
+      "aliases": [
+        "batching",
+        "バッチング"
+      ],
+      "related": [
+        "latency",
+        "throughput",
+        "kv-cache"
+      ],
+      "chapters": [
+        "08",
+        "19"
+      ],
+      "sources": [
+        {
+          "title": "llama.cpp",
+          "url": "https://github.com/ggml-org/llama.cpp",
+          "publisher": "ggml-org"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "throughput",
+      "term": "スループット",
+      "reading": "スループット",
+      "category": "evaluation",
+      "short": "一定時間に完了できる処理の量。",
+      "strict": "件数/秒やトークン/秒など、単位と集計範囲を添える。一件あたりの遅延とは別の指標。",
+      "myth": "全体の処理量が高ければ、各利用者の待ち時間も短い。",
+      "example": "同時利用者が増えたとき、完了件数と応答時間を別に測る。",
+      "aliases": [
+        "throughput",
+        "スループット"
+      ],
+      "related": [
+        "latency",
+        "batching",
+        "tokens-per-second"
+      ],
+      "chapters": [
+        "08",
+        "19"
+      ],
+      "sources": [
+        {
+          "title": "llama.cpp",
+          "url": "https://github.com/ggml-org/llama.cpp",
+          "publisher": "ggml-org"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "rate-limit",
+      "term": "レート制限",
+      "reading": "レートせいげん",
+      "category": "business",
+      "short": "一定時間に使えるリクエスト数や処理量などの上限。",
+      "strict": "回数、トークン、同時処理数など複数の条件がある。月額プランの利用枠や、最大コンテキスト長とは別に確認する。",
+      "myth": "料金を支払えば、短時間に無制限で呼び出せる。",
+      "example": "毎分の依頼数と入力トークン数の両方を見積もる。",
+      "aliases": [
+        "rate-limit",
+        "レート制限"
+      ],
+      "related": [
+        "api",
+        "retry",
+        "context-window"
+      ],
+      "chapters": [
+        "18",
+        "25"
+      ],
+      "sources": [
+        {
+          "title": "OpenAI API concepts",
+          "url": "https://developers.openai.com/api/docs/key-concepts",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "retry",
+      "term": "リトライ・再試行",
+      "reading": "リトライ",
+      "category": "business",
+      "short": "失敗や一時的なエラーの後に、処理をもう一度試すこと。",
+      "strict": "回数、待ち時間、再実行による課金や二重処理を考えて設計する。送信・更新などは同じ操作を繰り返す影響に注意する。",
+      "myth": "失敗したら、回数を決めずにすぐ送り直せばよい。",
+      "example": "一時的な制限には待ってから再試行し、利用上限も決める。",
+      "aliases": [
+        "retry",
+        "リトライ・再試行"
+      ],
+      "related": [
+        "rate-limit",
+        "api",
+        "audit-log"
+      ],
+      "chapters": [
+        "20",
+        "25"
+      ],
+      "sources": [
+        {
+          "title": "OpenAI API concepts",
+          "url": "https://developers.openai.com/api/docs/key-concepts",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "prompt-cache",
+      "term": "プロンプトキャッシュ",
+      "reading": "プロンプトキャッシュ",
+      "category": "llm",
+      "short": "以前処理した入力の一部を再利用し、計算や料金を抑える仕組み。",
+      "strict": "一致の条件、対象範囲、保持期間、料金は提供元ごとに違う。回答そのものを保存するキャッシュや、モデルの追加学習とは異なる。",
+      "myth": "一度聞いた質問なら、どのサービスでも次回は無料になる。",
+      "example": "同じ指示や資料を繰り返す処理で、適用条件と実際の利用量を見る。",
+      "aliases": [
+        "prompt-cache",
+        "プロンプトキャッシュ"
+      ],
+      "related": [
+        "kv-cache",
+        "context-window",
+        "api"
+      ],
+      "chapters": [
+        "08",
+        "25"
+      ],
+      "sources": [
+        {
+          "title": "Conversation state",
+          "url": "https://developers.openai.com/api/docs/guides/conversation-state",
+          "publisher": "OpenAI"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "loss",
+      "term": "損失関数",
+      "reading": "そんしつかんすう",
+      "category": "learning",
+      "short": "モデルの予測が学習の目標からどれだけ外れたかを数値で測る関数。",
+      "strict": "目的に応じて設計する。損失が下がったことと、業務で欲しい品質が上がったことが常に一致するとは限らない。",
+      "myth": "学習の損失が小さければ、未知のデータでも正しい。",
+      "example": "予測と正解を比べ、その差を減らす方向へ重みを調整する。",
+      "aliases": [
+        "loss",
+        "損失関数"
+      ],
+      "related": [
+        "gradient",
+        "overfitting",
+        "parameter"
+      ],
+      "chapters": [
+        "03"
+      ],
+      "sources": [
+        {
+          "title": "Deep Learning: Deep Feedforward Networks",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html",
+          "publisher": "MIT Press"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "gradient",
+      "term": "勾配",
+      "reading": "こうばい",
+      "category": "learning",
+      "short": "パラメータを少し動かしたとき、損失がどの向きにどれだけ変わるかを表す量。",
+      "strict": "勾配降下法では、勾配と反対の方向へパラメータを更新する。実際の更新には学習率や最適化の方法も関わる。",
+      "myth": "勾配の向きに動かせば、必ず損失が小さくなる。",
+      "example": "損失を小さくするための更新方向を計算する。",
+      "aliases": [
+        "gradient",
+        "勾配"
+      ],
+      "related": [
+        "loss",
+        "backpropagation",
+        "parameter"
+      ],
+      "chapters": [
+        "03"
+      ],
+      "sources": [
+        {
+          "title": "Deep Learning: Optimization",
+          "url": "https://www.deeplearningbook.org/contents/optimization.html",
+          "publisher": "MIT Press"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "backpropagation",
+      "term": "逆伝播",
+      "reading": "ぎゃくでんぱ",
+      "category": "learning",
+      "short": "出力側から計算をたどり、各パラメータの勾配を求める方法。",
+      "strict": "連鎖律を使って損失に対する微分を計算する。勾配を求める工程と、それを使って重みを更新する工程は分けて考える。",
+      "myth": "逆伝播は、回答を逆から生成する方法。",
+      "example": "予測と正解の差を計算し、各層の重みをどう調整するかを求める。",
+      "aliases": [
+        "backpropagation",
+        "逆伝播"
+      ],
+      "related": [
+        "gradient",
+        "loss",
+        "deep-learning"
+      ],
+      "chapters": [
+        "03"
+      ],
+      "sources": [
+        {
+          "title": "Deep Learning: Back-Propagation",
+          "url": "https://www.deeplearningbook.org/contents/mlp.html",
+          "publisher": "MIT Press"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "self-supervised-learning",
+      "term": "自己教師あり学習",
+      "reading": "じこきょうしありがくしゅう",
+      "category": "learning",
+      "short": "データの一部から、学習に使う正解の信号を作る方法。",
+      "strict": "言語モデルの次トークン予測のように、入力データそのものを教材にする。学習目標やデータの設計が不要になるわけではない。",
+      "myth": "人が正解を付けないなら、目標を何も決めずに学んでいる。",
+      "example": "文章の前半から、その次のトークンを予測するよう学習する。",
+      "aliases": [
+        "self-supervised-learning",
+        "自己教師あり学習"
+      ],
+      "related": [
+        "pretraining",
+        "next-token-prediction"
+      ],
+      "chapters": [
+        "03",
+        "07"
+      ],
+      "sources": [
+        {
+          "title": "BERT",
+          "url": "https://arxiv.org/abs/1810.04805",
+          "publisher": "arXiv"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "distillation",
+      "term": "蒸留",
+      "reading": "じょうりゅう",
+      "category": "learning",
+      "short": "別のモデルの出力などを手本として、モデルへ能力や振る舞いを学ばせる方法。",
+      "strict": "小型化に使うことがあるが、目的や構成はそれに限らない。教師側の誤りや偏りも教材へ含まれうる。",
+      "myth": "蒸留すれば、大きなモデルとすべて同じ能力になる。",
+      "example": "教師モデルの回答を教材にし、用途を絞ったモデルを調整する。",
+      "aliases": [
+        "distillation",
+        "蒸留"
+      ],
+      "related": [
+        "fine-tuning",
+        "sft",
+        "parameter"
+      ],
+      "chapters": [
+        "07"
+      ],
+      "sources": [
+        {
+          "title": "Distilling the Knowledge in a Neural Network",
+          "url": "https://arxiv.org/abs/1503.02531",
+          "publisher": "arXiv"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "cosine-similarity",
+      "term": "コサイン類似度",
+      "reading": "コサインるいじど",
+      "category": "evaluation",
+      "short": "ベクトルの長さよりも、向きの近さを比べる指標。",
+      "strict": "非ゼロベクトルの内積を、それぞれのノルムの積で割る。0は直交、負は角度が90度を超えることを表すが、意味の無関係・反対と直結しない。",
+      "myth": "値が負なら、文章の意味が正反対である。",
+      "example": "同じ空間の質問と文書のベクトルを、検索の手がかりとして比べる。",
+      "aliases": [
+        "cosine-similarity",
+        "コサイン類似度"
+      ],
+      "related": [
+        "embedding",
+        "vector-database",
+        "rag"
+      ],
+      "chapters": [
+        "05",
+        "11"
+      ],
+      "sources": [
+        {
+          "title": "Cosine similarity",
+          "url": "https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html",
+          "publisher": "scikit-learn"
+        }
+      ],
+      "updated": "2026-10-28"
+    },
+    {
+      "slug": "sso",
+      "term": "SSO（シングルサインオン）",
+      "reading": "エスエスオー",
+      "category": "security",
+      "short": "一つの認証を使い、複数のサービスへログインする仕組み。",
+      "strict": "利用者の追加・削除、権限、保存するデータの条件とは別に設計・確認する。対応する認証方式と契約プランも確認する。",
+      "myth": "SSOがあれば、データ保持やツールの権限の確認は不要。",
+      "example": "社内の認証基盤で、業務用アカウントへログインする。",
+      "aliases": [
+        "sso",
+        "SSO"
+      ],
+      "related": [
+        "least-privilege",
+        "data-retention"
+      ],
+      "chapters": [
+        "21",
+        "26"
+      ],
+      "sources": [
+        {
+          "title": "Generative AI Profile",
+          "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence",
+          "publisher": "NIST"
+        }
+      ],
+      "updated": "2026-10-28"
     }
   ]
 }

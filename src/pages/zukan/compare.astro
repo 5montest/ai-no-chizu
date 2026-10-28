@@ -27,6 +27,8 @@ const MODALITY_LABELS: Record<string, string> = {
   audio: '音声',
   video: '動画',
   file: 'ファイル',
+  vector: '数値ベクトル',
+  classification: '分類結果・スコア',
 };
 const CONTEXT_BASIS_LABELS: Record<string, string> = {
   official: '提供元の公式情報',
@@ -53,7 +55,7 @@ const joinOrNone = (values: readonly string[] | null | undefined): string => {
 
 const contextText = (entity: ZukanEntity): string => {
   const window = entity.context_window;
-  if (!window || typeof window.tokens !== 'number') return '未確認';
+  if (!window || typeof window.tokens !== 'number') return entity.context_label ?? (entity.kind === 'model' ? '未確認' : '製品・設定による');
   return `${window.tokens.toLocaleString('ja-JP')} トークン（${CONTEXT_BASIS_LABELS[window.basis] ?? window.basis}）`;
 };
 

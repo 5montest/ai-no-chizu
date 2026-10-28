@@ -52,13 +52,14 @@ sources:
     publisher: 'Google for Developers'
     note: 'マルチモーダルモデルの用語説明。複数の入力形式を扱う意味を確認できる。'
 ---
+import GuideImage from '../../../components/GuideImage.astro';
 
-import Diagram from '../../../components/Diagram.astro';
+
 import Callout from '../../../components/Callout.astro';
 
 「その画面を見せて」と画像を渡すと、内容を文章で説明してくれます。話しかけると声で答えてくれます。文章を書かせる代わりに絵を描かせることもできます。こうした機能は、どれも「マルチモーダル対応」と書かれることがあります。では、これらは同じ仕組みなのでしょうか。実装を見ていくと、似ている部分と、まったく違う部分があります。この章ではまず「何を扱うのか」という見方を整え、次に画像を入力とする側の仕組み、最後に複数の部品の組み合わせ方を見ます。
 
-<Diagram name="multimodal-input-output" />
+<GuideImage name="multimodal-business" />
 
 ## 入力と出力を分けて考える
 

@@ -8,7 +8,7 @@ level: intermediate
 readingMinutes: 16
 updated: '2026-10-28'
 tags: ['計画', 'Plan mode', 'CLI', '承認']
-glossary: ['harness', 'agent-loop', 'context-window', 'prompt']
+glossary: ['harness', 'agent-loop', 'context-window', 'prompt', 'plan-mode']
 summary:
   - '計画と実行を分けると、書き換えの前に「何を触るか」を読んで決められる。'
   - 'Plan mode は製品ごとに置き場所が違い、権限モードの一つである場合と、役割の一つである場合がある。'
@@ -55,6 +55,10 @@ sources:
     url: 'https://learn.chatgpt.com/docs/agent-approvals-security'
     publisher: 'OpenAI'
     note: 'サンドボックスと承認ポリシーの組合せを確認（取得日 2026-10-28）。'
+  - title: 'Codex CLI slash commands'
+    url: 'https://developers.openai.com/codex/cli/slash-commands'
+    publisher: 'OpenAI'
+    note: 'planとpermissionsの役割を確認（確認日 2026-10-28）。'
 ---
 
 import DeepDive from '../../../components/DeepDive.astro';
@@ -82,13 +86,13 @@ import GuideImage from '../../../components/GuideImage.astro';
 
 **OpenCode** では、Plan は役割（エージェント）の一つです。Build と Plan が primary agent として並び、Tab キーで切り替えます。Plan は「A restricted agent designed for planning and analysis.」と説明されています。権限モードではなく、道具と権限の組を変えたエージェントを切り替える形です。
 
-**Codex** の CLI については、公式ページに Plan mode という名前のモードの記載を確認できませんでした（**未確認**）。かわりに `/permissions` で何を許すかを選び、[[sandbox]]と承認ポリシーの組合せで、読み取りだけに留めるかどうかを決める形になっています。非対話で回すときは `codex exec` を使います。将来の版で plan 相当の機能が入る可能性はあるので、手順を書く前に公式ページを引き直してください。
+**Codex CLI** には `/plan` があり、実装前に計画を提案するモードへ切り替えられます。これは現在の公式CLIコマンド一覧で確認できます。ファイルへの書き込みや通信の許可は、別途 `/permissions` とサンドボックス設定で確認します。計画モードにしたことだけで、実行権限まで設定できたとは考えません。
 
 | 製品 | 呼び名 | 実装 | 切り替え |
 | --- | --- | --- | --- |
 | Claude Code | plan mode | 権限モードの一つ | `Shift+Tab`、`/plan`、`--permission-mode plan`、`defaultMode` |
 | OpenCode | Plan | primary agent の一つ | `Tab` キー |
-| Codex | （Plan mode の記載は未確認） | サンドボックスと承認ポリシー | `/permissions` |
+| Codex CLI | 計画モード | 実装前に方針を検討。権限は別の設定で確認 | `/plan`、`/permissions` |
 
 表の空欄は、機能が無いという意味ではありません。**確認できていない**という意味です。記事や手順書に書くときは、この区別を残してください。
 

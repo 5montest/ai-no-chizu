@@ -34,6 +34,9 @@ export function entitySearchText(entity) {
     entity.slug,
     entity.id,
     entity.vendor,
+    entity.notes,
+    ...(entity.strengths ?? []),
+    ...(entity.primary_use_cases ?? []),
     ...(entity.aliases ?? []),
     ...(entity.model_ids ?? []).map((modelId) => modelId.id),
     ...(entity.model_ids ?? []).map((modelId) => modelId.provider),
@@ -451,7 +454,8 @@ export function planPriceLines(plan) {
   } else if (plan?.monthly_usd !== null && plan?.monthly_usd !== undefined) {
     lines.push(`${formatUsd(plan.monthly_usd)} / 月`);
   } else {
-    lines.push('月額は未確認');
+    const condition = { quote: '個別見積もり（営業窓口へ確認）', regional: '地域別の申込画面で料金を確認', route: '認証方法・契約先で料金を確認' };
+    lines.push(condition[billing.billing_period] ?? '月額は未確認');
   }
 
   if (billing.annual_monthly_usd !== null && billing.annual_monthly_usd !== undefined) {
@@ -574,6 +578,8 @@ export function findModelMismatches({ zukan, comparison, capabilities } = {}) {
       (item.model_ids ?? []).some((modelId) => modelId.id === value.model_id),
     );
     if (!entity || !Array.isArray(entity.input_modalities)) continue;
+    // 公式と再販では入力の受け渡し方が異なり得る。同じ提供経路だけを突き合わせる。
+    if (entity.input_modalities_basis === 'official' && value.source?.kind !== 'official') continue;
     const expected = [...(value.value?.input ?? [])].sort().join(',');
     const actual = [...entity.input_modalities].sort().join(',');
     if (expected !== actual) {

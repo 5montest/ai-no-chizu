@@ -8,7 +8,7 @@ level: intro
 readingMinutes: 9
 updated: '2026-10-28'
 tags: ['LLM', '推論', '全体像']
-glossary: ['llm', 'token', 'tokenization', 'embedding', 'transformer', 'logits', 'prefill', 'decode', 'ttft', 'kv-cache']
+glossary: ['llm', 'token', 'tokenization', 'embedding', 'transformer', 'logits', 'prefill', 'decode', 'ttft', 'kv-cache', 'gpu']
 summary:
   - '入力はトークンに分割され、IDとベクトルに変換されてからTransformerへ渡る。'
   - 'モデルは次のトークンの候補と確率を出し、一つ選んでは入力に追加することを繰り返す。'
@@ -115,7 +115,7 @@ Transformerを通った各位置の表現のうち、次に予測する位置（
 <DeepDive title="PrefillとDecodeは別の処理">
   推論は、大きく二つの段階に分かれます。**Prefill**は、入力プロンプト全体を並列に処理し、最初のトークンを出す準備をすると同時に、後で使うKVキャッシュを作る段階です。**Decode**は、生成したトークンを一つずつ追加しながら進む段階です。
 
-  Prefillは行列計算が中心で、GPUの並列性を活かしやすい処理です。Decodeは1トークンずつなので、どうしても逐次的になります。TTFTが長い場合はPrefillやキュー待ちが、表示が遅い場合はDecodeの速度が原因であることが多いと切り分けられます。
+  Prefillは行列計算が中心で、[[gpu|GPU]]の並列性を活かしやすい処理です。Decodeは1トークンずつなので、どうしても逐次的になります。TTFTが長い場合はPrefillやキュー待ちが、表示が遅い場合はDecodeの速度が原因であることが多いと切り分けられます。
 </DeepDive>
 
 PrefillとDecodeの計算の違い、KVキャッシュが効く理由、待ち時間の内訳は、[[ch:08/01-prefill-decode|答える前の計算と、答えながらの計算]]で詳しく扱います。

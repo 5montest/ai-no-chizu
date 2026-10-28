@@ -8,7 +8,7 @@ level: intro
 readingMinutes: 8
 updated: '2026-10-28'
 tags: ['基礎', '機械学習', '学習']
-glossary: ['machine-learning', 'parameter', 'overfitting', 'generalization', 'deep-learning', 'pretraining']
+glossary: ['machine-learning', 'parameter', 'overfitting', 'generalization', 'deep-learning', 'pretraining', 'loss']
 summary:
   - '学習とは、例からパラメータを調整し、未知のデータにも使える規則を得る作業である。'
   - '教師あり・教師なし・強化学習では、モデルに与える信号と解ける問題が違う。'
@@ -52,6 +52,8 @@ sources:
     publisher: 'DeepLearning.AI / Stanford Online'
     note: '回帰・分類・勾配降下法の基礎を順に学べる講座。'
 ---
+import GuideImage from '../../../components/GuideImage.astro';
+
 
 import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
@@ -60,6 +62,8 @@ import Callout from '../../../components/Callout.astro';
 「AIはデータから学習する」とよく言われます。しかし、学習という言葉から「子どもが経験から学ぶ」ようなイメージを持つと、実際の仕組みを見誤ります。機械学習の学習は、もっと限定的で、測定可能な作業です。
 
 このページでは学習の実体を「パラメータの調整」として捉え、代表的な三つの学習類型と、学習したモデルをどう評価するかを整理します。
+
+<GuideImage name="learning-inference" />
 
 ## 学習の実体はパラメータ調整
 
@@ -84,7 +88,7 @@ import Callout from '../../../components/Callout.astro';
 教師あり学習はいちばん分かりやすい類型です。ただし、正解ラベルを大量に用意するコストがかかります。教師なし学習はラベル不要ですが、見つけた構造が業務的に意味を持つかは人が解釈する必要があります。強化学習は報酬の設計を誤ると、意図しない行動を最適化してしまいます。
 
 <Callout type="myth">
-「AIは自分で考えて学習する」という言い方は、半分だけ正しいものです。学習の方向を決めるのは、人間が設計した損失関数・報酬・データです。モデルは与えられた目的に対して数値を調整しますが、目的そのものを自分で決めているわけではありません。
+「AIは自分で考えて学習する」という言い方は、半分だけ正しいものです。学習の方向を決めるのは、人間が設計した[[loss|損失関数]]・報酬・データです。モデルは与えられた目的に対して数値を調整しますが、目的そのものを自分で決めているわけではありません。
 </Callout>
 
 ## 未知のデータで通用する力

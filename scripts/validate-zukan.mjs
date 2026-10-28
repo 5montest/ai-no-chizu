@@ -32,7 +32,7 @@ const CAPABILITY_FIELDS = [
 ];
 const CONTEXT_BASES = new Set(['official', 'reseller', 'unverified']);
 const HISTORY_STATUSES = new Set(['retired', 'renamed', 'merged']);
-const SNAPSHOT_KINDS = new Set(['subscription', 'subscription-quota', 'token-price']);
+const SNAPSHOT_KINDS = new Set(['subscription', 'subscription-quota', 'token-price', 'metered-price']);
 const UNITS = new Set(['per_month', 'per_1m_tokens', 'per_request']);
 const SOURCE_KINDS = new Set(['official', 'reseller']);
 const MODEL_ID_STATUSES = new Set(['official', 'reseller-only', 'partial', 'unverified']);
@@ -214,6 +214,15 @@ function validatePricing(pricing, entityIds, comparison, externalFiles) {
       }
       check(tier.input !== undefined && tier.output !== undefined, `${where}: input と output が必要です`);
     };
+
+    for (const [index, charge] of (snapshot.charges ?? []).entries()) {
+      const where = `${at}: charges[${index}]`;
+      check(entityIds.has(charge.entity_id), `${where}: entity_id が存在しません`);
+      check(isNonEmptyString(charge.label) && isNonEmptyString(charge.unit), `${where}: 項目と単位が必要です`);
+      check(isMoney(charge.price), `${where}: 単価が数値か null ではありません`);
+      check(isNonEmptyString(charge.condition), `${where}: 料金条件が必要です`);
+      check(isHttps(charge.source?.url), `${where}: 個別の出典URLが必要です`);
+    }
 
     for (const [index, rate] of (snapshot.rates ?? []).entries()) {
       const where = `${at}: rates[${index}]`;

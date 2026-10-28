@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import ArticleVisual from '../../../components/ArticleVisual.astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/Breadcrumb.astro';
 import Sidebar from '../../../components/Sidebar.astro';
@@ -105,7 +106,7 @@ const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展'
               </dl>
             </header>
 
-            {optionalTechnicalChapters.has(chapterId) && <p class="article-reading-note">詳しい仕組み・開発を知りたい方向けです。業務で必要なところを先に読むには、<a href={withBase('/start/')}>目的別の読み方へ</a>。</p>}
+            {optionalTechnicalChapters.has(chapterId) && <p class="article-reading-note">仕組みや開発手順を詳しく扱うページです。業務で必要な範囲だけ先に読みたい場合は、<a href={withBase('/start/')}>学習ルート</a>で別の入口を選べます。</p>}
             <section class="summary-box" aria-labelledby="summary-box-title">
               <h2 class="summary-box__label" id="summary-box-title">3行の要点</h2>
               <ul>
@@ -116,6 +117,7 @@ const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展'
 
           <div class="article-body">
             <div class="prose">
+              <ArticleVisual page={entry.id} />
               <Content />
             </div>
 

@@ -8,7 +8,7 @@ level: intermediate
 readingMinutes: 16
 updated: '2026-10-28'
 tags: ['Skills', 'レビュー', 'Markdown', '自動化']
-glossary: ['prompt', 'context-window', 'harness', 'sandbox']
+glossary: ['prompt', 'context-window', 'harness', 'sandbox', 'api-key', 'hook', 'skill']
 summary:
   - 'Skill は SKILL.md 一枚で作れ、本文は呼び出したときだけ読み込まれる。'
   - '検査する Skill は読み取り専用の道具だけを許し、対象を一つに絞る。'
@@ -59,9 +59,9 @@ sources:
 
 import DeepDive from '../../../components/DeepDive.astro';
 
-前の記事で、拡張の層を分けました。この記事では Skill を一つ作ります。題材は、この連載自身の原稿です。記事の文体と HTML の意味づけを、毎回同じ観点で指摘させる Skill を作り、入れる前と後で結果を比べます。
+前の記事で、拡張の層を分けました。この記事では [[skill|Skill]] を一つ作ります。題材は、この連載自身の原稿です。記事の文体と HTML の意味づけを、毎回同じ観点で指摘させる Skill を作り、入れる前と後で結果を比べます。
 
-作るものは、`SKILL.md` 一枚と `README.md` 一枚です。外部への通信も、API キーも使いません。
+作るものは、`SKILL.md` 一枚と `README.md` 一枚です。外部への通信も、[[api-key|API キー]]も使いません。
 
 ## 何を作るか
 
@@ -230,7 +230,7 @@ compare.md   比較の表
 
 観点が多すぎて、重要な指摘が埋もれる場合は、項目を減らします。10 項目の検査は、たいてい 3 項目より使われません。最初は三つに絞り、使ってみて足りないものを足します。
 
-ファイルを書き換えてしまう場合は、`allowed-tools` を確認します。書き込み系の道具が入っていないか、シェルの実行が入っていないか。Hook で `PreToolUse` を止める方法もありますが、この演習ではそこまで進みません。
+ファイルを書き換えてしまう場合は、`allowed-tools` を確認します。書き込み系の道具が入っていないか、シェルの実行が入っていないか。[[hook|Hook]] で `PreToolUse` を止める方法もありますが、この演習ではそこまで進みません。
 
 ## 評価
 

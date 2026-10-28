@@ -1,4 +1,6 @@
 ---
+import GuideIcon from '../../components/GuideIcon.astro';
+import GuideImage from '../../components/GuideImage.astro';
 import ProviderMark from '../../components/ProviderMark.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import zukanJson from '../../../data/zukan.json';
@@ -8,6 +10,7 @@ import type { Zukan, ZukanEntity } from '../../lib/zukan-types';
 
 const zukan = zukanJson as unknown as Zukan;
 const entities = zukan.entities;
+const kindIcons: Record<string,string> = {model:'chip', 'specialized-model':'sound', harness:'tools', app:'document', plan:'coins'};
 const groups = groupByKind(entities, zukan.kinds);
 const useCases = zukan.use_cases;
 const interfaces = zukan.interfaces;
@@ -51,6 +54,7 @@ const modelCount = entities.reduce(
         </p>
       </div>
 
+      <details class="zukan-overview-visual"><summary>モデル・アプリ・プランの違いを図で見る</summary><GuideImage name="model-app-provider" /></details>
       <p class="zukan-lede">
         いま {entities.length}件（モデルID {modelCount}件）を登録しています。2件以上を並べて見くらべるには
         <a href={withBase('/zukan/compare/')}>比較</a>を使います。
@@ -65,7 +69,7 @@ const modelCount = entities.reduce(
           <span class="sr-only">AI製品を検索</span>
           <input
             type="search"
-            placeholder="名前・別名・提供元・モデルIDから検索"
+            placeholder="名前・用途・提供元・モデルIDから検索"
             data-zukan-search
             autocomplete="off"
           />
@@ -119,7 +123,7 @@ const modelCount = entities.reduce(
         {groups.map((group) => (
           <section class="zukan-group" data-zukan-group aria-labelledby={`kind-${group.kind.id}`}>
             <h2 id={`kind-${group.kind.id}`}>
-              {group.kind.label}
+              <GuideIcon name={kindIcons[group.kind.id] ?? 'book'} /> {group.kind.label}
               <span class="zukan-group__count">{group.entities.length}件</span>
             </h2>
             <p class="zukan-group__note">{group.kind.description}</p>

@@ -80,8 +80,10 @@ export interface ZukanEntity {
   available_via: string[];
   model_ids: ZukanModelId[];
   input_modalities: string[] | null;
+  input_modalities_basis?: 'official' | 'reseller';
   output_modalities: string[] | null;
   context_window: ZukanContextWindow | null;
+  context_label?: string;
   reasoning_efforts: ZukanReasoningEfforts | null;
   tool_support: Capability;
   skills: Capability;
@@ -185,6 +187,7 @@ export interface PriceSnapshot {
   notes: string[];
   plans?: PlanRecord[];
   rates?: PriceRate[];
+  charges?: Array<{ entity_id: string; label: string; unit: string; price: number | null; condition: string; source: ZukanSource }>;
   quota_policy?: Record<string, unknown>;
   model_limits?: unknown[];
   /** 再販価格を別ファイルから読む場合の参照先。図鑑側には複製しない。 */

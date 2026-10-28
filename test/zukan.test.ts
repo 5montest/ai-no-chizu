@@ -426,3 +426,17 @@ test('公開用のエンティティに料金の数値を混ぜない', () => {
   assert.equal(publicEntity.pricing, null);
   assert.equal('rates' in publicEntity, false);
 });
+
+
+test('用途の説明から専用モデルを検索できる', () => {
+  const target = entity({ display_name: 'Speech model', notes: '音声を文字に変換する。会議の文字起こしに使う。' });
+  assert.equal(entityMatchesQuery(target, '文字起こし'), true);
+  assert.equal(entityMatchesQuery(target, '画像生成'), false);
+});
+
+test('見積もり・地域・認証経路の条件は、金額未確認と区別して表示する', () => {
+  assert.deepEqual(planPriceLines({ billing: { monthly_usd: null, billing_period: 'quote' } }), ['個別見積もり（営業窓口へ確認）']);
+  assert.deepEqual(planPriceLines({ billing: { monthly_usd: null, billing_period: 'regional' } }), ['地域別の申込画面で料金を確認']);
+  assert.deepEqual(planPriceLines({ billing: { monthly_usd: null, billing_period: 'route' } }), ['認証方法・契約先で料金を確認']);
+  assert.deepEqual(planPriceLines({ billing: { monthly_usd: null } }), ['月額は未確認']);
+});
