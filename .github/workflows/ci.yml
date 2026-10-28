@@ -41,3 +41,43 @@ jobs:
 
       - name: ビルド
         run: npm run build
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: 依存をインストール
+        run: npm ci
+
+      - name: GitHub Pages 用にビルド
+        run: npm run build
+        env:
+          SITE_ORIGIN: https://5montest.github.io
+          SITE_BASE: /ai-no-chizu
+
+      - name: Pages を設定
+        uses: actions/configure-pages@v5
+
+      - name: 成果物をアップロード
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+
+      - name: GitHub Pages にデプロイ
+        id: deployment
+        uses: actions/deploy-pages@v4
