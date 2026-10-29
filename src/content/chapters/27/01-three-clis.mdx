@@ -14,7 +14,7 @@ summary:
   - '導入は公式ページのコマンドをそのまま写し、起動後にバージョンと作業ディレクトリを自分の目で確認する。'
   - '最初のセッションでは書き換えをさせず、読み取りだけの依頼で「何を許可として求められるか」を観察して記録する。'
 quiz:
-  - question: 'Claude Code は、ファイルの変更やコマンドの実行について、公式にどう説明されていますか。'
+  - question: 'Claude Code はファイルの変更やコマンドの実行について、公式にどう説明されていますか。'
     options:
       - '変更や実行の前に、利用者に許可を求める。'
       - '許可は求めず、すべて自動で実行する。'
@@ -106,7 +106,7 @@ import Diagram from '../../../components/Diagram.astro';
 
 インストール手順は更新されます。記事のコマンドをそのまま覚えるのではなく、公式ページを開いて、自分の OS のタブから写してください。写したら、取得日をメモに残します。
 
-この節のコマンドは、複数の OS で実際に試したものではありません。OS によって表示や要る操作が変わる箇所は、公式ページのタブの記述を優先してください。
+この節のコマンドは複数の OS で実際に試したものではありません。OS によって表示や要る操作が変わる箇所は、公式ページのタブの記述を優先してください。
 
 **Claude Code**：macOS・Linux・WSL のターミナルでは次の1行です。
 
@@ -126,7 +126,7 @@ Homebrew を使っている場合は、cask でも入ります。
 brew install --cask claude-code
 ```
 
-入ったかどうかは、新しいターミナルを開いてバージョンを尋ねます。
+導入できたかどうかは、新しいターミナルを開き、バージョンを表示するコマンドで確かめます。
 
 ```bash
 claude --version
@@ -178,7 +178,7 @@ Codex CLI のサンドボックスは、名前だけ覚えても判断できま�
 | workspace-write | ワークスペース内の読み書きとコマンド実行 | ネットワークは既定で無効。外側の編集や通信は承認が要る |
 | danger-full-access | サンドボックスも承認も無い | リスクが高いとして推奨されていない |
 
-起動時の既定は、バージョン管理されたフォルダなら Auto、そうでなければ read-only と案内されています。作業ディレクトリを信頼するまでは read-only で始まることもあります。Auto は `--sandbox workspace-write --ask-for-approval on-request` と同じ意味だと書かれています。確認したいときは、起動時にモードを明示できます。
+起動時の既定はバージョン管理されたフォルダなら Auto、そうでなければ read-only と案内されています。作業ディレクトリを信頼するまでは read-only で始まることもあります。Auto は `--sandbox workspace-write --ask-for-approval on-request` と同じ意味だと書かれています。確認したいときは、起動時にモードを明示できます。
 
 ```bash
 codex --sandbox read-only --ask-for-approval on-request
@@ -241,7 +241,7 @@ git status
 | ネットワーク | 既定で通信できるか |
 | 気になった点 | 用語の分かりにくさ、待ち時間、表示 |
 
-この表は、製品の優劣を付けるためのものではありません。自分が何を許して使うのかを、使う前に言葉にしておくためのものです。
+この表は製品の優劣を付けるためのものではありません。自分が何を許して使うのかを、使う前に言葉にしておくためのものです。
 
 ## 評価
 
@@ -255,6 +255,6 @@ git status
 
 次の記事では、同じリポジトリで小さな変更を一つだけ入れ、テストと差分で検収し、必要なら戻します。[変更を自分で検収する](/chapters/27/02-diff-review/)へ進んでください。
 
-製品ごとの記録は、[AI図鑑](/zukan/)の個別ページにも確認日つきで残しています。[Claude Code](/zukan/claude-code/)、[Codex CLI](/zukan/codex-cli/)、[OpenCode](/zukan/opencode/)の3件は[比較ページで並べる](/zukan/compare/?ids=claude-code&ids=codex-cli&ids=opencode)こともできます。図鑑の値と自分のメモが食い違ったら、確認日を比べて、新しいほうを採ってください。
+製品ごとの記録は[AI図鑑](/zukan/)の個別ページにも確認日つきで残しています。[Claude Code](/zukan/claude-code/)、[Codex CLI](/zukan/codex-cli/)、[OpenCode](/zukan/opencode/)の3件は[比較ページで並べる](/zukan/compare/?ids=claude-code&ids=codex-cli&ids=opencode)こともできます。図鑑の値と自分のメモが食い違ったら、確認日を比べて、新しいほうを採ってください。
 
 </DeepDive>

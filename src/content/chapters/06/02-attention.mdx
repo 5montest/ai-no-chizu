@@ -10,9 +10,9 @@ updated: '2026-10-28'
 tags: ['Attention', 'Transformer', '仕組み']
 glossary: ['attention', 'qkv', 'transformer', 'token', 'embedding']
 summary:
-  - 'Attentionは、各位置のQueryと全位置のKeyの相性を計算し、その重みでValueを混ぜる。'
-  - '因果マスクは、生成時に未来のトークンを見ないようにするための制約である。'
-  - 'Multi-Headは、異なる関係を並列に見るための仕組みで、重みの可視化は説明そのものではない。'
+  - 'Attentionは各位置のQueryと全位置のKeyの相性を計算し、その重みでValueを混ぜる。'
+  - '因果マスクは生成時に未来のトークンを見ないようにするための制約である。'
+  - 'Multi-Headは異なる関係を並列に見るための仕組みで、重みの可視化は説明そのものではない。'
 quiz:
   - question: 'Self-Attentionの計算の順序として正しいものはどれか。'
     options:
@@ -29,7 +29,7 @@ quiz:
       - '画像のピクセルを隠すため。'
       - 'モデルのパラメータ数を減らすため。'
     answer: 0
-    explanation: '生成モデルは、ある位置より前のトークンだけから次を予測する必要があります。未来のトークンに注意できると、答えを見ながら予測することになり、学習が成立しません。因果マスクは未来への注意スコアを無効にします。'
+    explanation: '生成モデルはある位置より前のトークンだけから次を予測する必要があります。未来のトークンに注意できると、答えを見ながら予測することになり、学習が成立しません。因果マスクは未来への注意スコアを無効にします。'
   - question: 'Multi-Head Attentionの説明として適切なものはどれか。'
     options:
       - '異なる投射で複数のAttentionを並列に計算し、多様な関係を捉える。'
@@ -37,7 +37,7 @@ quiz:
       - 'ヘッドの数だけモデルを複製し、別々に学習する。'
       - 'Attentionを無効にしてFFNだけを使う。'
     answer: 0
-    explanation: 'Multi-Headは、Q・K・Vを異なる線形変換で複数のヘッドに分け、それぞれでAttentionを計算します。異なる位置関係や意味的特徴を捉えやすくし、結果を結合して出力します。'
+    explanation: 'Multi-HeadはQ・K・Vを異なる線形変換で複数のヘッドに分け、それぞれでAttentionを計算します。異なる位置関係や意味的特徴を捉えやすくし、結果を結合して出力します。'
 sources:
   - title: 'Attention Is All You Need'
     url: 'https://arxiv.org/abs/1706.03762'
@@ -57,7 +57,7 @@ import DeepDive from '../../../components/DeepDive.astro';
 import Diagram from '../../../components/Diagram.astro';
 import Callout from '../../../components/Callout.astro';
 
-Attentionは、Transformerの中心にある計算です。名前から「モデルがどこに注目しているか」をイメージしやすいですが、実際には**情報の混ぜ方**を決める数学的な操作です。このページでは、Q・K・Vの流れを、図と簡単な例で追います。
+AttentionはTransformerの中心にある計算です。名前から「モデルがどこに注目しているか」をイメージしやすいですが、実際には**情報の混ぜ方**を決める数学的な操作です。このページでは、Q・K・Vの流れを、図と簡単な例で追います。
 
 ## 三つの役割分担
 
@@ -119,4 +119,4 @@ Scaled Dot-Product Attentionは、次のように書けます。
 
 ## Attentionは部品である
 
-Attentionは、文脈を混ぜるための強力な仕組みです。しかし、モデルの振る舞いがAttentionだけで決まるわけではありません。Transformerの各ブロックはAttentionとFFN（Feed Forward Network）で構成され、残差接続と正規化がそれを支えています。知識の多くはFFNのパラメータに蓄えられているという見方が有力ですが、それはAttentionが補助的という意味ではありません。Attentionだけを取り出して「モデルの思考」と見なすと、全体像を見失います。
+Attentionは文脈を混ぜるための強力な仕組みです。しかし、モデルの振る舞いがAttentionだけで決まるわけではありません。Transformerの各ブロックはAttentionとFFN（Feed Forward Network）で構成され、残差接続と正規化がそれを支えています。知識の多くはFFNのパラメータに蓄えられているという見方が有力ですが、それはAttentionが補助的という意味ではありません。Attentionだけを取り出して「モデルの思考」と見なすと、全体像を見失います。
