@@ -188,7 +188,7 @@ import Diagram from '../../../components/Diagram.astro';
 | --- | --- | --- | --- |
 | モデルの選び方 | `--model` に `sonnet`・`opus`・`haiku`・`fable` などのエイリアスか、モデルのフル名を渡す | セッション内の `/model` で、モデルと推論の強さを選ぶ | `/connect` で提供元を選び、その提供元のモデルを使う |
 | 作業指示ファイル | プロジェクト直下の `CLAUDE.md` を毎セッション開始時に読む。既存の `AGENTS.md` を代わりに読ませられる | `/init` で `AGENTS.md` を作る | `/init` で `AGENTS.md` を作り、Git にコミットすることが勧められている |
-| 権限と承認 | `--permission-mode`で調査・編集などの権限モードを選ぶ | `/permissions`とサンドボックス・承認ポリシーで範囲を確認する | 許可・確認・拒否を設定する。設定形式は導入している版のPermissions文書で確認する |
+| 権限と承認 | `--permission-mode`で権限モードを選ぶ。Manual（設定値 `default`）は読み取り以外の操作の前に許可を求め、Plan は編集を止める | `/permissions`とサンドボックス・承認ポリシーで範囲を確認する | 許可・確認・拒否を設定する。設定形式は導入している版のPermissions文書で確認する |
 | コンテキストの圧縮 | 自動圧縮の条件を設定できる | `/compact`で会話を要約し、入力の余白を作る | 会話の要約・圧縮を設定できる。版ごとのCompaction文書を確認する |
 | 拡張 | [[skill\|Skills]]、[[hook\|Hooks]]、Plugins、MCP、サブエージェント | Skills、MCP、サブエージェント。ChatGPTアプリのPluginとCLIの機能は区別する | PluginsとMCPサーバー。Build・Planとサブエージェントを使い分ける |
 | セッションの再開 | `claude -c`で直近、`claude -r`で対象を選ぶ | `codex resume`でセッションを選ぶ。`--last`と`--all`の範囲を確認する | 再開の操作は導入した版のコマンド一覧を確認する |

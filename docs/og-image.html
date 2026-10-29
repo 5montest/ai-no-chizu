@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>AIの地図 — OGP画像の元データ</title>
+    <!--
+      1200×630 の共有画像を作るための元データ。ブラウザで開き、この大きさで
+      スクリーンショットを撮って public/og-image.png にする。
+      色と文字は src/styles/global.css の値に合わせている。
+    -->
+    <style>
+      * { box-sizing: border-box; }
+      html, body { margin: 0; }
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: #fbfbfa;
+        color: #16181c;
+        font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP",
+          "Yu Gothic", "YuGothic", system-ui, -apple-system, "Segoe UI", sans-serif;
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 64px;
+        padding: 72px 80px 64px;
+        position: relative;
+      }
+      body::after {
+        content: "";
+        position: absolute;
+        inset: 0 0 0 auto;
+        width: 470px;
+        background: #f4f5f6;
+        z-index: 0;
+      }
+      .left { position: relative; z-index: 1; display: flex; flex-direction: column; }
+      .brand { display: flex; align-items: center; gap: 14px; font-size: 26px; font-weight: 700; letter-spacing: .01em; }
+      .seal {
+        width: 44px; height: 44px; border-radius: 10px; background: #1f1a16;
+        display: grid; place-items: center; color: #f4ede1;
+      }
+      .seal svg { width: 26px; height: 26px; }
+      .brand span.kind { color: #3c424b; font-weight: 700; font-size: 26px; }
+      h1 { margin: 54px 0 0; font-size: 112px; line-height: 1.02; letter-spacing: -.02em; font-weight: 800; }
+      .tagline { margin: 26px 0 0; font-size: 40px; line-height: 1.35; color: #3c424b; font-weight: 600; }
+      .lead { margin: 18px 0 0; font-size: 27px; line-height: 1.55; color: #666d78; }
+      .foot { margin-top: auto; display: flex; align-items: center; gap: 14px; font-family: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace; font-size: 23px; color: #666d78; }
+      .foot .rule { width: 56px; height: 2px; background: #0b5fa5; }
+
+      .right { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; gap: 18px; }
+      .layer {
+        border: 2px solid #c2c8cf; border-radius: 6px; background: #ffffff;
+        padding: 20px 22px; font-size: 27px; font-weight: 700; color: #16181c;
+      }
+      .layer small { display: block; margin-top: 6px; font-size: 19px; font-weight: 500; color: #666d78; }
+      .layer.core { background: #dae6f2; border-color: #4f7fa9; }
+      .layer.soft { background: #eceff2; }
+    </style>
+  </head>
+  <body>
+    <div class="left">
+      <div class="brand">
+        <span class="seal" aria-hidden="true">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+            <path d="M2 3.5h10M2 7h7M2 10.5h4.5"></path>
+          </svg>
+        </span>
+        <span class="kind">AI・LLM 技術解説ガイド</span>
+      </div>
+      <h1>AIの地図</h1>
+      <p class="tagline">AI・LLMの原理から、<br />製品選びと実装まで</p>
+      <p class="lead">図と短いページで、判断の基準を身につける。</p>
+      <div class="foot"><span class="rule"></span>5montest.github.io/ai-no-chizu</div>
+    </div>
+    <div class="right" aria-hidden="true">
+      <div class="layer core">モデル<small>推論を行う本体</small></div>
+      <div class="layer soft">ハーネス<small>ツールを実行し、状態を保つ</small></div>
+      <div class="layer">アプリ・画面<small>人が操作する入口</small></div>
+    </div>
+  </body>
+</html>

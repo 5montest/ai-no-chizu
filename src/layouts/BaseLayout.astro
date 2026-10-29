@@ -17,6 +17,9 @@ const {
 const pageTitle = title ? `${title}｜${SITE.name}` : `${SITE.name}｜${SITE.tagline}`;
 // 公開先は astro.config.mjs の site が決める。未設定の開発時だけ、いま開いている URL を使う。
 const canonical = new URL(Astro.url.pathname.replace(/\/404\/?$/, '/404.html'), Astro.site ?? Astro.url).href;
+// 共有画像は GitHub Pages のサブパスも含めた絶対URLにする。ルート直下を指さない。
+const ogImage = new URL(withBase('/og-image.png'), Astro.site ?? Astro.url).href;
+const ogImageAlt = 'AIの地図。AI・LLMの原理から、製品選びと実装まで。';
 const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
 ---
 
@@ -37,7 +40,13 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="ja_JP" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
     {noindex && <meta name="robots" content="noindex" />}
     <script is:inline>
       (() => {

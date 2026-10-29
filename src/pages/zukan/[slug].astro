@@ -684,6 +684,11 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
               ),
             )}
           </div>
+          {entity.kind === 'harness' && (
+            <p>
+              第28章の<a href={withBase('/chapters/28/03-harness-field-guide/')}>8製品の用途別ガイド</a>では用途ごとの候補を読み、<a href={withBase('/chapters/28/04-harness-comparison-lab/')}>比較実験</a>では同じ変更を2つのハーネスに依頼して、確認回数と差分を記録する手順を扱っています。
+            </p>
+          )}
         </section>
 
         <section class="term-section">

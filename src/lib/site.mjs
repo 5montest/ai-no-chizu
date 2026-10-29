@@ -10,7 +10,11 @@
 
 const env = (typeof import.meta !== 'undefined' && import.meta.env) || {};
 
-/** 設定していないときの配信先。`SITE_ORIGIN` / `SITE_BASE` で上書きできる。 */
+/**
+ * 設定していないときの配信先。ローカル確認用の既定値で、公開先ではない。
+ * GitHub Pages へは .github/workflows/ci.yml が SITE_ORIGIN / SITE_BASE を渡す。
+ * 独自ドメインや別のサブパスへ移すときも、この既定値ではなく環境変数で指定する。
+ */
 export const DEFAULT_ORIGIN = 'http://192.168.8.10:8090';
 export const DEFAULT_BASE = '/20261027-website-design-implementation/site';
 
@@ -37,7 +41,7 @@ export const SITE = {
     'AIの技術解説ガイド。AI・機械学習・LLMの原理から、モデルや製品の選び方、エージェントによる実装まで、図と短いページで体系的に学ぶ。',
   author: 'AIの地図 編集部',
   published: '2026-10-27',
-  updated: '2026-10-28',
+  updated: '2026-10-29',
 };
 
 /** サイト内の絶対パスにベースを付ける。`withBase('/chapters/')` */

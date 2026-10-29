@@ -1,16 +1,68 @@
 # AIの地図
 
-AIの仕組みや活用方法を基礎から学べる解説サイトです。`docs/ai-guide-outline.md` の構成案をもとに、内容を章ごとの短いページに分けています。Astro と MDX で構築した静的サイトで、検索、用語辞典、ページ間の相互参照、クイズを利用できます。
+AI・LLMの基本原理から、製品の選び方、業務導入の判断、コーディングエージェントによる実装まで学べる公開ガイドです。
 
-確認用URL（ローカルネットワーク内）: <http://192.168.8.10:8090/20261027-website-design-implementation/>
+公開サイト: <https://5montest.github.io/ai-no-chizu/>
 
-## 読者向けの入口と図解
+`docs/ai-guide-outline.md` の構成案をもとに、内容を章ごとの短いページに分けています。Astro と MDX で構築した静的サイトで、検索、用語辞典、ページ間の相互参照、クイズを利用できます。
 
-`/start/` に3つの目的別ルート、`/checklist/` に導入判断の確認シートと印刷・保存用テンプレートを用意しています。全章を順読する必要はありません。開発・CLIを扱う章や演習は、必要な読者が選んで使います。
+## このサイトで学べること
+
+- AI・機械学習・LLMの原理と、学習・推論の仕組み
+- 生成AIに仕事を頼むときの指示の組み立てと、誤りへの備え
+- モデルと製品を、条件をそろえて比べる観点
+- 社内導入の判断に使う、品質・費用・運用の確かめ方
+- CLIエージェントを使った実装と、変更の検証
+
+## 学習の入口
+
+`/start/` に、目的別の**5つの学習ルート**を用意しています。全章を順読する必要はありません。
+
+- AIの仕組みを学びたい方：AI・LLMの基本原理を順に学ぶ
+- 生成AIを使い始めたい方：まず、一つの仕事で試す
+- モデルや製品を選びたい方：モデルと製品を、同じ条件で比較する
+- 社内導入を判断する方：効果・費用・運用を確かめる
+- AIエージェントを開発したい方：CLIエージェントで実装し、変更を検証する
+
+章の一覧は `/chapters/`、用語は `/glossary/`、製品の比較は `/zukan/`、導入前の確認項目は `/checklist/` にあります。章数とページ数はサイト上で確認してください。
 
 GPTで生成した解説図は `public/images/guide/`、代替テキストと章の対応は `src/data/guide-images.ts`、生成プロンプトとアイコンの出典は `docs/visual-assets-2026-10-28.md` にあります。読み方・図・本文を変更した場合は、検索対象と折りたたみ内への目次移動も確認してください。
 
 今回の監査と改修の判断は `docs/completion-audit-2026-10-28.md` に記録しています。
+
+## 開発・プレビュー
+
+```bash
+npm install
+npm run dev      # http://localhost:4321 で確認
+npm run build    # site/ へ静的生成
+npm run preview  # 生成物を確認
+```
+
+`astro.config.mjs` の `SITE_ORIGIN` と `SITE_BASE` が公開先を決めます。未設定のときは、この作業環境のローカル確認用URL（`http://192.168.8.10:8090/20261027-website-design-implementation/site`）を既定値にしています。GitHub Pages へは `.github/workflows/ci.yml` が `SITE_ORIGIN=https://5montest.github.io` と `SITE_BASE=/ai-no-chizu` を渡してビルドするため、既定値のまま公開されることはありません。
+
+## 更新・検証
+
+```bash
+npm run check             # 型・テンプレートの検査
+npm run validate:data     # モデル比較データの検証
+npm run validate:content  # 記事・用語・図・リンクの整合性
+npm run validate:zukan    # AI図鑑データの整合性
+npm test                  # テスト
+npm run build             # ビルド
+```
+
+GitHub Actions の `CI` が、push と pull request のたびに同じ検査を実行します。公開は `main` への push 時に、検査を通過した場合だけ行われます。
+
+## 報告・修正の連絡
+
+誤記、リンク切れ、古くなった記述は、リポジトリの Issue で知らせてください。<https://github.com/5montest/ai-no-chizu/issues>
+
+## ライセンス
+
+このリポジトリの再利用条件は、いま決めていません。決めるまでは、無断での再利用を許すものではありません。文章・図・コードそれぞれの条件は、著者が決めたうえでこの節に追記します。
+
+第三者のロゴ、商標、引用した文章・画像は、このサイトの独自素材とは別に扱います。出典は `docs/visual-assets-2026-10-28.md` と各ページの「出典・参考資料」に記録しています。
 
 ## 構成
 
@@ -31,7 +83,7 @@ GPTで生成した解説図は `public/images/guide/`、代替テキストと章
 │   ├── content/chapters/      # 章ごとの MDX ファイル
 │   ├── components/            # 図、クイズ、表、補足など
 │   ├── layouts/
-│   ├── pages/                 # 動的ルート、検索用 JSON、用語辞典、クイズ
+│   ├── pages/                 # 動的ルート、検索用 JSON、用語辞典、クイズ、サイトマップ
 │   ├── data/                  # カリキュラム、用語、図の定義
 │   └── plugins/               # [[用語]]・[[ch:...]] を解決する remark
 ├── test/                      # テスト
@@ -41,19 +93,13 @@ GPTで生成した解説図は `public/images/guide/`、代替テキストと章
 
 ## コマンド
 
+上の「開発・プレビュー」「更新・検証」に加えて、比較データの取得に使うコマンドがあります。
+
 ```bash
-npm install          # 依存関係の導入
-npm run dev          # 開発サーバー
-npm run build        # site/ へ静的生成
-npm run preview      # 生成物の確認
-npm run check        # 型・テンプレートの検査
-npm run test         # テスト
-npm run validate:data
-npm run validate:content
-npm run fetch:models # 比較データの取得（staging のみ更新）
+npm run fetch:models  # 比較データを取得して staging に保存（公開用ファイルは書き換えない）
 ```
 
-`build` の出力先は `site/` です。ルートの `index.html` が `./site/` へ転送します。
+`build` の出力先は `site/` です。リポジトリ直下の `index.html` は、ローカルで開いたときに `./site/` へ転送するためのページです。GitHub Pages へは `site/` の中身だけを配信するため、この転送ページは公開されません。
 
 ## ページの追加
 

@@ -235,6 +235,22 @@
     {
       "id": "hugging-face",
       "label": "公式のモデル配布元"
+    },
+    {
+      "id": "pi",
+      "label": "Pi"
+    },
+    {
+      "id": "hermes-agent",
+      "label": "Hermes Agent"
+    },
+    {
+      "id": "deepseek-harness",
+      "label": "DeepSeek Harness"
+    },
+    {
+      "id": "aider",
+      "label": "Aider"
     }
   ],
   "entities": [
@@ -5048,6 +5064,325 @@
       "last_checked_at": "2026-10-28",
       "notes": "教育機関向けの契約。Work・Codexを含む利用条件と料金は個別の契約で確認する。",
       "conditions": []
+    },
+    {
+      "aliases": [],
+      "kind": "harness",
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "pricing_snapshot_ids": [],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "id": "pi",
+      "slug": "pi",
+      "display_name": "Pi",
+      "vendor": "Pi",
+      "subtype": "agentic-coding",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "coding",
+        "agent-work"
+      ],
+      "not_suitable_for": [
+        "秘密情報や本番ファイルのある環境での、確認なしの実行（ツール呼び出しごとの承認がない）"
+      ],
+      "strengths": [
+        "ターミナルの対話に加えて、print・JSON イベントストリーム・RPC・TypeScript SDK の入口を持つと公式に記載されている",
+        "TypeScript の Extension で、ツール、コマンド、ライフサイクルイベントを追加できる",
+        "セッションを作業フォルダごとに保存し、再開と分岐ができる"
+      ],
+      "limitations": [
+        "ツール呼び出しのたびの確認がなく、ツールと拡張は Pi のプロセスと同じ OS 権限で動く。公式はコンテナなどのサンドボックスを勧めている。",
+        "ツール本体の料金とライセンスは、参照した公式ページに記載が見つからなかった。"
+      ],
+      "interfaces": [
+        "cli"
+      ],
+      "platforms": [
+        "macos",
+        "linux",
+        "windows"
+      ],
+      "requires": [
+        "ターミナル",
+        "接続するモデルの契約、API キー、ローカルモデル、または互換エンドポイント"
+      ],
+      "available_via": [
+        "pi"
+      ],
+      "tool_support": "yes",
+      "skills": "unknown",
+      "plugins": "yes",
+      "mcp": "unknown",
+      "subagents": "unknown",
+      "plan_mode": "unknown",
+      "permissions": "unknown",
+      "capability_notes": "拡張の公式な呼称は Extension。プラグインの欄は、その Extension の有無を示す。Skills・MCP・サブエージェント・プランモード・権限設定は、参照した公式ページで確認できず unknown。",
+      "cost_model": "unknown",
+      "official_url": "https://pi.dev/",
+      "sources": [
+        {
+          "title": "Pi",
+          "url": "https://pi.dev/",
+          "publisher": "Pi",
+          "note": "公式サイトで、ターミナル上で動く拡張可能なエージェントとしての概要と、対応する提供元・モデルの接続方法を確認（2026-10-28）。"
+        },
+        {
+          "title": "Overview",
+          "url": "https://pi.dev/docs/latest",
+          "publisher": "Pi",
+          "note": "ターミナルで動く拡張可能なエージェントであること、5つの入口、モデルの接続方法、ツールが Pi と同じ権限で動くことを確認（2026-10-28）。"
+        },
+        {
+          "title": "Quickstart",
+          "url": "https://pi.dev/docs/latest/quickstart",
+          "publisher": "Pi",
+          "note": "インストール手段、/login と /model、セッションの保存と再開、確認を求めない実行を確認（2026-10-28）。"
+        },
+        {
+          "title": "Extensions",
+          "url": "https://pi.dev/docs/latest/extensions",
+          "publisher": "Pi",
+          "note": "TypeScript の拡張、ライフサイクルイベント、自動読み込みの範囲を確認（2026-10-28）。"
+        }
+      ],
+      "notes": "モデルは同梱せず、接続先を選ぶ。料金体系とライセンスは確認できていないため unknown とし、0 円とは扱わない。",
+      "conditions": [
+        "ツール呼び出しごとの承認がないため、隔離した環境で動かす",
+        "モデルの利用料は接続先ごとに異なる"
+      ]
+    },
+    {
+      "aliases": [],
+      "kind": "harness",
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "pricing_snapshot_ids": [],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "id": "hermes-agent",
+      "slug": "hermes-agent",
+      "display_name": "Hermes Agent",
+      "vendor": "Nous Research",
+      "subtype": "autonomous-agent",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "agent-work",
+        "research"
+      ],
+      "not_suitable_for": [
+        "IDE に結びついた短いコーディング支援だけを求める用途（公式はコーディング支援に限定した製品ではないと位置づけている）"
+      ],
+      "strengths": [
+        "local・Docker・SSH・Daytona・Modal・Vercel Sandbox の6つのターミナルバックエンドを持つ",
+        "Telegram、Discord、Slack など20以上のプラットフォームを1つのゲートウェイから扱う",
+        "セッションをまたぐ永続メモリ、60以上の組み込みツール、Skills、MCP、サブエージェントを持つ",
+        "本体は MIT ライセンス"
+      ],
+      "limitations": [
+        "公開ステージの区分（一般提供・プレビューなど）は、参照した公式ページに記載が見つからなかった。",
+        "ツール本体の料金は不明。常駐させると、利用枠の消費が動いている間ずっと続く。"
+      ],
+      "interfaces": [
+        "cli",
+        "desktop"
+      ],
+      "platforms": [
+        "macos",
+        "windows",
+        "linux"
+      ],
+      "requires": [
+        "モデル提供元（Nous Portal、OpenRouter、OpenAI、任意のエンドポイント）の契約または API キー",
+        "ターミナル、またはデスクトップインストーラ"
+      ],
+      "available_via": [
+        "hermes-agent"
+      ],
+      "tool_support": "yes",
+      "skills": "yes",
+      "plugins": "yes",
+      "mcp": "yes",
+      "subagents": "yes",
+      "plan_mode": "unknown",
+      "permissions": "yes",
+      "capability_notes": "ツール、Skills、MCP、サブエージェント、権限（コマンド承認・認可・コンテナ分離）を公式で確認。プランモードの記載は確認できず unknown。",
+      "cost_model": "unknown",
+      "official_url": "https://hermes-agent.nousresearch.com/",
+      "sources": [
+        {
+          "title": "Hermes Agent",
+          "url": "https://hermes-agent.nousresearch.com/",
+          "publisher": "Nous Research",
+          "note": "公式サイトで、常駐して学ぶエージェントという位置づけと、導入手段の案内を確認（2026-10-28）。"
+        },
+        {
+          "title": "Hermes Agent Documentation",
+          "url": "https://hermes-agent.nousresearch.com/docs",
+          "publisher": "Nous Research",
+          "note": "位置づけ、6つのターミナルバックエンド、20以上のメッセージ連携、60以上のツール、永続メモリ、Skills、MCP、サブエージェント、MIT ライセンスを確認（2026-10-28）。"
+        }
+      ],
+      "notes": "モデルは同梱せず、接続先を選ぶ。料金は接続先ごとに異なり、本体の料金ページは確認できなかったため unknown とし、0 円とは扱わない。",
+      "conditions": [
+        "常駐させると、動いている間ずっと利用枠を消費する",
+        "モデルの利用料は接続先ごとに異なる"
+      ]
+    },
+    {
+      "aliases": [],
+      "kind": "harness",
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "pricing_snapshot_ids": [],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "id": "deepseek-harness",
+      "slug": "deepseek-harness",
+      "display_name": "DeepSeek Harness",
+      "vendor": "DeepSeek",
+      "subtype": "plugin-harness",
+      "availability_status": "preview",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "agent-work",
+        "coding"
+      ],
+      "not_suitable_for": [
+        "安定版の標準機能を前提にした業務への組み込み（公開プレビュー中で、コアプラグインと API が変わると明記されている）"
+      ],
+      "strengths": [
+        "Cordis の「すべてがプラグイン」という構成で、機能をプラグインとして追加・作成できる",
+        "デスクトップアプリと Web UI の両方から使える",
+        "ワークスペース、ファイルとドキュメントのプレビュー、モデル選択、プラグインマネージャ、実行経路の表示を持つ",
+        "本体は MIT ライセンス"
+      ],
+      "limitations": [
+        "公開プレビュー中で、コアプラグインと API が変わると明記されている。",
+        "モデルの接続方法、保存期間、権限モードの一覧は、参照した公式ページに記載が見つからなかった。",
+        "ツール本体の料金は不明。"
+      ],
+      "interfaces": [
+        "desktop",
+        "web"
+      ],
+      "platforms": [
+        "macos",
+        "windows"
+      ],
+      "requires": [
+        "デスクトップアプリを使う場合は macOS（Apple silicon）または Windows（64-bit）",
+        "Web UI を使う場合は Node.js"
+      ],
+      "available_via": [
+        "deepseek-harness"
+      ],
+      "tool_support": "yes",
+      "skills": "yes",
+      "plugins": "yes",
+      "mcp": "unknown",
+      "subagents": "yes",
+      "plan_mode": "unknown",
+      "permissions": "unknown",
+      "capability_notes": "プラグイン、Skills、Subagents を公式のプラグイン一覧で確認。自動承認の見直しは Experimental 表示で、権限モードの一覧は不明。MCP の記載は確認できず unknown。",
+      "cost_model": "unknown",
+      "official_url": "https://www.deepseek.com/en/harness/",
+      "sources": [
+        {
+          "title": "DeepSeek Harness",
+          "url": "https://www.deepseek.com/en/harness/",
+          "publisher": "DeepSeek",
+          "note": "公開プレビュー、MIT ライセンス、Cordis のプラグイン構成、macOS（Apple silicon）と Windows（64-bit）のデスクトップアプリ、Web UI、プラグイン一覧と Experimental 表示を確認（2026-10-28）。"
+        }
+      ],
+      "notes": "オープンソース（MIT）だが、モデルの契約と料金は不明。料金体系は unknown とし、0 円とは扱わない。",
+      "conditions": [
+        "公開プレビュー中で、コアプラグインと API が変わり得る",
+        "モデルの契約と料金は接続先ごとに異なる"
+      ]
+    },
+    {
+      "aliases": [],
+      "kind": "harness",
+      "model_ids": [],
+      "input_modalities": null,
+      "output_modalities": null,
+      "context_window": null,
+      "reasoning_efforts": null,
+      "pricing_snapshot_ids": [],
+      "last_verified_at": "2026-10-28",
+      "last_checked_at": "2026-10-28",
+      "id": "aider",
+      "slug": "aider",
+      "display_name": "Aider",
+      "vendor": "Aider",
+      "subtype": "pair-programming",
+      "availability_status": "available",
+      "verification_status": "official",
+      "primary_use_cases": [
+        "coding"
+      ],
+      "not_suitable_for": [
+        "承認を挟みながら慎重に差分を確認する用途（参照した公式ページに承認の流れの記載がない）",
+        "常駐やメッセージ連携（記載を確認していない）"
+      ],
+      "strengths": [
+        "ターミナルでのペアプログラミングを目的にし、既存のリポジトリでも新しいプロジェクトでも使える",
+        "変更を自動でコミットし、差分の確認・管理・取り消しを Git の履歴で行う",
+        "クラウドとローカルの両方の LLM に接続でき、ほぼ任意の LLM に対応すると案内している",
+        "100以上の言語のコードベースを扱うと案内している"
+      ],
+      "limitations": [
+        "対応OSの一覧、ライセンス、拡張や MCP の記載は、参照した公式ページで確認できなかった。",
+        "編集を直接行うか差分を提案するか、承認の流れがあるかは、参照したページに記載が見つからなかった。",
+        "ツール本体の料金は不明。"
+      ],
+      "interfaces": [
+        "cli",
+        "ide"
+      ],
+      "platforms": [],
+      "requires": [
+        "Python の pip でインストールできる環境",
+        "接続するモデルの契約または API キー"
+      ],
+      "available_via": [
+        "aider"
+      ],
+      "tool_support": "yes",
+      "skills": "unknown",
+      "plugins": "unknown",
+      "mcp": "unknown",
+      "subagents": "unknown",
+      "plan_mode": "unknown",
+      "permissions": "unknown",
+      "capability_notes": "ツール（コードベースの読み取り・編集・コマンド実行）は公式の説明から確認。Skills・プラグイン・MCP・サブエージェント・プランモード・権限設定は記載が見つからず unknown。",
+      "cost_model": "unknown",
+      "official_url": "https://aider.chat/",
+      "sources": [
+        {
+          "title": "Aider",
+          "url": "https://aider.chat/",
+          "publisher": "Aider",
+          "note": "ターミナルでのペアプログラミング、接続できるモデル、Git 連携と自動コミット、IDE 連携、インストール手順を確認（2026-10-28）。対応OSとライセンスの記載は見つからなかった。"
+        }
+      ],
+      "notes": "本体の料金とライセンスは確認できず、モデルの利用料は接続先ごとに異なる。料金体系は unknown とし、0 円とは扱わない。",
+      "conditions": [
+        "モデルの利用料は接続先ごとに異なる",
+        "変更は Git のコミット単位で残る"
+      ]
     }
   ],
   "plan_matrix": {

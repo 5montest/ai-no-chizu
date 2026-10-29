@@ -46,7 +46,11 @@ sources:
   - title: 'Permission modes'
     url: 'https://code.claude.com/docs/en/permission-modes'
     publisher: 'Anthropic'
-    note: '6つの権限モードと、deny ルールが bypassPermissions を含む全モードで有効であることを確認（取得日 2026-10-28）。'
+    note: '6つの権限モード、Manual の設定値が `default` で `manual` が別名であること、Plan が編集を止めること、起動時の既定モードが版・契約・設定で変わることを確認（取得日 2026-10-28）。'
+  - title: 'Configure permissions'
+    url: 'https://code.claude.com/docs/en/permissions'
+    publisher: 'Anthropic'
+    note: '許可・確認・拒否の規則、deny の扱い、権限の設定とサンドボックスが補い合う2層であることを確認（取得日 2026-10-28）。'
   - title: 'Agent teams'
     url: 'https://code.claude.com/docs/en/agent-teams'
     publisher: 'Anthropic'
@@ -122,12 +126,12 @@ import Callout from '../../../components/Callout.astro';
 
 ### Claude Code
 
-Anthropic のエージェント型コーディングツールです。リポジトリを読み、ファイルを編集し、コマンドを実行し、開発ツールと統合します。差別化点は、**権限モードと指示ファイルの分離**です。6つの権限モードで、読み取りのみから全許可までを切り替え、deny ルールはどのモードでも有効です。典型的な用途は、リポジトリを読ませて修正・テストまで一巡させる作業です。
+Anthropic のエージェント型コーディングツールです。リポジトリを読み、ファイルを編集し、コマンドを実行し、開発ツールと統合します。差別化点は、**権限モードと指示ファイルの分離**です。承認を求める Manual（設定値は `default`）から全許可までを6つのモードで切り替え、deny ルールはどのモードでも有効です。典型的な用途は、リポジトリを読ませて修正・テストまで一巡させる作業です。
 
 - **公式**：[Claude Code の概要](https://code.claude.com/docs/en/overview)。
 - **入口**：ターミナル、VS Code、JetBrains、デスクトップアプリ、ブラウザ（claude.ai/code）。インストール手段は macOS / Linux のスクリプト、Homebrew、winget、apt / dnf / apk。
 - **モデル**：`--model` にエイリアスかフル名。ターミナル・VS Code・JetBrains は第三者の提供元にも接続できる。
-- **権限**：`manual`（読み取りのみ）、`acceptEdits`、`plan`、`auto`、`dontAsk`、`bypassPermissions` の6モード。deny ルールは全モードで有効。
+- **権限**：Manual（設定値 `default`、CLI では `manual` も別名）、`acceptEdits`、`plan`、`auto`、`dontAsk`、`bypassPermissions` の6モード。Manual はファイルの読み取りをそのまま実行し、書き込み・多くのコマンド・通信の前に許可を求めるモードで、許可すれば書き込みもできる（読み取り専用ではない）。deny ルールは全モードで有効。
 - **拡張**：Skills、Hooks、MCP、Plugins、サブエージェント、Agent SDK。
 - **分担**：サブエージェント。Agent Teams は**実験的で既定は無効**。有効にするとリードとチームメイトが別のコンテキストで動き、共有のタスク一覧を使う。
 - **保存**：セッションの transcript を残して再開できる。`CLAUDE.md` を毎セッション読み、`AGENTS.md` を代わりに読ませられる。自動メモリ。
@@ -260,12 +264,33 @@ Google のターミナル向けエージェントです。ただし、**2026-10-
 
 確認日 2026-10-28。検証状態：未実機確認。
 
+<Callout type="note" title="承認モードと「書き込みを止める仕組み」は別">
+Claude Code の Manual（設定値 `default`）は、読み取り以外の操作の前に許可を求めるモードです。許可すれば書き込みもコマンド実行もできるため、**読み取り専用のモードではありません**。編集を止めたいときは Plan モードを使い、さらに確実にしたいときは、サンドボックスや権限の設定で書き込み可能な範囲を制限します。
+
+公式は、権限の設定とサンドボックスを、補い合う2つの層として説明しています。権限の設定はツール呼び出しを許可・確認・拒否する仕組みで、サンドボックスは OS の側でファイルとネットワークの範囲を制限する仕組みです。片方だけに頼らず、両方を組み合わせます。起動時の既定モードは、版・契約・設定ファイルで変わるため、ここでは「常に Manual が既定」とは書きません。使っている版で `claude --help` と設定を確認してください。
+</Callout>
+
+### 図鑑の個別ページ
+
+上の8製品は、[AI図鑑](/zukan/)にも同じ確認日のデータで載せています。カードは用途を読むための文章、図鑑は項目を横に並べて比べるための表です。同じ製品でも、料金体系と提供状態は図鑑側で更新するため、記述が食い違ったときは確認日の新しいほうを採ってください。値が「未確認」の欄は、機能が無いという意味ではありません。
+
+| 製品 | 図鑑の個別ページ |
+| --- | --- |
+| Claude Code | [Claude Code](/zukan/claude-code/) |
+| Codex CLI | [Codex CLI](/zukan/codex-cli/) |
+| OpenCode | [OpenCode](/zukan/opencode/) |
+| Pi | [Pi](/zukan/pi/) |
+| Hermes Agent | [Hermes Agent](/zukan/hermes-agent/) |
+| DeepSeek Harness | [DeepSeek Harness](/zukan/deepseek-harness/) |
+| Gemini CLI | [Gemini CLI](/zukan/gemini-cli/) |
+| Aider | [Aider](/zukan/aider/) |
+
 ## 用途から候補を絞る
 
 8枚のカードを、よくある6つの用途で引き直します。ここでも順位は付けません。公式の記述から「候補になりやすい」と言えるものだけを並べます。
 
 - **コーディング**：候補は Claude Code、Codex CLI、OpenCode、Pi、Aider、Gemini CLI。いずれも端末からリポジトリを読み、編集とコマンド実行を行います。Gemini CLI は企業向け Code Assist の契約が前提です。
-- **一時的な調査**：候補は OpenCode の Explore、Claude Code の `manual`、Codex CLI の読み取り側の設定。読み取り専用のサブエージェントや、読み取りのみの権限モードがあります。調査だけなら書き込みを許可しません。
+- **一時的な調査**：候補は OpenCode の Explore、Claude Code の Plan モード、Codex CLI の読み取り側の設定。調べるだけなら、編集を止めるモードや読み取り専用のサブエージェントを使います。ただし、依頼文に「編集しないで」と書くだけでは強制力がなく、隔離した環境や権限の設定と組み合わせて初めて書き込みを止められます。
 - **長期常駐**：候補は Hermes Agent、DeepSeek Harness。前者は6つの実行環境と20以上の連携、後者はスケジューリングを持ちます。どちらも利用枠を消費し続けます。
 - **独自拡張**：候補は Pi、DeepSeek Harness、OpenCode、Claude Code、Hermes Agent。Pi は TypeScript の Extension、DeepSeek Harness はプラグイン、OpenCode は plugins と custom tools、Claude Code は Skills・Hooks・Plugins・MCP です。
 - **モデルの自由度**：候補は OpenCode、Pi、Aider、Hermes Agent。提供元や互換エンドポイントを選べます。Claude Code もターミナルと IDE では第三者の提供元に接続できます。
