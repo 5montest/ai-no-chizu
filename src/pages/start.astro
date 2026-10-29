@@ -13,11 +13,11 @@ const practiceChapters = published.filter(c => c.part >= 7);
   <div class="page"><div class="shell guide-page">
     <nav class="breadcrumbs" aria-label="パンくずリスト"><a href={withBase('/')}>ホーム</a><span aria-hidden="true">/</span><span>はじめての方へ</span></nav>
     <header class="guide-page__head"><p class="eyebrow">はじめての方へ</p><h1>目的に合わせて学習を始める</h1><p>全{published.length}章は、{basicChapters.length}章の基礎編（第1〜{basicChapters.length}章）と{practiceChapters.length}章の<a href={withBase('/practice/')}>実践編</a>（第{basicChapters.length + 1}〜{published.length}章）に分かれています。順番に読む必要はありません。下の学習ルートから目的の近いものを選ぶか、仕事で使う前の確認項目だけ先に読んでください。</p></header>
+    <section class="guide-section" aria-labelledby="choose-path"><h2 id="choose-path">目的別の学習ルートを選ぶ</h2><p>{readingPaths.length}つのルートそれぞれに、最初に読むページと、読み終えたときにできることを書いています。各ページの冒頭にある「要点3つ」で説明の範囲を確かめ、必要な節を読んでください。読み進めながら別のルートへ移っても構いません。</p><ReadingPaths detailed /></section>
     <GuideImage name="model-app-provider" />
     <section class="guide-section" aria-labelledby="first-rules"><h2 id="first-rules">仕事で使う前に確認しておくこと</h2>
       <ol class="first-rules"><li>会社で認められたサービスとアカウントを使い、入力してよい情報を確認する。</li><li>依頼には目的・読み手・材料・出力形式を書く。</li><li>返ってきた文章の事実、数字、出典を原資料で確かめる。</li><li>送信やデータ更新を任せるときは、権限・確認者・止める条件を決める。</li></ol>
     </section>
-    <section class="guide-section" aria-labelledby="choose-path"><h2 id="choose-path">目的別の学習ルートを選ぶ</h2><p>{readingPaths.length}つのルートそれぞれに、最初に読むページと、読み終えたときにできることを書いています。各ページの冒頭にある「3行の要点」で説明の範囲を確かめ、必要な節を読んでください。読み進めながら別のルートへ移っても構いません。</p><ReadingPaths detailed /></section>
     <section class="guide-section prose" aria-labelledby="try-prompt"><h2 id="try-prompt">まずは、短い社内連絡の下書きで試す</h2><p>以下は架空の例です。公開情報だけで試せるので、機密資料を用意する必要はありません。</p>
 <pre class="prompt-example"><code>目的：社内向けに、会議室の利用変更を知らせる。
 読み手：同じ部署のメンバー。

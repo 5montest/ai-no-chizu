@@ -1,0 +1,17 @@
+<dialog class="figure-viewer" data-figure-viewer aria-labelledby="figure-viewer-title">
+  <div class="figure-viewer__toolbar">
+    <h2 id="figure-viewer-title">図の拡大</h2>
+    <div class="figure-viewer__controls">
+      <button type="button" data-figure-zoom="out" aria-label="縮小">−</button>
+      <button type="button" data-figure-zoom="in" aria-label="拡大">＋</button>
+      <button type="button" data-figure-fit>全体表示</button>
+      <form method="dialog"><button autofocus aria-label="図を閉じる">閉じる ×</button></form>
+    </div>
+  </div>
+  <p class="figure-viewer__help">拡大後は縦横にスクロールできます。Escキーでも閉じられます。</p>
+  <div class="figure-viewer__viewport" tabindex="0" aria-label="拡大した図。スクロールして移動できます"><div class="figure-viewer__content"></div></div>
+</dialog>
+<script>
+  import { initFigureViewer } from '../lib/figure-viewer';
+  initFigureViewer();
+</script>

@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import { readingPaths } from '../data/reading-paths';
+import { readingRouteHref, readingRoutePosition } from '../lib/reading-route';
+import { BASE, withBase } from '../lib/site.mjs';
+const { pageId } = Astro.props;
+const entries = new Map((await getCollection('chapters')).map(entry => [entry.id, entry.data.title]));
+const routes = readingPaths.flatMap(path => {
+  const state = readingRoutePosition(readingPaths, pageId, path.id);
+  if (!state) return [];
+  const item = (page: { id: string } | null) => page ? { title: entries.get(page.id), href: readingRouteHref(BASE, page.id, path.id) } : null;
+  return [{ id: path.id, title: path.title, position: state.index + 1, total: path.pages.length, prev: item(state.prev), next: item(state.next), overview: withBase(`/start/#${path.id}`) }];
+});
+---
+<aside class="reading-route" data-reading-route hidden aria-label="選択中の学習ルート">
+  <p class="reading-route__position" data-route-position></p>
+  <p class="reading-route__title" data-route-title></p>
+  <progress data-route-progress aria-label="ルート内の現在位置"></progress>
+  <div class="reading-route__links"><a data-route-overview>ルート一覧</a><a href={withBase(`/chapters/${pageId}/`)}>通常の章順で読む</a></div>
+</aside>
+<script define:vars={{ routes }}>
+  function initReadingRoute() {
+  const selected = routes.find(route => route.id === new URLSearchParams(location.search).get('route'));
+  const panel = document.querySelector('[data-reading-route]');
+  const course = document.querySelector('[data-course-navigation]');
+  if (selected && panel && course) {
+    panel.hidden = false;
+    panel.querySelector('[data-route-title]').textContent = selected.title;
+    panel.querySelector('[data-route-position]').textContent = `学習ルート · ${selected.position} / ${selected.total}記事`;
+    const progress = panel.querySelector('progress');
+    progress.max = selected.total;
+    progress.value = selected.position;
+    panel.querySelector('[data-route-overview]').href = selected.overview;
+    const nav = document.createElement('nav');
+    nav.className = 'page-nav reading-route-nav';
+    nav.setAttribute('aria-label', '選択中のルートの前後の記事');
+    for (const [item, label] of [[selected.prev, 'ルートの前の記事'], [selected.next, 'ルートの次の記事']]) {
+      if (!item) continue;
+      const link = document.createElement('a');
+      link.href = item.href;
+      const dir = document.createElement('span');dir.className = 'dir';dir.textContent = label;
+      const title = document.createElement('span');title.className = 'title';title.textContent = item.title;
+      link.append(dir, title);nav.append(link);
+    }
+    if (!selected.next) {
+      const link = document.createElement('a');link.href = selected.overview;
+      const dir = document.createElement('span');dir.className = 'dir';dir.textContent = 'このルートはここまでです';
+      const title = document.createElement('span');title.className = 'title';title.textContent = '別の学習ルートを選ぶ';
+      link.append(dir, title);nav.append(link);
+    }
+    course.hidden = true;
+    course.before(nav);
+  }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initReadingRoute, { once: true });
+  else initReadingRoute();
+</script>

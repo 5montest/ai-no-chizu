@@ -1,8 +1,10 @@
 ---
 import '../styles/global.css';
+import '../styles/learning-ux.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SearchModal from '../components/SearchModal.astro';
+import FigureViewer from '../components/FigureViewer.astro';
 import glossary from '../data/glossary.json';
 import { SITE, withBase } from '../lib/site.mjs';
 
@@ -73,6 +75,7 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
     </main>
     <Footer />
     <SearchModal />
+    <FigureViewer />
     <script type="application/json" id="glossary-data" set:html={JSON.stringify(tips)}></script>
     <script>
       // --- 用語ツールチップ -------------------------------------------------
@@ -293,26 +296,16 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
           fitDiagrams();
         };
 
-        // 図の大きさは、Mermaid が内容から決めた原寸（文字14px）を基準にする。
-        //
-        // 横に広い図：幅が足りないときは文字が読めなくなるまで縮めず、原寸のまま置いて
-        // 枠の中で横にスクロールさせる。
-        // 縦に長い図：本文幅まで引き伸ばすと、文字も高さも数倍になって画面を埋め尽くす。
-        // 原寸の1.15倍までに留め、どの図でも文字の大きさをそろえる。
+        // まず本文幅に全体を収める。細部は共通ビューアーで拡大して読む。
+        // 縦長の図だけが過大にならないよう、引き伸ばしは原寸の1.15倍までに留める。
         const fitDiagrams = () => {
           for (const node of mermaidNodes) {
             const svg = node.querySelector<SVGSVGElement>('svg');
             if (!svg) continue;
             const natural = svg.viewBox?.baseVal?.width ?? 0;
-            const available = node.parentElement?.clientWidth ?? node.clientWidth;
-            const contentWidth = node.clientWidth || available;
+            const contentWidth = node.clientWidth;
             const plate = node.closest('.diagram-plate');
-            if (natural && available && natural > available * 1.15) {
-              svg.style.maxWidth = 'none';
-              svg.style.width = `${Math.round(natural)}px`;
-              node.style.textAlign = 'left';
-              plate?.classList.add('is-scrollable');
-            } else if (natural && contentWidth) {
+            if (natural && contentWidth) {
               svg.style.maxWidth = 'none';
               svg.style.width = `${Math.min(contentWidth, Math.round(natural * 1.15))}px`;
               node.style.textAlign = '';
@@ -323,6 +316,8 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
               node.style.textAlign = '';
               plate?.classList.remove('is-scrollable');
             }
+            const button = plate?.querySelector<HTMLButtonElement>('[data-figure-open]');
+            if (button) button.disabled = false;
           }
         };
 

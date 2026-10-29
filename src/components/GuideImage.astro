@@ -9,7 +9,7 @@ if (!item) throw new Error(`未登録の解説図: ${name}`);
 <figure class="guide-image" id={`guide-${name}`}>
   <a class="guide-image__open" href={withBase(`/images/guide/${name}.webp`)} target="_blank" rel="noopener" aria-label={`${item.title}の図を拡大して開く`}>
     <img src={withBase(`/images/guide/${name}.webp`)} width="1536" height="1024" alt={item.alt} loading={priority ? 'eager' : 'lazy'} decoding="async" fetchpriority={priority ? 'high' : 'auto'} />
-    <span>図を拡大 ↗</span>
+    <span>図を拡大 ⤢</span>
   </a>
   <figcaption><span>{item.title}</span>{item.caption}</figcaption>
   <details class="guide-image__text"><summary>図の内容を文章で読む</summary><p>{item.alt}</p></details>

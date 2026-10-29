@@ -1,4 +1,5 @@
 ---
+import CompareTray from '../../components/CompareTray.astro';
 import GuideIcon from '../../components/GuideIcon.astro';
 import GuideImage from '../../components/GuideImage.astro';
 import ProviderMark from '../../components/ProviderMark.astro';
@@ -184,16 +185,14 @@ const modelCount = entities.reduce(
                 )}
                 <div class="glossary-grid">
                   {subgroup.entities.map((entity) => (
-                    <a
-                      class="term-card zukan-card"
-                      href={withBase(`/zukan/${entity.slug}/`)}
-                      data-entity
+                    <div class="zukan-card-option" data-entity
                       data-kind={entity.kind}
                       data-price={priceBucket(entity)}
                       data-use={(entity.primary_use_cases ?? []).join(' ')}
                       data-iface={(entity.interfaces ?? []).join(' ')}
                       data-search={entitySearchText(entity)}
                     >
+                      <a class="term-card zukan-card" href={withBase(`/zukan/${entity.slug}/`)}>
                       <span class="zukan-card__provider"><ProviderMark vendor={entity.vendor} compact={subgroup.label === entity.vendor} /></span>
                       <span class="term-card__cat">
                         {section.kind.label}
@@ -208,7 +207,9 @@ const modelCount = entities.reduce(
                       <span class="zukan-card__meta">
                         確認 {entity.last_checked_at}
                       </span>
-                    </a>
+                      </a>
+                      <label class="zukan-card-option__select"><input type="checkbox" data-compare-add value={entity.id} aria-label={`${entity.display_name}を比較に追加`} />比較に追加</label>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -222,6 +223,7 @@ const modelCount = entities.reduce(
         <button class="btn" type="button" data-zukan-reset>絞り込みを解除する</button>
       </div>
 
+      <CompareTray />
       <section class="zukan-footnote">
         <h2>この一覧の読み方</h2>
         <p>

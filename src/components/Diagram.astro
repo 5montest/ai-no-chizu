@@ -28,7 +28,7 @@ const captionText = caption ?? diagram.caption;
   <div class="diagram-plate__head">
     <span class="diagram-plate__no">図 {diagram.number}{reprint ? '（再掲）' : ''}</span>
     <span class="diagram-plate__title">{diagram.title}</span>
-    <span class="diagram-plate__hint">横にスクロール</span>
+    <button class="diagram-plate__zoom" type="button" data-figure-open disabled aria-label={`${diagram.title}を拡大`}>拡大して読む ⤢</button>
   </div>
   <div class="diagram-plate__body">
     <pre class="mermaid">{diagram.code}</pre>

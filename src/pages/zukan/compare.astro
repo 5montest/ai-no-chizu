@@ -7,6 +7,7 @@ import {
   VERIFICATION_LABELS,
   compareEntities,
   groupByKind,
+  entitySearchText,
 } from '../../lib/zukan.mjs';
 import { withBase } from '../../lib/site.mjs';
 import type { Zukan, ZukanEntity, ZukanTerm } from '../../lib/zukan-types';
@@ -190,15 +191,20 @@ const payload = {
         </div>
 
         <form class="compare-form" data-compare-form action={withBase('/zukan/compare/')} method="get">
+          <div class="compare-filters">
+            <label>名前・提供元で探す<input type="search" data-compare-search placeholder="例：GPT、Claude、DeepSeek" autocomplete="off" /></label>
+            <label>分類<select data-compare-kind><option value="all">すべて</option>{zukan.kinds.map(kind => <option value={kind.id}>{kind.label}</option>)}</select></label>
+          </div>
+          <p data-compare-visible class="compare-count" aria-live="polite"></p>
           {groups.map((group) => (
-            <fieldset class="compare-fieldset">
+            <fieldset class="compare-fieldset" data-compare-group data-kind={group.kind.id}>
               <legend>
                 {group.kind.label}
                 <span class="zukan-group__count">{group.entities.length}件</span>
               </legend>
               <div class="compare-choices">
                 {group.entities.map((entity) => (
-                  <label class="compare-choice">
+                  <label class="compare-choice" data-compare-choice data-search={entitySearchText(entity)}>
                     <input type="checkbox" name="ids" value={entity.id} />
                     <span>
                       <span class="compare-choice__name">{entity.display_name}</span>
@@ -213,7 +219,7 @@ const payload = {
           ))}
 
           <div class="compare-actions">
-            <button class="btn" type="submit">選んだ項目を並べる</button>
+            <button class="btn" type="submit" data-compare-submit disabled>比較する</button>
             <button class="btn btn--ghost" type="button" data-compare-reset>選択を解除する</button>
             <span class="compare-count" data-compare-status aria-live="polite">0件を選んでいます</span>
           </div>
@@ -223,7 +229,7 @@ const payload = {
           項目を2つ以上選ぶと、ここに比較表を表示します。
         </p>
 
-        <div class="compare-result" data-compare-root></div>
+        <div class="compare-result" data-compare-root tabindex="-1" role="region" aria-label="比較結果"></div>
 
         <noscript>
           <p class="zukan-note">
@@ -266,7 +272,7 @@ const payload = {
           if (known.has(value) && !seen.includes(value)) seen.push(value);
         }
       }
-      return seen;
+      return seen.slice(0, payload.max);
     };
 
     const cell = (text) => {
@@ -277,6 +283,11 @@ const payload = {
 
     function render(ids) {
       root.replaceChildren();
+      const selected = ids.length > 0;
+      document.querySelector('.compare-actions')?.classList.toggle('is-floating', selected);
+      document.body.classList.toggle('has-compare-tray', selected);
+      document.querySelector('[data-compare-submit]').disabled = ids.length < 2;
+      try { sessionStorage.setItem('ai-map-compare', JSON.stringify(ids)); } catch { /* 保存は任意 */ }
       if (statusEl) statusEl.textContent = `${ids.length}件を選んでいます`;
 
       if (ids.length < 2) {
@@ -296,6 +307,8 @@ const payload = {
           : payload.layerNotes[[...kinds].sort().join('|')] ?? null;
 
       if (messageEl) messageEl.textContent = note ?? '';
+
+      const heading = document.createElement('h2');heading.className = 'compare-result__title';heading.textContent = `比較結果 · ${ids.length}件`;root.append(heading);
 
       const wrap = document.createElement('div');
       wrap.className = 'model-table-wrap';
@@ -345,6 +358,23 @@ const payload = {
       table.append(tbody);
       wrap.append(table);
       root.append(wrap);
+      // スマホでは項目ごとに製品を並べ、横に往復しなくても読めるようにする。
+      const cards = document.createElement('div');cards.className = 'compare-mobile';
+      for (const row of payload.rows) {
+        const section = document.createElement('section');
+        const heading = document.createElement('h3');heading.textContent = row.label;
+        const values = document.createElement('dl');
+        for (const id of ids) {
+          const entity = payload.entities[id];
+          const pair = document.createElement('div');
+          const name = document.createElement('dt');
+          const link = document.createElement('a');link.href = entity.href;link.textContent = entity.display_name;name.append(link);
+          const value = document.createElement('dd');value.textContent = entity.values[row.key] ?? '未記録';
+          pair.append(name, value);values.append(pair);
+        }
+        section.append(heading, values);cards.append(section);
+      }
+      root.append(cards);
     }
 
     function syncCheckboxes(ids) {
@@ -363,29 +393,46 @@ const payload = {
       history.replaceState(null, '', url);
     }
 
+    const search = document.querySelector('[data-compare-search]');
+    const kindFilter = document.querySelector('[data-compare-kind]');
+    const normalize = text => text.normalize('NFKC').toLowerCase().trim();
+    const filter = () => {
+      const tokens = normalize(search.value).split(/\s+/).filter(Boolean);
+      let count = 0;
+      for (const group of document.querySelectorAll('[data-compare-group]')) {
+        let shown = 0;
+        for (const choice of group.querySelectorAll('[data-compare-choice]')) {
+          const visible = (kindFilter.value === 'all' || group.dataset.kind === kindFilter.value) && tokens.every(token => normalize(choice.dataset.search).includes(token));
+          choice.hidden = !visible;if (visible) shown++;
+        }
+        group.hidden = shown === 0;count += shown;
+      }
+      document.querySelector('[data-compare-visible]').textContent = count ? `${count}件の候補 · 最大${payload.max}件まで選べます` : '一致する候補がありません。検索語や分類を変えてください。';
+    };
+    search.addEventListener('input', filter);kindFilter.addEventListener('change', filter);filter();
     const initial = readIds();
     syncCheckboxes(initial);
     render(initial);
+    if (initial.length >= 2) requestAnimationFrame(() => root.scrollIntoView({ behavior: 'instant', block: 'start' }));
+    window.addEventListener('popstate', () => { const ids = readIds();syncCheckboxes(ids);render(ids); });
 
-    form?.addEventListener('change', () => {
-      const ids = currentIds();
-      if (ids.length > payload.max) {
-        const overflow = ids[payload.max];
-        const box = checkboxes.find((item) => item.value === overflow);
-        if (box) box.checked = false;
-        if (messageEl) {
-          messageEl.textContent = `一度に並べられるのは${payload.max}件までです。「${payload.entities[overflow].display_name}」の選択を外しました。`;
-        }
+    form?.addEventListener('change', (event) => {
+      if (!(event.target instanceof HTMLInputElement) || event.target.name !== 'ids') return;
+      if (currentIds().length > payload.max) {
+        event.target.checked = false;
+        render(currentIds());
+        statusEl.textContent = `比較できるのは${payload.max}件までです`;
+        return;
       }
       const selected = currentIds();
-      updateUrl(selected);
-      render(selected);
+      updateUrl(selected);render(selected);
     });
 
     form?.addEventListener('submit', (event) => {
       // 静的サイトなので送信しても表は変わらない。選択の反映はその場で行う。
       event.preventDefault();
-      render(currentIds());
+      const ids = currentIds();render(ids);
+      if (ids.length >= 2) { root.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });root.focus({ preventScroll: true }); }
     });
 
     resetButton?.addEventListener('click', () => {

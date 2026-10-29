@@ -9,6 +9,8 @@ import Quiz from '../../../components/Quiz.astro';
 import SourceList from '../../../components/SourceList.astro';
 import RelatedTerms from '../../../components/RelatedTerms.astro';
 import PageNav from '../../../components/PageNav.astro';
+import ReadingRoute from '../../../components/ReadingRoute.astro';
+import ArticleSummary from '../../../components/ArticleSummary.astro';
 import { optionalTechnicalChapters } from '../../../data/reading-paths';
 import curriculum from '../../../data/curriculum.json';
 import { withBase, SITE, BASE } from '../../../lib/site.mjs';
@@ -73,6 +75,7 @@ const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展'
         </div>
 
         <article class="article-main">
+          <ReadingRoute pageId={entry.id} />
           <div class="article-lead">
             <header class="article-head">
               <p class="article-head__chapter">
@@ -107,12 +110,7 @@ const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展'
             </header>
 
             {optionalTechnicalChapters.has(chapterId) && <p class="article-reading-note">仕組みや開発手順を詳しく扱うページです。業務で必要な範囲だけ先に読みたい場合は、<a href={withBase('/start/')}>学習ルート</a>で別の入口を選べます。</p>}
-            <section class="summary-box" aria-labelledby="summary-box-title">
-              <h2 class="summary-box__label" id="summary-box-title">3行の要点</h2>
-              <ul>
-                {data.summary.map((line) => <li>{line}</li>)}
-              </ul>
-            </section>
+            <ArticleSummary lines={data.summary} />
           </div>
 
           <div class="article-body">
@@ -127,7 +125,7 @@ const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展'
 
             <RelatedTerms slugs={data.glossary} />
 
-            <PageNav prev={prev} next={next} />
+            <div data-course-navigation><PageNav prev={prev} next={next} /></div>
           </div>
         </article>
       </div>

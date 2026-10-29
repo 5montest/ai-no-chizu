@@ -18,10 +18,10 @@ const terms = ['ai', 'generative-ai', 'llm', 'prompt', 'rag', 'agent'].map(slug 
     <p class="eyebrow">AI・LLMの学習ガイド</p>
     <h1>AIの仕組みから、モデルの選び方・実践まで学ぶ</h1>
     <p class="intro__lede">AI・LLMの基本原理から、ChatGPT・Claudeなどの製品、コーディングエージェントの使い方まで、図解と例で解説します。基礎編はプログラミング未経験でも読めます。実践編にはCLIやコードを使う演習もあります。</p>
-    <div class="intro__actions"><a class="btn" href={withBase('/start/')}>学習ルートを選ぶ</a><a class="btn btn--ghost" href={withBase('/chapters/')}>章一覧を見る</a></div>
+    <div class="intro__actions"><a class="btn" href="#learning-paths">学習ルートを選ぶ</a><a class="btn btn--ghost" href={withBase('/chapters/')}>章一覧を見る</a></div>
     <p class="intro__note">全{published.length}章（基礎編{basicChapters.length}章・実践編{practiceChapters.length}章）・全{entries.length}ページ。すべてを読む必要はありません。</p>
   </div></section>
-  <section class="section section--paths"><div class="shell"><div class="section-head"><div><h2>目的別の学習ルート</h2></div><p>関心の近いルートを選ぶと、最初に読むページと、読み終えたときにできることが分かります。</p></div><ReadingPaths /></div></section>
+  <section class="section section--paths" id="learning-paths"><div class="shell"><div class="section-head"><div><h2>目的別の学習ルート</h2></div><p>関心の近いルートから、そのまま読み始められます。</p></div><ReadingPaths /></div></section>
   <section class="section"><div class="shell home-explainer"><div><p class="eyebrow">まず、この違いから</p><h2>モデル・アプリ・提供元の違い</h2><p>開発する会社、応答を作るモデル、人が使うアプリ。提案やニュースで同じ「AI」と呼ばれていても、指すものが違います。</p><a href={withBase('/chapters/04/03-model-service/')}>モデルとサービスの違いを読む →</a></div><GuideImage name="model-app-provider" priority /></div></section>
   <section class="section"><div class="shell"><div class="section-head"><div><h2>AIの基本用語{terms.length}選</h2></div><p>詳しい定義や、混同しやすい点は用語辞典で確認できます。</p></div><div class="core-terms">{terms.map(term => <a href={withBase(`/glossary/${term.slug}/`)}><h3>{term.term}</h3><p>{term.short}</p><span>意味とよくある誤解 →</span></a>)}</div></div></section>
   <section class="section"><div class="shell"><div class="section-head"><div><h2>全{published.length}章をテーマ別に探す</h2></div><p>{parts.length}つの部に分けています。{basicChapters.length}章の基礎編で仕組みと考え方を、{practiceChapters.length}章の実践編で製品の選択と実装を扱います。</p></div><div class="home-chapter-groups">{parts.map(part => {

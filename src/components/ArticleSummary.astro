@@ -1,0 +1,13 @@
+---
+const { lines } = Astro.props;
+---
+<details class="summary-box" data-article-summary open>
+  <summary class="summary-box__label">要点3つ<span class="summary-box__action">開く・閉じる</span></summary>
+  <ul>{lines.map((line: string) => <li>{line}</li>)}</ul>
+</details>
+<script>
+  // 小さな画面では本文への入口を先に見せる。要点はタップでいつでも確認できる。
+  if (window.matchMedia('(max-width: 640px)').matches) {
+    for (const summary of document.querySelectorAll<HTMLDetailsElement>('[data-article-summary]')) summary.open = false;
+  }
+</script>

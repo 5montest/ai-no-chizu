@@ -1,0 +1,43 @@
+---
+import { withBase } from '../lib/site.mjs';
+---
+<aside class="compare-tray" data-compare-tray data-url={withBase('/zukan/compare/')} hidden aria-label="選択した製品を比較">
+  <span data-tray-count aria-live="polite"></span>
+  <button class="btn" type="button" data-tray-open disabled>比較する</button>
+  <button class="btn btn--ghost" type="button" data-tray-clear>解除</button>
+</aside>
+<script>
+  const tray = document.querySelector<HTMLElement>('[data-compare-tray]')!;
+  const boxes = [...document.querySelectorAll<HTMLInputElement>('[data-compare-add]')];
+  const known = new Set(boxes.map(box => box.value));
+  let ids: string[] = [];
+  try {
+    const saved: unknown = JSON.parse(sessionStorage.getItem('ai-map-compare') || '[]');
+    if (Array.isArray(saved)) ids = [...new Set(saved.filter(id => typeof id === 'string' && known.has(id)))].slice(0, 6);
+  } catch { /* 保存できない場合も選択は使える */ }
+  const open = tray.querySelector<HTMLButtonElement>('[data-tray-open]')!;
+  const count = tray.querySelector<HTMLElement>('[data-tray-count]')!;
+  function paint(message?: string) {
+    tray.hidden = ids.length === 0;
+    document.body.classList.toggle('has-compare-tray', ids.length > 0);
+    open.disabled = ids.length < 2;
+    count.textContent = message || `${ids.length}件を選択${ids.length === 1 ? ' · あと1件で比較' : ''}`;
+    for (const box of boxes) box.checked = ids.includes(box.value);
+    try { sessionStorage.setItem('ai-map-compare', JSON.stringify(ids)); } catch { /* 保存は任意 */ }
+  }
+  for (const box of boxes) box.addEventListener('change', () => {
+    if (box.checked && ids.length >= 6) { box.checked = false; paint('比較できるのは6件までです'); return; }
+    ids = box.checked ? [...ids, box.value] : ids.filter(id => id !== box.value);paint();
+  });
+  tray.querySelector('[data-tray-clear]')?.addEventListener('click', () => { ids = [];paint(); });
+  open.addEventListener('click', () => {
+    if (ids.length < 2) return;
+    const params = new URLSearchParams();for (const id of ids) params.append('ids', id);
+    location.assign(`${tray.dataset.url}?${params}`);
+  });
+  window.addEventListener('pageshow', () => {
+    try { const saved = JSON.parse(sessionStorage.getItem('ai-map-compare') || '[]');if (Array.isArray(saved)) ids = [...new Set(saved.filter(id => typeof id === 'string' && known.has(id)))].slice(0, 6); } catch { /* 続行 */ }
+    paint();
+  });
+  paint();
+</script>
