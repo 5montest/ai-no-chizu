@@ -1,7 +1,9 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
+import { unified } from '@astrojs/markdown-remark';
 import remarkGuideLinks from './src/plugins/remark-guide-links.mjs';
 import remarkBulletLabels from './src/plugins/remark-bullet-labels.mjs';
+import rehypeTableWrap from './src/plugins/rehype-table-wrap.mjs';
 import { DEFAULT_BASE, DEFAULT_ORIGIN, normalizeBase } from './src/lib/site.mjs';
 
 // 公開先はここだけで決める。既定は現在の配信先（ルートの index.html が ./site/ へ転送する）。
@@ -22,18 +24,24 @@ export default defineConfig({
   },
   integrations: [mdx()],
   markdown: {
+    // markdown.remarkPlugins は非推奨になったため、unified() で組み立てる。
     // 本文中の [[用語]] と / 始まりのリンクにも、設定した base を付ける。
     // 箇条書きのラベル強調は、リンク展開が済んだ後の文字列に対して行う。
-    remarkPlugins: [
-      [remarkGuideLinks, { base: SITE_BASE }],
-      remarkBulletLabels,
-    ],
+    processor: unified({
+      remarkPlugins: [
+        [remarkGuideLinks, { base: SITE_BASE }],
+        remarkBulletLabels,
+      ],
+      // 表は狭い画面で横に送れるようにする（潰して読めなくなるのを避ける）。
+      rehypePlugins: [rehypeTableWrap],
+    }),
     shikiConfig: {
       themes: {
         light: 'vitesse-light',
         dark: 'vitesse-dark',
       },
-      wrap: true,
+      // 折り返すと行の継続が分からず、コマンドを写し間違える。長い行は枠内で横スクロールにする。
+      wrap: false,
     },
   },
 });

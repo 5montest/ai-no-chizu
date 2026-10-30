@@ -3,6 +3,10 @@ export type QuizQuestion = {
   options: string[];
   answer: number;
   explanation: string;
+  /** 解説のあとに出す復習リンク先。出題元のページ。 */
+  pageUrl?: string;
+  /** 復習リンクの表示名（例：第6章「Attention」）。 */
+  pageLabel?: string;
 };
 
 type Options = {
@@ -10,6 +14,8 @@ type Options = {
   /** 選択肢の並び替えに使う乱数。テストから固定できるようにしてある。 */
   random?: () => number;
   onFinish?: (score: number, total: number) => void;
+  /** 再挑戦のときに、出題範囲のプールから問題を選び直す。返した配列で次の5問を組む。 */
+  onRetry?: () => QuizQuestion[];
 };
 
 const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -53,8 +59,8 @@ export function mountQuiz(root: HTMLElement, questions: QuizQuestion[], options:
   if (!body || questions.length === 0) return;
 
   const random = options.random ?? Math.random;
-  const list = options.shuffleQuestions ? shuffled(questions, random) : [...questions];
-  const total = list.length;
+  let list = options.shuffleQuestions ? shuffled(questions, random) : [...questions];
+  let total = list.length;
   let index = 0;
   let score = 0;
   let answered = false;
@@ -156,6 +162,14 @@ export function mountQuiz(root: HTMLElement, questions: QuizQuestion[], options:
       // 正解の記号は、並べ替えたあとの表示位置から引く。
       strong.textContent = correct ? '正解。' : `不正解。正解は ${letterFor(order, q.answer)}。`;
       explain.append(strong, document.createTextNode(q.explanation));
+      // 間違えた問題を、その場で出題元のページへ戻って確認できるようにする。
+      if (q.pageUrl) {
+        const link = document.createElement('a');
+        link.className = 'quiz__explain-link';
+        link.href = q.pageUrl;
+        link.textContent = `→ ${q.pageLabel ?? 'この問題のページ'}を読む`;
+        explain.append(document.createElement('br'), link);
+      }
     }
 
     const scoreEl = body.querySelector<HTMLElement>('.quiz__score');
@@ -191,6 +205,11 @@ export function mountQuiz(root: HTMLElement, questions: QuizQuestion[], options:
     retry.className = 'quiz__next';
     retry.textContent = 'もう一度挑戦する';
     retry.addEventListener('click', () => {
+      // 2回目は同じ5問の暗記確認にせず、範囲のプールから選び直す。
+      const nextQuestions = options.onRetry?.();
+      if (nextQuestions && nextQuestions.length > 0) list = nextQuestions;
+      else if (options.shuffleQuestions) list = shuffled(list, random);
+      total = list.length;
       index = 0;
       score = 0;
       renderQuestion();

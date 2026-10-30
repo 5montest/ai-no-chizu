@@ -1,0 +1,14 @@
+# 改行コードは LF にそろえる。
+# Windows の既定（core.autocrlf=true）で CRLF になると、MDX の frontmatter を
+# 正規表現で読むビルド処理が一致せず、ビルドできない。
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary

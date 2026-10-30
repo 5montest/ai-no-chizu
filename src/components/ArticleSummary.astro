@@ -1,8 +1,9 @@
 ---
-const { lines } = Astro.props;
+const { lines, goal } = Astro.props;
 ---
 <details class="summary-box" data-article-summary open>
   <summary class="summary-box__label">要点3つ<span class="summary-box__action">開く・閉じる</span></summary>
+  {goal && <p class="summary-box__goal"><span>この章のゴール</span>{goal}</p>}
   <ul>{lines.map((line: string) => <li>{line}</li>)}</ul>
 </details>
 <script>

@@ -11,7 +11,7 @@ import RelatedTerms from '../../../components/RelatedTerms.astro';
 import PageNav from '../../../components/PageNav.astro';
 import ReadingRoute from '../../../components/ReadingRoute.astro';
 import ArticleSummary from '../../../components/ArticleSummary.astro';
-import { optionalTechnicalChapters } from '../../../data/reading-paths';
+import { optionalTechnicalChapters, terminalPrerequisiteChapters } from '../../../data/reading-paths';
 import curriculum from '../../../data/curriculum.json';
 import { withBase, SITE, BASE } from '../../../lib/site.mjs';
 import { buildCourseOrder, neighbours, toNavItem } from '../../../lib/course-nav.mjs';
@@ -106,11 +106,23 @@ const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展'
                   <dt>{data.updated === SITE.published ? '公開' : '更新'}</dt>
                   <dd>{data.updated}</dd>
                 </div>
+                {(chapter?.prereq?.length || terminalPrerequisiteChapters.has(chapterId)) && (
+                  <div>
+                    <dt>前提</dt>
+                    <dd>
+                      {chapter?.prereq?.map((id: string, i: number) => (
+                        <>{i > 0 ? '・' : ''}<a href={withBase(`/chapters/${id}/`)}>第{Number(id)}章</a></>
+                      ))}
+                      {chapter?.prereq?.length && terminalPrerequisiteChapters.has(chapterId) ? '・' : ''}
+                      {terminalPrerequisiteChapters.has(chapterId) ? 'ターミナルとGitの操作' : ''}
+                    </dd>
+                  </div>
+                )}
               </dl>
             </header>
 
             {optionalTechnicalChapters.has(chapterId) && <p class="article-reading-note">仕組みや開発手順を詳しく扱うページです。業務で必要な範囲だけ先に読みたい場合は、<a href={withBase('/start/')}>学習ルート</a>で別の入口を選べます。</p>}
-            <ArticleSummary lines={data.summary} />
+            <ArticleSummary lines={data.summary} goal={chapter?.outcome} />
           </div>
 
           <div class="article-body">

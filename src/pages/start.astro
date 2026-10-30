@@ -9,7 +9,7 @@ const published = curriculum.chapters.filter(c => c.status === 'published');
 const basicChapters = published.filter(c => c.part <= 6);
 const practiceChapters = published.filter(c => c.part >= 7);
 ---
-<BaseLayout title="はじめての方へ" description={`AIの仕組みを学ぶ、生成AIを使い始める、モデルや製品を比較する、社内導入を判断する、エージェントを開発する。${readingPaths.length}つの学習ルートと、使い始める前に確認する項目。`}>
+<BaseLayout title="はじめての方へ" description={`AIの仕組みを学び直す、生成AIを使い始める、AIの提案を読む、モデルや製品を比較する、社内導入を判断する、エージェントを開発する。${readingPaths.length}つの学習ルートと、使い始める前に確認する項目。`}>
   <div class="page"><div class="shell guide-page">
     <nav class="breadcrumbs" aria-label="パンくずリスト"><a href={withBase('/')}>ホーム</a><span aria-hidden="true">/</span><span>はじめての方へ</span></nav>
     <header class="guide-page__head"><p class="eyebrow">はじめての方へ</p><h1>目的に合わせて学習を始める</h1><p>全{published.length}章は、{basicChapters.length}章の基礎編（第1〜{basicChapters.length}章）と{practiceChapters.length}章の<a href={withBase('/practice/')}>実践編</a>（第{basicChapters.length + 1}〜{published.length}章）に分かれています。順番に読む必要はありません。下の学習ルートから目的の近いものを選ぶか、仕事で使う前の確認項目だけ先に読んでください。</p></header>

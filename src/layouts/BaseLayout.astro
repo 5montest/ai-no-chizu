@@ -69,11 +69,23 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main">本文へスキップ</a>
+    <div class="read-progress" data-read-progress hidden><span data-read-progress-bar></span></div>
     <Header />
     <main id="main">
       <slot />
     </main>
     <Footer />
+    <button type="button" class="mobile-toc" data-mobile-toc aria-haspopup="dialog" aria-controls="mobile-toc-dialog">
+      <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 4h11M2.5 8h11M2.5 12h7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>
+      目次
+    </button>
+    <dialog class="mobile-toc-dialog" id="mobile-toc-dialog" aria-labelledby="mobile-toc-title">
+      <div class="mobile-toc-dialog__head">
+        <h2 id="mobile-toc-title">このページの目次</h2>
+        <form method="dialog"><button class="mobile-toc-dialog__close">閉じる</button></form>
+      </div>
+      <div class="mobile-toc-dialog__body"></div>
+    </dialog>
     <SearchModal />
     <FigureViewer />
     <script type="application/json" id="glossary-data" set:html={JSON.stringify(tips)}></script>
@@ -238,6 +250,107 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
       });
       revealHash();
 
+      // --- 読書の現在地 -----------------------------------------------------
+      // 長い記事で「あとどれくらいで読み終わるか」が分かるよう、上端に細い線を出す。
+      const progressWrap = document.querySelector<HTMLElement>('[data-read-progress]');
+      const progressBar = document.querySelector<HTMLElement>('[data-read-progress-bar]');
+      if (progressWrap && progressBar && document.querySelector('.article-body')) {
+        progressWrap.hidden = false;
+        let progressTick = false;
+        const paintProgress = () => {
+          progressTick = false;
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          const ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+          progressBar.style.width = `${(ratio * 100).toFixed(2)}%`;
+        };
+        window.addEventListener(
+          'scroll',
+          () => {
+            if (progressTick) return;
+            progressTick = true;
+            requestAnimationFrame(paintProgress);
+          },
+          { passive: true },
+        );
+        window.addEventListener('resize', paintProgress);
+        paintProgress();
+      }
+
+      // --- モバイル用の目次 -------------------------------------------------
+      // 画面幅が狭いと目次は上端の横並びに変わり、読み進めると画面外へ消える。
+      // 読み進めた後にだけ固定ボタンを出し、ダイアログで同じ目次を開き直せるようにする。
+      const tocSource = document.querySelector<HTMLOListElement>('.toc ol');
+      const tocButton = document.querySelector<HTMLButtonElement>('[data-mobile-toc]');
+      const tocDialog = document.getElementById('mobile-toc-dialog') as HTMLDialogElement | null;
+      const tocBody = tocDialog?.querySelector<HTMLElement>('.mobile-toc-dialog__body');
+      if (tocSource && tocButton && tocDialog && tocBody) {
+        if (!tocBody.childElementCount) tocBody.append(tocSource.cloneNode(true));
+        const mobileTocQuery = window.matchMedia('(max-width: 899px)');
+        let tocTick = false;
+        const syncTocButton = () => {
+          tocTick = false;
+          tocButton.dataset.visible = String(mobileTocQuery.matches && window.scrollY > 560);
+        };
+        window.addEventListener(
+          'scroll',
+          () => {
+            if (tocTick) return;
+            tocTick = true;
+            requestAnimationFrame(syncTocButton);
+          },
+          { passive: true },
+        );
+        mobileTocQuery.addEventListener?.('change', syncTocButton);
+        syncTocButton();
+        tocButton.addEventListener('click', () => tocDialog.showModal());
+        tocDialog.addEventListener('click', (event) => {
+          const target = event.target;
+          if (!(target instanceof Element)) return;
+          // 背景（dialog 自身）のクリックと、項目の選択で閉じる。
+          if (target === tocDialog || target.closest('a')) tocDialog.close();
+        });
+      }
+
+      // --- コードブロックの操作 ---------------------------------------------
+      // 言語名とコピーを添える。CLI の手順を写して実行する読者のため、
+      // 行の折り返しや選択に頼らず1操作でコピーできるようにする。
+      for (const pre of document.querySelectorAll<HTMLPreElement>('.prose pre.astro-code')) {
+        if (pre.closest('.code-block')) continue;
+        const wrap = document.createElement('div');
+        wrap.className = 'code-block';
+        const head = document.createElement('div');
+        head.className = 'code-block__head';
+        const lang = document.createElement('span');
+        lang.className = 'code-block__lang';
+        lang.textContent = pre.dataset.language ?? 'text';
+        const copy = document.createElement('button');
+        copy.type = 'button';
+        copy.className = 'code-block__copy';
+        copy.textContent = 'コピー';
+        copy.addEventListener('click', async () => {
+          const code = pre.querySelector('code')?.textContent ?? pre.textContent ?? '';
+          try {
+            await navigator.clipboard.writeText(code);
+          } catch {
+            // クリップボードが使えない環境では選択に切り替える。
+            copy.textContent = '選択しました';
+            const range = document.createRange();
+            range.selectNodeContents(pre);
+            const selection = window.getSelection();
+            selection?.removeAllRanges();
+            selection?.addRange(range);
+            return;
+          }
+          copy.textContent = 'コピーしました';
+          window.setTimeout(() => {
+            copy.textContent = 'コピー';
+          }, 1600);
+        });
+        head.append(lang, copy);
+        pre.replaceWith(wrap);
+        wrap.append(head, pre);
+      }
+
       // --- Mermaid ----------------------------------------------------------
       const mermaidNodes = [...document.querySelectorAll<HTMLElement>('.mermaid')];
       if (mermaidNodes.length) {
@@ -296,9 +409,12 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
           fitDiagrams();
         };
 
-        // まず本文幅に全体を収める。細部は共通ビューアーで拡大して読む。
-        // 縦長の図だけが過大にならないよう、引き伸ばしは原寸の1.15倍までに留める。
+        // 図の読みやすさを優先して大きさを決める。
+        // 横長の図は本文幅に縮めるとラベルが8px前後まで潰れるため、
+        // デスクトップでは原寸の8割までしか縮めず、はみ出した分は枠の中で横に動かす。
+        // スマートフォンは全体が見えることを優先し、細部は拡大ビューアーで読む。
         const fitDiagrams = () => {
+          const narrow = window.innerWidth < 640;
           for (const node of mermaidNodes) {
             const svg = node.querySelector<SVGSVGElement>('svg');
             if (!svg) continue;
@@ -306,10 +422,16 @@ const tips = Object.fromEntries(glossary.terms.map((t) => [t.slug, t.short]));
             const contentWidth = node.clientWidth;
             const plate = node.closest('.diagram-plate');
             if (natural && contentWidth) {
+              const target =
+                natural > contentWidth
+                  ? narrow
+                    ? contentWidth
+                    : Math.min(natural, Math.max(contentWidth, Math.round(natural * 0.82)))
+                  : Math.min(contentWidth, Math.round(natural * 1.15));
               svg.style.maxWidth = 'none';
-              svg.style.width = `${Math.min(contentWidth, Math.round(natural * 1.15))}px`;
+              svg.style.width = `${target}px`;
               node.style.textAlign = '';
-              plate?.classList.remove('is-scrollable');
+              plate?.classList.toggle('is-scrollable', target > contentWidth + 8);
             } else {
               svg.style.maxWidth = '';
               svg.style.width = '';

@@ -181,7 +181,12 @@ const compareHref = (other: ZukanEntity): string => {
 };
 
 const badges = entityBadges(entity);
-const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? '';
+// メタ説明は「何の製品か」が伝わる文を優先する。notes は確認メモのこともある。
+const summary =
+  entity.description ?? entity.summary ?? entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? '';
+// 「これは何か」は製品説明を出す。description が無い項目は summary で補い、
+// それも無い場合だけ確認メモ（notes）に戻す。
+const whatItIs = entity.description ?? entity.summary ?? entity.notes;
 ---
 
 <BaseLayout title={`${entity.display_name}｜AI図鑑`} description={summary}>
@@ -194,7 +199,7 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
 
         <header class="term-hero">
           <p class="term-hero__category">
-            {kind?.label ?? entity.kind}／{entity.vendor}
+            {kind?.label ?? entity.kind}
           </p>
           <p><ProviderMark vendor={entity.vendor} /></p>
         <h1>{entity.display_name}</h1>
@@ -214,7 +219,7 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
 
         <section class="term-section">
           <h2>これは何か</h2>
-          {entity.notes ? <p>{entity.notes}</p> : <p>概要はまだ記録していません。</p>}
+          {whatItIs ? <p>{whatItIs}</p> : <p>概要はまだ記録していません。</p>}
           {entity.strengths.length > 0 && (
             <>
               <h3>向いていること</h3>
@@ -314,8 +319,10 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
                   )}
 
                   {entry.tiers.length > 0 && (
-                    <div class="model-table-wrap">
-                      <table class="model-table">
+                    <>
+                      <p class="zukan-price-scroll-hint">横にスクロールできます。条件・入力・出力の順に並んでいます。</p>
+                      <div class="model-table-wrap">
+                        <table class="model-table">
                         <caption>{entry.product}の単価（{UNIT_LABELS[entry.unit] ?? entry.unit}、{TAX_LABELS[entry.tax] ?? entry.tax}）</caption>
                         <thead>
                           <tr>
@@ -346,7 +353,8 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
                           ))}
                         </tbody>
                       </table>
-                    </div>
+                      </div>
+                    </>
                   )}
 
                   {entry.snapshot_notes && (
@@ -369,6 +377,7 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
             <><h3>用途ごとの従量料金</h3>
               {meteredSnapshots.map(snapshot => <figure class="zukan-price">
                 <figcaption class="zukan-price__head"><span>USD／{TAX_LABELS[snapshot.tax] ?? snapshot.tax}／確認 {snapshot.fetched_at}</span></figcaption>
+                <p class="zukan-price-scroll-hint">横にスクロールできます。項目・単価と単位・条件の順です。</p>
                 <div class="model-table-wrap"><table class="model-table"><caption>単位と条件を確認して計算してください。音声の時間とトークン数は別の単位です。</caption>
                   <thead><tr><th scope="col">項目</th><th scope="col">単価・単位</th><th scope="col">条件と出典</th></tr></thead>
                   <tbody>{snapshot.charges?.filter(c => c.entity_id === entity.id).map(c => <tr><th scope="row">{c.label}</th><td>{money(c.price)} / {c.unit}</td><td>{c.condition}<br/><a href={c.source.url}>{c.source.title}</a></td></tr>)}</tbody>
@@ -436,6 +445,7 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
                       )}
                     </span>
                   </figcaption>
+                  <p class="zukan-price-scroll-hint">横にスクロールできます。条件・入力・出力の順に並んでいます。</p>
                   <div class="model-table-wrap">
                     <table class="model-table">
                       <caption>{entry.product}の提示価格（{UNIT_LABELS[entry.unit] ?? entry.unit}）</caption>
@@ -619,6 +629,12 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
               <dt>仕様の再確認</dt>
               <dd>{freshnessText(specFreshness)}</dd>
             </div>
+            {(entity.description || entity.summary) && entity.notes && (
+              <div>
+                <dt>記録メモ</dt>
+                <dd>{entity.notes}</dd>
+              </div>
+            )}
           </dl>
           <p>
             価格は{zukan.policy.freshness.price_review_after_days}日、仕様は
@@ -728,4 +744,26 @@ const summary = entity.notes ?? entity.strengths?.[0] ?? kind?.description ?? ''
       </div>
     </div>
   </div>
+
+  <style>
+    /* 料金表の横スクロール案内。デスクトップでは表が収まるので出さない。 */
+    .zukan-price-scroll-hint {
+      display: none;
+    }
+
+    @media (max-width: 640px) {
+      .zukan-price-scroll-hint {
+        display: block;
+        margin: 0.35rem 0 0.4rem;
+        color: var(--ink-mute);
+        font-size: 0.75rem;
+        line-height: 1.7;
+      }
+
+      /* 右端にまだ列があることを影で示す。inset の影はスクロールしても位置が変わらない。 */
+      .zukan-price .model-table-wrap {
+        box-shadow: inset -14px 0 12px -12px rgb(0 0 0 / 0.28);
+      }
+    }
+  </style>
 </BaseLayout>

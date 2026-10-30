@@ -6,6 +6,24 @@
 .reading-path__details summary { cursor: pointer; padding-block: .6rem; min-height: 44px; }
 .reading-path__details p { margin: .6rem 0; }
 .reading-path__details a { display: inline-block; padding-block: .5rem; }
+
+/* ルートの記事一覧は、モバイルでは閉じた状態から始める（JSで初期状態を制御）。 */
+.reading-path__pages-details { margin: 0 0 1rem; }
+.reading-path__pages-details summary { display: flex; align-items: center; gap: .6rem; cursor: pointer; min-height: 44px; padding-block: .5rem; font-weight: 600; font-size: .9375rem; color: var(--ink); }
+/* display:flex にすると既定の三角マーカーが消えるため、開閉できることを記号で示す。 */
+.reading-path__pages-details summary::after,
+.reading-path__details summary::after { content: '＋'; margin-left: auto; color: var(--ink-mute); font-weight: 600; }
+.reading-path__pages-details[open] summary::after,
+.reading-path__details[open] summary::after { content: '−'; }
+.reading-path__pages-details[open] summary { border-bottom: 1px solid var(--line); margin-bottom: .35rem; }
+.reading-path__pages-details .reading-path__pages { margin-bottom: .5rem; }
+
+/* 前提記事は1行1リンクにして、下線付きの長い文が続く状態を避ける。 */
+.reading-path__before { margin: .45rem 0 0; padding: 0; list-style: none; font-size: .75rem; line-height: 1.8; color: var(--ink-mute); }
+.reading-path__before li { margin: .15rem 0; }
+.reading-path__before li:first-child { margin-bottom: .25rem; }
+.reading-path__before a { color: var(--link); }
+.reading-path__before span { display: block; color: var(--ink-mute); }
 .reading-route { border: 1px solid var(--line); border-left: 3px solid var(--link); border-radius: var(--radius); padding: 1rem 1.15rem; background: var(--accent-wash); margin: 0 0 1.5rem; }
 .reading-route p { margin: 0; }
 .reading-route__position { font-size: .75rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }

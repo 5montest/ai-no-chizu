@@ -1,18 +1,24 @@
 ---
+import { planMonthlyCell, tokenRateCell, usageChargeCell } from '../../lib/compare-prices';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import zukanJson from '../../../data/zukan.json';
+import pricingJson from '../../../data/zukan-pricing.json';
+import modelComparisonJson from '../../../data/model-comparison.json';
 import {
   AVAILABILITY_LABELS,
   VERIFICATION_LABELS,
+  buildPriceIndex,
   compareEntities,
   groupByKind,
   entitySearchText,
 } from '../../lib/zukan.mjs';
 import { withBase } from '../../lib/site.mjs';
-import type { Zukan, ZukanEntity, ZukanTerm } from '../../lib/zukan-types';
+import type { ModelComparison, Zukan, ZukanEntity, ZukanPricing, ZukanTerm } from '../../lib/zukan-types';
 
 const zukan = zukanJson as unknown as Zukan;
+const pricing = pricingJson as unknown as ZukanPricing;
+const modelComparison = modelComparisonJson as unknown as ModelComparison;
 const groups = groupByKind(zukan.entities, zukan.kinds);
 
 const COST_MODEL_LABELS: Record<string, string> = {
@@ -40,6 +46,21 @@ const ENVIRONMENT_LABELS: Record<string, string> = {
   'api-official': '提供元の公式API',
   'api-reseller': '再販事業者のAPI',
 };
+// 「よく比べる組み合わせ」。空の比較画面で、何を比べればよいかの手掛かりにする。
+// id は必ず zukan.json に存在するものだけを書く（存在しない id は JS 側で捨てられる）。
+const PRESETS: Array<{ label: string; ids: string[] }> = [
+  { label: 'OpenAIの基盤モデル4件', ids: ['gpt-6-astra', 'gpt-6-1-sol', 'gpt-6-1-terra', 'gpt-6-luna'] },
+  { label: 'Claudeの個人プラン3件', ids: ['claude-free', 'claude-pro', 'claude-max'] },
+  { label: 'CLIハーネス4件', ids: ['claude-code', 'codex-cli', 'opencode', 'gemini-cli'] },
+  { label: 'ChatGPTの料金プラン3件', ids: ['chatgpt-free', 'chatgpt-plus', 'chatgpt-pro-200'] },
+  { label: '音声・文字起こし3件', ids: ['gpt-transcribe', 'gpt-realtime-2-1-mini', 'whisper-local'] },
+  { label: '画像・OCR・埋め込み3件', ids: ['gpt-image-2', 'mistral-ocr-4-1', 'text-embedding-3-small'] },
+];
+const presetHref = (ids: string[]): string =>
+  `${withBase('/zukan/compare/')}?${ids.map((id) => `ids=${encodeURIComponent(id)}`).join('&')}`;
+
+const priceIndex = buildPriceIndex({ pricing, modelComparison });
+const NOT_APPLICABLE = '—（対象外）';
 
 const labelMap = (items: ZukanTerm[]): Map<string, string> =>
   new Map(items.map((item): [string, string] => [item.id, item.label]));
@@ -80,6 +101,9 @@ const strengthText = (entity: ZukanEntity): string => {
 
 // 行は「どの分類にも共通して聞けること」だけにする。
 // 片方の分類にしか無い項目を並べると、空欄が「できない」と読めてしまう。
+// 金額は単位が違うため、月額・トークン単価（入力/出力）・用途別の従量単価で行を分ける。
+// 分類上その行を持たない項目は「未記録」ではなく「—（対象外）」と書き、行自体は
+// 選択した項目のどれか1つでも値を持つときだけ表示する（JS側で判定）。
 const ROWS = [
   { key: 'kindLabel', label: '分類' },
   { key: 'vendor', label: '提供元' },
@@ -91,6 +115,10 @@ const ROWS = [
   { key: 'access', label: '利用できる経路' },
   { key: 'modalities', label: '入出力' },
   { key: 'cost', label: '料金体系' },
+  { key: 'planMonthly', label: '月額（プラン）' },
+  { key: 'inputRate', label: '従量 入力単価' },
+  { key: 'outputRate', label: '従量 出力単価' },
+  { key: 'usageCharges', label: '従量単価（用途別）' },
   { key: 'requires', label: '必要なもの' },
   { key: 'strengths', label: '得意なこと' },
   { key: 'cautions', label: '向かないこと・注意' },
@@ -104,6 +132,16 @@ const kindOf = (entity: ZukanEntity): ZukanTerm | undefined =>
 
 const recordOf = (entity: ZukanEntity) => {
   const kind = kindOf(entity);
+  const planMonthly = planMonthlyCell(entity.id, pricing);
+  const inputRate = tokenRateCell(entity.id, 'input', priceIndex);
+  const outputRate = tokenRateCell(entity.id, 'output', priceIndex);
+  const usageCharges = usageChargeCell(entity, pricing);
+  // 対象外の行を「未記録」と書くと、記録漏れと区別できない。分類上の持ち物が違うだけなので分ける。
+  const planMonthlyText = planMonthly?.text ?? (entity.kind === 'plan' ? '未記録' : NOT_APPLICABLE);
+  const inputRateText = inputRate?.text ?? (entity.kind === 'model' ? '未記録' : NOT_APPLICABLE);
+  const outputRateText = outputRate?.text ?? (entity.kind === 'model' ? '未記録' : NOT_APPLICABLE);
+  const usageChargesText =
+    usageCharges?.text ?? (entity.kind === 'specialized-model' ? '未記録' : NOT_APPLICABLE);
   return {
     display_name: entity.display_name,
     kind: entity.kind,
@@ -133,12 +171,23 @@ const recordOf = (entity: ZukanEntity) => {
         ...(entity.output_modalities ?? []).map((id) => `出力 ${MODALITY_LABELS[id] ?? id}`),
       ]),
       cost: COST_MODEL_LABELS[entity.cost_model] ?? '料金体系 未確認',
+      planMonthly: planMonthlyText,
+      inputRate: inputRateText,
+      outputRate: outputRateText,
+      usageCharges: usageChargesText,
       requires: joinOrNone(entity.requires),
       strengths: strengthText(entity),
       cautions: cautionText(entity),
       modelIds: modelIdText(entity),
       context: contextText(entity),
       checked: entity.last_checked_at,
+    },
+    // 金額セルの下に小さく添える行。単位・税・取得日・公式/再販の区分。
+    notes: {
+      planMonthly: planMonthly?.meta ?? '',
+      inputRate: inputRate?.meta ?? '',
+      outputRate: outputRate?.meta ?? '',
+      usageCharges: usageCharges?.meta ?? '',
     },
   };
 };
@@ -168,12 +217,13 @@ const payload = {
   layerNotes,
   kindLabels: Object.fromEntries(zukan.kinds.map((kind) => [kind.id, kind.label])),
   max: 6,
+  notApplicable: NOT_APPLICABLE,
 };
 ---
 
 <BaseLayout
   title="AI図鑑の比較"
-  description="AI図鑑に登録した製品を2件以上選び、分類・用途・料金体系・確認日を横に並べて見くらべるページです。"
+  description="AI図鑑に登録した製品を2件以上選び、分類・用途・月額や従量単価・確認日を横に並べて見くらべるページです。"
 >
   <div class="page">
     <div class="shell">
@@ -195,7 +245,18 @@ const payload = {
             <label>名前・提供元で探す<input type="search" data-compare-search placeholder="例：GPT、Claude、DeepSeek" autocomplete="off" /></label>
             <label>分類<select data-compare-kind><option value="all">すべて</option>{zukan.kinds.map(kind => <option value={kind.id}>{kind.label}</option>)}</select></label>
           </div>
+          <div class="compare-empty" data-compare-empty>
+            <p class="compare-empty__lead">
+              2件以上を選ぶと、ここに比較表が出ます。まずは次の組み合わせから試せます。
+            </p>
+            <div class="compare-empty__presets" role="group" aria-label="よく比べる組み合わせ">
+              {PRESETS.map((preset) => (
+                <a class="chip" href={presetHref(preset.ids)}>{preset.label}</a>
+              ))}
+            </div>
+          </div>
           <p data-compare-visible class="compare-count" aria-live="polite"></p>
+          <p class="compare-hidden-note" data-compare-hidden hidden></p>
           {groups.map((group) => (
             <fieldset class="compare-fieldset" data-compare-group data-kind={group.kind.id}>
               <legend>
@@ -219,15 +280,14 @@ const payload = {
           ))}
 
           <div class="compare-actions">
-            <button class="btn" type="submit" data-compare-submit disabled>比較する</button>
+            <button class="btn" type="submit" data-compare-submit disabled>比較表を見る</button>
             <button class="btn btn--ghost" type="button" data-compare-reset>選択を解除する</button>
-            <span class="compare-count" data-compare-status aria-live="polite">0件を選んでいます</span>
+            <span class="compare-count" data-compare-status aria-live="polite">選択中 0/6件</span>
+            <span class="compare-limit">最大6件まで選べます。7件目以降は選べません。すでに選んだ6件はそのまま残ります。</span>
           </div>
         </form>
 
-        <p class="compare-message" data-compare-message aria-live="polite">
-          項目を2つ以上選ぶと、ここに比較表を表示します。
-        </p>
+        <p class="compare-message" data-compare-message aria-live="polite"></p>
 
         <div class="compare-result" data-compare-root tabindex="-1" role="region" aria-label="比較結果"></div>
 
@@ -242,11 +302,14 @@ const payload = {
           <h2>比較表の読み方</h2>
           <p>
             「未記録」は、その項目の記載がまだ無いことを表します。「未確認」は、確認を試みたものの公式の記載が
-            見つからなかったことを表します。どちらも「使えない」「0円」という意味ではありません。
+            見つからなかったことを表します。「—（対象外）」は、その分類では記録しない項目です。
+            どれも「使えない」「0円」という意味ではありません。
           </p>
           <p>
-            料金体系は各項目の記録だけを示し、金額はここには出しません。金額・通貨・税の扱いは項目ごとに確認日が
-            違うため、<a href={withBase('/zukan/')}>一覧</a>から個別のページで確認してください。
+            金額は「月額（プラン）」「従量 入力単価」「従量 出力単価」「従量単価（用途別）」に行を分けて表示します。
+            単位が異なる金額には、それぞれの単位と条件を添え、税の扱い・取得日・公式か再販かも示します。
+            月額はプランの契約金額、従量単価はAPI利用時の100万トークンあたりなどの単価で、両者を足した総額は表示していません。
+            金額の記録が無いセルは「未記録」です。詳しい条件は<a href={withBase('/zukan/')}>一覧</a>から個別のページで確認してください。
           </p>
         </section>
       </div>
@@ -260,6 +323,8 @@ const payload = {
     const messageEl = document.querySelector('[data-compare-message]');
     const root = document.querySelector('[data-compare-root]');
     const resetButton = document.querySelector('[data-compare-reset]');
+    const emptyEl = document.querySelector('[data-compare-empty]');
+    const hiddenNoteEl = document.querySelector('[data-compare-hidden]');
 
     const known = new Set(Object.keys(payload.entities));
 
@@ -275,10 +340,39 @@ const payload = {
       return seen.slice(0, payload.max);
     };
 
-    const cell = (text) => {
+    // 金額セルは、金額（text）と、単位・税・取得日・公式/再販（meta）を分けて出す。
+    // 1つのセルに詰め込むと読めなくなるため、meta は小さく下に置く。
+    const cell = (text, meta) => {
       const td = document.createElement('td');
-      td.textContent = text;
+      const main = document.createElement('span');
+      main.textContent = text;
+      td.append(main);
+      if (meta) {
+        const note = document.createElement('span');
+        note.className = 'compare-cell__meta';
+        note.textContent = meta;
+        td.append(note);
+      }
       return td;
+    };
+
+    /** 選択件数と上限の表示は1か所にまとめる。候補数とは別の行に書く。 */
+    const selectionText = (count) => {
+      if (count >= payload.max) return `選択中 ${count}/${payload.max}件（上限）`;
+      return `選択中 ${count}/${payload.max}件（あと${payload.max - count}件）`;
+    };
+
+    /** 絞り込みで隠れている選択済み項目の件数を、操作位置の近くに出す。 */
+    const updateHiddenNote = () => {
+      if (!hiddenNoteEl) return;
+      const hiddenSelected = checkboxes.filter(
+        (box) => box.checked && box.closest('[data-compare-choice]')?.hidden,
+      ).length;
+      hiddenNoteEl.hidden = hiddenSelected === 0;
+      hiddenNoteEl.textContent =
+        hiddenSelected > 0
+          ? `絞り込みで隠れている選択済みの項目が${hiddenSelected}件あります。比較表には含まれます。`
+          : '';
     };
 
     function render(ids) {
@@ -288,13 +382,16 @@ const payload = {
       document.body.classList.toggle('has-compare-tray', selected);
       document.querySelector('[data-compare-submit]').disabled = ids.length < 2;
       try { sessionStorage.setItem('ai-map-compare', JSON.stringify(ids)); } catch { /* 保存は任意 */ }
-      if (statusEl) statusEl.textContent = `${ids.length}件を選んでいます`;
+      if (statusEl) statusEl.textContent = selectionText(ids.length);
+      if (emptyEl) emptyEl.hidden = ids.length >= 2;
+      updateHiddenNote();
 
       if (ids.length < 2) {
         if (messageEl) {
+          // 未選択のときは上の空状態パネルが説明するので、ここでは繰り返さない。
           messageEl.textContent =
             ids.length === 0
-              ? '項目を2つ以上選ぶと、ここに比較表を表示します。'
+              ? ''
               : 'あと1つ選ぶと比較できます。同じ分類の中から選ぶと、役割が近いもの同士で比べられます。';
         }
         return;
@@ -308,7 +405,18 @@ const payload = {
 
       if (messageEl) messageEl.textContent = note ?? '';
 
+      // 選択した項目のどれか1つでも値を持つ行だけを出す。分類上持たない行（例：モデルだけを
+      // 選んだときの「月額（プラン）」）は、丸ごと省いて表を短くする。
+      const rows = payload.rows.filter((row) =>
+        ids.some((id) => (payload.entities[id].values[row.key] ?? '') !== payload.notApplicable),
+      );
+
       const heading = document.createElement('h2');heading.className = 'compare-result__title';heading.textContent = `比較結果 · ${ids.length}件`;root.append(heading);
+
+      const hint = document.createElement('p');
+      hint.className = 'compare-scroll-hint';
+      hint.textContent = '横にスクロールできます。金額の行は、単位・税・取得日・公式/再販を各セルの下に添えています。';
+      root.append(hint);
 
       const wrap = document.createElement('div');
       wrap.className = 'model-table-wrap';
@@ -317,7 +425,7 @@ const payload = {
 
       const caption = document.createElement('caption');
       caption.className = 'compare-caption';
-      caption.textContent = `${ids.length}件を並べています。空欄は作らず、記録が無い項目は「未記録」と書いています。`;
+      caption.textContent = `${ids.length}件を並べています。空欄は作らず、記録が無い項目は「未記録」、分類上持たない項目は「—（対象外）」と書いています。横にスクロールできます。`;
       table.append(caption);
 
       const thead = document.createElement('thead');
@@ -344,14 +452,15 @@ const payload = {
       table.append(thead);
 
       const tbody = document.createElement('tbody');
-      for (const row of payload.rows) {
+      for (const row of rows) {
         const tr = document.createElement('tr');
         const th = document.createElement('th');
         th.scope = 'row';
         th.textContent = row.label;
         tr.append(th);
         for (const id of ids) {
-          tr.append(cell(payload.entities[id].values[row.key] ?? '未記録'));
+          const entity = payload.entities[id];
+          tr.append(cell(entity.values[row.key] ?? '未記録', entity.notes?.[row.key]));
         }
         tbody.append(tr);
       }
@@ -360,7 +469,7 @@ const payload = {
       root.append(wrap);
       // スマホでは項目ごとに製品を並べ、横に往復しなくても読めるようにする。
       const cards = document.createElement('div');cards.className = 'compare-mobile';
-      for (const row of payload.rows) {
+      for (const row of rows) {
         const section = document.createElement('section');
         const heading = document.createElement('h3');heading.textContent = row.label;
         const values = document.createElement('dl');
@@ -369,7 +478,17 @@ const payload = {
           const pair = document.createElement('div');
           const name = document.createElement('dt');
           const link = document.createElement('a');link.href = entity.href;link.textContent = entity.display_name;name.append(link);
-          const value = document.createElement('dd');value.textContent = entity.values[row.key] ?? '未記録';
+          const value = document.createElement('dd');
+          const main = document.createElement('span');
+          main.textContent = entity.values[row.key] ?? '未記録';
+          value.append(main);
+          const metaText = entity.notes?.[row.key];
+          if (metaText) {
+            const note = document.createElement('span');
+            note.className = 'compare-cell__meta';
+            note.textContent = metaText;
+            value.append(note);
+          }
           pair.append(name, value);values.append(pair);
         }
         section.append(heading, values);cards.append(section);
@@ -407,7 +526,8 @@ const payload = {
         }
         group.hidden = shown === 0;count += shown;
       }
-      document.querySelector('[data-compare-visible]').textContent = count ? `${count}件の候補 · 最大${payload.max}件まで選べます` : '一致する候補がありません。検索語や分類を変えてください。';
+      document.querySelector('[data-compare-visible]').textContent = count ? `候補 ${count}件` : '一致する候補がありません。検索語や分類を変えてください。';
+      updateHiddenNote();
     };
     search.addEventListener('input', filter);kindFilter.addEventListener('change', filter);filter();
     const initial = readIds();
@@ -421,7 +541,7 @@ const payload = {
       if (currentIds().length > payload.max) {
         event.target.checked = false;
         render(currentIds());
-        statusEl.textContent = `比較できるのは${payload.max}件までです`;
+        if (statusEl) statusEl.textContent = `選択中 ${payload.max}/${payload.max}件（上限）。${payload.max}件を超えては選べません。`;
         return;
       }
       const selected = currentIds();
@@ -439,6 +559,94 @@ const payload = {
       syncCheckboxes([]);
       updateUrl([]);
       render([]);
+      filter();
     });
   </script>
+
+  <style>
+    /* JS が組み立てる表のセルにも効くよう、テンプレート内の .compare-result から :global で指す。 */
+    .compare-result :global(.compare-cell__meta) {
+      display: block;
+      margin-top: 0.25rem;
+      color: var(--ink-mute);
+      font-size: 0.7rem;
+      font-weight: 400;
+      line-height: 1.55;
+    }
+
+    /* 横スクロールの手掛かり。スマホはカード表示なので案内を出さない。 */
+    .compare-result :global(.compare-scroll-hint) {
+      margin: 0 0 0.4rem;
+      color: var(--ink-mute);
+      font-size: 0.75rem;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 640px) {
+      .compare-result :global(.compare-scroll-hint) {
+        display: none;
+      }
+    }
+
+    /* 行見出しと見出し行の先頭セルを左端に固定し、横スクロール中も「いま何の行か」を残す。 */
+    .compare-result :global(.compare-table thead th:first-child),
+    .compare-result :global(.compare-table tbody th) {
+      position: sticky;
+      left: 0;
+      background: var(--plate);
+    }
+
+    .compare-result :global(.compare-table tbody th) {
+      z-index: 1;
+      box-shadow: 1px 0 0 var(--line);
+    }
+
+    .compare-result :global(.compare-table thead th:first-child) {
+      top: 0;
+      z-index: 3;
+      background: var(--paper-2);
+      box-shadow: 1px 0 0 var(--line);
+    }
+
+    /* 空状態と、よく比べる組み合わせのチップ。候補一覧の上で、何を比べるかの手掛かりを出す。 */
+    .compare-empty {
+      margin: 0 0 1rem;
+      padding: 0.9rem 1rem;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius);
+      background: var(--paper-2);
+    }
+
+    .compare-empty__lead {
+      margin: 0 0 0.6rem;
+      color: var(--ink-soft);
+      font-size: 0.875rem;
+      line-height: 1.8;
+    }
+
+    .compare-empty__presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .compare-hidden-note {
+      margin: 0.25rem 0 0.6rem;
+      color: var(--warn);
+      font-size: 0.8125rem;
+      line-height: 1.7;
+    }
+
+    .compare-limit {
+      color: var(--ink-mute);
+      font-size: 0.75rem;
+      line-height: 1.6;
+    }
+
+    /* 画面下に固定されるときは、長い上限説明を隠して1〜2行に収める。
+       上限の説明は上の操作ボタン付近に出ているので、情報は失われない。 */
+    :global(.compare-actions.is-floating) .compare-limit {
+      display: none;
+    }
+  </style>
 </BaseLayout>

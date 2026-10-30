@@ -13,6 +13,40 @@ const confusingPairs = [
 const categories = glossary.categories;
 const terms = [...glossary.terms].sort((a, b) => a.reading.localeCompare(b.reading, 'ja'));
 const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
+
+// 読みの頭で「あ行／か行…／英字」に分ける。カタカナの読みはひらがなに直してから判定する。
+const toHiragana = (value: string): string =>
+  String(value ?? '')
+    .normalize('NFKC')
+    .replace(/[\u30a1-\u30f6]/g, (char) => String.fromCharCode(char.charCodeAt(0) - 0x60));
+
+const rowOf = (reading: string): string => {
+  const first = toHiragana(reading).charAt(0);
+  if ('あいうえお'.includes(first)) return 'あ行';
+  if ('かきくけこがぎぐげご'.includes(first)) return 'か行';
+  if ('さしすせそざじずぜぞ'.includes(first)) return 'さ行';
+  if ('たちつてとだぢづでど'.includes(first)) return 'た行';
+  if ('なにぬねの'.includes(first)) return 'な行';
+  if ('はひふへほばびぶべぼぱぴぷぺぽ'.includes(first)) return 'は行';
+  if ('まみむめも'.includes(first)) return 'ま行';
+  if ('やゆよ'.includes(first)) return 'や行';
+  if ('らりるれろ'.includes(first)) return 'ら行';
+  if ('わをん'.includes(first)) return 'わ行';
+  return '英字・その他';
+};
+
+const ROW_ORDER = ['あ行', 'か行', 'さ行', 'た行', 'な行', 'は行', 'ま行', 'や行', 'ら行', 'わ行', '英字・その他'];
+
+// 五十音順。読みはひらがな・カタカナが混ざっているので、ひらがなに直したキーで並べる。
+const sortedTerms = [...glossary.terms].sort((a, b) => {
+  const keyA = toHiragana(a.reading);
+  const keyB = toHiragana(b.reading);
+  return keyA.localeCompare(keyB, 'ja') || a.term.localeCompare(b.term, 'ja');
+});
+const rows = ROW_ORDER.map((label) => ({
+  label,
+  terms: sortedTerms.filter((term) => rowOf(term.reading) === label),
+})).filter((row) => row.terms.length > 0);
 ---
 
 <BaseLayout title="用語辞典" description={`AI・LLM・エージェント・評価に関する${terms.length}語を、「ひとこと」「厳密には」「よくある誤解」で整理した用語辞典。`}>
@@ -52,24 +86,32 @@ const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
 
       <p class="glossary-count" data-glossary-count aria-live="polite">{terms.length}語を表示中</p>
 
-      <div class="glossary-grid" data-glossary-grid>
-        {terms.map((term) => (
-          <a
-            class="term-card"
-            href={withBase(`/glossary/${term.slug}/`)}
-            data-term
-            data-cat={term.category}
-            data-search={`${term.term} ${term.reading} ${term.aliases.join(' ')} ${term.short} ${term.strict} ${term.example}`}
-          >
-            <span class="term-card__cat"><GuideIcon name={categoryIcons[term.category] ?? 'book'} size={18} /> {labelOf[term.category]}</span>
-            <span class="term-card__term">{term.term}</span>
-            <p class="term-card__short">{term.short}</p>
-          </a>
+      <div data-glossary-groups>
+        {rows.map((row) => (
+          <section class="glossary-row" data-glossary-row>
+            <h2 class="glossary-row__head">{row.label}</h2>
+            <div class="glossary-grid">
+              {row.terms.map((term) => (
+                <a
+                  class="term-card"
+                  href={withBase(`/glossary/${term.slug}/`)}
+                  data-term
+                  data-cat={term.category}
+                  data-search={`${term.term} ${term.reading} ${term.aliases.join(' ')} ${term.short} ${term.strict} ${term.example}`}
+                >
+                  <span class="term-card__cat"><GuideIcon name={categoryIcons[term.category] ?? 'book'} size={18} /> {labelOf[term.category]}</span>
+                  <span class="term-card__term">{term.term}</span>
+                  <span class="term-card__reading">{term.reading}</span>
+                  <p class="term-card__short">{term.short}</p>
+                </a>
+              ))}
+            </div>
+          </section>
         ))}
-        <p class="empty-state" data-glossary-empty hidden>
-          条件に一致する用語がありません。別の言葉で試してください。
-        </p>
       </div>
+      <p class="empty-state" data-glossary-empty hidden>
+        条件に一致する用語がありません。別の言葉で試してください。
+      </p>
     </div>
   </div>
 
@@ -77,6 +119,7 @@ const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
     const input = document.querySelector<HTMLInputElement>('[data-glossary-search]');
     const chips = [...document.querySelectorAll<HTMLButtonElement>('button[data-cat]')];
     const cards = [...document.querySelectorAll<HTMLElement>('[data-term]')];
+    const rows = [...document.querySelectorAll<HTMLElement>('[data-glossary-row]')];
     const count = document.querySelector<HTMLElement>('[data-glossary-count]');
     const empty = document.querySelector<HTMLElement>('[data-glossary-empty]');
     let category = 'all';
@@ -94,6 +137,13 @@ const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
         card.hidden = !show;
         if (show) visible += 1;
       }
+      // 行見出しは、その行に1枚でも表示中のカードがあるときだけ出す。
+      for (const row of rows) {
+        const shown = [...row.querySelectorAll<HTMLElement>('[data-term]')].filter(
+          (card) => !card.hidden,
+        ).length;
+        row.hidden = shown === 0;
+      }
       if (count) count.textContent = `${visible}語を表示中`;
       if (empty) empty.hidden = visible !== 0;
     }
@@ -107,4 +157,30 @@ const labelOf = Object.fromEntries(categories.map((c) => [c.id, c.label]));
       });
     });
   </script>
+
+  <style>
+    /* 読みの行見出し。121語をスクロールで探せるよう、あ行・か行…で区切る。 */
+    .glossary-row {
+      margin: 0 0 1.5rem;
+    }
+
+    .glossary-row__head {
+      margin: 0 0 0.6rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-soft);
+      font-size: 0.9375rem;
+      font-weight: 700;
+    }
+
+    /* カードに読みを添える。並び順の意味が分かるようにする。 */
+    .term-card__reading {
+      display: block;
+      margin-top: 0.1rem;
+      color: var(--ink-mute);
+      font-size: 0.75rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+  </style>
 </BaseLayout>

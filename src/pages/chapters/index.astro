@@ -44,6 +44,15 @@ const basicChapters = publishedChapters.filter((c) => c.part <= 6);
       </div>
 
       <p class="article-reading-note">初めての方は<a href={withBase('/start/')}>学習ルート</a>から目的の近いものを選べます。第27章以降は、CLIや開発ツールを使う演習を含むため、ターミナルとGitの操作を前提にしています。</p>
+      {/* 32章を縦にたどる前に、部の見出しへ直接移動できるようにする。 */}
+      <nav class="part-jumps" aria-label="部の一覧">
+        {curriculum.parts.map((part) => (
+          <a href={`#part-${part.id}`}>
+            <span aria-hidden="true">{part.roman}</span>
+            {part.title}
+          </a>
+        ))}
+      </nav>
       <div class="contents">
         {curriculum.parts.map((part) => (
           <section aria-labelledby={`part-${part.id}`}>

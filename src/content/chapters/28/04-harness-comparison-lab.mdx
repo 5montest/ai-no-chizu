@@ -60,7 +60,7 @@ sources:
 import DeepDive from '../../../components/DeepDive.astro';
 import Callout from '../../../components/Callout.astro';
 
-ここまでの3記事で、比べる観点、記録の列、製品の実名がそろいました。この記事では、実際に手を動かします。同じ依頼を2つのハーネスに出し、記録と差分パッチを残します。
+ここまでの3記事（[比べる観点](/chapters/28/01-harness-axes/)、[記録の列](/chapters/28/02-experiment-log/)、[製品の実名](/chapters/28/03-harness-field-guide/)）で、比べる観点、記録の列、製品の実名がそろいました。この記事では、実際に手を動かします。同じ依頼を2つのハーネスに出し、記録と差分パッチを残します。
 
 使うのは、この演習のために作る害のないリポジトリです。本番のリポジトリや、秘密情報の入ったフォルダでは行わないでください。有料 API を新たに契約する必要もありません。すでに使える契約の範囲で、2回ずつ実行します。
 
@@ -74,6 +74,8 @@ mkdir -p ~/harness-work/runs ~/harness-work/results/patches
 cd ~/harness-work/harness-lab
 git init
 ```
+
+**Windows の PowerShell では読み替えが必要です。** この記事のコマンドは macOS / Linux / WSL の bash 前提で書いています。`mkdir -p` は `New-Item -ItemType Directory -Force`、`BASE=$(git rev-parse HEAD)` は `$BASE = git rev-parse HEAD`、`~/` は `$HOME` に読み替えてください。
 
 できあがる形は、次のとおりです。
 
@@ -352,6 +354,13 @@ git -C "$R" diff -- README.md > ~/harness-work/results/patches/harness-a-1.patch
 演習用リポジトリの作成、テストが失敗する状態の確認、README を追記したあとに2件とも通ることの確認を行いました。開始コミットから worktree を作る手順、`git status --porcelain --untracked-files=all` が空になること、保存したパッチを別の worktree に当てて再び2件通ることも確認しました。これらは、このサイトの作成環境（Node.js v24.22.1、Linux、Git）で実行しました。差分はそのときの出力です。
 
 8製品のハーネスを使った実行は、この環境では行っていません。**未実機確認**です。手順は各製品の公式ドキュメントで確認した範囲で書いていますが、画面表示と確認回数は、あなたの環境とバージョンによって変わります。
+
+<Callout type="note" title="このページのまとめ">
+- **土台を固定する**：無害な演習用リポジトリを作り、テストが失敗する状態をコミットします。このコミットがすべての試行の開始地点です。
+- **試行ごとに場所を分ける**：`git restore` で戻さず、試行ごとに worktree を作ります。差分は未追跡ファイルも含めて確認します。
+- **条件を五つ決める**：開始コミット・依頼文・評価条件・タイムアウト・繰り返し回数。実行のたびに変えると並べられません。
+- **2本立てで比べる**：A（モデルまで固定）と B（標準構成）をログの列で区別します。2回の結果から性能ランキングは出しません。
+</Callout>
 
 <DeepDive title="記録の雛形と、再現チェックリスト" tag="試す人向け">
 

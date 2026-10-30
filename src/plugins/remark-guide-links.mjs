@@ -37,8 +37,9 @@ function loadGuide() {
       const rel = String(file).split(path.sep).join('/');
       const id = rel.replace(/\.mdx$/, '');
       const source = fs.readFileSync(path.join(contentRoot, rel), 'utf8');
-      const fm = source.match(/^---\n([\s\S]*?)\n---/);
-      const title = fm?.[1].match(/^title:\s*["']?(.+?)["']?\s*$/m)?.[1];
+      // Windows で CRLF のままチェックアウトしても本文タイトルを拾えるようにする。
+      const fm = source.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+      const title = fm?.[1].match(/^title:\s*["']?(.+?)["']?\r?\s*$/m)?.[1];
       if (title) pages.set(id, title);
     }
   }
