@@ -61,8 +61,13 @@
 
   --shell: 1180px;
   /* 図表・表・コードも地の文も同じ幅まで使う。行長はこの --measure で決まり、
-     記事の器いっぱいに広がる。--shell から左の列と余白を引いた幅に収まる範囲で取る。 */
-  --measure: 54em;
+     記事の器いっぱいに広がる。--shell から左の列と余白を引いた幅に収まる範囲で取る。
+     日本語の本文は1行40字前後が読みやすいとされるため、以前の 54em（約52字）から
+     44em（約44字）へ詰め、文字サイズを1.125remへ上げて読みやすさを優先した。
+     --measure は本文の文字サイズ基準（1.125rem）で解釈されるため、
+     器の幅は root 基準の --measure-width で別に持つ。 */
+  --measure: 44em;
+  --measure-width: 50rem;
   --header-h: 56px;
   --radius: 4px;
   --radius-sm: 3px;
@@ -688,7 +693,7 @@ kbd {
   grid-area: main;
   min-width: 0;
   /* 本文と同じ幅にそろえる。クイズや出典の枠だけ広がらないように。 */
-  max-width: var(--measure);
+  max-width: var(--measure-width);
 }
 
 /* 章の入口ページは目次を持たないので、同じ2列のまま本文を広く使う。 */
@@ -702,6 +707,143 @@ kbd {
 .article-body {
   display: block;
 }
+
+/* モバイルの固定「目次」ボタンが最後の行に重ならないよう、本文の下に余白を取る。 */
+@media (max-width: 899px) {
+  .article-body {
+    padding-bottom: 4.5rem;
+  }
+}
+
+/* ---------- 読書の現在地 ---------- */
+/* 長いページで「あとどれくらいか」が分かるよう、上端に細い進捗線を出す。 */
+.read-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  height: 3px;
+  pointer-events: none;
+}
+
+.read-progress > span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--link);
+  transition: width 0.1s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .read-progress > span {
+    transition: none;
+  }
+}
+
+/* モバイルは目次が画面上端に流れて消えるため、読み進めたら固定のボタンで開き直せるようにする。 */
+.mobile-toc {
+  position: fixed;
+  right: max(0.9rem, env(safe-area-inset-right));
+  bottom: max(0.9rem, env(safe-area-inset-bottom));
+  z-index: 70;
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0.5rem 0.95rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--plate);
+  box-shadow: 0 8px 24px -14px rgb(0 0 0 / 0.5);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.mobile-toc[data-visible="true"] {
+  display: inline-flex;
+}
+
+.mobile-toc svg {
+  width: 16px;
+  height: 16px;
+}
+
+.mobile-toc-dialog {
+  width: min(90vw, 26rem);
+  max-height: 72dvh;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.mobile-toc-dialog::backdrop {
+  background: rgb(0 0 0 / 0.55);
+}
+
+.mobile-toc-dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.mobile-toc-dialog__head h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.mobile-toc-dialog__close {
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--plate);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+}
+
+.mobile-toc-dialog__body {
+  max-height: calc(72dvh - 3.5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0.35rem 0.5rem 0.9rem;
+}
+
+.mobile-toc-dialog__body ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mobile-toc-dialog__body a {
+  display: block;
+  min-height: 44px;
+  padding: 0.7rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.mobile-toc-dialog__body li.depth-3 a {
+  padding-left: 1.7rem;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+}
+
+.mobile-toc-dialog__body a:hover {
+  background: var(--paper-2);
+}
+
 
 /* ---------- chapter rail ---------- */
 .chapter-rail {
@@ -908,7 +1050,8 @@ kbd {
   margin: 0 0 1.1rem;
   max-width: 44em;
   color: var(--ink-soft);
-  font-size: 0.9375rem;
+  /* 冒頭で最初に読む文。本文（1.125rem）と同じ大きさにして、先に目に入るようにする。 */
+  font-size: 1.0625rem;
   line-height: 1.85;
 }
 
@@ -962,7 +1105,7 @@ kbd {
   margin: 0;
   padding-left: 1.1em;
   color: var(--ink-soft);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   line-height: 1.8;
 }
 
@@ -973,34 +1116,77 @@ kbd {
 /* ---------- prose ---------- */
 .prose {
   max-width: var(--measure);
-  font-size: 1rem;
-  line-height: 1.95;
+  /* 1行あたりの日本語を約44字に抑え、文字を大きくする。
+     密度の高いページでも「文字の壁」に見えにくくするための基準。 */
+  font-size: 1.125rem;
+  line-height: 1.85;
   color: var(--ink);
+}
+
+/* スマートフォンは1行の文字数が元から少ないため、文字と行間をわずかに詰めて
+   画面あたりの情報量を戻す（18px/1.85のままだと長い記事がさらに伸びる）。 */
+@media (max-width: 640px) {
+  .prose {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+
+  .prose p {
+    margin: 1em 0;
+  }
+
+  .prose h2 {
+    font-size: 1.375rem;
+  }
+
+  .prose h3 {
+    font-size: 1.125rem;
+  }
+
+  .prose h4 {
+    font-size: 1rem;
+  }
+
+  .summary-box ul {
+    font-size: 0.9375rem;
+  }
+
+  /* 節の切れ目が本文とほぼ同じ大きさにならないよう、h3を少し上げる。 */
+  .prose h3 {
+    font-size: 1.1875rem;
+  }
+
+  .code-block__copy {
+    min-height: 44px;
+  }
 }
 
 .prose > :first-child {
   margin-top: 0;
 }
 
+/* 見出しは本文（1.125rem）より必ず大きくする。本文を18pxにしたのに
+   h3/h4 が本文より小さいままだと、節の切れ目が本文に埋もれるため。 */
 .prose h2 {
-  margin: 2.6em 0 0.7em;
+  margin: 2.9em 0 0.7em;
   padding-top: 0.9em;
   border-top: 1px solid var(--line);
-  font-size: 1.3rem;
+  font-size: 1.55rem;
   line-height: 1.5;
   scroll-margin-top: calc(var(--header-h) + 16px);
 }
 
 .prose h3 {
-  margin: 2em 0 0.5em;
-  font-size: 1.0625rem;
+  margin: 2.1em 0 0.5em;
+  font-size: 1.25rem;
   line-height: 1.6;
   scroll-margin-top: calc(var(--header-h) + 16px);
 }
 
 .prose h4 {
-  margin: 1.6em 0 0.4em;
-  font-size: 0.9375rem;
+  margin: 1.7em 0 0.4em;
+  font-size: 1.0625rem;
+  line-height: 1.7;
   scroll-margin-top: calc(var(--header-h) + 16px);
 }
 
@@ -1012,13 +1198,22 @@ kbd {
 /* 地の文も図表と同じ幅まで使う。以前は段落だけ 44em で絞っていたが、
    図や表の右端と本文の右端がずれて読み進めにくいため、--measure にそろえた。 */
 
+/* 段落の間は行間より少し広く取り、長い本文でも切れ目が見えるようにする。 */
+.prose p {
+  margin: 1.15em 0;
+}
+
 .prose ul,
 .prose ol {
   padding-left: 1.35em;
 }
 
 .prose li {
-  margin: 0.35em 0;
+  margin: 0.45em 0;
+}
+
+.prose li > p {
+  margin: 0.4em 0;
 }
 
 .prose li::marker {
@@ -1054,8 +1249,45 @@ kbd {
   width: 100%;
   margin: 1.5em 0;
   border-collapse: collapse;
-  font-size: 0.875rem;
+  /* 本文を大きくしたぶん、表も読み返しやすい大きさにそろえる。 */
+  font-size: 1rem;
   line-height: 1.7;
+}
+
+/* 表は器の中でだけ横スクロールさせる。390px幅で列が潰れるのを防ぐ。 */
+.table-wrap {
+  position: relative;
+  margin: 1.5em 0;
+}
+
+.table-wrap table {
+  margin: 0;
+}
+
+.table-wrap__hint {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.25rem;
+    /* 続きがあることを示す右端のフェード。切れて見える崩れと区別できるようにする。 */
+    mask-image: linear-gradient(90deg, #000 92%, transparent);
+  }
+
+  .table-wrap table {
+    min-width: 34rem;
+    max-width: none;
+  }
+
+  .table-wrap__hint {
+    display: block;
+    margin: 0 0 0.35rem;
+    font-size: 0.75rem;
+    color: var(--ink-mute);
+  }
 }
 
 .prose th,
@@ -1078,13 +1310,92 @@ kbd {
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------- code blocks ---------- */
+/* CLI・コードを扱うページの主役。本文と同化させず、行と折り返しを保つ。 */
+.prose pre {
+  margin: 1.5em 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  line-height: 1.75;
+  tab-size: 2;
+  white-space: pre;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* コピー操作と言語名を持つ外枠。JSが .astro-code を包んで作る。 */
+.code-block {
+  margin: 1.5em 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.code-block pre {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.code-block__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.3rem 0.5rem 0.3rem 0.9rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper-2);
+}
+
+.code-block__lang {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+
+.code-block__copy {
+  min-height: 32px;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--plate);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.code-block__copy:hover {
+  background: var(--paper-3);
+}
+
+/* shiki の2テーマ出力（light/dark）をサイトのテーマ切り替えに追従させる。 */
+:root[data-theme="dark"] .astro-code,
+:root[data-theme="dark"] .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .astro-code,
+  :root:not([data-theme="light"]) .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+  }
+}
+
 /*
  * 見出しセルの nowrap は、幅の広い画面では表を読みやすくする。
  * しかし日本語の見出しは1語が長く、3〜4列あると表の最小幅が画面幅を超え、
  * 本文ごと横スクロールしてしまう。狭い画面では折り返しを許し、
  * モデルIDやURLのような途中で切れない語も列の中で折る。
  */
-@media (max-width: 760px) {
+/* 2列レイアウトをやめる 899px を境に、表の見出しも折り返しを許す。
+   761〜899px（タブレット縦・小さいノート）で nowrap のまま詰まるのを防ぐ。 */
+@media (max-width: 899px) {
   .prose th {
     white-space: normal;
   }
@@ -1092,7 +1403,7 @@ kbd {
   .prose th,
   .prose td {
     padding: 0.45em 0.55em;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
 }
 
@@ -2077,6 +2388,63 @@ kbd {
   gap: 2.5rem;
 }
 
+/* 章一覧の冒頭に置く部のジャンプ。長い一覧でも目的の部へ直接移れる。 */
+.part-jumps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 2rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.part-jumps a {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  min-height: 40px;
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--plate);
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+}
+
+.part-jumps a:hover {
+  border-color: var(--line-strong);
+  color: var(--ink);
+  background: var(--paper-2);
+}
+
+.part-jumps a span {
+  font-family: var(--font-mono);
+  color: var(--ink-mute);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 899px) {
+  /* 8つの部を縦に積むと本文が始まる前に1画面近く使うため、横スクロールの1行にする。 */
+  .part-jumps {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    mask-image: linear-gradient(90deg, #000 92%, transparent);
+  }
+
+  .part-jumps::-webkit-scrollbar {
+    display: none;
+  }
+
+  .part-jumps a {
+    flex: 0 0 auto;
+  }
+}
+
 .part__head {
   display: grid;
   grid-template-columns: 2.5rem minmax(0, 1fr);
@@ -2105,7 +2473,7 @@ kbd {
   margin: 0.25rem 0 0;
   max-width: 46em;
   color: var(--ink-soft);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.8;
 }
 
@@ -2140,7 +2508,7 @@ a.chapter-row:hover {
 
 .chapter-row__title {
   display: block;
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: 700;
   line-height: 1.6;
 }
@@ -2149,7 +2517,7 @@ a.chapter-row:hover {
   display: block;
   margin-top: 0.15rem;
   color: var(--ink-soft);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.7;
 }
 
@@ -2207,8 +2575,17 @@ a.chapter-row:hover {
 
 .intro__note {
   margin: 1.25rem 0 0;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   color: var(--ink-mute);
+}
+
+/* ヒーローで「誰向けか」を先に示す。ルートカードまで読まなくても判断できるように。 */
+.intro__audience {
+  margin: 1.2rem 0 0;
+  max-width: 46em;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  line-height: 1.9;
 }
 
 .start-list {
@@ -2360,17 +2737,22 @@ a.chapter-row:hover {
   margin: 0;
   max-width: 40em;
   color: var(--ink-soft);
-  font-size: 0.9375rem;
+  font-size: 1.0625rem;
   line-height: 1.85;
 }
 
+/* 章の中心は、要点ボックスと同じ「枠のある面」にして、
+   章入口で最初に目に入る情報として扱う。 */
 .chapter-hero__core {
   margin: 1.25rem 0 0;
-  padding: 0.1rem 0 0.1rem 0.9rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--line);
   border-left: 3px solid var(--note);
+  border-radius: var(--radius);
+  background: var(--plate);
   max-width: 42em;
   color: var(--ink);
-  font-size: 0.9375rem;
+  font-size: 1.0625rem;
   line-height: 1.85;
 }
 
@@ -2385,7 +2767,7 @@ a.chapter-row:hover {
 .chapter-hero__outcome {
   margin: 0.9rem 0 0;
   max-width: 42em;
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.8;
   color: var(--ink-soft);
 }
@@ -2425,7 +2807,7 @@ a.chapter-row:hover {
 
 .page-list .title {
   font-weight: 600;
-  font-size: 0.9375rem;
+  font-size: 1.0625rem;
   line-height: 1.6;
 }
 
@@ -2433,7 +2815,7 @@ a.chapter-row:hover {
   display: block;
   margin-top: 0.1rem;
   color: var(--ink-soft);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.7;
 }
@@ -3155,7 +3537,7 @@ table.axis-table {
 /* ---------- about ---------- */
 .about-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   gap: 1rem;
   margin: 1.5em 0;
 }
@@ -3169,13 +3551,13 @@ table.axis-table {
 
 .about-card h3 {
   margin: 0 0 0.35rem;
-  font-size: 0.9375rem;
+  font-size: 1.0625rem;
 }
 
 .about-card p {
   margin: 0;
   color: var(--ink-soft);
-  font-size: 0.875rem;
+  font-size: 0.9375rem;
   line-height: 1.8;
 }
 
@@ -3426,14 +3808,23 @@ table.axis-table {
   .toc a,
   .toc .depth-3 a {
     margin: 0;
-    padding: 0.28rem 0.7rem;
+    /* 44px 前後のタップ領域を確保する（以前は約29pxで押しにくかった）。 */
+    padding: 0.7rem 0.85rem;
     border: 1px solid var(--line);
     border-radius: 999px;
     background: var(--plate);
     color: var(--ink-soft);
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     line-height: 1.5;
     white-space: nowrap;
+    max-width: min(70vw, 18rem);
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* 目次がまだ右に続くことを、右端のフェードで伝える。 */
+  .toc ol {
+    mask-image: linear-gradient(90deg, #000 88%, transparent);
   }
 
   .toc a.is-active {
@@ -4080,10 +4471,11 @@ table.compare-table {
 .reading-path:nth-child(3) { border-top-color: var(--warn); }
 .reading-path:nth-child(4) { border-top-color: var(--note); }
 .reading-path:nth-child(5) { border-top-color: var(--tip); }
-.reading-path:nth-child(n + 4) { grid-column: span 3; }
+.reading-path:nth-child(6) { border-top-color: var(--myth); }
 .reading-path__label { margin: 0 0 .7rem; font-size: .8125rem; color: var(--ink-mute); }
 .reading-path__label span { font-family: var(--font-mono); color: var(--link); margin-right: .45rem; }
-.reading-path h3 { font-size: 1.125rem; line-height: 1.6; margin: 0 0 .7rem; }
+/* 見出しが2行になるカードと1行のカードで、開始ボタンの位置がそろうようにする。 */
+.reading-path h3 { font-size: 1.125rem; line-height: 1.6; margin: 0 0 .7rem; min-height: 3.2em; }
 .reading-path > p:not(.reading-path__label) { margin: 0 0 1rem; color: var(--ink-soft); font-size: .875rem; line-height: 1.85; }
 .reading-path__link { margin-top: auto; padding-top: .5rem; font-size: .875rem; font-weight: 600; }
 .reading-path__pages { margin: 0 0 1rem; padding-left: 1.3rem; }
@@ -4093,6 +4485,7 @@ table.compare-table {
 .reading-path__pages p { margin: .3rem 0 0; color: var(--ink-soft); font-size: .8125rem; }
 .reading-path__pages .reading-path__before { margin-top: .4rem; color: var(--ink-mute); font-size: .75rem; line-height: 1.8; }
 .reading-path__pages .reading-path__before a { display: inline; justify-content: initial; font-size: inherit; }
+.reading-path__desc { min-height: 4.2em; }
 .reading-path__prereq { display: flex; align-items: baseline; gap: .45rem; }
 .reading-path__prereq span { flex: none; padding: .1rem .4rem; border: 1px solid var(--line-strong); border-radius: 2px; font-size: .6875rem; line-height: 1.6; color: var(--ink-mute); }
 .reading-path__outcome { padding-top: .8rem; border-top: 1px solid var(--line); }
@@ -4139,6 +4532,11 @@ table.compare-table {
 .chapter-visual { margin-block: 1rem 2rem; }
 .article-reading-note { font-size: .8125rem; color: var(--ink-mute); padding: .75rem 0; margin: .25rem 0 1rem; border-top: 1px solid var(--line); line-height: 1.85; }
 .article-reading-note a { white-space: nowrap; }
+
+/* 記事の冒頭で「この章を読み終えたら何ができるか」を示す。
+   要点ボックスの中に1行として置き、枠が二重にならないようにする。 */
+.summary-box__goal { margin: 0 0 .7rem; padding-bottom: .55rem; border-bottom: 1px solid var(--line); font-size: .9375rem; line-height: 1.8; color: var(--ink); }
+.summary-box__goal span { display: block; margin-bottom: .15rem; font-size: .75rem; font-weight: 600; color: var(--ink-mute); }
 /* 本文の段落は、上の要点や表・図と同じ幅で読ませる（従来は 43em で 688px に絞っていた）。 */
 .prose > p,
 .prose .deep-dive__body > p { max-width: none; }
@@ -4154,6 +4552,13 @@ table.compare-table {
 .checklist-group label { display: flex; gap: .7rem; padding: .7rem 0; line-height: 1.85; font-size: .875rem; cursor: pointer; }
 .checklist-group input { margin: .35rem 0 0; flex: none; width: 1.1rem; height: 1.1rem; accent-color: var(--link); }
 .checklist-group > a { font-size: .8125rem; }
+.checklist-group__links { margin: 0; font-size: .8125rem; line-height: 1.9; }
+.checklist-group__links > span { color: var(--ink-mute); }
+.checklist-group__links a { white-space: nowrap; }
+
+@media print {
+  .checklist-group__links { display: none !important; }
+}
 .provider-mark { display: inline-flex; gap: .45rem; align-items: center; font-size: .75rem; color: var(--ink-mute); }
 .provider-mark img { width: 22px; height: 22px; padding: 2px; border-radius: 4px; object-fit: contain; background: white; }
 .zukan-card__provider { margin: 0 0 .65rem; }

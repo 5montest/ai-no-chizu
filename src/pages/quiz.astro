@@ -16,8 +16,17 @@ const pool = entries.flatMap((entry) =>
     chapterTitle: curriculum.chapters.find((c) => c.id === entry.data.chapter)?.shortTitle ?? '',
     pageSlug: entry.id.split('/')[1],
     pageTitle: entry.data.title,
+    // 解説から復習できるよう、出題元のページへのリンク先を問題ごとに持たせる。
+    pageUrl: withBase(`/chapters/${entry.data.chapter}/${entry.id.split('/')[1]}/`),
+    pageLabel: `第${entry.data.chapter}章「${entry.data.title}」`,
   })),
 );
+const chapterStats = chapters
+  .map((chapter) => ({
+    ...chapter,
+    count: pool.filter((q) => q.chapter === chapter.id).length,
+  }))
+  .filter((chapter) => chapter.count > 0);
 const payload = JSON.stringify(pool).replaceAll('<', '\\u003c');
 ---
 
@@ -42,6 +51,17 @@ const payload = JSON.stringify(pool).replaceAll('<', '\\u003c');
         <div class="quiz-setup" data-quiz-setup>
           <h2>出題範囲を選ぶ</h2>
           <p>全範囲からランダムに5問。章を選ぶと、その章の問題だけが出ます。</p>
+          <p class="zukan-note">
+            全{pool.length}問・公開中{chapterStats.length}章から出題します。1回は5問です。
+          </p>
+          <details class="deep-dive">
+            <summary>章別の内訳を見る（{chapterStats.length}章）</summary>
+            <ul class="zukan-list">
+              {chapterStats.map((chapter) => (
+                <li>第{chapter.id}章 {chapter.shortTitle}：{chapter.count}問</li>
+              ))}
+            </ul>
+          </details>
           <div class="quiz-setup__row">
             <label for="quiz-chapter">範囲</label>
             <select id="quiz-chapter" data-quiz-chapter>
@@ -102,18 +122,24 @@ const payload = JSON.stringify(pool).replaceAll('<', '\\u003c');
       return copy;
     }
 
+    function questionsFor(range: string): PoolQuestion[] {
+      const candidates = range === 'all' ? pool : pool.filter((q) => q.chapter === range);
+      return shuffle(candidates).slice(0, 5);
+    }
+
     function begin() {
       if (!root) return;
       const range = select?.value ?? 'all';
-      const candidates = range === 'all' ? pool : pool.filter((q) => q.chapter === range);
-      if (candidates.length === 0) {
+      const questions = questionsFor(range);
+      if (questions.length === 0) {
         window.alert('この範囲にはまだ問題がありません。');
         return;
       }
       setup?.setAttribute('hidden', '');
       session?.removeAttribute('hidden');
       root.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      mountQuiz(root, shuffle(candidates).slice(0, 5), {});
+      // 再挑戦のときも、同じ5問ではなく出題範囲のプールから選び直す。
+      mountQuiz(root, questions, { onRetry: () => questionsFor(range) });
     }
 
     start?.addEventListener('click', begin);
@@ -123,4 +149,14 @@ const payload = JSON.stringify(pool).replaceAll('<', '\\u003c');
       setup?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   </script>
+
+  <style>
+    /* 解説の最後に出す復習リンク。JS が組み立てる要素なので :global で指定する。 */
+    .quiz :global(.quiz__explain-link) {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: var(--link);
+      font-weight: 600;
+    }
+  </style>
 </BaseLayout>

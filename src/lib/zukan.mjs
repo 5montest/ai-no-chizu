@@ -35,6 +35,8 @@ export function entitySearchText(entity) {
     entity.id,
     entity.vendor,
     entity.notes,
+    entity.summary,
+    entity.description,
     ...(entity.strengths ?? []),
     ...(entity.primary_use_cases ?? []),
     ...(entity.aliases ?? []),
@@ -618,6 +620,9 @@ export function toPublicEntity(entity, { kinds = [], pricing = null } = {}) {
     platforms: entity.platforms ?? [],
     cost_model: entity.cost_model,
     last_checked_at: entity.last_checked_at,
+    notes: entity.notes,
+    summary: entity.summary ?? null,
+    description: entity.description ?? null,
     pricing_snapshot_ids: entity.pricing_snapshot_ids ?? [],
     pricing,
   };

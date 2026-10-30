@@ -11,10 +11,15 @@ import { withBase } from '../lib/site.mjs';
         <h1>ページが見つかりません</h1>
         <p>
           URLが変わったか、まだ公開されていないページの可能性があります。
-          章一覧か用語辞典から探してください。
+          検索するか、次の入口から目的のページを探してください。
         </p>
         <div class="hero__actions">
-          <a class="btn" href={withBase('/chapters/')}>章一覧を見る</a>
+          <button class="btn" type="button" data-search-open aria-label="サイト内検索を開く">
+            サイト内を検索する
+          </button>
+          <a class="btn btn--ghost" href={withBase('/zukan/')}>AI図鑑を見る</a>
+          <a class="btn btn--ghost" href={withBase('/start/')}>学習ルートを見る</a>
+          <a class="btn btn--ghost" href={withBase('/chapters/')}>章一覧を見る</a>
           <a class="btn btn--ghost" href={withBase('/glossary/')}>用語辞典を見る</a>
         </div>
       </div>

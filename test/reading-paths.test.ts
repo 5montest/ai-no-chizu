@@ -26,9 +26,9 @@ function listPageIds() {
   );
 }
 
-test('学習ルートのIDは5つで、重複しない', () => {
+test('学習ルートのIDは6つで、重複しない', () => {
   const ids = readingPaths.map((route) => route.id);
-  assert.deepEqual([...ids].sort(), ['build', 'decide', 'learn', 'read', 'use']);
+  assert.deepEqual([...ids].sort(), ['build', 'decide', 'judge', 'learn', 'read', 'use']);
   assert.equal(new Set(ids).size, ids.length, '同じ id のルートがあります');
 });
 
@@ -98,10 +98,10 @@ test('補助リンク（先に読むと分かりやすい記事）も、実在�
   }
 });
 
-test('5つの入口（仕組み・利用・比較・導入・実装）がそろっている', () => {
+test('6つの入口（仕組み・利用・提案・導入・比較・実装）がそろっている', () => {
   // どれか1つが消えると、その目的の読者は入口を失う。
   const ids = new Set<string>(readingPaths.map((route) => route.id));
-  for (const id of ['learn', 'use', 'read', 'decide', 'build']) {
+  for (const id of ['learn', 'use', 'judge', 'read', 'decide', 'build']) {
     assert.ok(ids.has(id), `ルート「${id}」がありません`);
   }
 });

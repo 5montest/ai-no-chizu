@@ -100,6 +100,10 @@ export interface ZukanEntity {
   last_verified_at: string;
   last_checked_at: string;
   notes: string;
+  /** 一覧カードと検索に使う40字程度の要約。「何か／どんな用途に向くか」を書く。 */
+  summary?: string;
+  /** 「これは何か」に出す製品説明。notes が確認メモ（出典・条件）の項目だけに持つ。 */
+  description?: string;
   conditions: string[];
 }
 

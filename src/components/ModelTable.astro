@@ -86,6 +86,8 @@ const unverifiedWeights = data.models.filter((m) => m.open_weights === null).len
     <p class="sr-only" role="status" aria-live="polite" data-table-status></p>
   </div>
 
+  <p class="model-table-hint">横にスクロールできます。右側に入力・出力の単価とコンテキスト長があります。</p>
+
   <div class="model-table-wrap">
     <table class="model-table" data-model-table>
       <caption class="sr-only">
@@ -95,7 +97,6 @@ const unverifiedWeights = data.models.filter((m) => m.open_weights === null).len
         <tr>
           <th scope="col">モデル</th>
           <th scope="col">提供元</th>
-          <th scope="col">位置づけ</th>
           <th scope="col">コンテキスト</th>
           <th scope="col">入力 $/1M</th>
           <th scope="col">出力 $/1M</th>
@@ -113,10 +114,10 @@ const unverifiedWeights = data.models.filter((m) => m.open_weights === null).len
           >
             <td>
               <span class="name">{model.name}</span>
+              <span class="badge">{tierLabel[model.tier]}</span>
               <span class="vendor">{model.id}</span>
             </td>
             <td>{model.vendor}</td>
-            <td><span class="badge">{tierLabel[model.tier]}</span></td>
             <td class="num">{formatContext(model.context)}</td>
             <td class="num">${formatPrice(model.pricing.input)}</td>
             <td class="num price-out">${formatPrice(model.pricing.output)}</td>
@@ -189,3 +190,35 @@ const unverifiedWeights = data.models.filter((m) => m.open_weights === null).len
     }
   }
 </script>
+
+<style>
+  /* 横スクロールの案内。デスクトップでは表が収まるので出さない。 */
+  .model-table-hint {
+    display: none;
+    margin: 0 0 0.4rem;
+    color: var(--ink-mute);
+    font-size: 0.75rem;
+    line-height: 1.7;
+  }
+
+  /* 位置づけは列から外し、モデル名の横のバッジにした。 */
+  .name + .badge {
+    margin-left: 0.4rem;
+  }
+
+  @media (max-width: 640px) {
+    .model-table-hint {
+      display: block;
+    }
+
+    /* 狭い画面では、表の右端にまだ列があることを影で示す。
+       inset の影はスクロール領域の枠に描かれるため、横に動かしても位置が変わらない。 */
+    .model-table-wrap {
+      box-shadow: inset -14px 0 12px -12px rgb(0 0 0 / 0.28);
+    }
+
+    .model-table {
+      min-width: 34rem;
+    }
+  }
+</style>

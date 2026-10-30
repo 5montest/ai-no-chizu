@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import GuideIcon from '../../../components/GuideIcon.astro';
 import GuideImage from '../../../components/GuideImage.astro';
 import { chapterImages } from '../../../data/guide-images';
-import { optionalTechnicalChapters } from '../../../data/reading-paths';
+import { optionalTechnicalChapters, terminalPrerequisiteChapters } from '../../../data/reading-paths';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../../components/Breadcrumb.astro';
 import Sidebar from '../../../components/Sidebar.astro';
@@ -37,6 +37,12 @@ export async function getStaticPaths() {
 const { chapter, pages } = Astro.props;
 const chapterIcons: Record<string,string> = { '01':'book','02':'clock','03':'chart','04':'chip','05':'layers','06':'network','07':'layers','08':'clock','09':'document','10':'folder','11':'search','12':'tools','13':'network','14':'layers','15':'document','16':'sound','17':'tools','18':'check','19':'terminal','20':'user','21':'shield','22':'chart','23':'layers','24':'chip','25':'coins','26':'folder','27':'terminal','28':'chart','29':'tools','30':'network','31':'sound','32':'check' };
 const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展' } as Record<string, string>;
+// 章のレベルは先頭ページではなく、章の中で最も高いレベルで示す。
+// 2ページ目だけ発展、のような章を「入門」と表示すると、読み始めてから負荷が分かってしまう。
+const levelOrder: Record<string, number> = { intro: 0, intermediate: 1, advanced: 2 };
+const chapterLevel = [...pages]
+  .sort((a: any, b: any) => (levelOrder[a.level] ?? 0) - (levelOrder[b.level] ?? 0))
+  .at(-1)?.level;
 const totalMinutes = pages.reduce((sum: number, page: any) => sum + page.readingMinutes, 0);
 const published = curriculum.chapters.filter((c) => c.status === 'published');
 const indexInPublished = published.findIndex((c) => c.id === chapter.id);
@@ -70,11 +76,23 @@ const updated = pages.map((p: any) => p.updated).sort().at(-1);
             <p class="chapter-hero__q">{chapter.question}</p>
 
             <dl class="article-head__meta">
-              <div><dt>レベル</dt><dd>{levelLabel[pages[0]?.level] ?? '入門'}</dd></div>
+              <div><dt>レベル</dt><dd>{levelLabel[chapterLevel] ?? '入門'}</dd></div>
               <div><dt>構成</dt><dd>{pages.length}ページ</dd></div>
               <div><dt>読了目安</dt><dd>約{totalMinutes}分</dd></div>
               {updated && (
                 <div><dt>最終更新</dt><dd>{updated}</dd></div>
+              )}
+              {(chapter.prereq?.length || terminalPrerequisiteChapters.has(chapter.id)) && (
+                <div>
+                  <dt>前提</dt>
+                  <dd>
+                    {chapter.prereq?.map((id: string, i: number) => (
+                      <>{i > 0 ? '・' : ''}<a href={withBase(`/chapters/${id}/`)}>第{Number(id)}章</a></>
+                    ))}
+                    {chapter.prereq?.length && terminalPrerequisiteChapters.has(chapter.id) ? '・' : ''}
+                    {terminalPrerequisiteChapters.has(chapter.id) ? 'ターミナルとGitの操作' : ''}
+                  </dd>
+                </div>
               )}
             </dl>
 

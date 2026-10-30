@@ -67,15 +67,17 @@ const PRICE_FILTERS = [
   { id: 'all', label: 'すべて' },
   { id: 'free', label: '無料' },
   { id: 'paid', label: '有料' },
-  { id: 'unknown', label: '料金未確認' },
+  { id: 'unknown', label: '課金体系が未確認' },
 ];
 
 // 無料・有料の判定は cost_model だけを見る。価格が未確認のものを無料に寄せない。
 // 状態バッジの文言と色分けは entityBadges() にあり、一覧・詳細・比較で共通。
 
 // 概要が空の項目もある。空欄のカードを作らず、記録が無いことを書く。
+// 一覧では「何の製品か」が分かる summary を優先し、料金や仕様の断片（strengths[0]）は
+// 要約が無いときだけ使う。価格の断片だけが並ぶと、候補を絞る材料にならない。
 const summaryOf = (entity: ZukanEntity) =>
-  entity.strengths?.[0] ?? entity.notes ?? '概要はまだ記録していません。';
+  entity.summary ?? entity.description ?? entity.strengths?.[0] ?? entity.notes ?? '概要はまだ記録していません。';
 
 const modelCount = entities.reduce(
   (total: number, entity: ZukanEntity) => total + (entity.model_ids?.length ?? 0),
@@ -164,7 +166,7 @@ const modelCount = entities.reduce(
         </div>
       </div>
 
-      <p class="zukan-group__note">提供元名の横に、公式サイトのアイコンを添えています。基盤モデルと契約は提供元、専用モデルは用途で小分けにしています。モデル・アプリ・プランの区分もあわせて確認してください。</p>
+      <p class="zukan-group__note">アイコンがある提供元には、公式サイトのアイコンを添えています。基盤モデルと契約は提供元、専用モデルは用途で小分けにしています。モデル・アプリ・プランの区分もあわせて確認してください。</p>
       <p class="glossary-count" data-zukan-count aria-live="polite">{entities.length}件を表示中</p>
 
       <div data-zukan-groups>
@@ -231,8 +233,9 @@ const modelCount = entities.reduce(
           機械的に決めており、性能や優劣の順位ではありません。同じ小分けの中でも、できることと条件は項目ごとに違います。
         </p>
         <p>
-          料金の区分は、各項目の <code>cost_model</code> の記録だけを見ています。価格表が未確認のものは「無料」にも
-          「有料」にも寄せず、「料金未確認」に分けています。金額そのものは各項目のページに、
+          料金の区分は、各項目の <code>cost_model</code> の記録だけを見ています。課金体系そのものが未確認のものだけを
+          「課金体系が未確認」に分けており、金額の記録が無い項目でも、無料・有料のどちらか分かっていればその側に入ります。
+          「金額の記録が無い」ことと「課金体系が未確認」は別です。金額そのものは各項目のページに、
           取得日・通貨・税の扱いとあわせて載せています。
         </p>
         <p>
@@ -264,6 +267,25 @@ const modelCount = entities.reduce(
     const reset = document.querySelector<HTMLButtonElement>('[data-zukan-reset]');
 
     const state = { kind: 'all', price: 'all', use: 'all', iface: 'all' };
+
+    // 絞り込みの状態を URL に書き戻す。ブックマーク・共有・戻るで同じ一覧を開けるようにする。
+    // 起動直後の apply() では書かない（?q= などで来た URL をそのまま保つ）。
+    let ready = false;
+    function syncUrl() {
+      const params = new URLSearchParams(location.search);
+      const query = search?.value.trim() ?? '';
+      const set = (key: string, value: string) => {
+        if (value && value !== 'all') params.set(key, value);
+        else params.delete(key);
+      };
+      set('q', query);
+      set('kind', state.kind);
+      set('price', state.price);
+      set('use', state.use);
+      set('iface', state.iface);
+      const queryString = params.toString();
+      history.replaceState(null, '', `${location.pathname}${queryString ? `?${queryString}` : ''}`);
+    }
 
     const hasValue = (list: string, value: string) =>
       value === 'all' || ` ${list} `.includes(` ${value} `);
@@ -302,6 +324,7 @@ const modelCount = entities.reduce(
       }
       if (count) count.textContent = `${visible}件を表示中`;
       if (empty) empty.hidden = visible !== 0;
+      if (ready) syncUrl();
     }
 
     function resetAll() {
@@ -384,5 +407,7 @@ const modelCount = entities.reduce(
     reset?.addEventListener('click', resetAll);
 
     apply();
+    // 初期表示のあとから、操作に合わせて URL を更新する。
+    ready = true;
   </script>
 </BaseLayout>

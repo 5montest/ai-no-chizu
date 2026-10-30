@@ -13,8 +13,11 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import YAML from 'yaml';
+
+/** Windows の絶対パスは ESM の import() に直接渡せないため file:// URL に直す。 */
+const importFile = (file) => import(pathToFileURL(file).href);
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const rootArgIndex = process.argv.indexOf('--root');
@@ -39,7 +42,7 @@ const readZukan = () => {
 const curriculum = readJson('src/data/curriculum.json');
 const glossary = readJson('src/data/glossary.json');
 const zukan = readZukan();
-const { diagrams } = await import(path.join(ROOT, 'src/data/diagrams.ts'));
+const { diagrams } = await importFile(path.join(ROOT, 'src/data/diagrams.ts'));
 
 const errors = [];
 const warnings = [];
@@ -353,7 +356,7 @@ for (const term of glossary.terms) {
  */
 const readingPathsFile = path.join(ROOT, 'src/data/reading-paths.ts');
 if (fs.existsSync(readingPathsFile)) {
-  const { readingPaths } = await import(readingPathsFile);
+  const { readingPaths } = await importFile(readingPathsFile);
   const seenPathIds = new Set();
 
   for (const route of readingPaths) {

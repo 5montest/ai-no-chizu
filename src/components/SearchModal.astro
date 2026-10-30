@@ -70,10 +70,12 @@ import { withBase } from '../lib/site.mjs';
     chapterTitle?: string;
     categoryLabel?: string;
     short?: string;
+    vendor?: string;
+    kindLabel?: string;
     featured?: boolean;
   };
-  type SearchIndex = { pages: SearchItem[]; terms: SearchItem[] };
-  type SearchResult = SearchItem & { type: 'page' | 'term' };
+  type SearchIndex = { pages: SearchItem[]; terms: SearchItem[]; products?: SearchItem[] };
+  type SearchResult = SearchItem & { type: 'page' | 'term' | 'product' };
 
   // ショートカットの表示を OS に合わせる
   const isMac = /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
@@ -167,6 +169,7 @@ import { withBase } from '../lib/site.mjs';
       const all: SearchResult[] = [
         ...index.pages.map((p): SearchResult => ({ ...p, type: 'page' })),
         ...index.terms.map((t): SearchResult => ({ ...t, type: 'term' })),
+        ...(index.products ?? []).map((p): SearchResult => ({ ...p, type: 'product' })),
       ];
       if (!q) {
         return all.filter((item) => item.featured).slice(0, 8);
@@ -188,7 +191,8 @@ import { withBase } from '../lib/site.mjs';
 
       const type = document.createElement('span');
       type.className = 'search-result__type';
-      type.textContent = item.type === 'term' ? '用語' : 'ページ';
+      type.textContent =
+        item.type === 'term' ? '用語' : item.type === 'product' ? '製品' : 'ページ';
 
       const text = document.createElement('span');
       const title = document.createElement('span');
@@ -199,7 +203,9 @@ import { withBase } from '../lib/site.mjs';
       meta.textContent =
         item.type === 'term'
           ? `${item.categoryLabel || ''}　${item.short || ''}`
-          : `第${item.chapter}章 ${item.chapterTitle || ''}`;
+          : item.type === 'product'
+            ? `${item.vendor || ''}　${item.kindLabel || ''}`
+            : `第${item.chapter}章 ${item.chapterTitle || ''}`;
       text.append(title, meta);
 
       a.append(type, text);

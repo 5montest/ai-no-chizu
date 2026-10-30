@@ -31,6 +31,22 @@ const entries = await getCollection('chapters');
 const backlinks = entries
   .filter((entry) => entry.data.glossary.includes(term.slug))
   .sort((a, b) => Number(a.data.chapter) - Number(b.data.chapter) || a.data.order - b.data.order);
+
+// 前後の用語。並び順は一覧ページと同じ「読みの五十音順」にする。
+// 一覧と詳細で順番が違うと、前後ナビが読者の期待とずれる。
+const toHiragana = (value: string): string =>
+  String(value ?? '')
+    .normalize('NFKC')
+    .replace(/[\u30a1-\u30f6]/g, (char) => String.fromCharCode(char.charCodeAt(0) - 0x60));
+const sortedTerms = [...glossary.terms].sort((a, b) => {
+  const keyA = toHiragana(a.reading);
+  const keyB = toHiragana(b.reading);
+  return keyA.localeCompare(keyB, 'ja') || a.term.localeCompare(b.term, 'ja');
+});
+const currentIndex = sortedTerms.findIndex((item) => item.slug === term.slug);
+const prevTerm = currentIndex > 0 ? sortedTerms[currentIndex - 1] : null;
+const nextTerm =
+  currentIndex >= 0 && currentIndex < sortedTerms.length - 1 ? sortedTerms[currentIndex + 1] : null;
 ---
 
 <BaseLayout title={`${term.term}｜用語辞典`} description={term.short}>
@@ -59,8 +75,10 @@ const backlinks = entries
         </section>
 
         <section class="term-section">
-          <h2>よくある誤解</h2>
-          <p>{term.myth}</p>
+          <div class="callout callout--myth">
+            <h2 class="callout__label">よくある誤解</h2>
+            <p>{term.myth}</p>
+          </div>
         </section>
 
         {chapters.length > 0 && (
@@ -117,13 +135,60 @@ const backlinks = entries
         )}
 
         <SourceList sources={term.sources.length ? term.sources : [...new Map(backlinks.flatMap(entry => entry.data.sources).filter(source => source.url).map(source => [source.url, source])).values()].slice(0,3)} heading={term.sources.length ? '定義の参照資料' : '関連章の参考資料'} />
-        <div class="page-nav">
+        <nav class="page-nav page-nav--three" aria-label="用語の前後">
+          {prevTerm && (
+            <a href={withBase(`/glossary/${prevTerm.slug}/`)} rel="prev">
+              <span class="dir">前の用語</span>
+              <span class="title">{prevTerm.term}</span>
+            </a>
+          )}
           <a href={withBase('/glossary/')}>
             <span class="dir">用語辞典</span>
             <span class="title">用語一覧に戻る</span>
           </a>
-        </div>
+          {nextTerm && (
+            <a href={withBase(`/glossary/${nextTerm.slug}/`)} rel="next">
+              <span class="dir">次の用語</span>
+              <span class="title">{nextTerm.term}</span>
+            </a>
+          )}
+        </nav>
       </div>
     </div>
   </div>
+
+  <style>
+    /* 前へ／一覧／次へ の3点ナビ。真ん中は一覧に戻るリンクとして中央に置く。 */
+    .page-nav.page-nav--three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .page-nav.page-nav--three a[rel='prev'] {
+      text-align: left;
+      align-items: flex-start;
+    }
+
+    .page-nav.page-nav--three a:not([rel]) {
+      text-align: center;
+      align-items: center;
+    }
+
+    .page-nav.page-nav--three a[rel='next'] {
+      text-align: right;
+      align-items: flex-end;
+    }
+
+    @media (max-width: 640px) {
+      .page-nav.page-nav--three {
+        grid-template-columns: 1fr;
+      }
+
+      .page-nav.page-nav--three a[rel='prev'],
+      .page-nav.page-nav--three a:not([rel]),
+      .page-nav.page-nav--three a[rel='next'] {
+        text-align: left;
+        align-items: flex-start;
+      }
+    }
+  </style>
 </BaseLayout>

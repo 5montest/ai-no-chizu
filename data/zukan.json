@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-10-28",
+  "updated_at": "2026-10-30",
   "policy": {
     "display_rule": "確認できた値だけを表示し、確認できていない値は unknown または null として扱う。0・false・unknown を同じ見た目にしない。",
     "price_separation": "提供元の公式価格と、再販事業者の価格は別のスナップショットとして保持し、一つの表に混ぜない。",
@@ -387,7 +387,8 @@
         "100万トークンあたり",
         "プロンプトキャッシュ利用時は読み取り・書き込みの単価が別に適用される"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "長時間動くエージェント向けのClaudeモデル。APIで従量課金。"
     },
     {
       "id": "claude-opus-5-5",
@@ -512,7 +513,8 @@
         "高速モードは研究プレビュー",
         "高速モードは従量課金または利用クレジット経由"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "Claudeのモデル。高速モードを選べる。"
     },
     {
       "id": "claude-sonnet-5-5",
@@ -630,7 +632,8 @@
         "価格は税別・米ドル",
         "100万トークンあたり"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "Claudeのモデル。会話・文書・コーディングの中心。"
     },
     {
       "id": "claude-haiku-5-5",
@@ -755,7 +758,8 @@
         "100万トークンあたり",
         "10万トークンを境に単価が変わる"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "Claudeのモデル。掲載4モデルの中で最も安い単価。"
     },
     {
       "id": "gpt-6-astra",
@@ -864,7 +868,9 @@
         "100万トークンあたり",
         "標準・バッチ・高速・超高速で区分が分かれる"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "OpenAIのGPT-6系モデル。推論とエージェント作業向け。",
+      "description": "OpenAIのGPT-6 Astraは、テキストと画像を入力してテキストを出力する基盤モデルです。公式のモデルページで、推論の強さと利用できるツールの条件を確認できます。標準・batch・fast・ultrafastの4つの料金区分が公式APIの料金表に掲載されています。"
     },
     {
       "id": "gpt-6-1-sol",
@@ -972,7 +978,9 @@
         "価格は税別・米ドル",
         "100万トークンあたり"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "GPT-6.1系のモデル。会話・コーディング向け。",
+      "description": "OpenAIのGPT-6.1 Solは、テキストと画像を入力してテキストを出力する基盤モデルです。標準の料金は入力2ドル・出力10ドル（100万トークンあたり）。Chat・Work・Codexで選べるモデルや利用枠は、アプリと契約の条件として別に確認します。"
     },
     {
       "id": "gpt-6-1-terra",
@@ -1080,7 +1088,9 @@
         "価格は税別・米ドル",
         "100万トークンあたり"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "GPT-6.1系のモデル。文書処理・分類などの大量処理向け。",
+      "description": "OpenAIのGPT-6.1 Terraは、テキストと画像を入力してテキストを出力する基盤モデルです。標準の料金は入力1ドル・出力5ドル（100万トークンあたり）で、公式APIの料金表に掲載されています。文書処理や分類など、まとまった量の処理に向く価格帯です。"
     },
     {
       "id": "gpt-6-luna",
@@ -1197,7 +1207,9 @@
         "価格は税別・米ドル",
         "100万トークンあたり"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "GPT-6系の軽量モデル。低遅延・大量分類向け。",
+      "description": "OpenAIのGPT-6 Lunaは、テキストと画像を入力してテキストを出力する軽量モデルです。標準の料金は入力0.10ドル・出力0.50ドル（100万トークンあたり）。低遅延の応答や大量の分類に向く価格帯で、公式APIの料金表に掲載されています。"
     },
     {
       "id": "gpt-6-1-sol-pro",
@@ -1295,7 +1307,8 @@
       "conditions": [
         "価格は再販事業者の表示",
         "100万トークンあたり"
-      ]
+      ],
+      "summary": "再販一覧に載るGPT-6.1 Sol系。公式の項目とは別に記録。"
     },
     {
       "id": "gpt-6-1-terra-pro",
@@ -1392,7 +1405,8 @@
       "conditions": [
         "価格は再販事業者の表示",
         "100万トークンあたり"
-      ]
+      ],
+      "summary": "再販一覧に載るGPT-6.1 Terra系。公式の項目とは別に記録。"
     },
     {
       "id": "deepseek-v4-1-flash",
@@ -1506,7 +1520,8 @@
         "ピークとオフピークで単価が変わる",
         "キャッシュヒットとミスで単価が変わる"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "DeepSeekの高速モデル。分類やコーディング向け。"
     },
     {
       "id": "deepseek-v4-pro",
@@ -1602,7 +1617,8 @@
         "100万トークンあたり",
         "ピークとオフピークで単価が変わる"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "DeepSeekのモデル。推論とエージェント作業向け。"
     },
     {
       "id": "gemini-4-argon",
@@ -1726,7 +1742,8 @@
         "価格は再販事業者の表示",
         "100万トークンあたり"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "GoogleのGeminiモデル。長文・画像・音声・動画の入力に対応。"
     },
     {
       "id": "gemini-3-8-flash",
@@ -1842,7 +1859,8 @@
         "価格は再販事業者の表示",
         "100万トークンあたり"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "GoogleのGeminiモデル。低遅延・大量分類向け。"
     },
     {
       "id": "grok-4-7",
@@ -1964,7 +1982,8 @@
         "価格は再販事業者の表示",
         "100万トークンあたり"
       ],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "xAIのGrokモデル。会話・推論・画像入力に対応。"
     },
     {
       "id": "qwen3-8-27b",
@@ -2070,7 +2089,8 @@
       "conditions": [
         "価格は再販事業者の表示",
         "100万トークンあたり"
-      ]
+      ],
+      "summary": "Qwenの27Bモデル。再販経由で文書処理・分類向け。"
     },
     {
       "id": "qwen3-8-max-prime",
@@ -2181,7 +2201,8 @@
       "conditions": [
         "価格は再販事業者の表示",
         "100万トークンあたり"
-      ]
+      ],
+      "summary": "Qwenの上位モデル（再販名）。推論・長文向け。"
     },
     {
       "id": "mistral-large-4",
@@ -2290,7 +2311,8 @@
         "100万トークンあたり"
       ],
       "input_modalities_basis": "official",
-      "context_label": "1M（公式ページの表記。契約先で厳密な上限を確認）"
+      "context_label": "1M（公式ページの表記。契約先で厳密な上限を確認）",
+      "summary": "Mistral AIのモデル。会話・文書処理向け。"
     },
     {
       "id": "claude-code",
@@ -2399,7 +2421,8 @@
       "conditions": [
         "プランにより利用量の上限が異なる",
         "Console アカウントでは API の従量課金"
-      ]
+      ],
+      "summary": "ターミナルで動くAnthropicのコーディング用エージェント。"
     },
     {
       "id": "codex-cli",
@@ -2511,7 +2534,8 @@
       "conditions": [
         "ChatGPT のプランまたは API キーで認証する",
         "サンドボックスの範囲は設定で変わる"
-      ]
+      ],
+      "summary": "OpenAIのターミナル用コーディングエージェント。"
     },
     {
       "id": "opencode",
@@ -2601,7 +2625,8 @@
       "conditions": [
         "モデルの利用料は提供元ごとに異なる",
         "OpenCode Go は任意の追加サービス"
-      ]
+      ],
+      "summary": "MITライセンスのオープンソース・コーディングハーネス。"
     },
     {
       "id": "claude-app",
@@ -2684,7 +2709,8 @@
       "conditions": [
         "機能と利用量はプランで異なる",
         "一部の機能はベータ"
-      ]
+      ],
+      "summary": "Web・デスクトップ・モバイルで使うClaudeの利用アプリ。"
     },
     {
       "id": "chatgpt-app",
@@ -2777,7 +2803,8 @@
       "notes": "公式のアプリ説明とChatGPT Learnの料金資料を確認済み。Work・Codexの利用枠を、APIのトークン単価へ換算しない。",
       "conditions": [
         "価格・プラン・機能は未確認"
-      ]
+      ],
+      "summary": "ブラウザやデスクトップで対話するChatGPTの利用アプリ。"
     },
     {
       "id": "claude-free",
@@ -2856,7 +2883,8 @@
       "conditions": [
         "価格は米ドル",
         "税の扱いはプランにより異なる"
-      ]
+      ],
+      "summary": "Claudeを0ドルで使える無料プラン。利用量に上限。"
     },
     {
       "id": "claude-pro",
@@ -2941,7 +2969,8 @@
         "価格は米ドル",
         "税別",
         "年払いは一括前払い"
-      ]
+      ],
+      "summary": "Claude Codeなどが使える個人向け月20ドルのプラン。"
     },
     {
       "id": "claude-max",
@@ -3027,7 +3056,8 @@
         "価格は米ドル",
         "税別",
         "利用量は5倍と20倍の2種類"
-      ]
+      ],
+      "summary": "Proの5倍・20倍の利用量を選べる個人向け上位プラン。"
     },
     {
       "id": "claude-team",
@@ -3113,7 +3143,8 @@
         "価格は米ドル・税別",
         "年払いと月払いで単価が異なる",
         "2〜150人"
-      ]
+      ],
+      "summary": "2〜150人向けのチーム契約。席単位の月額。"
     },
     {
       "id": "claude-enterprise",
@@ -3199,7 +3230,8 @@
         "価格は米ドル・税別",
         "年払い",
         "20席以上"
-      ]
+      ],
+      "summary": "SSO・監査ログ付きの法人契約。席単価とAPI従量の併用。"
     },
     {
       "id": "opencode-go",
@@ -3283,7 +3315,8 @@
         "価格は米ドル・税別",
         "1人のワークスペース",
         "利用量はモデルごとの月額上限に対する割合"
-      ]
+      ],
+      "summary": "OpenCodeからコーディング向けモデルを使う月10ドルの枠。"
     },
     {
       "id": "opencode-go-plus",
@@ -3363,7 +3396,8 @@
         "価格は米ドル・税別",
         "1人のワークスペース",
         "モデル別上限の倍率は未確認"
-      ]
+      ],
+      "summary": "Goの利用上限を高めた月40ドルのプラン。"
     },
     {
       "id": "chatgpt-free",
@@ -3431,7 +3465,9 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "個人向けのChatGPT契約。Work・Codexの利用条件はデスクトップアプリと提供状況を確認する。API利用料は別。",
-      "conditions": []
+      "conditions": [],
+      "summary": "ChatGPTの無料枠。モデルや機能に上限がある。",
+      "description": "OpenAIのChatGPTを無料で使えるプランです。月額0ドルと公式資料に掲載されていますが、モデルや機能の利用上限は契約画面で確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-go",
@@ -3499,7 +3535,9 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "個人向けのChatGPT契約。Work・Codexの利用条件はデスクトップアプリと提供状況を確認する。API利用料は別。",
-      "conditions": []
+      "conditions": [],
+      "summary": "軽い利用向けのChatGPT有料プラン（月8ドル）。",
+      "description": "軽い利用向けの個人プランで、月額8ドルと公式資料に掲載されています。提供地域や使える機能の範囲は契約画面で確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-plus",
@@ -3567,7 +3605,9 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
-      "conditions": []
+      "conditions": [],
+      "summary": "個人向けChatGPTの月20ドルプラン。",
+      "description": "個人向けのChatGPTプランで、月額20ドルと公式資料に掲載されています。追加利用やモデル別の条件は別に確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-pro-100",
@@ -3635,7 +3675,9 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
-      "conditions": []
+      "conditions": [],
+      "summary": "ChatGPT Proの利用量別プラン（月100ドル）。",
+      "description": "ChatGPT Proの利用量別プランで、月額100ドルと公式資料に掲載されています。利用量や使える機能の条件は契約画面で確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-pro-200",
@@ -3703,7 +3745,9 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
-      "conditions": []
+      "conditions": [],
+      "summary": "ChatGPT Proの利用量別プラン（月200ドル）。",
+      "description": "ChatGPT Proの利用量別プランで、月額200ドルと公式資料に掲載されています。利用量や使える機能の条件は契約画面で確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-pro-500",
@@ -3771,7 +3815,9 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
-      "conditions": []
+      "conditions": [],
+      "summary": "ChatGPT Proの利用量別プラン（月500ドル）。",
+      "description": "ChatGPT Proの利用量別プランで、月額500ドルと公式資料に掲載されています。Ultrafastの利用条件は別に確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-business",
@@ -3839,7 +3885,9 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
-      "conditions": []
+      "conditions": [],
+      "summary": "2席以上の法人向けChatGPT。席単価は月払い25ドル。",
+      "description": "2席以上から契約できる法人向けChatGPTプランです。席あたりの月額は月払い25ドル、年払い20ドルと公式資料に掲載されています。"
     },
     {
       "id": "chatgpt-enterprise",
@@ -3907,7 +3955,9 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
-      "conditions": []
+      "conditions": [],
+      "summary": "法人向けChatGPTの個別見積もり契約。",
+      "description": "法人向けChatGPTのプランで、公式は営業窓口への問い合わせとしています。金額は個別契約で決まるため、この図鑑では実額を記録していません。"
     },
     {
       "id": "gemini-app",
@@ -3976,7 +4026,8 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "モデル名Gemini 4 Argonなどと、アプリ名や契約プランを分けて比較する。",
-      "conditions": []
+      "conditions": [],
+      "summary": "調査・文書作業を行うGeminiの利用アプリ。"
     },
     {
       "id": "google-ai-plus",
@@ -4043,7 +4094,8 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "個人のGoogleアカウント向けGoogle AI契約。Geminiアプリ等の利用枠を含む。Workspace向け契約とAPI従量料金は別。",
-      "conditions": []
+      "conditions": [],
+      "summary": "Geminiアプリ等の利用枠を広げる個人向けプラン。"
     },
     {
       "id": "google-ai-pro",
@@ -4110,7 +4162,8 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "個人のGoogleアカウント向けGoogle AI契約。Geminiアプリ等の利用枠を含む。Workspace向け契約とAPI従量料金は別。",
-      "conditions": []
+      "conditions": [],
+      "summary": "Gemini・NotebookLM等の利用枠を広げる個人向けプラン。"
     },
     {
       "id": "google-ai-ultra",
@@ -4177,7 +4230,8 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "個人のGoogleアカウント向けGoogle AI契約。Geminiアプリ等の利用枠を含む。Workspace向け契約とAPI従量料金は別。",
-      "conditions": []
+      "conditions": [],
+      "summary": "Google AIの個人向け最上位プラン。"
     },
     {
       "id": "gemini-cli",
@@ -4255,7 +4309,8 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "Geminiモデルそのものではない。モデルの対応とCLIの機能を分ける。",
-      "conditions": []
+      "conditions": [],
+      "summary": "Geminiモデルをターミナルで使う実行環境。"
     },
     {
       "id": "gpt-transcribe",
@@ -4338,7 +4393,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "音声を文字へ変換するAPI用モデル。会議やインタビューの文字起こしに使う。文章の要約や読み上げは別の処理。",
       "conditions": [],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "音声を文字に書き起こすAPI。会議・インタビュー向け。"
     },
     {
       "id": "gpt-realtime-2-1-mini",
@@ -4429,7 +4485,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "Realtime APIで音声のやり取りを扱うモデル。文字と音声を出力でき、テキスト・音声・画像を入力できる。",
       "conditions": [],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "音声とテキストをリアルタイムにやり取りするモデル。"
     },
     {
       "id": "gpt-4o-mini-tts",
@@ -4511,7 +4568,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "文章を音声へ変える旧来のSpeech API用モデル。非推奨で、2027-01-06に停止予定。既存実装の移行確認用に掲載。",
       "conditions": [],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "文章を読み上げ音声にするSpeech API用モデル。"
     },
     {
       "id": "text-embedding-3-small",
@@ -4592,7 +4650,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "文章を数値ベクトルに変換するモデル。文書検索、類似する問い合わせの検索などに使う。回答文を作るモデルとは役割が違う。",
       "conditions": [],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "文章を検索・分類用の数値ベクトルに変換するモデル。"
     },
     {
       "id": "omni-moderation-latest",
@@ -4674,7 +4733,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "テキストや画像を入力し、有害性の分類結果とスコアを返すモデル。文章を生成するものではない。",
       "conditions": [],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "テキストや画像の有害性を分類するモデル。"
     },
     {
       "id": "gpt-image-2",
@@ -4756,7 +4816,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "文章や画像から、画像の生成と編集を行うモデル。入力画像の理解だけを行うモデルとは区別する。",
       "conditions": [],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "文章や画像から画像の生成・編集を行うモデル。"
     },
     {
       "id": "mistral-ocr-4-1",
@@ -4840,7 +4901,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "画像やPDFから、文字と文書の構造を抽出するOCRモデル。抽出した表や数値は原本と照合して使う。",
       "conditions": [],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "画像やPDFから文字と文書構造を抽出するOCR。"
     },
     {
       "id": "whisper-local",
@@ -4917,7 +4979,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "OpenAIが公開した音声認識モデルを手元で実行する選択肢。クラウドAPIのWhisperとは実行場所と費用の数え方が違う。",
       "conditions": [],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "公開された音声認識モデルを手元で実行する選択肢。"
     },
     {
       "id": "bge-m3",
@@ -4996,7 +5059,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "文章を検索用の表現へ変換する公開モデル。密ベクトル、語に近い疎な表現、複数ベクトルによる検索を扱う。",
       "conditions": [],
-      "input_modalities_basis": "official"
+      "input_modalities_basis": "official",
+      "summary": "検索用の公開埋め込みモデル。ローカル実行向け。"
     },
     {
       "id": "chatgpt-edu",
@@ -5063,7 +5127,8 @@
       "last_verified_at": "2026-10-28",
       "last_checked_at": "2026-10-28",
       "notes": "教育機関向けの契約。Work・Codexを含む利用条件と料金は個別の契約で確認する。",
-      "conditions": []
+      "conditions": [],
+      "summary": "教育機関向けのChatGPT契約。"
     },
     {
       "aliases": [],
@@ -5154,7 +5219,8 @@
       "conditions": [
         "ツール呼び出しごとの承認がないため、隔離した環境で動かす",
         "モデルの利用料は接続先ごとに異なる"
-      ]
+      ],
+      "summary": "モデルを同梱せず接続先を選ぶターミナル型エージェント。"
     },
     {
       "aliases": [],
@@ -5235,7 +5301,8 @@
       "conditions": [
         "常駐させると、動いている間ずっと利用枠を消費する",
         "モデルの利用料は接続先ごとに異なる"
-      ]
+      ],
+      "summary": "複数の実行環境とチャット基盤に対応するオープンソース・エージェント。"
     },
     {
       "aliases": [],
@@ -5310,7 +5377,8 @@
       "conditions": [
         "公開プレビュー中で、コアプラグインと API が変わり得る",
         "モデルの契約と料金は接続先ごとに異なる"
-      ]
+      ],
+      "summary": "プラグイン構成のデスクトップ／Web型エージェント基盤。"
     },
     {
       "aliases": [],
@@ -5382,7 +5450,8 @@
       "conditions": [
         "モデルの利用料は接続先ごとに異なる",
         "変更は Git のコミット単位で残る"
-      ]
+      ],
+      "summary": "Git連携でターミナル・ペアプログラミングを行うCLI。"
     }
   ],
   "plan_matrix": {

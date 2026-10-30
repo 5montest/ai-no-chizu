@@ -14,26 +14,39 @@ const index = new Map(entries.map(entry => [entry.id, entry]));
       <p class="reading-path__label"><span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span> {path.label}</p>
       <h3 id={`path-${path.id}`}>{path.title}</h3>
       <p class="reading-path__duration">{path.pages.length}記事 · 約{path.pages.reduce((sum, page) => sum + (index.get(page.id)?.data.readingMinutes ?? 0), 0)}分</p>
-      {detailed && <p>{path.description}</p>}
+      {detailed && <p class="reading-path__desc">{path.description}</p>}
       <a class="btn reading-path__start" href={readingRouteHref(BASE, path.pages[0].id, path.id)}>このルートを始める →</a>
       {detailed ? <>
         <p class="reading-path__prereq"><span>前提</span>{path.prerequisite}</p>
-        <ol class="reading-path__pages">
-          {path.pages.map(item => {
-            const entry = index.get(item.id);
-            if (!entry) throw new Error(`読書ルートの参照先がありません: ${item.id}`);
-            return <li><a href={readingRouteHref(BASE, item.id, path.id)}>{entry.data.title}<span>{entry.data.readingMinutes}分</span></a><p>{item.reason}</p>{item.before?.length ? <p class="reading-path__before">先に読むと分かりやすい：{item.before.map((ref, j) => {
-              const pre = index.get(ref.id);
-              if (!pre) throw new Error(`読書ルートの補助リンク先がありません: ${ref.id}`);
-              return <>{j > 0 ? '、' : ''}<a href={withBase(`/chapters/${ref.id}/`)}>{pre.data.title}</a>（{ref.note}）</>;
-            })}</p> : null}</li>;
-          })}
-        </ol>
+        <details class="reading-path__pages-details" open>
+          <summary>このルートで読む{path.pages.length}記事</summary>
+          <ol class="reading-path__pages">
+            {path.pages.map(item => {
+              const entry = index.get(item.id);
+              if (!entry) throw new Error(`読書ルートの参照先がありません: ${item.id}`);
+              return <li><a href={readingRouteHref(BASE, item.id, path.id)}>{entry.data.title}<span>{entry.data.readingMinutes}分</span></a><p>{item.reason}</p>{item.before?.length ? <ul class="reading-path__before"><li>先に読むと分かりやすい：</li>{item.before.map((ref) => {
+                const pre = index.get(ref.id);
+                if (!pre) throw new Error(`読書ルートの補助リンク先がありません: ${ref.id}`);
+                return <li><a href={withBase(`/chapters/${ref.id}/`)}>{pre.data.title}</a><span>{ref.note}</span></li>;
+              })}</ul> : null}</li>;
+            })}
+          </ol>
+        </details>
         <p class="reading-path__outcome">読み終えたら：{path.outcome}</p>
         {path.id === 'decide' && <a href={withBase('/checklist/')}>導入判断の確認シートへ →</a>}
+        {path.id === 'judge' && <a href={withBase('/zukan/compare/')}>製品の条件を並べて比べる →</a>}
+        {path.id === 'read' && <a href={withBase('/zukan/')}>AI図鑑で製品を探す →</a>}
       </> : <>
         <details class="reading-path__details"><summary>学ぶ内容・前提を見る</summary><p>{path.description}</p><p>前提：{path.prerequisite}</p><p>読み終えたら：{path.outcome}</p><a href={withBase(`/start/#${path.id}`)}>読む記事の一覧 →</a></details>
       </>}
     </section>
   ))}
 </div>
+<script>
+  // モバイルでは記事一覧を閉じた状態から始め、ルート選択に集中できるようにする。
+  if (window.matchMedia('(max-width: 640px)').matches) {
+    for (const details of document.querySelectorAll<HTMLDetailsElement>('.reading-path__pages-details')) {
+      details.open = false;
+    }
+  }
+</script>

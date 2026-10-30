@@ -1,32 +1,76 @@
-export const checklistGroups = [
+/**
+ * 導入判断の確認シートの項目。
+ * 各グループの参照先は `src/content/chapters/<章>/<slug>.mdx`。
+ * 1グループに複数の参照先を置く場合は、`label` に短い表示名を入れる。
+ */
+export type ChecklistChapter = {
+  path: string;
+  label?: string;
+};
+
+export type ChecklistGroup = {
+  id: string;
+  title: string;
+  question: string;
+  items: readonly string[];
+  chapters: readonly ChecklistChapter[];
+};
+
+export const checklistGroups: readonly ChecklistGroup[] = [
   { id: 'purpose', title: '用途と担当', question: 'どの仕事の、どの工程を変える提案ですか？', items: [
     '対象の仕事、使う人、AIに任せる範囲を書いた。',
     '現在の作業時間と困りごとを記録した。',
     '導入判断の担当者と、利用者の相談先を決めた。',
-  ], chapter: '20/01-task-fit' },
+  ], chapters: [{ path: '20/01-task-fit', label: '対象の仕事を選ぶ' }] },
   { id: 'data', title: '入力する情報', question: 'その資料を、そのサービスへ送ってよいですか？', items: [
     '使うサービス・プラン・契約と、送信してよい情報の範囲を確認した。',
     '学習への利用と、保存期間・削除条件を別々に確認した。',
     '外部ツールへの転送先、閲覧権限、個人情報や機密情報の扱いを確認した。',
-  ], chapter: '21/02-security' },
+  ], chapters: [{ path: '21/02-security', label: '入力と権限を確認する' }] },
   { id: 'quality', title: '品質と効果', question: '何ができれば、役に立ったと判断しますか？', items: [
     '実際の仕事を反映する入力と、合格・不合格の基準を用意した。',
     '代表例に加え、資料不足や誤りが起きる例でも試した。',
     'AIの作成時間だけでなく、人の確認・修正時間も測った。',
-  ], chapter: '21/01-evaluation-design' },
+  ], chapters: [
+    { path: '21/01-evaluation-design', label: '評価は用途ごとに作る' },
+    { path: '18/04-conditional-comparison', label: '評価軸ごとに、条件つきで比べる' },
+  ] },
   { id: 'cost', title: '費用と利用条件', question: '利用量が増えても、予算と契約の範囲に収まりますか？', items: [
     '月額・席数・APIの従量料金を分け、出典と確認日を残した。',
     '検索・保存・再試行などを含む利用量と、利用上限を見積もった。',
     '社内の確認が必要な権利・ライセンス・契約条件を整理した。',
-  ], chapter: '25/02-cost-sheet' },
+  ], chapters: [
+    { path: '25/02-cost-sheet', label: 'コスト比較シートを作る' },
+    { path: '25/01-plan-limits', label: '月額プランの枠を読む' },
+  ] },
   { id: 'control', title: '権限と例外', question: 'AIが間違えたとき、どこで止められますか？', items: [
     '外部送信・更新・削除などの権限を必要な範囲に限った。',
     '事前承認、例外の引き継ぎ先、取り消しの手順を決めた。',
     '根拠がない場合に答えを保留し、人へ渡す方法を試した。',
-  ], chapter: '20/02-workflow-design' },
+  ], chapters: [{ path: '20/02-workflow-design', label: '人の関与と例外を決める' }] },
   { id: 'operate', title: '運用と見直し', question: '導入後は、誰が品質と変更を確かめますか？', items: [
     '運用担当者、記録するログ、記録の保存範囲を決めた。',
     'モデル・資料・設定の変更時に再評価する方法を決めた。',
     '問題の連絡先、停止・再開の担当者と条件を決めた。',
-  ], chapter: '21/03-operations' },
-] as const;
+  ], chapters: [{ path: '21/03-operations', label: '運用し続けるための設計' }] },
+  // 提案を評価する側（社内外の提案書・見積書を読む立場）向けの観点。
+  // 導入する側の自己点検と同じ6項目の形にして、読み比べられるようにする。
+  // 項目と参照章の対応: 1件目=25/02（見積の内訳）、2件目=18/02（出典と確認日）、
+  // 3件目=22/02（比較の条件）、4件目=21/02（データの扱い）、5件目=21/02（SLA・契約条件）、
+  // 6件目=21/03（PoCの判定と運用）。グループ末尾のリンクは重複を除いて5件にする。
+  { id: 'proposal', title: '提案書・見積書を読む', question: 'その提案は、何を前提に、いくらで、どこまで約束していますか？', items: [
+    '見積書が初期費用・月額・従量に分かれ、前提の利用量と席数が書かれている。',
+    '数字には出典・測定条件・確認日が付いている。',
+    '比較に使われた数値の条件（どの版・どんな入力か）を、提案書の中でたどれる。',
+    'データの学習利用・保存期間・再委託・データ所在地が確認できる。',
+    'SLA・免責・解約・価格改定の条件が、契約書または提案書に書かれている。',
+    '試行（PoC）の成功条件と、判定する人が決まっている。',
+  ], chapters: [
+    { path: '22/02-claims', label: '宣伝と評価を分ける' },
+    { path: '18/02-benchmarks', label: 'ベンチマークは何を測っているのか' },
+    { path: '21/02-security', label: '入力と権限の両方を絞る' },
+    { path: '25/02-cost-sheet', label: 'コスト比較シートを作る（初期費用と月次の分け方を含む）' },
+    { path: '20/02-workflow-design', label: '人の関与と例外を決める' },
+    { path: '20/01-task-fit', label: '対象の仕事とPoCの判定' },
+  ] },
+];

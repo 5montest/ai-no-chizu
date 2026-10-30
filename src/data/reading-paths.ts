@@ -17,7 +17,7 @@ export interface ReadingPath {
 
 export const readingPaths: ReadingPath[] = [
   {
-    id: 'learn', label: 'AIの仕組みを学びたい方', title: 'AI・LLMの基本原理を順に学ぶ',
+    id: 'learn', label: '仕組みから学び直したい方', title: 'AI・LLMの基本原理を順に学ぶ',
     description: 'AIという言葉が指す範囲から始め、入力が処理されて文章が返るまでの工程、TransformerのAttention、回答を作る2段階の計算を追います。',
     outcome: 'AI・機械学習・LLM・Transformerの関係と、回答が組み立てられる流れを説明できる。',
     prerequisite: '前提知識は不要です。第1章から順に読めます。',
@@ -65,6 +65,19 @@ export const readingPaths: ReadingPath[] = [
     ],
   },
   {
+    id: 'judge', label: 'AIの提案を読む立場の方', title: '提案書の数字と主張を、根拠まで戻して読む',
+    description: '提案書や比較記事に出てくる「高性能」「効率化」「導入事例」を、条件と根拠に分けて読む記事を並べます。数字の出どころと、測定した条件を確かめる順番を押さえます。',
+    outcome: '提案の数値が、どのモデル・どの条件・いつのものかを質問でき、採用の可否を自分で判断できる。',
+    prerequisite: '前提知識は不要です。社内外の提案書や比較記事を読む場面を想定しています。',
+    pages: [
+      { id: '22/02-claims', reason: '宣伝と評価を分け、数字の条件を確かめる順番を押さえる' },
+      { id: '22/01-axes', reason: '性能・費用・信頼性など、比較の軸を分けて見る' },
+      { id: '18/02-benchmarks', reason: '性能の数字に付いている測定条件を読む' },
+      { id: '18/04-conditional-comparison', reason: '条件が揃わない比較を、条件つきで読み替える' },
+      { id: '25/01-plan-limits', reason: '料金プランの枠と上限の読み方を確認する' },
+    ],
+  },
+  {
     id: 'decide', label: '社内導入を判断する方', title: '効果・費用・運用を確かめる',
     description: '対象の仕事を絞り、試験導入で何を測り、誰が運用するかを決めます。',
     outcome: '導入判断の確認シートに、条件・担当・未確認事項を残せる。',
@@ -91,3 +104,11 @@ export const readingPaths: ReadingPath[] = [
 ];
 
 export const optionalTechnicalChapters = new Set(['03', '06', '07', '08', '13', '15', '16', '17', '19', '27', '28', '29', '30', '31', '32']);
+
+/**
+ * ターミナルとGitの操作を前提にする章。
+ *
+ * 実践編の一部は、コマンドを実行し、差分を確認してから次へ進む。
+ * 読者が「自分の環境では読めない」と気づかずに読み始めないよう、記事の頭と章の入口に出す。
+ */
+export const terminalPrerequisiteChapters = new Set(['27', '28', '29', '30', '31', '32']);

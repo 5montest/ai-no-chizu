@@ -98,6 +98,16 @@ import Diagram from '../../../components/Diagram.astro';
 - Git。変更を戻す手段として使います。
 - 使う製品のアカウント。三つとも、動かすには契約か API キーが要ります。
 
+練習用のディレクトリは、先に作っておきます。ターミナルで次を実行してください。
+
+```bash
+mkdir ~/cli-practice
+cd ~/cli-practice
+git init
+```
+
+Windows の PowerShell では `New-Item -ItemType Directory -Force $HOME\cli-practice` で作り、`cd $HOME\cli-practice` で移動します。以降のコマンドは macOS / Linux / WSL の bash 前提です。
+
 最初から三つ全部を入れる必要はありません。一つ入れて、権限の聞かれ方と読み取りの挙動を観察してから、次を入れるほうが判断が濁りません。メモリの少ない環境では、同時に動かさないほうが安全です。
 
 金額はこの記事では扱いません。Claude のプラン料金は[第25章](/chapters/25/)で読み方を扱い、[AI図鑑](/zukan/)に確認日つきで記録しています。ChatGPT 側のプラン料金は、図鑑の確認時点で公式の料金ページを取得できなかったため（403）、額を書いていません。ここでも書きません。
@@ -190,12 +200,10 @@ codex --sandbox read-only --ask-for-approval on-request
 
 ここからが本題です。目的は、便利さを体感することではありません。何を許可として求められ、どこまで勝手に動くのかを、自分の環境で確かめることです。
 
-1. 練習用のディレクトリを作り、Git で初期化します。
+1. 本文で作った練習用ディレクトリに移動します。
 
 ```bash
-mkdir ~/cli-practice
 cd ~/cli-practice
-git init
 ```
 
 2. 読ませるファイルを一つ、手で置きます。エージェントに作らせません。最初の状態を自分で決めるためです。
