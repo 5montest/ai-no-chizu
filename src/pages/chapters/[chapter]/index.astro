@@ -40,9 +40,10 @@ const levelLabel = { intro: '入門', intermediate: '中級', advanced: '発展'
 // 章のレベルは先頭ページではなく、章の中で最も高いレベルで示す。
 // 2ページ目だけ発展、のような章を「入門」と表示すると、読み始めてから負荷が分かってしまう。
 const levelOrder: Record<string, number> = { intro: 0, intermediate: 1, advanced: 2 };
-const chapterLevel = [...pages]
-  .sort((a: any, b: any) => (levelOrder[a.level] ?? 0) - (levelOrder[b.level] ?? 0))
-  .at(-1)?.level;
+const chapterLevel: string =
+  [...pages]
+    .sort((a: any, b: any) => (levelOrder[a.level] ?? 0) - (levelOrder[b.level] ?? 0))
+    .at(-1)?.level ?? 'intro';
 const totalMinutes = pages.reduce((sum: number, page: any) => sum + page.readingMinutes, 0);
 const published = curriculum.chapters.filter((c) => c.status === 'published');
 const indexInPublished = published.findIndex((c) => c.id === chapter.id);
