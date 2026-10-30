@@ -30,7 +30,7 @@ export default function rehypeTableWrap() {
     visit(tree, (table) => ({
       type: 'element',
       tagName: 'div',
-      properties: { className: ['table-wrap'] },
+      properties: { className: ['table-wrap'], tabIndex: 0, role: 'region', ariaLabel: '表（左右にスクロールできます）' },
       children: [
         {
           type: 'element',

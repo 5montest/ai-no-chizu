@@ -205,7 +205,7 @@ import { withBase } from '../lib/site.mjs';
           ? `${item.categoryLabel || ''}　${item.short || ''}`
           : item.type === 'product'
             ? `${item.vendor || ''}　${item.kindLabel || ''}`
-            : `第${item.chapter}章 ${item.chapterTitle || ''}`;
+            : item.chapter ? `第${item.chapter}章 ${item.chapterTitle || ''}` : item.chapterTitle || 'ガイド';
       text.append(title, meta);
 
       a.append(type, text);

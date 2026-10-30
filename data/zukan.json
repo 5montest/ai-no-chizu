@@ -980,7 +980,7 @@
       ],
       "input_modalities_basis": "official",
       "summary": "GPT-6.1系のモデル。会話・コーディング向け。",
-      "description": "OpenAIのGPT-6.1 Solは、テキストと画像を入力してテキストを出力する基盤モデルです。標準の料金は入力2ドル・出力10ドル（100万トークンあたり）。Chat・Work・Codexで選べるモデルや利用枠は、アプリと契約の条件として別に確認します。"
+      "description": "OpenAIのGPT-6.1 Solは、テキストと画像を入力してテキストを出力する基盤モデルです。Chat・Work・Codexで選べるモデルや利用枠は、アプリと契約の条件として別に確認します。"
     },
     {
       "id": "gpt-6-1-terra",
@@ -1089,8 +1089,8 @@
         "100万トークンあたり"
       ],
       "input_modalities_basis": "official",
-      "summary": "GPT-6.1系のモデル。文書処理・分類などの大量処理向け。",
-      "description": "OpenAIのGPT-6.1 Terraは、テキストと画像を入力してテキストを出力する基盤モデルです。標準の料金は入力1ドル・出力5ドル（100万トークンあたり）で、公式APIの料金表に掲載されています。文書処理や分類など、まとまった量の処理に向く価格帯です。"
+      "summary": "テキストと画像を入力し、文章を出力するGPT-6.1系モデル。",
+      "description": "OpenAIのGPT-6.1 Terraは、テキストと画像を入力してテキストを出力する基盤モデルです。"
     },
     {
       "id": "gpt-6-luna",
@@ -1208,8 +1208,8 @@
         "100万トークンあたり"
       ],
       "input_modalities_basis": "official",
-      "summary": "GPT-6系の軽量モデル。低遅延・大量分類向け。",
-      "description": "OpenAIのGPT-6 Lunaは、テキストと画像を入力してテキストを出力する軽量モデルです。標準の料金は入力0.10ドル・出力0.50ドル（100万トークンあたり）。低遅延の応答や大量の分類に向く価格帯で、公式APIの料金表に掲載されています。"
+      "summary": "推論なしの設定も選べる、GPT-6系の軽量モデル。",
+      "description": "OpenAIのGPT-6 Lunaは、テキストと画像を入力してテキストを出力する軽量モデルです。"
     },
     {
       "id": "gpt-6-1-sol-pro",
@@ -1860,7 +1860,7 @@
         "100万トークンあたり"
       ],
       "input_modalities_basis": "official",
-      "summary": "GoogleのGeminiモデル。低遅延・大量分類向け。"
+      "summary": "画像・音声・動画の入力にも対応するGeminiモデル。"
     },
     {
       "id": "grok-4-7",
@@ -2090,7 +2090,7 @@
         "価格は再販事業者の表示",
         "100万トークンあたり"
       ],
-      "summary": "Qwenの27Bモデル。再販経由で文書処理・分類向け。"
+      "summary": "重みの公式配布と再販APIを分けて確認する、Qwenの27Bモデル。"
     },
     {
       "id": "qwen3-8-max-prime",
@@ -2202,7 +2202,7 @@
         "価格は再販事業者の表示",
         "100万トークンあたり"
       ],
-      "summary": "Qwenの上位モデル（再販名）。推論・長文向け。"
+      "summary": "再販名Max Primeで掲載されるモデル。公式名との対応は未確定。"
     },
     {
       "id": "mistral-large-4",
@@ -2970,7 +2970,7 @@
         "税別",
         "年払いは一括前払い"
       ],
-      "summary": "Claude Codeなどが使える個人向け月20ドルのプラン。"
+      "summary": "Claude Codeなどを利用できる、個人向けの有料プラン。"
     },
     {
       "id": "claude-max",
@@ -3316,7 +3316,7 @@
         "1人のワークスペース",
         "利用量はモデルごとの月額上限に対する割合"
       ],
-      "summary": "OpenCodeからコーディング向けモデルを使う月10ドルの枠。"
+      "summary": "OpenCodeから対応モデルを利用するための有料プラン。"
     },
     {
       "id": "opencode-go-plus",
@@ -3397,7 +3397,7 @@
         "1人のワークスペース",
         "モデル別上限の倍率は未確認"
       ],
-      "summary": "Goの利用上限を高めた月40ドルのプラン。"
+      "summary": "Goより大きい利用枠を提供する有料プラン。"
     },
     {
       "id": "chatgpt-free",
@@ -3467,7 +3467,7 @@
       "notes": "個人向けのChatGPT契約。Work・Codexの利用条件はデスクトップアプリと提供状況を確認する。API利用料は別。",
       "conditions": [],
       "summary": "ChatGPTの無料枠。モデルや機能に上限がある。",
-      "description": "OpenAIのChatGPTを無料で使えるプランです。月額0ドルと公式資料に掲載されていますが、モデルや機能の利用上限は契約画面で確認が必要です。APIの利用料は別の体系です。"
+      "description": "OpenAIのChatGPTを無料で使えるプランです。モデルや機能の利用上限は契約画面で確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-go",
@@ -3536,8 +3536,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "個人向けのChatGPT契約。Work・Codexの利用条件はデスクトップアプリと提供状況を確認する。API利用料は別。",
       "conditions": [],
-      "summary": "軽い利用向けのChatGPT有料プラン（月8ドル）。",
-      "description": "軽い利用向けの個人プランで、月額8ドルと公式資料に掲載されています。提供地域や使える機能の範囲は契約画面で確認が必要です。APIの利用料は別の体系です。"
+      "summary": "軽い利用向けのChatGPT個人プラン。",
+      "description": "軽い利用向けの個人プランです。提供地域や使える機能の範囲は契約画面で確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-plus",
@@ -3606,8 +3606,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
       "conditions": [],
-      "summary": "個人向けChatGPTの月20ドルプラン。",
-      "description": "個人向けのChatGPTプランで、月額20ドルと公式資料に掲載されています。追加利用やモデル別の条件は別に確認が必要です。APIの利用料は別の体系です。"
+      "summary": "個人向けChatGPTの有料プラン。",
+      "description": "個人向けのChatGPTプランです。追加利用やモデル別の条件は別に確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-pro-100",
@@ -3677,7 +3677,7 @@
       "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
       "conditions": [],
       "summary": "ChatGPT Proの利用量別プラン（月100ドル）。",
-      "description": "ChatGPT Proの利用量別プランで、月額100ドルと公式資料に掲載されています。利用量や使える機能の条件は契約画面で確認が必要です。APIの利用料は別の体系です。"
+      "description": "ChatGPT Proの利用量別プランです。利用量や使える機能の条件は契約画面で確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-pro-200",
@@ -3747,7 +3747,7 @@
       "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
       "conditions": [],
       "summary": "ChatGPT Proの利用量別プラン（月200ドル）。",
-      "description": "ChatGPT Proの利用量別プランで、月額200ドルと公式資料に掲載されています。利用量や使える機能の条件は契約画面で確認が必要です。APIの利用料は別の体系です。"
+      "description": "ChatGPT Proの利用量別プランです。利用量や使える機能の条件は契約画面で確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-pro-500",
@@ -3817,7 +3817,7 @@
       "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
       "conditions": [],
       "summary": "ChatGPT Proの利用量別プラン（月500ドル）。",
-      "description": "ChatGPT Proの利用量別プランで、月額500ドルと公式資料に掲載されています。Ultrafastの利用条件は別に確認が必要です。APIの利用料は別の体系です。"
+      "description": "ChatGPT Proの利用量別プランです。Ultrafastの利用条件は別に確認が必要です。APIの利用料は別の体系です。"
     },
     {
       "id": "chatgpt-business",
@@ -3886,8 +3886,8 @@
       "last_checked_at": "2026-10-28",
       "notes": "ChatGPT Learnの公式料金資料に掲載されたプラン。金額は米ドル表示。地域・税・契約画面の条件も確認する。",
       "conditions": [],
-      "summary": "2席以上の法人向けChatGPT。席単価は月払い25ドル。",
-      "description": "2席以上から契約できる法人向けChatGPTプランです。席あたりの月額は月払い25ドル、年払い20ドルと公式資料に掲載されています。"
+      "summary": "2席以上から契約する、法人向けChatGPTプラン。",
+      "description": "2席以上から契約できる法人向けChatGPTプランです。席ごとの料金は、月払いと年払いを分けて確認します。"
     },
     {
       "id": "chatgpt-enterprise",
@@ -4256,7 +4256,8 @@
         "公式文書にSkills、Extensions、MCP、Plan Modeの説明がある。"
       ],
       "limitations": [
-        "認証方法と契約により、利用枠と料金の適用先が異なる。"
+        "認証方法と契約により、利用枠と料金の適用先が異なる。",
+        "個人の無料枠やGoogle AIプランを、このCLIの利用枠として扱わない。"
       ],
       "interfaces": [
         "cli"
@@ -4267,6 +4268,7 @@
         "linux"
       ],
       "requires": [
+        "企業向けGemini Code Assistの契約、または従来の有料API・Vertex AIの認証。",
         "Node.js 20以上、インターネット接続、対応する認証方法。",
         "公式推奨OSはmacOS 15以上、Windows 11 24H2以上、Ubuntu 20.04以上。"
       ],
@@ -4287,11 +4289,11 @@
       "plan_mode": "yes",
       "permissions": "yes",
       "capability_notes": "機能と課金単位は個別の公式資料を確認。",
-      "cost_model": "mixed",
+      "cost_model": "paid",
       "pricing_snapshot_ids": [
         "gemini-cli-access-2026-10-28"
       ],
-      "official_url": "https://geminicli.com/docs/",
+      "official_url": "https://github.com/google-gemini/gemini-cli",
       "sources": [
         {
           "title": "Gemini CLI",
@@ -4304,13 +4306,19 @@
           "url": "https://geminicli.com/docs/get-started/installation/",
           "publisher": "Google",
           "note": "推奨OS・Node.js・メモリ条件を確認（2026-10-28）。"
+        },
+        {
+          "title": "Gemini CLI status and tool guide",
+          "url": "https://github.com/google-gemini/gemini-cli",
+          "publisher": "Google",
+          "note": "企業向けの位置づけ、個人向けの移行先、従来の有料API・Vertexの扱いを確認（2026-10-30）。"
         }
       ],
-      "last_verified_at": "2026-10-28",
-      "last_checked_at": "2026-10-28",
-      "notes": "Geminiモデルそのものではない。モデルの対応とCLIの機能を分ける。",
+      "last_verified_at": "2026-10-30",
+      "last_checked_at": "2026-10-30",
+      "notes": "公式READMEは企業向けGemini Code Assistのワークフロー用と説明している。個人の無料枠とGoogle AI Pro・Ultraは2026-06-18にAntigravity CLIへ移行したと記載。ソフト本体の公開ライセンスと、モデル利用の契約・料金は別に確認する。",
       "conditions": [],
-      "summary": "Geminiモデルをターミナルで使う実行環境。"
+      "summary": "Google Cloudの企業向け契約などで使う、ターミナル型エージェント。"
     },
     {
       "id": "gpt-transcribe",
@@ -4569,7 +4577,7 @@
       "notes": "文章を音声へ変える旧来のSpeech API用モデル。非推奨で、2027-01-06に停止予定。既存実装の移行確認用に掲載。",
       "conditions": [],
       "input_modalities_basis": "official",
-      "summary": "文章を読み上げ音声にするSpeech API用モデル。"
+      "summary": "Speech API用の旧音声合成モデル。提供終了予定を要確認。"
     },
     {
       "id": "text-embedding-3-small",

@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import glossary from '../data/glossary.json';
 import curriculum from '../data/curriculum.json';
+import { entitySearchText } from '../lib/zukan.mjs';
 import zukanJson from '../../data/zukan.json';
 import { withBase } from '../lib/site.mjs';
 
@@ -60,17 +61,7 @@ export const GET: APIRoute = async () => {
     type: 'product',
     title: entity.display_name,
     description: entity.summary ?? entity.notes ?? '',
-    text: [
-      entity.vendor,
-      kindLabels[entity.kind] ?? entity.kind,
-      ...(entity.aliases ?? []),
-      ...(entity.strengths ?? []),
-      ...(entity.primary_use_cases ?? []),
-      entity.summary ?? '',
-      entity.notes ?? '',
-    ]
-      .filter(Boolean)
-      .join(' '),
+    text: `${entitySearchText(entity)} ${kindLabels[entity.kind] ?? entity.kind}`,
     url: withBase(`/zukan/${entity.slug}/`),
     vendor: entity.vendor,
     kindLabel: kindLabels[entity.kind] ?? entity.kind,

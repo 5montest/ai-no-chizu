@@ -1123,44 +1123,6 @@ kbd {
   color: var(--ink);
 }
 
-/* スマートフォンは1行の文字数が元から少ないため、文字と行間をわずかに詰めて
-   画面あたりの情報量を戻す（18px/1.85のままだと長い記事がさらに伸びる）。 */
-@media (max-width: 640px) {
-  .prose {
-    font-size: 1.0625rem;
-    line-height: 1.75;
-  }
-
-  .prose p {
-    margin: 1em 0;
-  }
-
-  .prose h2 {
-    font-size: 1.375rem;
-  }
-
-  .prose h3 {
-    font-size: 1.125rem;
-  }
-
-  .prose h4 {
-    font-size: 1rem;
-  }
-
-  .summary-box ul {
-    font-size: 0.9375rem;
-  }
-
-  /* 節の切れ目が本文とほぼ同じ大きさにならないよう、h3を少し上げる。 */
-  .prose h3 {
-    font-size: 1.1875rem;
-  }
-
-  .code-block__copy {
-    min-height: 44px;
-  }
-}
-
 .prose > :first-child {
   margin-top: 0;
 }
@@ -1185,7 +1147,7 @@ kbd {
 
 .prose h4 {
   margin: 1.7em 0 0.4em;
-  font-size: 1.0625rem;
+  font-size: 1.1875rem;
   line-height: 1.7;
   scroll-margin-top: calc(var(--header-h) + 16px);
 }
@@ -1258,6 +1220,8 @@ kbd {
 .table-wrap {
   position: relative;
   margin: 1.5em 0;
+  max-width: 100%;
+  overflow-x: auto;
 }
 
 .table-wrap table {
@@ -1274,7 +1238,7 @@ kbd {
     -webkit-overflow-scrolling: touch;
     padding-bottom: 0.25rem;
     /* 続きがあることを示す右端のフェード。切れて見える崩れと区別できるようにする。 */
-    mask-image: linear-gradient(90deg, #000 92%, transparent);
+    box-shadow: inset -14px 0 12px -12px rgb(0 0 0 / .28);
   }
 
   .table-wrap table {
@@ -3537,7 +3501,7 @@ table.axis-table {
 /* ---------- about ---------- */
 .about-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
   gap: 1rem;
   margin: 1.5em 0;
 }
@@ -4554,7 +4518,7 @@ table.compare-table {
 .checklist-group > a { font-size: .8125rem; }
 .checklist-group__links { margin: 0; font-size: .8125rem; line-height: 1.9; }
 .checklist-group__links > span { color: var(--ink-mute); }
-.checklist-group__links a { white-space: nowrap; }
+.checklist-group__links a { white-space: normal; overflow-wrap: anywhere; }
 
 @media print {
   .checklist-group__links { display: none !important; }
@@ -4659,3 +4623,18 @@ table.compare-table {
 [hidden] { display: none !important; }
 
 .term-section a { overflow-wrap: anywhere; }
+
+/* 基本の本文・コードの指定より後に置き、モバイルの指定を有効にする。 */
+@media (max-width: 640px) {
+ .prose { font-size: 1.0625rem; line-height: 1.75; }
+ .prose p { margin: 1em 0; }
+ .prose h2 { font-size: 1.375rem; }
+ .prose h3 { font-size: 1.1875rem; }
+ .prose h4 { font-size: 1.125rem; }
+ .summary-box ul { font-size: .9375rem; }
+ .code-block__copy { min-height: 44px; }
+}
+.compare-table td > span:first-child, .compare-mobile dd > span:first-child { white-space: pre-line; }
+@media print {
+ .read-progress, .mobile-toc, .mobile-toc-dialog, .code-block__head { display: none !important; }
+}

@@ -629,7 +629,7 @@ const whatItIs = entity.description ?? entity.summary ?? entity.notes;
               <dt>仕様の再確認</dt>
               <dd>{freshnessText(specFreshness)}</dd>
             </div>
-            {entity.description && entity.notes && (
+            {(entity.description || entity.summary) && entity.notes && (
               <div>
                 <dt>記録メモ</dt>
                 <dd>{entity.notes}</dd>

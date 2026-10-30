@@ -106,11 +106,17 @@ cd ~/cli-practice
 git init
 ```
 
-Windows の PowerShell では `New-Item -ItemType Directory -Force $HOME\cli-practice` で作り、`cd $HOME\cli-practice` で移動します。以降のコマンドは macOS / Linux / WSL の bash 前提です。
+WindowsのPowerShellで準備する場合は、次の3行を実行します。以降のコマンドはmacOS / Linux / WSLのbashを前提にしています。
+
+```powershell
+New-Item -ItemType Directory -Force $HOME\cli-practice
+cd $HOME\cli-practice
+git init
+```
 
 最初から三つ全部を入れる必要はありません。一つ入れて、権限の聞かれ方と読み取りの挙動を観察してから、次を入れるほうが判断が濁りません。メモリの少ない環境では、同時に動かさないほうが安全です。
 
-金額はこの記事では扱いません。Claude のプラン料金は[第25章](/chapters/25/)で読み方を扱い、[AI図鑑](/zukan/)に確認日つきで記録しています。ChatGPT 側のプラン料金は、図鑑の確認時点で公式の料金ページを取得できなかったため（403）、額を書いていません。ここでも書きません。
+金額はこの記事では扱いません。Claude のプラン料金は[第25章](/chapters/25/)で読み方を扱い、[AI図鑑](/zukan/)に確認日つきで記録しています。ChatGPTのプラン料金も、[AI図鑑](/zukan/)に確認日・出典・利用条件を添えて掲載しています。APIの従量料金とは別に確認してください。
 
 ## 導入は公式ページのコマンドを写す
 
