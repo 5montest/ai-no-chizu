@@ -49,7 +49,7 @@ const rows = ROW_ORDER.map((label) => ({
 })).filter((row) => row.terms.length > 0);
 ---
 
-<BaseLayout title="用語辞典" description={`AI・LLM・エージェント・評価に関する${terms.length}語を、「ひとこと」「厳密には」「よくある誤解」で整理した用語辞典。`}>
+<BaseLayout title="用語辞典" description={`AI・LLM・エージェント・評価に関する${terms.length}語を、意味、目的・役割、仕事の例、よくある誤解から説明する用語辞典。`}>
   <div class="page">
     <div class="shell">
       <nav class="breadcrumbs" aria-label="パンくずリスト">
@@ -61,8 +61,8 @@ const rows = ROW_ORDER.map((label) => ({
       <div class="section-head section-head--left page-head">
         <h1>用語辞典</h1>
         <p>
-          ひとことで言うと何か。厳密には何が違うのか。どこで誤解されやすいのか。
-          AIの仕組みや業務利用に関わる{terms.length}語を、3つの層で定義しています。
+          AIの仕組みや業務利用に関わる{terms.length}語を調べられます。
+          各用語のページでは、意味に加えて、何のために使うのか、仕事でどう役立つのかを説明しています。
         </p>
       </div>
 
@@ -97,7 +97,7 @@ const rows = ROW_ORDER.map((label) => ({
                   href={withBase(`/glossary/${term.slug}/`)}
                   data-term
                   data-cat={term.category}
-                  data-search={`${term.term} ${term.reading} ${term.aliases.join(' ')} ${term.short} ${term.strict} ${term.example}`}
+                  data-search={`${term.term} ${term.reading} ${term.aliases.join(' ')} ${term.short} ${term.purpose} ${term.strict} ${term.example}`}
                 >
                   <span class="term-card__cat"><GuideIcon name={categoryIcons[term.category] ?? 'book'} size={18} /> {labelOf[term.category]}</span>
                   <span class="term-card__term">{term.term}</span>

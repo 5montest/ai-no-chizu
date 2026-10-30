@@ -1,0 +1,26 @@
+<figure class="mcp-purpose" aria-label="MCPで社内資料を検索する例">
+  <p class="mcp-purpose__request">依頼の例：「出張旅費の規程を探して」</p>
+  <ol class="mcp-purpose__flow">
+    <li><strong>AIアプリ</strong><span>必要な検索を依頼する</span><small>MCPクライアントで接続</small></li>
+    <li><strong>MCPサーバー</strong><span>共通のルールで依頼を受け取る</span><small>検索機能を呼び出す</small></li>
+    <li><strong>社内文書の検索機能</strong><span>許可された資料を探す</span><small>規程の該当箇所を返す</small></li>
+  </ol>
+  <figcaption>検索結果はAIアプリへ戻り、回答の材料になります。扱える情報や操作は、接続先の機能と認証・権限の設定によって決まります。</figcaption>
+</figure>
+
+<style>
+  .mcp-purpose { margin: 1.5rem 0; padding: 1.1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper-2); }
+  .mcp-purpose__request { margin: 0 0 1rem; font-weight: 600; }
+  .mcp-purpose__flow { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.5rem; list-style: none; padding: 0; margin: 0; }
+  .mcp-purpose__flow li { position: relative; margin: 0; padding: .85rem; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); }
+  .mcp-purpose__flow li:not(:last-child)::after { content: '→'; position: absolute; top: 50%; right: -1.3rem; transform: translateY(-50%); color: var(--ink-mute); }
+  .mcp-purpose__flow strong, .mcp-purpose__flow span, .mcp-purpose__flow small { display: block; }
+  .mcp-purpose__flow strong { font-size: 1rem; }
+  .mcp-purpose__flow span { margin-top: .5rem; font-size: .9375rem; line-height: 1.8; }
+  .mcp-purpose__flow small { margin-top: .35rem; color: var(--ink-soft); font-size: .8125rem; line-height: 1.7; }
+  .mcp-purpose figcaption { margin-top: 1rem; color: var(--ink-soft); font-size: .875rem; line-height: 1.9; }
+  @media (max-width: 640px) {
+    .mcp-purpose__flow { grid-template-columns: 1fr; }
+    .mcp-purpose__flow li:not(:last-child)::after { content: '↓'; top: auto; bottom: -1.55rem; right: 50%; transform: translateX(50%); }
+  }
+</style>

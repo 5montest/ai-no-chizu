@@ -50,6 +50,7 @@ function writeFixture(
           slug: 'ai',
           term: 'AI',
           short: '説明',
+          purpose: '用途や役割の説明',
           category: 'basic',
           chapters: ['01'],
           related: [],

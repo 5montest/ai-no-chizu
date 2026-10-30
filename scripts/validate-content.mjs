@@ -333,6 +333,9 @@ for (const term of glossary.terms) {
   if (!term.term || !term.short) {
     fail(label, 'term か short が空です');
   }
+  if (typeof term.purpose !== 'string' || !term.purpose.trim()) {
+    fail(label, '目的・役割（purpose）が空です');
+  }
   if (!categoryIds.has(term.category)) {
     fail(label, `未登録のカテゴリ「${term.category}」です`);
   }

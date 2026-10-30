@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import GuideIcon from '../../components/GuideIcon.astro';
 import GuideImage from '../../components/GuideImage.astro';
+import McpPurpose from '../../components/McpPurpose.astro';
 import SourceList from '../../components/SourceList.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
@@ -66,8 +67,13 @@ const nextTerm =
           <p class="term-hero__reading">{term.reading}</p>
           <p class="term-hero__short">{term.short}</p>
         </header>
-        {termImages[term.slug] && <GuideImage name={termImages[term.slug]} />}
+        <section class="term-section term-purpose" aria-labelledby="term-purpose-title">
+          <h2 id="term-purpose-title"><GuideIcon name="tools" size={20} /> 目的・役割</h2>
+          <p>{term.purpose}</p>
+        </section>
         {term.example && <section class="term-example"><GuideIcon name={categoryIcons[term.category] ?? 'book'} /><div><h2>仕事や学習での例</h2><p>{term.example}</p></div></section>}
+        {term.slug === 'mcp' && <McpPurpose />}
+        {termImages[term.slug] && <GuideImage name={termImages[term.slug]} />}
 
         <section class="term-section">
           <h2>厳密には</h2>
@@ -158,6 +164,10 @@ const nextTerm =
   </div>
 
   <style>
+    .term-purpose { padding: 1.1rem; background: var(--accent-wash); border-radius: var(--radius); }
+    .term-purpose h2 { display: flex; align-items: center; gap: .5rem; color: var(--ink); }
+    .term-purpose h2 svg { flex-shrink: 0; color: var(--link); }
+
     /* 前へ／一覧／次へ の3点ナビ。真ん中は一覧に戻るリンクとして中央に置く。 */
     .page-nav.page-nav--three {
       grid-template-columns: repeat(3, minmax(0, 1fr));

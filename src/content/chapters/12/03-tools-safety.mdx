@@ -6,7 +6,7 @@ section: '第III部 LLMを使えるシステムにする'
 order: 3
 level: intermediate
 readingMinutes: 10
-updated: '2026-10-28'
+updated: '2026-10-30'
 tags: ['エージェント', 'ツール', '安全性', 'MCP']
 glossary: ['function-calling', 'mcp', 'sandbox', 'agent', 'harness', 'prompt', 'api', 'audit-log', 'least-privilege', 'prompt-injection']
 summary:
@@ -44,9 +44,17 @@ sources:
     publisher: 'Anthropic'
     note: 'ツール定義とツール呼び出しの基本的な仕組み。'
   - title: 'Model Context Protocol'
-    url: 'https://modelcontextprotocol.io/'
+    url: 'https://modelcontextprotocol.io/docs/getting-started/intro'
     publisher: 'Model Context Protocol'
-    note: 'MCPの仕様と設計思想。'
+    note: '外部情報・機能を接続し、接続方式を共通化する目的を確認（確認日 2026-10-30）。'
+  - title: 'MCP Architecture overview'
+    url: 'https://modelcontextprotocol.io/docs/learn/architecture'
+    publisher: 'Model Context Protocol'
+    note: 'AIアプリ、クライアント、サーバーの役割を確認（確認日 2026-10-30）。'
+  - title: 'Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks'
+    url: 'https://arxiv.org/abs/2005.11401'
+    publisher: 'Lewis et al.'
+    note: '検索した資料を使って回答を生成する方式と、MCPによる接続の役割を区別するために参照（確認日 2026-10-30）。'
   - title: 'OWASP Top 10 for LLM Applications'
     url: 'https://genai.owasp.org/llm-top-10/'
     publisher: 'OWASP'
@@ -55,6 +63,7 @@ sources:
 
 import DeepDive from '../../../components/DeepDive.astro';
 import Callout from '../../../components/Callout.astro';
+import McpPurpose from '../../../components/McpPurpose.astro';
 
 エージェントにツールを渡すと、できることは増えます。同時に、**モデルの判断が現実世界に影響を与える**ようになります。ここでは、ツール連携の仕組みと、事故を防ぐための設計を整理します。
 
@@ -75,9 +84,25 @@ Function Calling（ツール呼び出し）は、モデルが次のような構�
 
 ## MCPは接続を共通化する
 
-MCP（Model Context Protocol）は、モデルとツール・データソースをつなぐための共通プロトコルです。IDE、デスクトップアプリ、エージェントなどが、同じ形で外部の機能に接続できます。
+AIに「出張旅費の規程を探して」と頼んでも、社内文書を読む機能につながっていなければ、その規程を取得できません。必要な資料を利用者が毎回探して貼り付ける代わりに、AIアプリから社内の検索機能を使えるようにしたい場面があります。
 
-利点は接続先ごとに独自の実装をせずに済むことです。ただし、接続が容易になるほど、危険な接続先も増えます。どのサーバーを信頼し、どの権限を与えるかは、利用者側の判断です。
+[[mcp|MCP]]（Model Context Protocol）は、AIアプリと外部のデータや機能をつなぐ共通の接続ルールです。AIアプリと接続先の組み合わせごとに接続方式を設計する負担を減らし、対応する接続機能を再利用しやすくします。
+
+<McpPurpose />
+
+この例では、AIアプリ内のMCPクライアントが、検索機能を提供するMCPサーバーへ依頼を送ります。検索結果がAIアプリへ戻り、モデルが回答の材料にします。利用するには、双方が必要な機能に対応し、認証や閲覧権限が設定されている必要があります。
+
+API・MCP・RAGは、次のように役割を分けて読むと整理できます。
+
+| 用語 | 何のために使うか | 規程を調べる例 |
+| --- | --- | --- |
+| [[api]] | プログラムから別の機能を呼び出す | 社内文書の検索機能を呼び出す |
+| MCP | AIアプリと外部の機能・情報の接続方法を共通化する | 検索機能をMCPサーバー経由でAIアプリへ提供する |
+| [[rag]] | 検索した資料を使って回答を作る | 取得した規程の該当箇所を渡し、回答の根拠にする |
+
+これらを組み合わせる構成もあります。MCPを使わずにAPIなどで接続し、RAGを構成する方法もあります。
+
+接続できるようになった後は、どのサーバーを信頼し、どの権限を与えるかを確認します。
 
 - 信頼できる提供元か。
 - どのファイル・API・アカウントにアクセスできるか。

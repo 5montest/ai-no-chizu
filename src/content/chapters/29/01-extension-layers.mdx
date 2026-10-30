@@ -6,7 +6,7 @@ section: '第VIII部 応用と実践'
 order: 1
 level: intermediate
 readingMinutes: 16
-updated: '2026-10-28'
+updated: '2026-10-30'
 tags: ['Skills', 'MCP', 'Hooks', 'Plugin', '設定']
 glossary: ['mcp', 'function-calling', 'harness', 'context-window', 'prompt', 'sandbox', 'hook', 'plugin', 'prompt-injection', 'skill', 'subagent']
 summary:
@@ -39,6 +39,10 @@ quiz:
     answer: 0
     explanation: 'MCP サーバーは外部のツールやデータに接続します。外部の内容を取り込むサーバーは、プロンプトインジェクションの経路にもなります。中身を読んでから有効にします。'
 sources:
+  - title: 'What is the Model Context Protocol (MCP)?'
+    url: 'https://modelcontextprotocol.io/docs/getting-started/intro'
+    publisher: 'Model Context Protocol'
+    note: '外部の情報・機能へ接続する目的と、接続方式の共通化を確認（確認日 2026-10-30）。'
   - title: 'Extend Claude with skills'
     url: 'https://code.claude.com/docs/en/skills'
     publisher: 'Anthropic'
@@ -133,7 +137,11 @@ Hook はハーネスのイベントに処理を結び付けます。設定の読
 
 Hook は並列に走ります。一つのイベントに複数のハンドラを置くと、順番は保証されません。前の処理の結果を使って次の処理をしたいなら、一つのコマンドの中で順に書きます。
 
-## MCP は、規格と接続の作法
+## MCP は、外部の情報や機能を使うための共通規格
+
+MCPを使う目的は、AIアプリから社内文書の検索や業務システムの機能を使えるようにし、その接続方法を共通化することです。たとえば、利用者が規程を探して貼り付ける代わりに、AIアプリから社内検索を呼び出し、その結果を回答へ使う連携ができます。
+
+接続する操作やデータはMCPサーバーが提供し、AIアプリ側のクライアントが利用します。双方の対応機能と認証・権限の設定が必要です。仕組みと具体例は[第12章のMCPの説明](/chapters/12/03-tools-safety/#mcpは接続を共通化する)でも確認できます。
 
 ### つなぎ方と、登録のコマンド
 
